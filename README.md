@@ -1,7 +1,7 @@
              This is the JavaLamp Studio's Gitlab repositry. 
 
 Javalamp Studio consists of
-Matthew Campbell
+Matthew Campbell   T_T
 Brian Harmon
 Marc Montgomery
 Andew Thompson
