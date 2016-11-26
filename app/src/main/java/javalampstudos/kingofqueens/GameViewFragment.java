@@ -69,6 +69,8 @@ public class GameViewFragment extends android.app.Fragment {
      * Define the data items used when drawing
      */
     private Bitmap mImage;
+    private Bitmap mImage2;
+    private Bitmap mImage3;
     private Paint mPaint;
     private long mNumCalls;
 
@@ -83,10 +85,16 @@ public class GameViewFragment extends android.app.Fragment {
         try {
             AssetManager assetManager = getActivity().getAssets();
             InputStream inputStream = assetManager.open("img/trimLittleMan.png");
+            InputStream inputStream2 = assetManager.open("img/cloudyBackground.png");
+            InputStream inputStream3 = assetManager.open("img/KofQ.png");
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inPreferredConfig = Bitmap.Config.RGB_565;
             mImage = BitmapFactory.decodeStream(inputStream, null, options);
+            mImage2 = BitmapFactory.decodeStream(inputStream2, null, options);
+            mImage3 = BitmapFactory.decodeStream(inputStream3, null, options);
             inputStream.close();
+            inputStream2.close();
+            inputStream3.close();
         } catch (IOException e) {
             Log.d(getActivity().getResources().getString(R.string.LOG_TAG),
                     "Load error: " + e.getMessage());
@@ -101,6 +109,8 @@ public class GameViewFragment extends android.app.Fragment {
      *            Canvas to be redrawn
      */
     private Rect mLittleManBound;
+    private Rect cloudyBackgroundBound;
+    private Rect KofQBound;
     private Rect mLittleManBound2;
 
 
@@ -117,10 +127,14 @@ public class GameViewFragment extends android.app.Fragment {
             int spacingX = width / 6;
             int spacingY = height / 6;
             mLittleManBound  = new Rect(2 * spacingX, spacingY, 4 * spacingX, 5 * spacingY);
+            cloudyBackgroundBound = new Rect (0, 0, 6 * spacingX, 6 * spacingY);
+            KofQBound = new Rect (10, 4* spacingY, 2 * spacingX, 6 * spacingY);
             //mLittleManBound2 = new Rect(4 * spacingX, spacingY, 5 * spacingX, 2 * spacingY);
 
-            canvas.drawColor(-1);
+            //canvas.drawColor(-1);
+            canvas.drawBitmap(mImage2, null, cloudyBackgroundBound, null);
             canvas.drawBitmap(mImage, null, mLittleManBound, null);
+            canvas.drawBitmap(mImage3, null, KofQBound, null);
             //canvas.drawBitmap(mImage, null, mLittleManBound2, null);
         }
 
