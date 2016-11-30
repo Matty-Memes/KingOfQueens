@@ -21,6 +21,11 @@ import android.view.ViewGroup;
 import java.io.IOException;
 import java.io.InputStream;
 
+// import the asset loader from the IO package
+
+import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
+
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,6 +34,14 @@ public class GameViewFragment extends android.app.Fragment {
 
 
     private SurfaceViewRenderer surfaceViewRenderer;
+
+    // image stuff that the whole class can see
+    private Paint mPaint;
+    // these are the bitmaps themselves
+    private Bitmap mImage;
+    private Bitmap mImage2;
+    private Bitmap mImage3;
+
 
 
     @Override
@@ -68,10 +81,8 @@ public class GameViewFragment extends android.app.Fragment {
     /**
      * Define the data items used when drawing
      */
-    private Bitmap mImage;
-    private Bitmap mImage2;
-    private Bitmap mImage3;
-    private Paint mPaint;
+
+
     private long mNumCalls;
 
     /**
@@ -81,24 +92,15 @@ public class GameViewFragment extends android.app.Fragment {
         mNumCalls = 0;
         mPaint = new Paint();
 
-        // Try to load in the image that we will draw
-        try {
-            AssetManager assetManager = getActivity().getAssets();
-            InputStream inputStream = assetManager.open("img/trimLittleMan.png");
-            InputStream inputStream2 = assetManager.open("img/cloudyBackground.png");
-            InputStream inputStream3 = assetManager.open("img/KofQ.png");
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inPreferredConfig = Bitmap.Config.RGB_565;
-            mImage = BitmapFactory.decodeStream(inputStream, null, options);
-            mImage2 = BitmapFactory.decodeStream(inputStream2, null, options);
-            mImage3 = BitmapFactory.decodeStream(inputStream3, null, options);
-            inputStream.close();
-            inputStream2.close();
-            inputStream3.close();
-        } catch (IOException e) {
-            Log.d(getActivity().getResources().getString(R.string.LOG_TAG),
-                    "Load error: " + e.getMessage());
-        }
+        // create an AssetManager
+        AssetManager assetManager = getActivity().getAssets();
+
+        mImage = AssetLoader.loadBitmap(assetManager, "img/trimLittleMan.png");
+        mImage2 = AssetLoader.loadBitmap(assetManager, "img/cloudyBackground.png");
+        mImage3 = AssetLoader.loadBitmap(assetManager, "img/KofQ.png");
+
+
+
     }
 
     /**
