@@ -8,10 +8,13 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -23,24 +26,52 @@ import java.io.InputStream;
 
 // import the asset loader from the IO package
 
+import javalampstudos.kingofqueens.kingOfQueens.engine.graphics.CanvasFragment;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 
-
+import android.graphics.Matrix;
+import android.view.WindowManager;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class GameViewFragment extends android.app.Fragment {
+
+// This class should take the place of GameFragment
+
+public class GameViewFragment extends CanvasFragment {
 
 
-    private SurfaceViewRenderer surfaceViewRenderer;
+    // instantiate a loop
+    protected GameLoop loop;
 
     // image stuff that the whole class can see
     private Paint mPaint;
-    // these are the bitmaps themselves
+    // these are the bitmaps themselves which map to the stuff below
     private Bitmap mImage;
     private Bitmap mImage2;
     private Bitmap mImage3;
+
+    private int width, height;
+
+    // relates to the bounding logic in the original
+    private Rect mLittleManBound;
+    private Rect cloudyBackgroundBound;
+    private Rect KofQBound;
+    private Rect mLittleManBound2;
+
+
+    // what's this for??
+    private Matrix matrix = new Matrix();
+
+    // Empty GameViewFragment constructor
+
+    public GameViewFragment ()
+
+    {
+
+    }
+
+
 
 
 
@@ -48,31 +79,38 @@ public class GameViewFragment extends android.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
+        ((MainActivity) getActivity()).hideNav();
+
+        WindowManager wm = ((WindowManager) getActivity().getSystemService(
+                Context.WINDOW_SERVICE));
+        Display display = wm.getDefaultDisplay();
+        Point point = new Point();
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+            display.getRealSize(point);
+        else
+            display.getSize(point);
+
+        width = point.x;
+        height = point.y;
+
+        // instantiate the loop and start things running
+        loop = new GameLoop(this, width, height);
+        return loop.canvasRenderer;
+
+        /*
         // Create a new render surface renderer that will be used to provide the
         // render view for this fragment
         surfaceViewRenderer = new SurfaceViewRenderer(getActivity());
         return surfaceViewRenderer;
 
+        */
+
     }
 
 
-    @Override
-    public void onResume() {
-        super.onResume();
 
-        // Restart the renderer
-        surfaceViewRenderer.resume();
-    }
-
-
-    @Override
-    public void onPause() {
-
-        // When the fragment is paused also pause the renderer
-        surfaceViewRenderer.pause();
-
-        super.onPause();
-    }
 
     // ////////////////////////////////////////////////////////////////////////
     // Setup and Draw Methods
@@ -88,7 +126,7 @@ public class GameViewFragment extends android.app.Fragment {
     /**
      * Method that will be called by the render thread when setup is triggered
      */
-    private void doSetup() {
+    public void doSetup() {
         mNumCalls = 0;
         mPaint = new Paint();
 
@@ -98,6 +136,14 @@ public class GameViewFragment extends android.app.Fragment {
         mImage = AssetLoader.loadBitmap(assetManager, "img/trimLittleMan.png");
         mImage2 = AssetLoader.loadBitmap(assetManager, "img/cloudyBackground.png");
         mImage3 = AssetLoader.loadBitmap(assetManager, "img/KofQ.png");
+
+        // deal with just the background
+        // instantiate a rectangle that relates to the background
+        cloudyBackgroundBound = new Rect(0, 0, width, height);
+
+
+
+
 
 
 
@@ -110,13 +156,26 @@ public class GameViewFragment extends android.app.Fragment {
      * @param canvas
      *            Canvas to be redrawn
      */
+
+    /*
+
     private Rect mLittleManBound;
     private Rect cloudyBackgroundBound;
     private Rect KofQBound;
     private Rect mLittleManBound2;
 
+    */
 
-    private void doDraw(Canvas canvas) {
+
+    public void doDraw(Canvas canvas) {
+
+        // start with just this
+        // there's no reason why you have to use everything
+        canvas.drawBitmap(mImage2, null, cloudyBackgroundBound, null);
+
+        // might be able to add text
+
+        /*
 
         int width = canvas.getWidth();
         int height = canvas.getHeight();
@@ -134,6 +193,8 @@ public class GameViewFragment extends android.app.Fragment {
             //mLittleManBound2 = new Rect(4 * spacingX, spacingY, 5 * spacingX, 2 * spacingY);
 
             //canvas.drawColor(-1);
+
+            // these lines are replaced with the first line
             canvas.drawBitmap(mImage2, null, cloudyBackgroundBound, null);
             canvas.drawBitmap(mImage, null, mLittleManBound, null);
             canvas.drawBitmap(mImage3, null, KofQBound, null);
@@ -146,6 +207,8 @@ public class GameViewFragment extends android.app.Fragment {
         mPaint.setTextAlign(Paint.Align.LEFT);
         mPaint.setColor(Color.WHITE);
         canvas.drawText("Num=" + mNumCalls, 50.0f, 50.0f, mPaint);
+
+        */
     }
 
     // ////////////////////////////////////////////////////////////////////////
@@ -156,76 +219,24 @@ public class GameViewFragment extends android.app.Fragment {
      * Surface view render thread that will repeatedly acquire the view and
      * render to it as fast as possible.
      */
-    class SurfaceViewRenderer extends SurfaceView implements Runnable {
 
 
-        Thread renderThread = null;
+    public void onPause() {
 
-
-        volatile boolean running = false;
-
-
-        SurfaceHolder holder;
-
-
-        public SurfaceViewRenderer(Context context) {
-            super(context);
-
-            // Acquire a holder for this surface
-            holder = getHolder();
-
-            // Do whatever setup is needed
-            doSetup();
-        }
-
-        /**
-         * Thread core run method
-         */
-        @Override
-        public void run() {
-            while (running) {
-                // Don't proceed until we've got a valid surface on which to
-                // render
-                if (!holder.getSurface().isValid())
-                    continue;
-
-                // Lock the surface as we wish to draw on it
-                Canvas canvas = holder.lockCanvas();
-
-                // Draw whatever needs to be drawn
-                doDraw(canvas);
-
-                // Unlock the surface and post its contents to make it visible
-                holder.unlockCanvasAndPost(canvas);
-            }
-        }
-
-        /**
-         * Actions whenever the thread is paused
-         */
-        public void pause() {
-            running = false;
-            while (true) {
-                try {
-                    // Wait for the render thread's run method to stop before
-                    // returning
-                    renderThread.join();
-                    return;
-                } catch (InterruptedException e) {
-                }
-            }
-        }
-
-        /**
-         * Whenever the thread is resumed (or started when the Android fragment
-         * is first resumed on creation) create a new thread and start the
-         * render process
-         */
-        public void resume() {
-            running = true;
-            renderThread = new Thread(this);
-            renderThread.start();
-        }
+        loop.pause();
+        super.onPause();
     }
+
+    public void onResume()
+
+    {
+        super.onResume();
+        loop.resume();
+
+
+    }
+
+
+
 
 }
