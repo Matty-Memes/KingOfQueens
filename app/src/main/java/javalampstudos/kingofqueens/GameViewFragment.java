@@ -124,6 +124,7 @@ public class GameViewFragment extends CanvasFragment {
      * Method that will be called by the render thread when setup is triggered
      */
     public void doSetup() {
+
         mNumCalls = 0;
         mPaint = new Paint();
 
@@ -137,6 +138,8 @@ public class GameViewFragment extends CanvasFragment {
         // deal with just the background
         // instantiate a rectangle that relates to the background
         cloudyBackgroundBound = new Rect(0, 0, width, height);
+
+        // add creation of card objects here
 
 
 

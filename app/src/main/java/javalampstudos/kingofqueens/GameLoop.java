@@ -9,6 +9,8 @@ import android.util.DisplayMetrics;
 import javalampstudos.kingofqueens.kingOfQueens.engine.graphics.CanvasRenderer;
 import javalampstudos.kingofqueens.kingOfQueens.engine.graphics.CanvasFragment;
 
+import android.graphics.Rect;
+
 public class GameLoop implements Runnable
 
 {
@@ -33,7 +35,26 @@ public class GameLoop implements Runnable
     // Where do the width and height come from?
 
     // Use enum for game states as a basis
+    // Default is for normal gameplay i.e the card game itself
+    public enum GameState {
 
+        NEW, DEFAULT, OPENWORLD;
+
+    }
+
+    // Declare a gamestate
+    public GameState gameState;
+
+    // Set up rects for touchinput
+    private Rect movementRect;
+
+
+
+
+
+
+
+    // GameLoop Constructor
     public GameLoop (CanvasFragment fragment, int width, int height)
 
     {
@@ -56,6 +77,8 @@ public class GameLoop implements Runnable
                 .getMetrics(metrics);
         uiScaling = metrics.density;
 
+        // set the gamestate to new intially - this should depend on the presence of a save file
+        gameState = GameState.NEW;
     }
 
     public void run ()
@@ -77,10 +100,23 @@ public class GameLoop implements Runnable
                 long currentTime = System.nanoTime();
                 startStep = currentTime;
 
-                // still have to start something in here
-                // can't call game setup since it doesn't relate to anything we've done
+                // switch and case to decide which update behaviour to choose
+
+                switch (gameState)
+
+                {
+                    case NEW:
+                        newGame();
+                        break;
+                    case DEFAULT:
+                        updateTouch ();
+                        break;
 
 
+                }
+
+
+                // now draw the new updates using the other thread
                 canvasRenderer.drawNeeded = true;
 
                 // get current time
@@ -139,6 +175,36 @@ public class GameLoop implements Runnable
 
         canvasRenderer.resume();
 
+
+
+    }
+
+    private void newGame ()
+
+    {
+      // set up a rect for detecting input
+
+
+      // testing state management
+      System.out.println("New game started");
+
+    }
+
+    // continuously checks for new touch input
+    private void updateTouch ()
+
+    {
+
+
+    }
+
+    // position the player on the screen
+    // make rects for touch input
+
+    private void gameSetup ()
+
+    {
+        movementRect = new Rect ((int) (78 * uiScaling), height / 2, (int) (width - 78 * uiScaling), (int) (height - 78 * uiScaling));
 
 
     }
