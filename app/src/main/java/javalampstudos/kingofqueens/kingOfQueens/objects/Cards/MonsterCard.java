@@ -1,6 +1,10 @@
-package javalampstudos.kingofqueens.kingOfQueens.Game;
+package javalampstudos.kingofqueens.kingOfQueens.objects.Cards;
 
 import android.graphics.Bitmap;
+
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BasicCard;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardLevel;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardTypes;
 
 /**
  * Created by brian on 24/11/2016.
@@ -17,8 +21,8 @@ public class MonsterCard extends BasicCard {
     private int defence;
 
 
-    public MonsterCard(Bitmap bitmapImage, String name, CardTypes cardType, String attack1, String attack2, CardLevel level, int health, int attack, int defence) {
-        super(bitmapImage, name);
+    public MonsterCard(int x, int y, int width, int height, Bitmap Sprite, String name, CardTypes cardType, String attack1, String attack2, CardLevel level, int health, int attack, int defence) {
+        super(x, y, width, height, Sprite, name);
         this.CardSchool = cardType;
         this.attackinfoLine1 = attack1;
         this.attackinfoLine2 = attack2;

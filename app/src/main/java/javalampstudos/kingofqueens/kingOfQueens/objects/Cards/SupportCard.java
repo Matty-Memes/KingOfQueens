@@ -1,6 +1,10 @@
-package javalampstudos.kingofqueens.kingOfQueens.Game;
+package javalampstudos.kingofqueens.kingOfQueens.objects.Cards;
 
 import android.graphics.Bitmap;
+
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BasicCard;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BuffType;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardTypes;
 
 /**
  * Created by brian on 24/11/2016.
@@ -9,10 +13,10 @@ import android.graphics.Bitmap;
 
 public class SupportCard extends BasicCard {
     private CardTypes CardSchool;
-    private BuffType  buff;
+    private BuffType buff;
 
-    public SupportCard(Bitmap bitmapImage, String name, CardTypes cardSchool, BuffType buff) {
-        super(bitmapImage, name);
+    public SupportCard(int x, int y, int width, int height, Bitmap Sprite, String name, CardTypes cardSchool, BuffType buff) {
+        super(x, y, width, height, Sprite, name);
         CardSchool = cardSchool;
         this.buff = buff;
     }

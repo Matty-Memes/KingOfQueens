@@ -48,9 +48,11 @@ public class GameViewFragment extends CanvasFragment {
     private Bitmap mImage2;
     private Bitmap mImage3;
 
+    private Bitmap DataAdmin;
+
     private int width, height;
 
-    // relates to the bounding logic in the original
+    // Needs these for collision detection
     private Rect mLittleManBound;
     private Rect cloudyBackgroundBound;
     private Rect KofQBound;
@@ -67,9 +69,6 @@ public class GameViewFragment extends CanvasFragment {
     {
 
     }
-
-
-
 
 
     @Override
@@ -120,12 +119,12 @@ public class GameViewFragment extends CanvasFragment {
 
     private long mNumCalls;
 
-    /**
-     * Method that will be called by the render thread when setup is triggered
-     */
+
+    // The render thread calls this - see Canvas Renderer
+
     public void doSetup() {
 
-        mNumCalls = 0;
+
         mPaint = new Paint();
 
         // create an AssetManager
@@ -138,13 +137,6 @@ public class GameViewFragment extends CanvasFragment {
         // deal with just the background
         // instantiate a rectangle that relates to the background
         cloudyBackgroundBound = new Rect(0, 0, width, height);
-
-        // add creation of card objects here
-
-
-
-
-
 
 
     }
@@ -172,6 +164,7 @@ public class GameViewFragment extends CanvasFragment {
         // start with just this
         // there's no reason why you have to use everything
         canvas.drawBitmap(mImage2, null, cloudyBackgroundBound, null);
+
 
         // might be able to add text
 

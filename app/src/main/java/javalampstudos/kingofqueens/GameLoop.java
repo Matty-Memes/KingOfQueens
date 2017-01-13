@@ -6,11 +6,19 @@ import android.util.DisplayMetrics;
  * Created by 40083349 on 11/01/2017.
  */
 
+// Local Imports
+
 import javalampstudos.kingofqueens.kingOfQueens.engine.graphics.CanvasRenderer;
 import javalampstudos.kingofqueens.kingOfQueens.engine.graphics.CanvasFragment;
 import javalampstudos.kingofqueens.kingOfQueens.engine.input.MultitouchListener;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.*;
+import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
+
+// Android Imports
 
 import android.graphics.Rect;
+import android.graphics.Bitmap;
+import android.content.res.AssetManager;
 
 public class GameLoop implements Runnable
 
@@ -39,7 +47,7 @@ public class GameLoop implements Runnable
     // Default is for normal gameplay i.e the card game itself
     public enum GameState {
 
-        NEW, DEFAULT, OPENWORLD;
+        NEW, CARDGAME, OPENWORLD, PAUSE, MENU;
 
     }
 
@@ -51,6 +59,18 @@ public class GameLoop implements Runnable
 
     // Declare an instance of multi-touch listener
     protected MultitouchListener touchListener;
+
+    // Card game logic variables - may need to move this
+
+    public boolean playerTurn;
+
+    // Card objects
+    public MonsterCard DataAdmin;
+
+    // Declare all Sprites here - always include "Sprite" after the name of the image
+
+    public Bitmap DataAdminSprite;
+
 
     // GameLoop Constructor
     public GameLoop (CanvasFragment fragment, int width, int height)
@@ -78,8 +98,12 @@ public class GameLoop implements Runnable
         // set the gamestate to new intially - in the finished version will depend on the presence of a save file
         gameState = GameState.NEW;
 
+        // input stuff
         touchListener = new MultitouchListener();
         canvasRenderer.setOnTouchListener(touchListener);
+
+        // load the assets - images etc.
+        // loadAssets ();
 
     }
 
@@ -111,10 +135,21 @@ public class GameLoop implements Runnable
                         newGame();
                         updateTouch ();
                         break;
-                    case DEFAULT:
+                    case CARDGAME:
 
                         // updateTouch ();
                         break;
+                    case OPENWORLD:
+
+                        break;
+                    case PAUSE:
+
+                        break;
+
+                    case MENU:
+
+                        break;
+
 
 
                 }
@@ -177,6 +212,7 @@ public class GameLoop implements Runnable
         // start the thread
         gameThread.start();
 
+        // go to the renderer thread and run it's resume method
         canvasRenderer.resume();
 
 
@@ -190,7 +226,7 @@ public class GameLoop implements Runnable
       gameSetup();
 
       // testing state management
-      System.out.println("New game started");
+      // System.out.println("New game started");
 
     }
 
@@ -247,6 +283,8 @@ public class GameLoop implements Runnable
         // make rects for touch input
         movementRect = new Rect ((int) (78 * uiScaling), height / 2, (int) (width - 78 * uiScaling), (int) (height - 78 * uiScaling));
 
+        // Declare card here
+
 
     }
 
@@ -255,9 +293,22 @@ public class GameLoop implements Runnable
     {
         System.out.println("Touch input was received and now thingy is being done");
 
-
     }
 
+    private void loadAssets ()
+
+    {
+        AssetManager assetManager = fragment.getActivity().getAssets();
+
+        // load in individual assets
+        DataAdminSprite =  AssetLoader.loadBitmap(assetManager, "blasto.png");
+
+
+
+
+
+
+    }
 
 
 }

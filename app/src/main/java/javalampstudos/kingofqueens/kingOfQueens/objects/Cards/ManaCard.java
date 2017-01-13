@@ -1,4 +1,4 @@
-package javalampstudos.kingofqueens.kingOfQueens.Game;
+package javalampstudos.kingofqueens.kingOfQueens.objects.Cards;
 
 import android.graphics.Bitmap;
 
@@ -12,8 +12,8 @@ public class ManaCard extends BasicCard {
     private ManaTypes ManaType;
     private int ManaValue;
 
-    public ManaCard(Bitmap bitmapImage, String name, CardTypes cardSchool, ManaTypes manaType, int manaValue) {
-        super(bitmapImage, name);
+    public ManaCard(int x, int y, int width, int height, Bitmap Sprite, String name, CardTypes cardSchool, ManaTypes manaType, int manaValue) {
+        super(x, y, width, height, Sprite, name);
         CardSchool = cardSchool;
         ManaType = manaType;
         ManaValue = manaValue;
