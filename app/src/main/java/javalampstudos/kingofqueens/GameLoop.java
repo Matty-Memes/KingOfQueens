@@ -8,6 +8,7 @@ import android.util.DisplayMetrics;
 
 import javalampstudos.kingofqueens.kingOfQueens.engine.graphics.CanvasRenderer;
 import javalampstudos.kingofqueens.kingOfQueens.engine.graphics.CanvasFragment;
+import javalampstudos.kingofqueens.kingOfQueens.engine.input.MultitouchListener;
 
 import android.graphics.Rect;
 
@@ -48,11 +49,8 @@ public class GameLoop implements Runnable
     // Set up rects for touchinput
     private Rect movementRect;
 
-
-
-
-
-
+    // Declare an instance of multi-touch listener
+    protected MultitouchListener touchListener;
 
     // GameLoop Constructor
     public GameLoop (CanvasFragment fragment, int width, int height)
@@ -77,8 +75,12 @@ public class GameLoop implements Runnable
                 .getMetrics(metrics);
         uiScaling = metrics.density;
 
-        // set the gamestate to new intially - this should depend on the presence of a save file
+        // set the gamestate to new intially - in the finished version will depend on the presence of a save file
         gameState = GameState.NEW;
+
+        touchListener = new MultitouchListener();
+        canvasRenderer.setOnTouchListener(touchListener);
+
     }
 
     public void run ()
@@ -107,9 +109,11 @@ public class GameLoop implements Runnable
                 {
                     case NEW:
                         newGame();
+                        updateTouch ();
                         break;
                     case DEFAULT:
-                        updateTouch ();
+
+                        // updateTouch ();
                         break;
 
 
@@ -183,7 +187,7 @@ public class GameLoop implements Runnable
 
     {
       // set up a rect for detecting input
-
+      gameSetup();
 
       // testing state management
       System.out.println("New game started");
@@ -194,6 +198,42 @@ public class GameLoop implements Runnable
     private void updateTouch ()
 
     {
+        switch (gameState)
+
+        // thumbstick stuff??
+
+        {
+            case NEW:
+
+            for (int i = 0; i < touchListener.MAX_TOUCH_POINTS; i++)
+
+            {
+                if (touchListener.isTouchContinuous(i))
+                {
+
+                    float x = touchListener.getTouchX(i), y = touchListener.getTouchY(i);
+
+
+
+                if (movementRect.contains((int) x, (int) y))
+
+                    {
+                        doThingy();
+
+                    }
+
+
+                }
+
+
+            }
+
+            break; // end NEW case
+
+
+
+        }
+
 
 
     }
@@ -204,7 +244,16 @@ public class GameLoop implements Runnable
     private void gameSetup ()
 
     {
+        // make rects for touch input
         movementRect = new Rect ((int) (78 * uiScaling), height / 2, (int) (width - 78 * uiScaling), (int) (height - 78 * uiScaling));
+
+
+    }
+
+    private void doThingy ()
+
+    {
+        System.out.println("Touch input was received and now thingy is being done");
 
 
     }
