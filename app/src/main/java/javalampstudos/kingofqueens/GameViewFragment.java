@@ -4,25 +4,17 @@ package javalampstudos.kingofqueens;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 // import the asset loader from the IO package
 
@@ -48,7 +40,6 @@ public class GameViewFragment extends CanvasFragment {
     private Bitmap mImage2;
     private Bitmap mImage3;
 
-    private Bitmap DataAdmin;
 
     private int width, height;
 
@@ -130,9 +121,9 @@ public class GameViewFragment extends CanvasFragment {
         // create an AssetManager
         AssetManager assetManager = getActivity().getAssets();
 
-        mImage = AssetLoader.loadBitmap(assetManager, "img/trimLittleMan.png");
-        mImage2 = AssetLoader.loadBitmap(assetManager, "img/cloudyBackground.png");
-        mImage3 = AssetLoader.loadBitmap(assetManager, "img/KofQ.png");
+        mImage = AssetLoader.loadBitmap(assetManager, "img/Nathan/trimLittleMan.png");
+        mImage2 = AssetLoader.loadBitmap(assetManager, "img/Nathan/cloudyBackground.png");
+        mImage3 = AssetLoader.loadBitmap(assetManager, "img/Nathan/KofQ.png");
 
         // deal with just the background
         // instantiate a rectangle that relates to the background

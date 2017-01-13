@@ -71,6 +71,10 @@ public class GameLoop implements Runnable
 
     public Bitmap DataAdminSprite;
 
+    public String [] attack1ManaRequired;
+    public String [] attack2ManaRequired;
+
+
 
     // GameLoop Constructor
     public GameLoop (CanvasFragment fragment, int width, int height)
@@ -102,8 +106,8 @@ public class GameLoop implements Runnable
         touchListener = new MultitouchListener();
         canvasRenderer.setOnTouchListener(touchListener);
 
-        // load the assets - images etc.
-        // loadAssets ();
+        // load assets
+        loadAssets ();
 
     }
 
@@ -149,9 +153,6 @@ public class GameLoop implements Runnable
                     case MENU:
 
                         break;
-
-
-
                 }
 
 
@@ -215,8 +216,6 @@ public class GameLoop implements Runnable
         // go to the renderer thread and run it's resume method
         canvasRenderer.resume();
 
-
-
     }
 
     private void newGame ()
@@ -249,8 +248,6 @@ public class GameLoop implements Runnable
 
                     float x = touchListener.getTouchX(i), y = touchListener.getTouchY(i);
 
-
-
                 if (movementRect.contains((int) x, (int) y))
 
                     {
@@ -258,19 +255,12 @@ public class GameLoop implements Runnable
 
                     }
 
-
                 }
-
 
             }
 
             break; // end NEW case
-
-
-
         }
-
-
 
     }
 
@@ -283,8 +273,18 @@ public class GameLoop implements Runnable
         // make rects for touch input
         movementRect = new Rect ((int) (78 * uiScaling), height / 2, (int) (width - 78 * uiScaling), (int) (height - 78 * uiScaling));
 
-        // Declare card here
+        // Assets are now loaded - declare cards here
 
+        // Monster Cards
+        // attack1ManaRequired =
+
+
+
+
+
+        // DataAdmin = new MonsterCard(4, 5, 3, 2, DataAdminSprite, "DataAdmin", CardTypes.EECS, "Query", "Relation", CardLevel.GRAD, 100, 20, CardTypes.MEDICS);
+
+        // Mana Cards
 
     }
 
@@ -301,12 +301,7 @@ public class GameLoop implements Runnable
         AssetManager assetManager = fragment.getActivity().getAssets();
 
         // load in individual assets
-        DataAdminSprite =  AssetLoader.loadBitmap(assetManager, "blasto.png");
-
-
-
-
-
+        DataAdminSprite =  AssetLoader.loadBitmap(assetManager, "img/Matthew/SmallDataAdmin.png");
 
     }
 

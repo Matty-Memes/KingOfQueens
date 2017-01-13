@@ -1,36 +1,58 @@
 package javalampstudos.kingofqueens.kingOfQueens.objects.Cards;
 
+// Android imports
+
 import android.graphics.Bitmap;
+
+// Local imports
 
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BasicCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardLevel;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardTypes;
 
-/**
- * Created by brian on 24/11/2016.
- * 40111707
- */
 
 public class MonsterCard extends BasicCard {
-    private CardTypes CardSchool; // use ENUM for this
-    private String attackinfoLine1;
-    private String attackinfoLine2;
-    private CardLevel level; // use ENUM for this
+
+    private CardTypes CardSchool; // ENUM
+    private CardLevel level; // ENUM
     private int health;
-    private int attack;
-    private int defence;
+    private CardTypes strength;
+    private CardTypes weakness; // ENUM
 
+    // Attack Values
 
-    public MonsterCard(int x, int y, int width, int height, Bitmap Sprite, String name, CardTypes cardType, String attack1, String attack2, CardLevel level, int health, int attack, int defence) {
+    private String attack1Name;
+    private int attack1Strength;
+    // holds a list of the mana types required
+    private CardTypes [] attack1ManaRequired;
+
+    private String attack2Name;
+    private int attack2Strength;
+    // holds a list of the mana types required
+    private CardTypes [] attack2ManaRequired;
+
+    // Reduce the number of fields somehow
+
+    public MonsterCard(int x, int y, int width, int height, Bitmap Sprite, String name, CardTypes CardSchool, CardLevel level, int health, CardTypes strength, CardTypes weakness,
+                       String attack1Name, int attack1Strength, CardTypes [] attack1ManaRequired, String attack2Name, int attack2Strength, CardTypes [] attack2ManaRequired ) {
         super(x, y, width, height, Sprite, name);
-        this.CardSchool = cardType;
-        this.attackinfoLine1 = attack1;
-        this.attackinfoLine2 = attack2;
+
+        this.CardSchool = CardSchool;
         this.level = level;
         this.health = health;
-        this.attack = attack;
-        this.defence = defence;
+        this.strength = strength;
+        this.weakness = weakness;
+
+        this.attack1Name = attack1Name;
+        this.attack1Strength = attack1Strength;
+        this.attack1ManaRequired = attack1ManaRequired;
+        this.attack2Name = attack2Name;
+        this.attack2Strength = attack2Strength;
+        this.attack2ManaRequired = attack2ManaRequired;
+
     }
+
+    // ADD GETTERS AND SETTERS
 
     public CardTypes getCardType() {
         return CardSchool;
@@ -38,22 +60,6 @@ public class MonsterCard extends BasicCard {
 
     public void setCardType(CardTypes cardType) {
         CardSchool = cardType;
-    }
-
-    public String getAttack1() {
-        return attackinfoLine1;
-    }
-
-    public void setAttack1(String attack1) {
-        this.attackinfoLine1 = attack1;
-    }
-
-    public String getAttack2() {
-        return attackinfoLine2;
-    }
-
-    public void setAttack2(String attack2) {
-        this.attackinfoLine2 = attack2;
     }
 
     public CardLevel getLevel() {
@@ -72,19 +78,11 @@ public class MonsterCard extends BasicCard {
         this.health = health;
     }
 
-    public int getAttack() {
-        return attack;
+    public CardTypes getWeakness() {
+        return weakness;
     }
 
-    public void setAttack(int attack) {
-        this.attack = attack;
-    }
-
-    public int getDefence() {
-        return defence;
-    }
-
-    public void setDefence(int defence) {
-        this.defence = defence;
+    public void setDefence(CardTypes weakness) {
+        this.weakness = weakness;
     }
 }
