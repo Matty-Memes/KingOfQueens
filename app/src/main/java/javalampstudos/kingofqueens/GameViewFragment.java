@@ -24,7 +24,6 @@ import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 import android.graphics.Matrix;
 import android.view.WindowManager;
 
-
 /**
  * A simple {@link Fragment} subclass.
  */

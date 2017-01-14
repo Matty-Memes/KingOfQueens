@@ -9,7 +9,7 @@ import android.graphics.Bitmap;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BasicCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardLevel;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardTypes;
-
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaTypes;
 
 public class MonsterCard extends BasicCard {
 
@@ -24,17 +24,17 @@ public class MonsterCard extends BasicCard {
     private String attack1Name;
     private int attack1Strength;
     // holds a list of the mana types required
-    private CardTypes [] attack1ManaRequired;
+    private ManaTypes [] attack1ManaRequired;
 
     private String attack2Name;
     private int attack2Strength;
     // holds a list of the mana types required
-    private CardTypes [] attack2ManaRequired;
+    private ManaTypes [] attack2ManaRequired;
 
     // Reduce the number of fields somehow
 
     public MonsterCard(int x, int y, int width, int height, Bitmap Sprite, String name, CardTypes CardSchool, CardLevel level, int health, CardTypes strength, CardTypes weakness,
-                       String attack1Name, int attack1Strength, CardTypes [] attack1ManaRequired, String attack2Name, int attack2Strength, CardTypes [] attack2ManaRequired ) {
+                       String attack1Name, int attack1Strength, ManaTypes [] attack1ManaRequired, String attack2Name, int attack2Strength, ManaTypes [] attack2ManaRequired ) {
         super(x, y, width, height, Sprite, name);
 
         this.CardSchool = CardSchool;

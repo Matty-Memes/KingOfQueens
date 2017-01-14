@@ -5,10 +5,12 @@ package javalampstudos.kingofqueens.kingOfQueens.objects.Cards;
  */
 
 public enum ManaTypes {
+
+    GENERIC_MANA,
     EECS_MANA,
     MEDICS_MANA,
     ARTS_HUMANITIES_MANA,
     ENGINEERING_MANA,
-    SOCAIL_SCIENCES_MANA,
-    BUILT_ENVIORNMENT_MANA;
+    SOCIAL_SCIENCES_MANA,
+    BUILT_ENVIRONMENT_MANA;
 }
