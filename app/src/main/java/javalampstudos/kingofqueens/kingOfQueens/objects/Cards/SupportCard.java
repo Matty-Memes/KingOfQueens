@@ -1,6 +1,7 @@
 package javalampstudos.kingofqueens.kingOfQueens.objects.Cards;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BasicCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BuffType;
@@ -35,5 +36,14 @@ public class SupportCard extends BasicCard {
 
     public void setBuff(BuffType buff) {
         this.buff = buff;
+    }
+
+    public void draw(Canvas canvas)
+
+    {
+
+        // canvas.drawBitmap();
+
+
     }
 }

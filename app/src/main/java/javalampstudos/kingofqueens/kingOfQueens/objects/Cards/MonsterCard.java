@@ -3,6 +3,7 @@ package javalampstudos.kingofqueens.kingOfQueens.objects.Cards;
 // Android imports
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 
 // Local imports
 
@@ -85,4 +86,16 @@ public class MonsterCard extends BasicCard {
     public void setDefence(CardTypes weakness) {
         this.weakness = weakness;
     }
+
+    // draw monster cards to the screen
+
+    public void draw(Canvas canvas)
+
+    {
+
+        // canvas.drawBitmap();
+
+
+    }
+
 }

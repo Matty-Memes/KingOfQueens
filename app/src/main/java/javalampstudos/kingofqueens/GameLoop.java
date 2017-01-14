@@ -23,6 +23,7 @@ import android.content.res.AssetManager;
 // Java Imports
 
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.ArrayList;
 
 public class GameLoop implements Runnable
 
@@ -169,6 +170,12 @@ public class GameLoop implements Runnable
     // the player has chosen a card from their hand
     public boolean handCardSelected = false;
 
+    // Array lists for each gameobject type
+    public ArrayList<MonsterCard> monsterCards = new ArrayList<MonsterCard>();
+    public ArrayList<ManaCard> manaCards = new ArrayList<ManaCard>();
+    public ArrayList<SupportCard> supportCards = new ArrayList<SupportCard>();
+
+
     // GameLoop Constructor
     public GameLoop (CanvasFragment fragment, int width, int height)
 
@@ -182,6 +189,9 @@ public class GameLoop implements Runnable
         // Set up dimensions and scaling
         GameLoop.width = width;
         GameLoop.height = height;
+
+        System.out.println(GameLoop.width);
+        System.out.println(GameLoop.height);
 
         gameScaling = width / 320.0f;
 
@@ -376,6 +386,7 @@ public class GameLoop implements Runnable
         System.out.println("Touch input was received and now thingy is being done");
         // int x = generateRandomNumber();
         // System.out.println(x);
+
 
     }
 

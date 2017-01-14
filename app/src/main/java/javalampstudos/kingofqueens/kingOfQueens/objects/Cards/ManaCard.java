@@ -1,6 +1,7 @@
 package javalampstudos.kingofqueens.kingOfQueens.objects.Cards;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 
 /**
  * Created by brian on 24/11/2016.
@@ -41,5 +42,14 @@ public class ManaCard extends BasicCard {
 
     public void setManaValue(int manaValue) {
         ManaValue = manaValue;
+    }
+
+    public void draw(Canvas canvas)
+
+    {
+
+        // canvas.drawBitmap();
+
+
     }
 }
