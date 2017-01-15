@@ -15,8 +15,10 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.graphics.Matrix;
+import android.view.WindowManager;
 
-// import the asset loader from the IO package
+// Local imports
 
 import javalampstudos.kingofqueens.kingOfQueens.engine.graphics.CanvasFragment;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
