@@ -13,15 +13,23 @@ import javalampstudos.kingofqueens.kingOfQueens.engine.graphics.CanvasFragment;
 import javalampstudos.kingofqueens.kingOfQueens.engine.input.MultitouchListener;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.*;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
+import javalampstudos.kingofqueens.kingOfQueens.engine.SFX.SoundFX;
+import javalampstudos.kingofqueens.MainActivity;
+import javalampstudos.kingofqueens.GameViewFragment;
 
 // Android Imports
 
 import android.graphics.Rect;
 import android.graphics.Bitmap;
 import android.content.res.AssetManager;
+import android.media.SoundPool;
+import android.util.Log;
+import android.content.Context;
+
 
 // Java Imports
 
+import java.io.IOException;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.ArrayList;
 
@@ -30,6 +38,9 @@ public class GameLoop implements Runnable
 {
     // instantiate CanvasFragment
     public CanvasFragment fragment;
+
+    // SFX Variables
+    private SoundFX test;
 
     // declare variables
     private Thread gameThread = null;
@@ -49,6 +60,8 @@ public class GameLoop implements Runnable
         NEW, CARDGAME, OPENWORLD, PAUSE, MENU;
 
     }
+
+    public Context context;
 
     // Declare a gamestate
     public GameState gameState;
@@ -185,6 +198,10 @@ public class GameLoop implements Runnable
         canvasRenderer = new CanvasRenderer(fragment.getActivity(), fragment);
 
         this.fragment = fragment;
+
+
+
+
 
         // Set up dimensions and scaling
         GameLoop.width = width;
@@ -383,10 +400,15 @@ public class GameLoop implements Runnable
     private void doThingy ()
 
     {
+        // arguments: Sound ID, left volume, right volume, priority, loop, rate
+        // There are known problems with this
+        // test.play(0, 0.5f, 0.5f, 1, 0, 1.0f);
+
+
         System.out.println("Touch input was received and now thingy is being done");
         // int x = generateRandomNumber();
         // System.out.println(x);
-
+        test.playSoundFX();
 
     }
 
@@ -397,6 +419,22 @@ public class GameLoop implements Runnable
 
         // load in individual assets
         DataAdminSprite =  AssetLoader.loadBitmap(assetManager, "img/Matthew/SmallDataAdmin.png");
+
+        // load SFX in here
+
+        //NB - Volume is hard coded currently but it should be selectable by the user
+
+        // test = AssetLoader.loadSoundpool(assetManager, "SFX/EnemyDeathNoise.ogg");
+
+
+
+        try {
+            test = new SoundFX(fragment.getContext(), R.raw.buttonpush);
+        } catch (IOException e) {
+            Log.e("DialFX", "Dial FX could not be loaded");
+        }
+
+
 
     }
 

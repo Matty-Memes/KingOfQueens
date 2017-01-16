@@ -12,8 +12,10 @@ import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Build;
 
 public class AssetLoader
@@ -42,6 +44,39 @@ public class AssetLoader
 
         return bitmap;
     }
+
+    // Deals with sfx
+
+    public static SoundPool loadSoundpool(AssetManager soundPoolManager,
+                                          String soundPath) {
+
+        SoundPool mSoundPool;
+        AudioAttributes mAttributes;
+        final int mMaxChannels = 20;
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mAttributes = new AudioAttributes.Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .setUsage(AudioAttributes.USAGE_GAME).build();
+
+            mSoundPool = new SoundPool.Builder().setMaxStreams(mMaxChannels)
+                    .setAudioAttributes(mAttributes).build();
+        } else {
+            mSoundPool = new SoundPool(mMaxChannels, AudioManager.STREAM_MUSIC,
+                    0);
+        }
+        try {
+            AssetFileDescriptor assetDescriptor = soundPoolManager
+                    .openFd(soundPath);
+            mSoundPool.load(assetDescriptor, 1);
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+
+        return mSoundPool;
+    }
+
+    // Deals with music
 
     public static MediaPlayer loadMusic(AssetManager musicManager,
                                         String musicPath) {

@@ -11,6 +11,7 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,11 +21,15 @@ import android.view.WindowManager;
 
 // Local imports
 
+import javalampstudos.kingofqueens.kingOfQueens.engine.SFX.SoundFX;
 import javalampstudos.kingofqueens.kingOfQueens.engine.graphics.CanvasFragment;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
+import javalampstudos.kingofqueens.kingOfQueens.engine.SFX.SoundFX;
 
 import android.graphics.Matrix;
 import android.view.WindowManager;
+
+import java.io.IOException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,6 +38,8 @@ public class GameViewFragment extends CanvasFragment {
 
     // instantiate a loop
     protected GameLoop loop;
+
+    private SoundFX SFX;
 
     // image stuff that the whole class can see
     private Paint mPaint;
@@ -92,6 +99,8 @@ public class GameViewFragment extends CanvasFragment {
         loop = new GameLoop(this, width, height);
         return loop.canvasRenderer;
 
+
+
         /*
         // Create a new render surface renderer that will be used to provide the
         // render view for this fragment
@@ -101,7 +110,6 @@ public class GameViewFragment extends CanvasFragment {
         */
 
     }
-
 
 
 
