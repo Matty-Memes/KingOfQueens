@@ -13,8 +13,8 @@ public class ManaCard extends BasicCard {
     private ManaTypes ManaType;
     private int ManaValue;
 
-    public ManaCard(int x, int y, int width, int height, Bitmap Sprite, String name, CardTypes cardSchool, ManaTypes manaType, int manaValue) {
-        super(x, y, width, height, Sprite, name);
+    public ManaCard(int x, int y, int width, int height, Bitmap Sprite, String name, boolean destroyed, CardTypes cardSchool, ManaTypes manaType, int manaValue) {
+        super(x, y, width, height, Sprite, name, destroyed);
         CardSchool = cardSchool;
         ManaType = manaType;
         ManaValue = manaValue;

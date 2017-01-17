@@ -23,6 +23,7 @@ public abstract class GameObject
     public int width, height;
     // sprites and bitmaps are interchangeable
     public Bitmap sprite;
+    // Drawing information
     public Rect rect;
 
 
@@ -40,22 +41,29 @@ public abstract class GameObject
     public void update ()
 
     {
+        // for moving objects velocity would go here
+        // this values are global anyway and set by the creation of the card
 
         updateRect();
 
     }
 
+    // all update calls eventually lead here
+
     public void updateRect ()
 
     {
-
+        rect.set((int) (x - (width / 2 * GameLoop.gameScaling)),
+                (int) (y - (height / 2 * GameLoop.gameScaling)),
+                (int) (x + (width / 2 * GameLoop.gameScaling)),
+                (int) (y + (height / 2 * GameLoop.gameScaling)));
 
     }
 
-    public void draw (Canvas canvas, Paint paint)
+    public void draw (Canvas canvas)
 
     {
-        canvas.drawBitmap(sprite, null, rect, paint);
+        canvas.drawBitmap(sprite, null, rect, null);
 
     }
 

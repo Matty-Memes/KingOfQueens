@@ -183,8 +183,8 @@ public class GameLoop implements Runnable
     // the player has chosen a card from their hand
     public boolean handCardSelected = false;
 
-    // Array lists for each gameobject type
-    public ArrayList<MonsterCard> monsterCards = new ArrayList<MonsterCard>();
+    // ARRAY LISTS OF CARDS
+    public ArrayList<BasicCard> monsterCards = new ArrayList<BasicCard>();
     public ArrayList<ManaCard> manaCards = new ArrayList<ManaCard>();
     public ArrayList<SupportCard> supportCards = new ArrayList<SupportCard>();
 
@@ -257,7 +257,9 @@ public class GameLoop implements Runnable
                 {
                     case NEW:
                         newGame();
+                        // always do this first
                         updateTouch ();
+                        updateMonsterCards();
                         break;
                     case CARDGAME:
 
@@ -408,7 +410,44 @@ public class GameLoop implements Runnable
         System.out.println("Touch input was received and now thingy is being done");
         // int x = generateRandomNumber();
         // System.out.println(x);
-        test.playSoundFX();
+
+        // testing soundfx
+        // test.playSoundFX();
+
+        // Add the dataadmin to the array
+        monsterCards.add(DataAdmin);
+
+
+
+    }
+
+    // updates monster cards before they're drawn
+
+    // add logic to set destroyed to true
+
+    private void updateMonsterCards ()
+
+    {
+        for (int i = 0; i < monsterCards.size(); i++)
+
+        {
+            if (monsterCards.get(i).destroyed == false)
+
+            {
+              monsterCards.get(i).update();
+            }
+
+            else
+
+            {
+             monsterCards.remove(i);
+
+            }
+
+        }
+
+
+
 
     }
 
@@ -451,7 +490,7 @@ public class GameLoop implements Runnable
 
         // Declare Monsters here
 
-        DataAdmin = new MonsterCard(4, 5, 3, 2, DataAdminSprite, "DataAdmin", CardTypes.EECS, CardLevel.GRAD, 100, CardTypes.ARTS_HUMANITIES,
+        DataAdmin = new MonsterCard(4, 5, 3, 2, DataAdminSprite, false, "DataAdmin", CardTypes.EECS, CardLevel.GRAD, 100, CardTypes.ARTS_HUMANITIES,
                 CardTypes.MEDICS, "Query", 20, attack1ManaRequired, "Relation", 50, attack1ManaRequired);
         // Mana Cards
 

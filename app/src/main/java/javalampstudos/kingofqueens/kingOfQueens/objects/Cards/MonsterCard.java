@@ -34,9 +34,9 @@ public class MonsterCard extends BasicCard {
 
     // Reduce the number of fields somehow
 
-    public MonsterCard(int x, int y, int width, int height, Bitmap Sprite, String name, CardTypes CardSchool, CardLevel level, int health, CardTypes strength, CardTypes weakness,
+    public MonsterCard(int x, int y, int width, int height, Bitmap Sprite, boolean destroyed, String name, CardTypes CardSchool, CardLevel level, int health, CardTypes strength, CardTypes weakness,
                        String attack1Name, int attack1Strength, ManaTypes [] attack1ManaRequired, String attack2Name, int attack2Strength, ManaTypes [] attack2ManaRequired ) {
-        super(x, y, width, height, Sprite, name);
+        super(x, y, width, height, Sprite, name, destroyed);
 
         this.CardSchool = CardSchool;
         this.level = level;
