@@ -92,8 +92,7 @@ public class MonsterCard extends BasicCard {
     public void draw(Canvas canvas)
 
     {
-
-        // canvas.drawBitmap();
+        super.draw(canvas);
 
 
     }

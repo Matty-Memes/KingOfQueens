@@ -48,7 +48,7 @@ public abstract class GameObject
 
     }
 
-    // all update calls eventually lead here
+    // all update calls eventually lead here - must relate to x and y co-ordinates
 
     public void updateRect ()
 
@@ -63,6 +63,13 @@ public abstract class GameObject
     public void draw (Canvas canvas)
 
     {
+        if (sprite == null)
+
+        {
+            System.out.println("There is no sprite");
+        }
+
+
         canvas.drawBitmap(sprite, null, rect, null);
 
     }

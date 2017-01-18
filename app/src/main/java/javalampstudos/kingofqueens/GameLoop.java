@@ -26,7 +26,6 @@ import android.media.SoundPool;
 import android.util.Log;
 import android.content.Context;
 
-
 // Java Imports
 
 import java.io.IOException;
@@ -79,9 +78,18 @@ public class GameLoop implements Runnable
     // Declare all Sprites here - always include "Sprite" after the name of the image
 
     public Bitmap DataAdminSprite;
+    public Bitmap HackerManSprite;
 
-    public ManaTypes [] attack1ManaRequired;
-    public ManaTypes [] attack2ManaRequired;
+
+    // DataAdmin
+    public ManaTypes [] attack1ManaRequiredDA;
+    public ManaTypes [] attack2ManaRequiredDA;
+
+    // Hackerman
+
+    public ManaTypes [] attack1ManaRequiredHM;
+    public ManaTypes [] attack2ManaRequiredHM;
+
 
     // Variables relating to the players hand
 
@@ -417,14 +425,13 @@ public class GameLoop implements Runnable
         // Add the dataadmin to the array
         monsterCards.add(DataAdmin);
 
+        // Test another monster card
+        monsterCards.add(HackerMan);
 
 
     }
 
-    // updates monster cards before they're drawn
-
-    // add logic to set destroyed to true
-
+    // update all monster cards before drawing
     private void updateMonsterCards ()
 
     {
@@ -457,7 +464,9 @@ public class GameLoop implements Runnable
         AssetManager assetManager = fragment.getActivity().getAssets();
 
         // load in individual assets
-        DataAdminSprite =  AssetLoader.loadBitmap(assetManager, "img/Matthew/SmallDataAdmin.png");
+        DataAdminSprite = AssetLoader.loadBitmap(assetManager, "img/Matthew/SmallDataAdmin.png");
+        HackerManSprite = AssetLoader.loadBitmap(assetManager, "img/Matthew/HackermanSmall.png");
+
 
         // load SFX in here
 
@@ -467,8 +476,10 @@ public class GameLoop implements Runnable
 
 
 
+        // You have to use a certain API for this to work.
+        // Might need a way to check for this.
         try {
-            test = new SoundFX(fragment.getContext(), R.raw.buttonpush);
+            test = new SoundFX(fragment.getActivity(), R.raw.buttonpush);
         } catch (IOException e) {
             Log.e("DialFX", "Dial FX could not be loaded");
         }
@@ -484,15 +495,23 @@ public class GameLoop implements Runnable
 
     {
 
+        // DataAdmin
+        attack1ManaRequiredDA = new ManaTypes [] { ManaTypes.EECS_MANA, ManaTypes.GENERIC_MANA };
+        attack2ManaRequiredDA = new ManaTypes [] { ManaTypes.EECS_MANA, ManaTypes.EECS_MANA, ManaTypes.EECS_MANA };
 
-        attack1ManaRequired = new ManaTypes [] { ManaTypes.EECS_MANA, ManaTypes.GENERIC_MANA };
-        attack2ManaRequired = new ManaTypes [] { ManaTypes.EECS_MANA, ManaTypes.EECS_MANA, ManaTypes.EECS_MANA };
+        // Hackerman
+        attack2ManaRequiredHM = new ManaTypes [] { ManaTypes.EECS_MANA, ManaTypes.GENERIC_MANA };
+        attack2ManaRequiredHM = new ManaTypes [] { ManaTypes.EECS_MANA, ManaTypes.EECS_MANA, ManaTypes.EECS_MANA, ManaTypes.EECS_MANA };
+
 
         // Declare Monsters here
 
-        DataAdmin = new MonsterCard(4, 5, 3, 2, DataAdminSprite, false, "DataAdmin", CardTypes.EECS, CardLevel.GRAD, 100, CardTypes.ARTS_HUMANITIES,
-                CardTypes.MEDICS, "Query", 20, attack1ManaRequired, "Relation", 50, attack1ManaRequired);
-        // Mana Cards
+        DataAdmin = new MonsterCard(500, 600, 300, 200, DataAdminSprite, false, "DataAdmin", CardTypes.EECS, CardLevel.GRAD, 100, CardTypes.ARTS_HUMANITIES,
+                CardTypes.MEDICS, "Query", 20, attack1ManaRequiredDA, "Relation", 50, attack1ManaRequiredDA);
+        HackerMan = new MonsterCard(50, 40, 30, 30, HackerManSprite, false, "Hackerman", CardTypes.EECS, CardLevel.UNDERGRAD, 140, CardTypes.ARTS_HUMANITIES,
+                CardTypes.MEDICS, "Hack", 20, attack2ManaRequiredHM, "Error 404", 50, attack2ManaRequiredHM);
+
+        // Declare Mana Cards here
 
         for (int i = 0; i < 40; i++)
 

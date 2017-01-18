@@ -100,29 +100,10 @@ public class GameViewFragment extends CanvasFragment {
         return loop.canvasRenderer;
 
 
-
-        /*
-        // Create a new render surface renderer that will be used to provide the
-        // render view for this fragment
-        surfaceViewRenderer = new SurfaceViewRenderer(getActivity());
-        return surfaceViewRenderer;
-
-        */
-
     }
 
 
-
-    // ////////////////////////////////////////////////////////////////////////
-    // Setup and Draw Methods
-    // ////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Define the data items used when drawing
-     */
-
-
-    private long mNumCalls;
+    // SETUP AND DRAW METHODS
 
 
     // The render thread calls this - see Canvas Renderer
@@ -135,19 +116,15 @@ public class GameViewFragment extends CanvasFragment {
         // create an AssetManager
         AssetManager assetManager = getActivity().getAssets();
 
-        mImage = AssetLoader.loadBitmap(assetManager, "img/Nathan/trimLittleMan.png");
+        // mImage = AssetLoader.loadBitmap(assetManager, "img/Nathan/trimLittleMan.png");
         mImage2 = AssetLoader.loadBitmap(assetManager, "img/Nathan/cloudyBackground.png");
-        mImage3 = AssetLoader.loadBitmap(assetManager, "img/Nathan/KofQ.png");
-
-        image = AssetLoader.loadBitmap(assetManager, "img/Matthew/SmallDataAdmin.png");
-
+        // mImage3 = AssetLoader.loadBitmap(assetManager, "img/Nathan/KofQ.png");
 
         // deal with just the background
         // instantiate a rectangle that relates to the background
         cloudyBackgroundBound = new Rect(0, 0, width, height);
 
-        dataAdminBound = new Rect(0, 0, 100, 100);
-
+        // Mess around with bounds
 
     }
 
@@ -171,48 +148,18 @@ public class GameViewFragment extends CanvasFragment {
 
     public void doDraw(Canvas canvas) {
 
-        // start with just this
-        // there's no reason why you have to use everything
+        canvas.drawBitmap(mImage2, null, cloudyBackgroundBound, null);
 
         // push control out to specific methods for drawing each thing
 
-        // drawMonsterCards(canvas);
+        // System.out.println("Drawing is about to take place");
+
+        drawMonsterCards(canvas);
 
         // drawManaCards(canvas);
 
         // drawSupportCards(canvas);
 
-
-
-        canvas.drawBitmap(mImage2, null, cloudyBackgroundBound, null);
-        canvas.drawBitmap(image, null, dataAdminBound, null);
-
-
-        // might be able to add text
-
-        /*
-
-        int width = canvas.getWidth();
-        int height = canvas.getHeight();
-
-        // Draw the loaded bitmap 1,000 times
-        int batchSize = 1000;
-        for (int drawIdx = 0; drawIdx < batchSize; drawIdx++) {
-
-
-            int spacingX = width / 6;
-            int spacingY = height / 6;
-            mLittleManBound  = new Rect(2 * spacingX, spacingY, 4 * spacingX, 5 * spacingY);
-            cloudyBackgroundBound = new Rect (0, 0, 6 * spacingX, 6 * spacingY);
-            KofQBound = new Rect (10, 4* spacingY, 2 * spacingX, 6 * spacingY);
-            //mLittleManBound2 = new Rect(4 * spacingX, spacingY, 5 * spacingX, 2 * spacingY);
-
-        mPaint.setTextSize(36.0f);
-        mPaint.setTextAlign(Paint.Align.LEFT);
-        mPaint.setColor(Color.WHITE);
-        canvas.drawText("Num=" + mNumCalls, 50.0f, 50.0f, mPaint);
-
-        */
     }
 
     public void onPause() {
