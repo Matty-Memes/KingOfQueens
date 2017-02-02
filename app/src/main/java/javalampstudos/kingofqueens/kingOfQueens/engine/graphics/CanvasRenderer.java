@@ -1,14 +1,12 @@
 package javalampstudos.kingofqueens.kingOfQueens.engine.graphics;
 
 /**
- * Created by 40083349 on 01/12/2016.
+ * Created by 40083349 on 11/01/2017.
  */
 
 import android.graphics.Canvas;
 import android.content.Context;
 import android.view.View;
-
-import javalampstudos.kingofqueens.kingOfQueens.engine.graphics.CanvasFragment;
 
 public class CanvasRenderer extends View implements Runnable
 
@@ -90,10 +88,6 @@ public class CanvasRenderer extends View implements Runnable
 
 
     }
-
-
-
-
 
 
 }

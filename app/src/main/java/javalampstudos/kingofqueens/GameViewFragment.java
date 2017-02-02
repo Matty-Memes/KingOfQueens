@@ -4,9 +4,7 @@ package javalampstudos.kingofqueens;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -16,33 +14,32 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.graphics.Matrix;
+import android.view.WindowManager;
 
-import java.io.IOException;
-import java.io.InputStream;
+// Local imports
 
-// import the asset loader from the IO package
-
+import javalampstudos.kingofqueens.kingOfQueens.engine.SFX.SoundFX;
 import javalampstudos.kingofqueens.kingOfQueens.engine.graphics.CanvasFragment;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
+import javalampstudos.kingofqueens.kingOfQueens.engine.SFX.SoundFX;
 
 import android.graphics.Matrix;
 import android.view.WindowManager;
 
+import java.io.IOException;
+
 /**
  * A simple {@link Fragment} subclass.
  */
-
-// This class should take the place of GameFragment
-
 public class GameViewFragment extends CanvasFragment {
-
 
     // instantiate a loop
     protected GameLoop loop;
+
+    private SoundFX SFX;
 
     // image stuff that the whole class can see
     private Paint mPaint;
@@ -51,14 +48,18 @@ public class GameViewFragment extends CanvasFragment {
     private Bitmap mImage2;
     private Bitmap mImage3;
 
+    private Bitmap image;
+
+
     private int width, height;
 
-    // relates to the bounding logic in the original
+    // Needs these for collision detection
     private Rect mLittleManBound;
     private Rect cloudyBackgroundBound;
     private Rect KofQBound;
     private Rect mLittleManBound2;
 
+    private Rect dataAdminBound;
 
     // what's this for??
     private Matrix matrix = new Matrix();
@@ -70,9 +71,6 @@ public class GameViewFragment extends CanvasFragment {
     {
 
     }
-
-
-
 
 
     @Override
@@ -93,59 +91,40 @@ public class GameViewFragment extends CanvasFragment {
             display.getSize(point);
 
         width = point.x;
+
         height = point.y;
+
 
         // instantiate the loop and start things running
         loop = new GameLoop(this, width, height);
         return loop.canvasRenderer;
 
-        /*
-        // Create a new render surface renderer that will be used to provide the
-        // render view for this fragment
-        surfaceViewRenderer = new SurfaceViewRenderer(getActivity());
-        return surfaceViewRenderer;
-
-        */
 
     }
 
 
+    // SETUP AND DRAW METHODS
 
 
-    // ////////////////////////////////////////////////////////////////////////
-    // Setup and Draw Methods
-    // ////////////////////////////////////////////////////////////////////////
+    // The render thread calls this - see Canvas Renderer
 
-    /**
-     * Define the data items used when drawing
-     */
-
-
-    private long mNumCalls;
-
-    /**
-     * Method that will be called by the render thread when setup is triggered
-     */
     public void doSetup() {
-        mNumCalls = 0;
+
+
         mPaint = new Paint();
 
         // create an AssetManager
         AssetManager assetManager = getActivity().getAssets();
 
-        mImage = AssetLoader.loadBitmap(assetManager, "img/trimLittleMan.png");
-        mImage2 = AssetLoader.loadBitmap(assetManager, "img/cloudyBackground.png");
-        mImage3 = AssetLoader.loadBitmap(assetManager, "img/KofQ.png");
+        // mImage = AssetLoader.loadBitmap(assetManager, "img/Nathan/trimLittleMan.png");
+        mImage2 = AssetLoader.loadBitmap(assetManager, "img/Nathan/cloudyBackground.png");
+        // mImage3 = AssetLoader.loadBitmap(assetManager, "img/Nathan/KofQ.png");
 
         // deal with just the background
         // instantiate a rectangle that relates to the background
         cloudyBackgroundBound = new Rect(0, 0, width, height);
 
-
-
-
-
-
+        // Mess around with bounds
 
     }
 
@@ -169,57 +148,19 @@ public class GameViewFragment extends CanvasFragment {
 
     public void doDraw(Canvas canvas) {
 
-        // start with just this
-        // there's no reason why you have to use everything
         canvas.drawBitmap(mImage2, null, cloudyBackgroundBound, null);
 
-        // might be able to add text
+        // push control out to specific methods for drawing each thing
 
-        /*
+        // System.out.println("Drawing is about to take place");
 
-        int width = canvas.getWidth();
-        int height = canvas.getHeight();
+        drawMonsterCards(canvas);
 
-        // Draw the loaded bitmap 1,000 times
-        int batchSize = 1000;
-        for (int drawIdx = 0; drawIdx < batchSize; drawIdx++) {
+        // drawManaCards(canvas);
 
+        // drawSupportCards(canvas);
 
-            int spacingX = width / 6;
-            int spacingY = height / 6;
-            mLittleManBound  = new Rect(2 * spacingX, spacingY, 4 * spacingX, 5 * spacingY);
-            cloudyBackgroundBound = new Rect (0, 0, 6 * spacingX, 6 * spacingY);
-            KofQBound = new Rect (10, 4* spacingY, 2 * spacingX, 6 * spacingY);
-            //mLittleManBound2 = new Rect(4 * spacingX, spacingY, 5 * spacingX, 2 * spacingY);
-
-            //canvas.drawColor(-1);
-
-            // these lines are replaced with the first line
-            canvas.drawBitmap(mImage2, null, cloudyBackgroundBound, null);
-            canvas.drawBitmap(mImage, null, mLittleManBound, null);
-            canvas.drawBitmap(mImage3, null, KofQBound, null);
-            //canvas.drawBitmap(mImage, null, mLittleManBound2, null);
-        }
-
-        // Display a count of the number of frames that have been displayed
-        mNumCalls++;
-        mPaint.setTextSize(36.0f);
-        mPaint.setTextAlign(Paint.Align.LEFT);
-        mPaint.setColor(Color.WHITE);
-        canvas.drawText("Num=" + mNumCalls, 50.0f, 50.0f, mPaint);
-
-        */
     }
-
-    // ////////////////////////////////////////////////////////////////////////
-    // Render Thread
-    // ////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Surface view render thread that will repeatedly acquire the view and
-     * render to it as fast as possible.
-     */
-
 
     public void onPause() {
 
@@ -235,6 +176,47 @@ public class GameViewFragment extends CanvasFragment {
 
 
     }
+
+    // seperate draw methods for each card type
+
+    private void drawMonsterCards (Canvas canvas)
+
+    {
+
+        for (int i = 0;  i < loop.monsterCards.size(); i++)
+        {
+            loop.monsterCards.get(i).draw(canvas);
+
+        }
+
+    }
+
+    private void drawManaCards (Canvas canvas)
+
+    {
+        for (int i = 0;  i < loop.manaCards.size(); i++)
+        {
+            loop.manaCards.get(i).draw(canvas);
+
+        }
+
+
+    }
+
+    private void drawSupportCards (Canvas canvas)
+
+    {
+        for (int i = 0;  i < loop.monsterCards.size(); i++)
+        {
+            loop.supportCards.get(i).draw(canvas);
+
+        }
+
+
+    }
+
+
+
 
 
 
