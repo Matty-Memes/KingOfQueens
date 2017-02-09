@@ -378,12 +378,14 @@ public class GameLoop implements Runnable
                 if (touchListener.isTouchContinuous(i))
                 {
 
-                    float x = touchListener.getTouchX(i), y = touchListener.getTouchY(i);
+                    float x = touchListener.getTouchX(i), y = touchListener.getTouchX(i);
 
                 if (movementRect.contains((int) x, (int) y))
 
                     {
                         doThingy();
+                        System.out.println(touchListener.getTouchX(i));
+                        System.out.println(touchListener.getTouchY(i));
 
                     }
 
