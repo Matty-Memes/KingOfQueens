@@ -8,6 +8,8 @@ import android.util.DisplayMetrics;
 
 // Local Imports
 
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardSchools;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaCard;
 import javalampstudos.kingofqueens.kingOfQueens.engine.graphics.CanvasRenderer;
 import javalampstudos.kingofqueens.kingOfQueens.engine.graphics.CanvasFragment;
 import javalampstudos.kingofqueens.kingOfQueens.engine.input.MultitouchListener;
@@ -506,10 +508,10 @@ public class GameLoop implements Runnable
 
         // Declare Monsters here
 
-        DataAdmin = new MonsterCard(500, 600, 300, 200, DataAdminSprite, false, "DataAdmin", CardTypes.EECS, CardLevel.GRAD, 100, CardTypes.ARTS_HUMANITIES,
-                CardTypes.MEDICS, "Query", 20, attack1ManaRequiredDA, "Relation", 50, attack1ManaRequiredDA);
-        HackerMan = new MonsterCard(50, 40, 30, 30, HackerManSprite, false, "Hackerman", CardTypes.EECS, CardLevel.UNDERGRAD, 140, CardTypes.ARTS_HUMANITIES,
-                CardTypes.MEDICS, "Hack", 20, attack2ManaRequiredHM, "Error 404", 50, attack2ManaRequiredHM);
+        DataAdmin = new MonsterCard(500, 600, 300, 200, DataAdminSprite, false, "DataAdmin","description", CardLevel.GRAD, 100, CardSchools.EEECS,CardSchools.ARTS_HUMANITIES,
+                CardSchools.MEDICS, "Query", 20, attack1ManaRequiredDA, "Relation", 50, attack1ManaRequiredDA);
+        HackerMan = new MonsterCard(50, 40, 30, 30, HackerManSprite, false, "Hackerman", "description", CardLevel.UNDERGRAD, 140,CardSchools.EEECS, CardSchools.ARTS_HUMANITIES,
+                CardSchools.MEDICS, "Hack", 20, attack2ManaRequiredHM, "Error 404", 50, attack2ManaRequiredHM);
 
         // Declare Mana Cards here
 

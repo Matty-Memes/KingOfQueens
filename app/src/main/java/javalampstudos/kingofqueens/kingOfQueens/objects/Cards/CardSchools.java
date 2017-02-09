@@ -4,12 +4,12 @@ package javalampstudos.kingofqueens.kingOfQueens.objects.Cards;
  * Created by brian on 24/11/2016.
  */
 
-public enum CardTypes {
+public enum CardSchools {
 
-    EECS,
+    EEECS,
     MEDICS,
     ARTS_HUMANITIES,
     ENGINEERING,
     SOCIAL_SCIENCES,
-    BUILT_ENVIRONMENT;
+    BUILT_ENVIORNMENT;
 }
