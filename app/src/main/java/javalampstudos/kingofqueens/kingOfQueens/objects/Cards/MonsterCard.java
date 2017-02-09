@@ -100,4 +100,49 @@ public class MonsterCard extends BasicCard {
     }
 
 
+
+    // gets both cards school types and then goes through the if statements in order to find if the combination fits
+    // if the combination fits then it returns true, this then allows for the 1.5X multiplier to be added to the attack.
+    // 40111707
+
+    public boolean compareCardAttackBonus(CardSchools attackingCard, CardSchools defendingCard)
+    {
+        if(attackingCard == CardSchools.MEDICS && defendingCard == CardSchools.EEECS)
+        {
+            return true;
+        }
+
+        else if(attackingCard == CardSchools.EEECS && defendingCard == CardSchools.ARTS_HUMANITIES)
+        {
+            return true;
+        }
+
+        else if(attackingCard == CardSchools.ARTS_HUMANITIES && defendingCard == CardSchools.MEDICS)
+
+        {
+            return true;
+        }
+
+        else if(attackingCard== CardSchools.ENGINEERING && defendingCard == CardSchools.SOCIAL_SCIENCES)
+        {
+            return true;
+        }
+
+        else if(attackingCard== CardSchools.BUILT_ENVIORNMENT && defendingCard == CardSchools.ENGINEERING)
+        {
+            return true;
+        }
+
+        else if(attackingCard == CardSchools.SOCIAL_SCIENCES && defendingCard == CardSchools.BUILT_ENVIORNMENT)
+        {
+            return true;
+        }
+
+        else {
+            return false;
+        }
+
+
+    }
+
 }
