@@ -154,6 +154,8 @@ public class GameViewFragment extends CanvasFragment {
 
         // System.out.println("Drawing is about to take place");
 
+        drawCard(canvas);
+
         drawMonsterCards(canvas);
 
         // drawManaCards(canvas);
@@ -173,6 +175,16 @@ public class GameViewFragment extends CanvasFragment {
     {
         super.onResume();
         loop.resume();
+
+
+    }
+
+    // draw the current card
+
+    private void drawCard (Canvas canvas)
+
+    {
+        loop.Geologist.draw(canvas);
 
 
     }

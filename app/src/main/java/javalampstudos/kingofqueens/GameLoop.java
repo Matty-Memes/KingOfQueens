@@ -83,6 +83,8 @@ public class GameLoop implements Runnable
     public Bitmap DataAdminSprite;
     public Bitmap HackerManSprite;
 
+    public Bitmap GeoSprite;
+
 
     // DataAdmin
     public ManaTypes [] attack1ManaRequiredDA;
@@ -239,8 +241,13 @@ public class GameLoop implements Runnable
         touchListener = new MultitouchListener();
         canvasRenderer.setOnTouchListener(touchListener);
 
-        // load assets
+        // load assets - sprite now exists
         loadAssets ();
+
+        // current card
+        Geologist = new MonsterCard(100, 200, 100, 100, GeoSprite, false, "Geologist", "description", CardLevel.UNDERGRAD, 140,CardSchools.EEECS, CardSchools.ARTS_HUMANITIES,
+                CardSchools.MEDICS, "Hack", 20, attack2ManaRequiredHM, "Error 404", 50, attack2ManaRequiredHM);
+
 
     }
 
@@ -272,6 +279,7 @@ public class GameLoop implements Runnable
                         newGame();
                         // always do this first
                         updateTouch ();
+                        updateCard();
                         updateMonsterCards();
                         break;
                     case CARDGAME:
@@ -386,7 +394,10 @@ public class GameLoop implements Runnable
                 if (movementRect.contains((int) x, (int) y))
 
                     {
-                        doThingy();
+                        Geologist.x = x;
+                        Geologist.y = y;
+
+                       // doThingy();
 
                     }
 
@@ -418,6 +429,7 @@ public class GameLoop implements Runnable
         // arguments: Sound ID, left volume, right volume, priority, loop, rate
         // There are known problems with this
         // test.play(0, 0.5f, 0.5f, 1, 0, 1.0f);
+
 
 
         System.out.println("Touch input was received and now thingy is being done");
@@ -459,7 +471,12 @@ public class GameLoop implements Runnable
         }
 
 
+    }
 
+    private void updateCard ()
+
+    {
+        Geologist.update();
 
     }
 
@@ -471,6 +488,8 @@ public class GameLoop implements Runnable
         // load in individual assets
         DataAdminSprite = AssetLoader.loadBitmap(assetManager, "img/Matthew/SmallDataAdmin.png");
         HackerManSprite = AssetLoader.loadBitmap(assetManager, "img/Matthew/HackermanSmall.png");
+
+        GeoSprite = AssetLoader.loadBitmap(assetManager, "img/Matthew/SmallGeo.png");
 
 
         // load SFX in here
