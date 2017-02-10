@@ -82,7 +82,6 @@ public class GameLoop implements Runnable
 
     public Bitmap DataAdminSprite;
     public Bitmap HackerManSprite;
-
     public Bitmap GeoSprite;
 
 
@@ -294,7 +293,7 @@ public class GameLoop implements Runnable
                         break;
 
                     case MENU:
-
+                        // call updateMenu here
                         break;
                 }
 
