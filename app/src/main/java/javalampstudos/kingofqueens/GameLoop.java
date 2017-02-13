@@ -31,6 +31,7 @@ import android.content.Context;
 // Java Imports
 
 import java.io.IOException;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.ArrayList;
 
@@ -81,6 +82,7 @@ public class GameLoop implements Runnable
 
     public Bitmap DataAdminSprite;
     public Bitmap HackerManSprite;
+    public Bitmap GeoSprite;
 
 
     // DataAdmin
@@ -187,6 +189,8 @@ public class GameLoop implements Runnable
     // randomly index a position in the array
     int randomNumber;
 
+    // Random number value for brians method
+    private static Random rand;
     // track the position in the discardPile array
     int discardCounter = 0;
 
@@ -236,8 +240,13 @@ public class GameLoop implements Runnable
         touchListener = new MultitouchListener();
         canvasRenderer.setOnTouchListener(touchListener);
 
-        // load assets
+        // load assets - sprite now exists
         loadAssets ();
+
+        // current card
+        Geologist = new MonsterCard(100, 200, 100, 100, GeoSprite, false, "Geologist", "description", CardLevel.UNDERGRAD, 140,CardSchools.EEECS, CardSchools.ARTS_HUMANITIES,
+                CardSchools.MEDICS, "Hack", 20, attack2ManaRequiredHM, "Error 404", 50, attack2ManaRequiredHM);
+
 
     }
 
@@ -269,6 +278,7 @@ public class GameLoop implements Runnable
                         newGame();
                         // always do this first
                         updateTouch ();
+                        updateCard();
                         updateMonsterCards();
                         break;
                     case CARDGAME:
@@ -283,7 +293,7 @@ public class GameLoop implements Runnable
                         break;
 
                     case MENU:
-
+                        // call updateMenu here
                         break;
                 }
 
@@ -378,14 +388,15 @@ public class GameLoop implements Runnable
                 if (touchListener.isTouchContinuous(i))
                 {
 
-                    float x = touchListener.getTouchX(i), y = touchListener.getTouchX(i);
+                    float x = touchListener.getTouchX(i), y = touchListener.getTouchY(i);
 
                 if (movementRect.contains((int) x, (int) y))
 
                     {
-                        doThingy();
-                        System.out.println(touchListener.getTouchX(i));
-                        System.out.println(touchListener.getTouchY(i));
+                        Geologist.x = x;
+                        Geologist.y = y;
+
+                       // doThingy();
 
                     }
 
@@ -417,6 +428,7 @@ public class GameLoop implements Runnable
         // arguments: Sound ID, left volume, right volume, priority, loop, rate
         // There are known problems with this
         // test.play(0, 0.5f, 0.5f, 1, 0, 1.0f);
+
 
 
         System.out.println("Touch input was received and now thingy is being done");
@@ -458,7 +470,12 @@ public class GameLoop implements Runnable
         }
 
 
+    }
 
+    private void updateCard ()
+
+    {
+        Geologist.update();
 
     }
 
@@ -470,6 +487,8 @@ public class GameLoop implements Runnable
         // load in individual assets
         DataAdminSprite = AssetLoader.loadBitmap(assetManager, "img/Matthew/SmallDataAdmin.png");
         HackerManSprite = AssetLoader.loadBitmap(assetManager, "img/Matthew/HackermanSmall.png");
+
+        GeoSprite = AssetLoader.loadBitmap(assetManager, "img/Matthew/SmallGeo.png");
 
 
         // load SFX in here
@@ -644,6 +663,40 @@ public class GameLoop implements Runnable
     }
 
 
+    // calculates which player will get to to go first
+// by returning a true or false to the  that called this method.
+    // if a false is returned then the player will have to take that turn slot.
+// 40111707
+    public boolean coinFlipForFirst(boolean playerChoice)
+    {
+        // creating a random number between 0 - 9
+        // could be better maybe with 1 or 2
 
+        int randomNumber = randInt(0,9);
 
+            if (randomNumber >= 0 & randomNumber < 6)
+            {
+                if (playerChoice = true)
+                {
+                    return true;
+                }
+
+            }
+           else  if (randomNumber > 5 & randomNumber < 11)
+            {
+                if (playerChoice = false)
+                {
+                    return true;
+                }
+
+            }
+        return false;
+    }
+// method for creating a random number and then returning it
+    public static int randInt(int min, int max) {
+
+        int randomNum = rand.nextInt((max - min) + 1) + min;
+
+        return randomNum;
+    }
 }
