@@ -115,6 +115,7 @@ public class MonsterCard extends BasicCard {
 
     // this method just checks if the defending card of the above method has died, then adds it to the graveyard
     //40111707
+    //brian
     public void determineDeathOfMonster(MonsterCard dyingCard){
         if(dyingCard.getHealth() <= 0)
         {
