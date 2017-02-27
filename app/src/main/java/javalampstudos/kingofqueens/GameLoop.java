@@ -664,9 +664,9 @@ public class GameLoop implements Runnable
 
 
     // calculates which player will get to to go first
-// by returning a true or false to the  that called this method.
-    // if a false is returned then the player will have to take that turn slot.
-// 40111707
+    // by returning a true or false to the called this method.
+    // if a false is returned then the player will have to take the oppisite turn slot to their choice.
+    // 40111707
     public boolean coinFlipForFirst(boolean playerChoice)
     {
         // creating a random number between 0 - 9
@@ -680,7 +680,6 @@ public class GameLoop implements Runnable
                 {
                     return true;
                 }
-
             }
            else  if (randomNumber > 5 & randomNumber < 11)
             {
@@ -688,11 +687,11 @@ public class GameLoop implements Runnable
                 {
                     return true;
                 }
-
             }
         return false;
     }
-// method for creating a random number and then returning it
+    // method for creating a random number and then returning it
+    // 40111707
     public static int randInt(int min, int max) {
 
         int randomNum = rand.nextInt((max - min) + 1) + min;

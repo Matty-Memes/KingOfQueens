@@ -1,5 +1,7 @@
 package javalampstudos.kingofqueens.kingOfQueens.objects.Cards;
 
+
+
 // Android imports
 
 import android.graphics.Bitmap;
@@ -10,6 +12,7 @@ import android.graphics.Canvas;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BasicCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardLevel;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaTypes;
+import javalampstudos.kingofqueens.kingOfQueens.objects.graveYard;
 
 public class MonsterCard extends BasicCard {
 
@@ -81,6 +84,7 @@ public class MonsterCard extends BasicCard {
         this.weakness = weakness;
     }
 
+
     // draw monster cards to the screen
 
     public void draw(Canvas canvas)
@@ -91,14 +95,35 @@ public class MonsterCard extends BasicCard {
 
     }
 
-    private int attackStrength;
-    public void attack(int attackStrength)
+// Brian's + Matts Method
+    public void attack(MonsterCard attackingCard, MonsterCard defendingCard)
     {
+
         //MonsterCard target = this.MonsterCard;
         //Matt: I need to get touch input to tell the class what monster to attack.
-        health -= attackStrength;
+
+        if(compareCardAttackBonus(attackingCard.getCardSchool(),defendingCard.getCardSchool()) == true) {
+            defendingCard.health -= (attackingCard.attack1Strength *1.5);
+            determineDeathOfMonster(defendingCard);
+        }else {
+            defendingCard.health -= attackingCard.attack1Strength;
+            determineDeathOfMonster(defendingCard);
+        }
+
+
     }
 
+    // this method just checks if the defending card of the above method has died, then adds it to the graveyard
+    //40111707
+    public void determineDeathOfMonster(MonsterCard dyingCard){
+        if(dyingCard.getHealth() <= 0)
+        {
+          graveYard.addToGraveYard(dyingCard);
+
+            // the card needs to be removed here aswell.
+        }
+
+    }
 
 
     // gets both cards school types and then goes through the if statements in order to find if the combination fits
@@ -121,14 +146,14 @@ public class MonsterCard extends BasicCard {
 
         {
             return true;
-        }
 
-        else if(attackingCard== CardSchools.ENGINEERING && defendingCard == CardSchools.SOCIAL_SCIENCES)
+        }
+        else if(attackingCard == CardSchools.ENGINEERING && defendingCard == CardSchools.SOCIAL_SCIENCES)
         {
             return true;
         }
 
-        else if(attackingCard== CardSchools.BUILT_ENVIORNMENT && defendingCard == CardSchools.ENGINEERING)
+        else if(attackingCard == CardSchools.BUILT_ENVIORNMENT && defendingCard == CardSchools.ENGINEERING)
         {
             return true;
         }
