@@ -18,6 +18,7 @@ import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 import javalampstudos.kingofqueens.kingOfQueens.engine.SFX.SoundFX;
 import javalampstudos.kingofqueens.MainActivity;
 import javalampstudos.kingofqueens.GameViewFragment;
+import javalampstudos.kingofqueens.kingOfQueens.util.Random;
 
 // Android Imports
 
@@ -31,7 +32,7 @@ import android.content.Context;
 // Java Imports
 
 import java.io.IOException;
-import java.util.Random;
+// import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.ArrayList;
 
@@ -94,6 +95,18 @@ public class GameLoop implements Runnable
     public ManaTypes [] attack1ManaRequiredHM;
     public ManaTypes [] attack2ManaRequiredHM;
 
+    // Random Logic
+
+    public Random random;
+
+    // player
+    public int [] playerHasAppeared = new int [40];
+    public int playerhCounter = 0;
+
+    // opponent
+    public int [] opponentHasAppeared = new int [40];
+    public int opponenthCounter = 0;
+
 
     // Variables relating to the players hand
 
@@ -153,8 +166,6 @@ public class GameLoop implements Runnable
 
     // booleans
     public boolean addToHand;
-    public boolean active = true;
-    public boolean innerSearchActive = true;
 
     // replaced with deckClicked
     public boolean resetDeck = false;
@@ -176,18 +187,7 @@ public class GameLoop implements Runnable
     // deck booleans
     public boolean deckClicked = false;
 
-    // Variables relating to random logic
 
-    // player
-    public int [] playerHasAppeared = new int [40];
-    public int playerhCounter = 0;
-
-    // opponent
-    public int [] opponentHasAppeared = new int [40];
-    public int opponenthCounter = 0;
-
-    // randomly index a position in the array
-    int randomNumber;
 
     // Random number value for brians method
     private static Random rand;
@@ -244,7 +244,7 @@ public class GameLoop implements Runnable
         loadAssets ();
 
         // current card
-        Geologist = new MonsterCard(100, 200, 100, 100, GeoSprite, false, "Geologist", "description", CardLevel.UNDERGRAD, 140,CardSchools.EEECS, CardSchools.ARTS_HUMANITIES,
+        Geologist = new MonsterCard(0, 0, 100, 100, GeoSprite, false, "Geologist", "description", CardLevel.UNDERGRAD, 140,CardSchools.EEECS, CardSchools.ARTS_HUMANITIES,
                 CardSchools.MEDICS, "Hack", 20, attack2ManaRequiredHM, "Error 404", 50, attack2ManaRequiredHM);
 
 
@@ -566,59 +566,7 @@ public class GameLoop implements Runnable
 
     }
 
-    private int generateRandomNumber (int [] appeared, int counter)
 
-    {
-        // choose a card at random from the deck
-        int min = 0;
-        int max = 8;
-
-        while (active == true)
-
-        {
-            // may have to generate this in a different way
-            // randomNumber = ThreadLocalRandom.current().nextInt(min, max + 1);
-
-            System.out.println(randomNumber);
-
-            // should probably be global
-            int innerCounter = 0;
-
-
-            // if a match is found at any stage the loop fails
-            while (randomNumber != appeared[innerCounter] && innerSearchActive == true)
-
-            {
-
-
-                innerCounter++;
-
-                // This would stop you checking position 39
-                if (innerCounter == 39)
-
-                {
-                    innerSearchActive = false;
-                    active = false;
-                    System.out.println("Finished");
-                }
-
-            }
-
-        } // end while loop
-
-
-        // add it to the array seperately - it's not linked so it always goes in the right order
-        // this is seperate to the hand array
-        appeared[counter] = randomNumber;
-        counter++;
-
-        // keep this
-        active = true;
-        innerSearchActive = true;
-
-        return randomNumber;
-
-    }
 
     // keep this for testing
 
@@ -626,7 +574,7 @@ public class GameLoop implements Runnable
 
     {
 
-        if (playerTurn == true)
+        if (playerTurn)
 
         {
 
@@ -634,22 +582,22 @@ public class GameLoop implements Runnable
 
             {
 
-                int rand = generateRandomNumber(playerHasAppeared, playerhCounter);
+                int rand = random.generateRandomNumber(playerHasAppeared, playerhCounter);
                 playerHand[i] = cardList[rand];
 
             }
 
         } // end playerturn logic
 
-        if (playerTurn == false)
+        if (!playerTurn)
 
         {
             for (int i = 0; i < 3; i++)
 
             {
-                System.out.println("We're here");
+                // System.out.println("We're here");
 
-                int rand = generateRandomNumber(opponentHasAppeared, opponenthCounter);
+                int rand = random.generateRandomNumber(opponentHasAppeared, opponenthCounter);
 
 
                 System.out.println("The number generated was " + rand);
@@ -667,6 +615,9 @@ public class GameLoop implements Runnable
 // by returning a true or false to the  that called this method.
     // if a false is returned then the player will have to take that turn slot.
 // 40111707
+
+/*
+
     public boolean coinFlipForFirst(boolean playerChoice)
     {
         // creating a random number between 0 - 9
@@ -693,10 +644,15 @@ public class GameLoop implements Runnable
         return false;
     }
 // method for creating a random number and then returning it
+
+
+
     public static int randInt(int min, int max) {
 
         int randomNum = rand.nextInt((max - min) + 1) + min;
 
         return randomNum;
     }
+
+    */
 }
