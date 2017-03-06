@@ -69,7 +69,11 @@ public class GameLoop implements Runnable
     // Declare a gamestate
     public GameState gameState;
 
-    // Set up rects for touchinput
+    // PUT TOUCH INPUT RECTS HERE
+    public Rect MSlot1Rect;
+    public Rect MSlot2Rect;
+    public Rect MSlot3Rect;
+
     private Rect movementRect;
 
     // Declare an instance of multi-touch listener
@@ -143,7 +147,8 @@ public class GameLoop implements Runnable
     int opponentDeckSize = 40;
 
     // Current card - temporarily stores the card you're working with
-    BasicCard currentCard;
+    public BasicCard currentCard;
+    public int touchCounter = 0;
 
     // The game needs to be able to access every possible card
     public BasicCard [] cardList = new BasicCard [40];
@@ -212,10 +217,6 @@ public class GameLoop implements Runnable
         canvasRenderer = new CanvasRenderer(fragment.getActivity(), fragment);
 
         this.fragment = fragment;
-
-
-
-
 
         // Set up dimensions and scaling
         GameLoop.width = width;
@@ -400,6 +401,37 @@ public class GameLoop implements Runnable
 
                     }
 
+
+                // set up more rects here for each card
+
+                // These are the slots for each monster card
+
+                if (MSlot1Rect.contains((int) x, (int) y))
+
+                {
+
+
+
+                }
+
+                if (MSlot2Rect.contains((int) x, (int) y))
+
+                {
+
+
+
+                }
+
+                if (MSlot3Rect.contains((int) x, (int) y))
+
+                {
+
+
+
+                }
+
+
+
                 }
 
             }
@@ -415,8 +447,12 @@ public class GameLoop implements Runnable
     private void gameSetup ()
 
     {
-        // make rects for touch input
+        // Instantiate new rects here
+
         movementRect = new Rect ((int) (78 * uiScaling), height / 2, (int) (width - 78 * uiScaling), (int) (height - 78 * uiScaling));
+        // MSlot1Rect = new Rect etc.
+        // MSlot2Rect = new Rect etc.
+        // MSlot3Rect = new Rect etc.
 
         initializeDeck();
 
@@ -566,6 +602,20 @@ public class GameLoop implements Runnable
 
     }
 
+    // Should contain the logic for the player selecting a particular attack
+    // In the touch method remember the no of touches that have occured
+
+    // Something needs to clear the touchCounter
+
+    private void selectAttack (BasicCard currentCard)
+
+    {
+      // if the touch area is touched once
+      // change the colour and "prepare" the first attack
+
+
+    }
+
 
 
     // keep this for testing
@@ -609,6 +659,15 @@ public class GameLoop implements Runnable
         }
 
     }
+
+    // THIS IS PSEUDOCODE WHICH NEEDS TO BE IMPLEMNENTED
+
+    // There are a number of touch areas on screen.
+    // When a touch area is touched the card in that area is made the current card.
+
+
+
+
 
 
     // calculates which player will get to to go first

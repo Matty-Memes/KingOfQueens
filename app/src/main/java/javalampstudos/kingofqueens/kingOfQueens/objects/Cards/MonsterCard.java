@@ -92,6 +92,13 @@ public class MonsterCard extends BasicCard {
     }
 
     private int attackStrength;
+
+
+    // Attack Logic
+
+
+
+
     public void attack(int attackStrength)
     {
         //MonsterCard target = this.MonsterCard;
