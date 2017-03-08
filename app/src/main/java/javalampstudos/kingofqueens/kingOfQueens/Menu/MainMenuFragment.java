@@ -88,15 +88,18 @@ public class MainMenuFragment extends MenuFragment
                             .replace(R.id.container, new GameViewFragment(), "game_fragment").commit();
                 }
 
-                /*
 
-                // The Stats Button loads the StatsFragment
+
+
                 if(loadRect.contains(x, y)) {
                     getFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.container, new StatsFragment(),
-                                    "stats_fragment").commit();
+                            .replace(R.id.container, new SettingsFragment(),
+                                    "settings_fragment").commit();
                 }
+
+                /*
+
                 // The Settings Button loads the SettingsFragment
                 if(settingsRect.contains(x, y)) {
                     getFragmentManager()

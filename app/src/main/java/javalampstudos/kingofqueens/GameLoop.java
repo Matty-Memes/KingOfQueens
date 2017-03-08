@@ -226,6 +226,7 @@ public class GameLoop implements Runnable
         System.out.println(GameLoop.height);
 
         gameScaling = width / 320.0f;
+        System.out.println("GameScaling is " + gameScaling);
 
         // Getting UI scaling from display metrics
         // Getting UI scaling from display metrics
@@ -244,8 +245,8 @@ public class GameLoop implements Runnable
         // load assets - sprite now exists
         loadAssets ();
 
-        // current card
-        Geologist = new MonsterCard(0, 0, 100, 100, GeoSprite, false, "Geologist", "description", CardLevel.UNDERGRAD, 140,CardSchools.EEECS, CardSchools.ARTS_HUMANITIES,
+
+        Geologist = new MonsterCard(200, 200, 100, 100, GeoSprite, false, "Geologist", "description", CardLevel.UNDERGRAD, 140,CardSchools.EEECS, CardSchools.ARTS_HUMANITIES,
                 CardSchools.MEDICS, "Hack", 20, attack2ManaRequiredHM, "Error 404", 50, attack2ManaRequiredHM);
 
 
@@ -406,6 +407,8 @@ public class GameLoop implements Runnable
 
                 // These are the slots for each monster card
 
+                /*
+
                 if (MSlot1Rect.contains((int) x, (int) y))
 
                 {
@@ -429,6 +432,8 @@ public class GameLoop implements Runnable
 
 
                 }
+
+                */
 
 
 

@@ -65,6 +65,9 @@ public abstract class MenuFragment extends CanvasFragment
         width = point.x;
         height = point.y;
 
+        System.out.println(width);
+        System.out.println(height);
+
         gameScaling = width / 256.0f;
 
         DisplayMetrics metrics = new DisplayMetrics();
@@ -92,6 +95,8 @@ public abstract class MenuFragment extends CanvasFragment
 
     {
 
+
+
         AssetManager assetManager = getActivity().getAssets();
 
         // Set up the basic background
@@ -105,14 +110,13 @@ public abstract class MenuFragment extends CanvasFragment
 
          */
 
-
-
-
     }
 
     public void doDraw (Canvas canvas)
 
     {
+
+
         backgroundRect.set(0, 0, width, height);
 
         canvas.drawBitmap(backgroundSprite, null, backgroundRect, null);

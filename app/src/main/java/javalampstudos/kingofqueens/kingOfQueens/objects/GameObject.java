@@ -53,10 +53,16 @@ public abstract class GameObject
     public void updateRect ()
 
     {
+
+
+
+
         rect.set((int) (x - (width / 2 * GameLoop.gameScaling)),
                 (int) (y - (height / 2 * GameLoop.gameScaling)),
                 (int) (x + (width / 2 * GameLoop.gameScaling)),
                 (int) (y + (height / 2 * GameLoop.gameScaling)));
+
+
 
     }
 
