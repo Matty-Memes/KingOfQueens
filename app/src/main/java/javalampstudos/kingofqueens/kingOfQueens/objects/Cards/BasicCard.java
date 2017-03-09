@@ -26,8 +26,8 @@ public class BasicCard extends GameObject {
     // need all the fields from the superclass
 
 
-    public BasicCard(int x, int y, int width, int height, Bitmap Sprite,Bitmap cardbackSprite
-                     String name, String description, CardSchools cardSchool, boolean destroyed)
+    public BasicCard(int x, int y, int width, int height, Bitmap Sprite,Bitmap cardbackSprite,
+                     String name, String description, CardSchools cardSchool, boolean destroyed,int pointerID)
     {
         super(x, y, width, height, Sprite);
         this.cardbackSprite=cardbackSprite;

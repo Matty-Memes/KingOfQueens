@@ -34,7 +34,7 @@ public class MonsterCard extends BasicCard {
 
     // Reduce the number of fields somehow
 
-    public MonsterCard(int x, int y, int width, int height, Bitmap Sprite,Bitmap cardbackSprite, boolean destroyed,int pointerID
+    public MonsterCard(int x, int y, int width, int height, Bitmap Sprite,Bitmap cardbackSprite, boolean destroyed,int pointerID,
                        String name, String description, CardLevel level, int health,int defence, CardSchools cardSchools,
                        CardSchools strength, CardSchools weakness, String attack1Name, int attack1Strength,
                        ManaTypes [] attack1ManaRequired, String attack2Name, int attack2Strength,

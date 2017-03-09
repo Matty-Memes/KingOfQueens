@@ -9,13 +9,15 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaTypes;
 /**
  * Created by brian on 24/11/2016.
  * 40111707
+ * Modified by Matt on 09/03/2017
+ * Removed mana value as it is now redundant with the ManaCounter class. Each mana card is worth 1
  */
 
 public class ManaCard extends BasicCard {
     private ManaTypes manaType;
 
     public ManaCard(int x, int y, int width, int height, Bitmap Sprite, Bitmap cardbackSprite,String name,String description,
-                    boolean destroyed, CardSchools cardSchool, ManaTypes manaType,pointerID)
+                    boolean destroyed, CardSchools cardSchool, ManaTypes manaType,int pointerID)
     {
         super(x,y,width,height,Sprite,cardbackSprite,name,description,cardSchool,destroyed,pointerID);
         this.manaType = manaType;
