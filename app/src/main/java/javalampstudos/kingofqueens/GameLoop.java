@@ -248,7 +248,7 @@ public class GameLoop implements Runnable
         // Draw some example cards to test
 
 
-        Geologist = new MonsterCard(20, 350, 90, 200, GeoSprite, false, 49, "Geologist", "description", CardLevel.UNDERGRAD, 140,CardSchools.EEECS, CardSchools.ARTS_HUMANITIES,
+        Geologist = new MonsterCard(20, 350, 90, 200, GeoSprite,GeoSprite, false, 49, "Geologist", "description", CardLevel.UNDERGRAD, 140,0,CardSchools.EEECS, CardSchools.ARTS_HUMANITIES,
                 CardSchools.MEDICS, "Hack", 20, attack2ManaRequiredHM, "Error 404", 50, attack2ManaRequiredHM);
 
     }
@@ -584,12 +584,12 @@ public class GameLoop implements Runnable
     {
 
         // DataAdmin
-        attack1ManaRequiredDA = new ManaTypes [] { ManaTypes.EECS_MANA, ManaTypes.GENERIC_MANA };
-        attack2ManaRequiredDA = new ManaTypes [] { ManaTypes.EECS_MANA, ManaTypes.EECS_MANA, ManaTypes.EECS_MANA };
+        attack1ManaRequiredDA = new ManaTypes [] { ManaTypes.EEECS_MANA, ManaTypes.GENERIC_MANA };
+        attack2ManaRequiredDA = new ManaTypes [] { ManaTypes.EEECS_MANA, ManaTypes.EEECS_MANA, ManaTypes.EEECS_MANA };
 
         // Hackerman
-        attack2ManaRequiredHM = new ManaTypes [] { ManaTypes.EECS_MANA, ManaTypes.GENERIC_MANA };
-        attack2ManaRequiredHM = new ManaTypes [] { ManaTypes.EECS_MANA, ManaTypes.EECS_MANA, ManaTypes.EECS_MANA, ManaTypes.EECS_MANA };
+        attack2ManaRequiredHM = new ManaTypes [] { ManaTypes.EEECS_MANA, ManaTypes.GENERIC_MANA };
+        attack2ManaRequiredHM = new ManaTypes [] { ManaTypes.EEECS_MANA, ManaTypes.EEECS_MANA, ManaTypes.EEECS_MANA, ManaTypes.EEECS_MANA };
 
         // Declare Mana Cards here
 

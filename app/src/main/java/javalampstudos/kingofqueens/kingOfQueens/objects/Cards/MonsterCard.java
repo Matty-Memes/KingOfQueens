@@ -37,15 +37,16 @@ public class MonsterCard extends BasicCard {
 
     // Reduce the number of fields somehow
 
-    public MonsterCard(int x, int y, int width, int height, Bitmap Sprite, boolean destroyed,
-                       String name, String description, CardLevel level, int health, CardSchools cardSchools, CardSchools strength, CardSchools weakness,
+    public MonsterCard(int x, int y, int width, int height, Bitmap Sprite,Bitmap cardbackSprite, boolean destroyed,int pointerID,
+                       String name, String description, CardLevel level, int health,int defence, CardSchools cardSchools, CardSchools strength, CardSchools weakness,
                        String attack1Name, int attack1Strength, ManaTypes [] attack1ManaRequired,
                        String attack2Name, int attack2Strength, ManaTypes [] attack2ManaRequired ) {
-        super(x, y, width, height, Sprite, name,description,cardSchools,destroyed);
+        super(x, y, width, height, Sprite,cardbackSprite, name,description,cardSchools,destroyed,pointerID);
 
 
         this.level = level;
         this.health = health;
+        this.defence = defence;
         this.strength = strength;
         this.weakness = weakness;
 
