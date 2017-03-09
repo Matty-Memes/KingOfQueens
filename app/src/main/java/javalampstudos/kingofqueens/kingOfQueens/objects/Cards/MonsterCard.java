@@ -1,5 +1,7 @@
 package javalampstudos.kingofqueens.kingOfQueens.objects.Cards;
 
+
+
 // Android imports
 
 import android.graphics.Bitmap;
@@ -10,6 +12,7 @@ import android.graphics.Canvas;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BasicCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardLevel;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaTypes;
+import javalampstudos.kingofqueens.kingOfQueens.objects.graveYard;
 
 public class MonsterCard extends BasicCard {
 
@@ -34,17 +37,15 @@ public class MonsterCard extends BasicCard {
 
     // Reduce the number of fields somehow
 
-    public MonsterCard(int x, int y, int width, int height, Bitmap Sprite,Bitmap cardbackSprite, boolean destroyed,int pointerID,
-                       String name, String description, CardLevel level, int health,int defence, CardSchools cardSchools,
-                       CardSchools strength, CardSchools weakness, String attack1Name, int attack1Strength,
-                       ManaTypes [] attack1ManaRequired, String attack2Name, int attack2Strength,
-                       ManaTypes [] attack2ManaRequired ) {
-        super(x, y, width, height, Sprite,cardbackSprite,name,description,cardSchools,destroyed,pointerID);
+    public MonsterCard(int x, int y, int width, int height, Bitmap Sprite, boolean destroyed,
+                       String name, String description, CardLevel level, int health, CardSchools cardSchools, CardSchools strength, CardSchools weakness,
+                       String attack1Name, int attack1Strength, ManaTypes [] attack1ManaRequired,
+                       String attack2Name, int attack2Strength, ManaTypes [] attack2ManaRequired ) {
+        super(x, y, width, height, Sprite, name,description,cardSchools,destroyed);
 
 
         this.level = level;
         this.health = health;
-        this.defence = defence;
         this.strength = strength;
         this.weakness = weakness;
 
@@ -79,19 +80,10 @@ public class MonsterCard extends BasicCard {
         return weakness;
     }
 
-    public int getDefence(){return defence;}
-
     public void setDefence(CardSchools weakness) {
         this.weakness = weakness;
     }
 
-    public int getAttack1Strength(){return attack1Strength;}
-
-    public void setAttack1Strength(int attack1Strength){this.attack1Strength = attack1Strength;}
-
-    public int getAttack2Strength() {return attack2Strength;}
-
-    public void setAttack2Strength(int attack2Strength){this.attack2Strength = attack2Strength;}
 
     // draw monster cards to the screen
 
@@ -103,22 +95,36 @@ public class MonsterCard extends BasicCard {
 
     }
 
-    private int attackStrength;
-
-
-    // Attack Logic
-
-
-
-
-    public void attack(int attackStrength)
+// Brian's + Matts Method
+    public void attack(MonsterCard attackingCard, MonsterCard defendingCard)
     {
+
         //MonsterCard target = this.MonsterCard;
         //Matt: I need to get touch input to tell the class what monster to attack.
-        health -= attackStrength;
-    }
-    ;
 
+        if(compareCardAttackBonus(attackingCard.getCardSchool(),defendingCard.getCardSchool()) == true) {
+            defendingCard.health -= (attackingCard.attack1Strength *1.5);
+            determineDeathOfMonster(defendingCard);
+        }else {
+            defendingCard.health -= attackingCard.attack1Strength;
+            determineDeathOfMonster(defendingCard);
+        }
+
+
+    }
+
+    // this method just checks if the defending card of the above method has died, then adds it to the graveyard
+    //40111707
+    //brian
+    public void determineDeathOfMonster(MonsterCard dyingCard){
+        if(dyingCard.getHealth() <= 0)
+        {
+          graveYard.addToGraveYard(dyingCard);
+
+            // the card needs to be removed here aswell.
+        }
+
+    }
 
 
     // gets both cards school types and then goes through the if statements in order to find if the combination fits
@@ -141,14 +147,14 @@ public class MonsterCard extends BasicCard {
 
         {
             return true;
-        }
 
-        else if(attackingCard== CardSchools.ENGINEERING && defendingCard == CardSchools.SOCIAL_SCIENCES)
+        }
+        else if(attackingCard == CardSchools.ENGINEERING && defendingCard == CardSchools.SOCIAL_SCIENCES)
         {
             return true;
         }
 
-        else if(attackingCard== CardSchools.BUILT_ENVIORNMENT && defendingCard == CardSchools.ENGINEERING)
+        else if(attackingCard == CardSchools.BUILT_ENVIORNMENT && defendingCard == CardSchools.ENGINEERING)
         {
             return true;
         }
