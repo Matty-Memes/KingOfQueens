@@ -9,6 +9,7 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BuffType;
 /**
  * Created by brian on 24/11/2016.
  * 40111707
+ * Modifed by Matt on 09/03/2017
  */
 
 public class SupportCard extends BasicCard {
@@ -16,11 +17,13 @@ public class SupportCard extends BasicCard {
     private int cardAttack,cardDefence;
     private boolean active;
 
-    public SupportCard(int x, int y, int width, int height, Bitmap Sprite,
-                       String name,String description, CardSchools cardSchool, boolean destroyed, int pointerID, BuffType buff)
+    public SupportCard(int x, int y, int width, int height, Bitmap Sprite, Bitmap cardbackSprite,
+                       String name,String description, CardSchools cardSchool, boolean destroyed,int pointerID,BuffType buff)
     {
-        super(x, y, width, height, Sprite, name,description,cardSchool, destroyed, pointerID);
+        super(x, y, width, height, Sprite,cardbackSprite, name,description,cardSchool, destroyed,pointerID);
         this.buff = buff;
+        this.cardAttack=cardAttack;
+        this.cardDefence=cardDefence;
     }
 
     public BuffType getBuff() {
@@ -47,6 +50,8 @@ public class SupportCard extends BasicCard {
         {
             cardAttack += attack;
             // TODO: 01/02/2017 When turn structure is implemented, work out how to increment a counter after a turn
+            if(turns==0)
+                active=false;
         }
         if (!active)
         {
@@ -60,6 +65,8 @@ public class SupportCard extends BasicCard {
         while (active = true)
         {
             cardDefence += defence;
+            if(turns==0)
+                active=false;
         }
         if(!active)
         {

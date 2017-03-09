@@ -14,6 +14,7 @@ public class BasicCard extends GameObject {
 
     private String name,description;
     private CardSchools cardSchool;
+    private Bitmap cardbackSprite;
 
 
     // monitors whether or not a card is destroyed
@@ -25,10 +26,11 @@ public class BasicCard extends GameObject {
     // need all the fields from the superclass
 
 
-    public BasicCard(int x, int y, int width, int height, Bitmap Sprite,
-                     String name, String description, CardSchools cardSchool, boolean destroyed, int pointerID)
+    public BasicCard(int x, int y, int width, int height, Bitmap Sprite,Bitmap cardbackSprite
+                     String name, String description, CardSchools cardSchool, boolean destroyed)
     {
         super(x, y, width, height, Sprite);
+        this.cardbackSprite=cardbackSprite;
         this.name = name;
         this.description= description;
         this.cardSchool = cardSchool;
