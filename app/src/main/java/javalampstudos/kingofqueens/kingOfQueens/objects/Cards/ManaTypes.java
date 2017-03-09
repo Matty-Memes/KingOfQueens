@@ -7,7 +7,7 @@ package javalampstudos.kingofqueens.kingOfQueens.objects.Cards;
 public enum ManaTypes {
 
     GENERIC_MANA,
-    EECS_MANA,
+    EEECS_MANA,
     MEDICS_MANA,
     ARTS_HUMANITIES_MANA,
     ENGINEERING_MANA,

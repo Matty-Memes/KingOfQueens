@@ -12,31 +12,24 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaTypes;
  */
 
 public class ManaCard extends BasicCard {
-    private ManaTypes ManaType;
-    private int ManaValue;
+    private ManaTypes manaType;
 
-    public ManaCard(int x, int y, int width, int height, Bitmap Sprite, String name,String description, boolean destroyed, CardSchools cardSchool, ManaTypes manaType, int manaValue) {
-        super(x,y,width,height,Sprite,name,description,cardSchool,destroyed);
-        ManaType = manaType;
-        ManaValue = manaValue;
+    public ManaCard(int x, int y, int width, int height, Bitmap Sprite, Bitmap cardbackSprite,String name,String description,
+                    boolean destroyed, CardSchools cardSchool, ManaTypes manaType)
+    {
+        super(x,y,width,height,Sprite,cardbackSprite,name,description,cardSchool,destroyed);
+        this.manaType = manaType;
     }
 
 
     public ManaTypes getManaType() {
-        return ManaType;
+        return manaType;
     }
 
     public void setManaType(ManaTypes manaType) {
-        ManaType = manaType;
+        manaType = manaType;
     }
 
-    public int getManaValue() {
-        return ManaValue;
-    }
-
-    public void setManaValue(int manaValue) {
-        ManaValue = manaValue;
-    }
 
     public void draw(Canvas canvas)
 

@@ -244,7 +244,7 @@ public class GameLoop implements Runnable
         loadAssets ();
 
         // current card
-        Geologist = new MonsterCard(100, 200, 100, 100, GeoSprite, false, "Geologist", "description", CardLevel.UNDERGRAD, 140,CardSchools.EEECS, CardSchools.ARTS_HUMANITIES,
+        Geologist = new MonsterCard(100, 200, 100, 100, GeoSprite,DataAdminSprite, false, "Geologist", "description", CardLevel.UNDERGRAD, 140,0,CardSchools.EEECS, CardSchools.ARTS_HUMANITIES,
                 CardSchools.MEDICS, "Hack", 20, attack2ManaRequiredHM, "Error 404", 50, attack2ManaRequiredHM);
 
 
@@ -519,19 +519,19 @@ public class GameLoop implements Runnable
     {
 
         // DataAdmin
-        attack1ManaRequiredDA = new ManaTypes [] { ManaTypes.EECS_MANA, ManaTypes.GENERIC_MANA };
-        attack2ManaRequiredDA = new ManaTypes [] { ManaTypes.EECS_MANA, ManaTypes.EECS_MANA, ManaTypes.EECS_MANA };
+        attack1ManaRequiredDA = new ManaTypes [] { ManaTypes.EEECS_MANA, ManaTypes.GENERIC_MANA };
+        attack2ManaRequiredDA = new ManaTypes [] { ManaTypes.EEECS_MANA, ManaTypes.EEECS_MANA, ManaTypes.EEECS_MANA };
 
         // Hackerman
-        attack2ManaRequiredHM = new ManaTypes [] { ManaTypes.EECS_MANA, ManaTypes.GENERIC_MANA };
-        attack2ManaRequiredHM = new ManaTypes [] { ManaTypes.EECS_MANA, ManaTypes.EECS_MANA, ManaTypes.EECS_MANA, ManaTypes.EECS_MANA };
+        attack2ManaRequiredHM = new ManaTypes [] { ManaTypes.EEECS_MANA, ManaTypes.GENERIC_MANA };
+        attack2ManaRequiredHM = new ManaTypes [] { ManaTypes.EEECS_MANA, ManaTypes.EEECS_MANA, ManaTypes.EEECS_MANA, ManaTypes.EEECS_MANA };
 
 
         // Declare Monsters here
 
-        DataAdmin = new MonsterCard(500, 600, 300, 200, DataAdminSprite, false, "DataAdmin","description", CardLevel.GRAD, 100, CardSchools.EEECS,CardSchools.ARTS_HUMANITIES,
+        DataAdmin = new MonsterCard(500, 600, 300, 200, DataAdminSprite,DataAdminSprite, false, "DataAdmin","description", CardLevel.GRAD, 100,0, CardSchools.EEECS,CardSchools.ARTS_HUMANITIES,
                 CardSchools.MEDICS, "Query", 20, attack1ManaRequiredDA, "Relation", 50, attack1ManaRequiredDA);
-        HackerMan = new MonsterCard(50, 40, 30, 30, HackerManSprite, false, "Hackerman", "description", CardLevel.UNDERGRAD, 140,CardSchools.EEECS, CardSchools.ARTS_HUMANITIES,
+        HackerMan = new MonsterCard(50, 40, 30, 30, HackerManSprite,DataAdminSprite, false, "Hackerman", "description", CardLevel.UNDERGRAD, 140,0,CardSchools.EEECS, CardSchools.ARTS_HUMANITIES,
                 CardSchools.MEDICS, "Hack", 20, attack2ManaRequiredHM, "Error 404", 50, attack2ManaRequiredHM);
 
         // Declare Mana Cards here
