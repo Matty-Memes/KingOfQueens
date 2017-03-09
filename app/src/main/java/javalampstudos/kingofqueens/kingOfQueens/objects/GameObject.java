@@ -41,8 +41,7 @@ public abstract class GameObject
     public void update ()
 
     {
-        // for moving objects velocity would go here
-        // this values are global anyway and set by the creation of the card
+        // velocity information could be added here
 
         updateRect();
 
@@ -54,15 +53,17 @@ public abstract class GameObject
 
     {
 
+        // rect.set((int)x, (int)y, width, height);
 
 
+        // x will be offset and should be increased
 
-        rect.set((int) (x - (width / 2 * GameLoop.gameScaling)),
-                (int) (y - (height / 2 * GameLoop.gameScaling)),
-                (int) (x + (width / 2 * GameLoop.gameScaling)),
-                (int) (y + (height / 2 * GameLoop.gameScaling)));
-
-
+        // Draws a rect with the center point specified by the x and y co-ordinates
+        // Removed the scaling
+        rect.set((int) (x - (width / 2)),
+                (int) (y - (height / 2)),
+                (int) (x + (width / 2)),
+                (int) (y + (height / 2)));
 
     }
 

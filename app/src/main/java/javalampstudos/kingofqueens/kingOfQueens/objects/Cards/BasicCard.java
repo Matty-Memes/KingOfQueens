@@ -19,17 +19,21 @@ public class BasicCard extends GameObject {
     // monitors whether or not a card is destroyed
     public boolean destroyed;
 
+    // pointer id for keeping track of touch input
+    public int pointerID;
+
     // need all the fields from the superclass
 
 
     public BasicCard(int x, int y, int width, int height, Bitmap Sprite,
-                     String name, String description, CardSchools cardSchool, boolean destroyed)
+                     String name, String description, CardSchools cardSchool, boolean destroyed, int pointerID)
     {
         super(x, y, width, height, Sprite);
         this.name = name;
         this.description= description;
         this.cardSchool = cardSchool;
         this.destroyed = destroyed;
+        this.pointerID = pointerID;
     }
 
     // getters and setters
@@ -49,6 +53,16 @@ public class BasicCard extends GameObject {
     public CardSchools getCardSchool() {return cardSchool;}
 
     public void setCardSchool() { this.cardSchool = cardSchool;}
+
+
+    // set the pointer ID
+
+    public void setPointerID (int pID)
+
+    {
+      this.pointerID = pID;
+
+    }
 
     //Matt:This metod will be used in creating the card graphic. It checks the card School and sets the graphic
 

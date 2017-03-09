@@ -92,8 +92,15 @@ public class GameViewFragment extends CanvasFragment {
 
         width = point.x;
 
+
         height = point.y;
 
+        /*
+
+        System.out.println("The width is " + width);
+        System.out.println("The height is " + height);
+
+        */
 
         // instantiate the loop and start things running
         loop = new GameLoop(this, width, height);

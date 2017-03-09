@@ -17,9 +17,9 @@ public class SupportCard extends BasicCard {
     private boolean active;
 
     public SupportCard(int x, int y, int width, int height, Bitmap Sprite,
-                       String name,String description, CardSchools cardSchool, boolean destroyed,BuffType buff)
+                       String name,String description, CardSchools cardSchool, boolean destroyed, int pointerID, BuffType buff)
     {
-        super(x, y, width, height, Sprite, name,description,cardSchool, destroyed);
+        super(x, y, width, height, Sprite, name,description,cardSchool, destroyed, pointerID);
         this.buff = buff;
     }
 

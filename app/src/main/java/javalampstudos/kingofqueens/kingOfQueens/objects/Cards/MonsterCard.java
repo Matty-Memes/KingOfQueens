@@ -34,11 +34,12 @@ public class MonsterCard extends BasicCard {
 
     // Reduce the number of fields somehow
 
-    public MonsterCard(int x, int y, int width, int height, Bitmap Sprite, boolean destroyed,
+    public MonsterCard(int x, int y, int width, int height, Bitmap Sprite, boolean destroyed, int pointerID,
                        String name, String description, CardLevel level, int health, CardSchools cardSchools, CardSchools strength, CardSchools weakness,
                        String attack1Name, int attack1Strength, ManaTypes [] attack1ManaRequired,
                        String attack2Name, int attack2Strength, ManaTypes [] attack2ManaRequired ) {
-        super(x, y, width, height, Sprite, name,description,cardSchools,destroyed);
+        // Call to the superclass constructor
+        super(x, y, width, height, Sprite, name,description,cardSchools,destroyed, pointerID);
 
 
         this.level = level;

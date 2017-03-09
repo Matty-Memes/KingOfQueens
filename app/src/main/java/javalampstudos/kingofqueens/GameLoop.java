@@ -222,8 +222,8 @@ public class GameLoop implements Runnable
         GameLoop.width = width;
         GameLoop.height = height;
 
-        System.out.println(GameLoop.width);
-        System.out.println(GameLoop.height);
+        System.out.println("The width is " + GameLoop.width);
+        System.out.println("The height is " + GameLoop.height);
 
         gameScaling = width / 320.0f;
         System.out.println("GameScaling is " + gameScaling);
@@ -245,10 +245,11 @@ public class GameLoop implements Runnable
         // load assets - sprite now exists
         loadAssets ();
 
+        // Draw some example cards to test
 
-        Geologist = new MonsterCard(200, 200, 100, 100, GeoSprite, false, "Geologist", "description", CardLevel.UNDERGRAD, 140,CardSchools.EEECS, CardSchools.ARTS_HUMANITIES,
+
+        Geologist = new MonsterCard(20, 350, 90, 200, GeoSprite, false, 49, "Geologist", "description", CardLevel.UNDERGRAD, 140,CardSchools.EEECS, CardSchools.ARTS_HUMANITIES,
                 CardSchools.MEDICS, "Hack", 20, attack2ManaRequiredHM, "Error 404", 50, attack2ManaRequiredHM);
-
 
     }
 
@@ -387,6 +388,7 @@ public class GameLoop implements Runnable
             for (int i = 0; i < touchListener.MAX_TOUCH_POINTS; i++)
 
             {
+                // check if the touch was cont...
                 if (touchListener.isTouchContinuous(i))
                 {
 
@@ -395,6 +397,10 @@ public class GameLoop implements Runnable
                 if (movementRect.contains((int) x, (int) y))
 
                     {
+                        System.out.println("Touch detected");
+
+                        Geologist.setPointerID(i);
+
                         Geologist.x = x;
                         Geologist.y = y;
 
@@ -435,9 +441,27 @@ public class GameLoop implements Runnable
 
                 */
 
+                }
+
+                else
+
+                {
+
+                  if (Geologist.pointerID == i)
+
+                  {
+
+                      System.out.println("k");
+
+                      Geologist.x = 30;
+                      Geologist.y = 350;
+
+                  }
+
 
 
                 }
+
 
             }
 
@@ -454,7 +478,7 @@ public class GameLoop implements Runnable
     {
         // Instantiate new rects here
 
-        movementRect = new Rect ((int) (78 * uiScaling), height / 2, (int) (width - 78 * uiScaling), (int) (height - 78 * uiScaling));
+        movementRect = new Rect ( 0, 0, GameLoop.width, GameLoop.height);
         // MSlot1Rect = new Rect etc.
         // MSlot2Rect = new Rect etc.
         // MSlot3Rect = new Rect etc.
@@ -566,14 +590,6 @@ public class GameLoop implements Runnable
         // Hackerman
         attack2ManaRequiredHM = new ManaTypes [] { ManaTypes.EECS_MANA, ManaTypes.GENERIC_MANA };
         attack2ManaRequiredHM = new ManaTypes [] { ManaTypes.EECS_MANA, ManaTypes.EECS_MANA, ManaTypes.EECS_MANA, ManaTypes.EECS_MANA };
-
-
-        // Declare Monsters here
-
-        DataAdmin = new MonsterCard(500, 600, 300, 200, DataAdminSprite, false, "DataAdmin","description", CardLevel.GRAD, 100, CardSchools.EEECS,CardSchools.ARTS_HUMANITIES,
-                CardSchools.MEDICS, "Query", 20, attack1ManaRequiredDA, "Relation", 50, attack1ManaRequiredDA);
-        HackerMan = new MonsterCard(50, 40, 30, 30, HackerManSprite, false, "Hackerman", "description", CardLevel.UNDERGRAD, 140,CardSchools.EEECS, CardSchools.ARTS_HUMANITIES,
-                CardSchools.MEDICS, "Hack", 20, attack2ManaRequiredHM, "Error 404", 50, attack2ManaRequiredHM);
 
         // Declare Mana Cards here
 
