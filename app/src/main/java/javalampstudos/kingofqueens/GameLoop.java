@@ -70,6 +70,10 @@ public class GameLoop implements Runnable
     public GameState gameState;
 
     // PUT TOUCH INPUT RECTS HERE
+
+    // Monster Slots
+
+
     public Rect MSlot1Rect;
     public Rect MSlot2Rect;
     public Rect MSlot3Rect;
@@ -88,6 +92,7 @@ public class GameLoop implements Runnable
     public Bitmap DataAdminSprite;
     public Bitmap HackerManSprite;
     public Bitmap GeoSprite;
+    public Bitmap cardBackSprite;
 
 
     // DataAdmin
@@ -168,6 +173,11 @@ public class GameLoop implements Runnable
     public ManaCard Engineering;
 
     // Declare all the buff/support cards here
+
+
+    // Declare card backs here
+
+    public BasicCard graveYard;
 
     // booleans
     public boolean addToHand;
@@ -250,6 +260,13 @@ public class GameLoop implements Runnable
 
         Geologist = new MonsterCard(20, 350, 90, 200, GeoSprite,GeoSprite, false, 49, "Geologist", "description", CardLevel.UNDERGRAD, 140,0,CardSchools.EEECS, CardSchools.ARTS_HUMANITIES,
                 CardSchools.MEDICS, "Hack", 20, attack2ManaRequiredHM, "Error 404", 50, attack2ManaRequiredHM);
+
+        // Draw the graveyard pile
+        graveYard = new BasicCard(754, 285, 90, 200, cardBackSprite, GeoSprite, "graveYard", "description", CardSchools.MEDICS, false,
+            49);
+
+        // Draw the deck
+
 
     }
 
@@ -541,6 +558,7 @@ public class GameLoop implements Runnable
 
     {
         Geologist.update();
+        graveYard.update();
 
     }
 
@@ -554,6 +572,9 @@ public class GameLoop implements Runnable
         HackerManSprite = AssetLoader.loadBitmap(assetManager, "img/Matthew/HackermanSmall.png");
 
         GeoSprite = AssetLoader.loadBitmap(assetManager, "img/Matthew/SmallGeo.png");
+
+        // load cardback sprite
+        cardBackSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Cardback.png");
 
 
         // load SFX in here

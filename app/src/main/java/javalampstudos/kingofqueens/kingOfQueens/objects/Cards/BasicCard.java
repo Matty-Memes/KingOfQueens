@@ -7,6 +7,7 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
 
 // Android Imports
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 
 
 // so it's linked to update
@@ -14,7 +15,7 @@ public class BasicCard extends GameObject {
 
     private String name,description;
     private CardSchools cardSchool;
-    private Bitmap cardbackSprite;
+    private Bitmap cardBackSprite;
 
 
     // monitors whether or not a card is destroyed
@@ -26,11 +27,11 @@ public class BasicCard extends GameObject {
     // need all the fields from the superclass
 
 
-    public BasicCard(int x, int y, int width, int height, Bitmap Sprite,Bitmap cardbackSprite,
+    public BasicCard(int x, int y, int width, int height, Bitmap Sprite, Bitmap cardBackSprite,
                      String name, String description, CardSchools cardSchool, boolean destroyed,int pointerID)
     {
         super(x, y, width, height, Sprite);
-        this.cardbackSprite=cardbackSprite;
+        this.cardBackSprite = cardBackSprite;
         this.name = name;
         this.description= description;
         this.cardSchool = cardSchool;
@@ -63,6 +64,13 @@ public class BasicCard extends GameObject {
 
     {
       this.pointerID = pID;
+
+    }
+
+    public void draw (Canvas canvas)
+
+    {
+     super.draw(canvas);
 
     }
 

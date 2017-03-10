@@ -68,10 +68,10 @@ public class MainActivity extends Activity {
                */
 
         // load in the correct asset
-        music = AssetLoader.loadMusic(getAssets(), "music/StarShips - Nicki Minaj (Lyrics).mp3");
+        // music = AssetLoader.loadMusic(getAssets(), "music/StarShips - Nicki Minaj (Lyrics).mp3");
 
         // start the music
-        music.start();
+        // music.start();
 
         // need to control what plays in each menu
         // also pause the music

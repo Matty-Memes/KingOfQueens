@@ -192,6 +192,7 @@ public class GameViewFragment extends CanvasFragment {
 
     {
         loop.Geologist.draw(canvas);
+        loop.graveYard.draw(canvas);
 
 
     }
