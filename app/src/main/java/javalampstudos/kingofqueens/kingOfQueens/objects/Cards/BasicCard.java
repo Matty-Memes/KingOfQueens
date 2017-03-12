@@ -70,6 +70,9 @@ public class BasicCard extends GameObject {
     public void draw (Canvas canvas)
 
     {
+
+        
+
      super.draw(canvas);
 
     }

@@ -191,8 +191,25 @@ public class GameViewFragment extends CanvasFragment {
     private void drawCard (Canvas canvas)
 
     {
-        loop.Geologist.draw(canvas);
+      if (loop.Geologist.destroyed == false)
+
+      {
+          loop.Geologist.draw(canvas);
+
+      }
+
+        else
+
+      {
+          System.out.println("Geologist was destroyed");
+
+      }
+
+
+      // Other draws
+
         loop.graveYard.draw(canvas);
+        loop.deck.draw(canvas);
 
 
     }
@@ -205,6 +222,9 @@ public class GameViewFragment extends CanvasFragment {
 
         for (int i = 0;  i < loop.monsterCards.size(); i++)
         {
+
+            // this needs a guard to check if the cards has been destroyed
+
             loop.monsterCards.get(i).draw(canvas);
 
         }

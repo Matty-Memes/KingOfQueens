@@ -73,12 +73,19 @@ public class GameLoop implements Runnable
 
     // Monster Slots
 
-
     public Rect MSlot1Rect;
     public Rect MSlot2Rect;
     public Rect MSlot3Rect;
 
+    // graveyard and deck rects
+    private Rect graveYardRect;
+    private Rect deckRect;
+
+    // the whole screen
     private Rect movementRect;
+
+    // half the screen
+    private Rect halfScreenRect;
 
     // Declare an instance of multi-touch listener
     protected MultitouchListener touchListener;
@@ -178,6 +185,7 @@ public class GameLoop implements Runnable
     // Declare card backs here
 
     public BasicCard graveYard;
+    public BasicCard deck;
 
     // booleans
     public boolean addToHand;
@@ -217,6 +225,13 @@ public class GameLoop implements Runnable
     public ArrayList<ManaCard> manaCards = new ArrayList<ManaCard>();
     public ArrayList<SupportCard> supportCards = new ArrayList<SupportCard>();
 
+    // temporary rect variables
+
+    private int rectLX;
+    private int rectLY;
+    private int rectRX;
+    private int rectRY;
+
 
     // GameLoop Constructor
     public GameLoop (CanvasFragment fragment, int width, int height)
@@ -255,20 +270,52 @@ public class GameLoop implements Runnable
         // load assets - sprite now exists
         loadAssets ();
 
-        // Draw some example cards to test
+        // EXAMPLE CARDS TO TEST
 
+        // 90,120 - standard card width and height
+
+        // Use these for the touch rects as well
+
+
+        // Draw monster cards in each of the 3 slots
+
+        // Slot 1
 
         Geologist = new MonsterCard(20, 350, 90, 200, GeoSprite,GeoSprite, false, 49, "Geologist", "description", CardLevel.UNDERGRAD, 140,0,CardSchools.EEECS, CardSchools.ARTS_HUMANITIES,
                 CardSchools.MEDICS, "Hack", 20, attack2ManaRequiredHM, "Error 404", 50, attack2ManaRequiredHM);
 
+        // Slot 2
+
+        // Slot 3
+
+        // Mana
+
+        // Hand
+
         // Draw the graveyard pile
-        graveYard = new BasicCard(754, 285, 90, 200, cardBackSprite, GeoSprite, "graveYard", "description", CardSchools.MEDICS, false,
+        graveYard = new BasicCard(754, 280, 90, 120, cardBackSprite, GeoSprite, "graveYard", "description", CardSchools.MEDICS, false,
             49);
 
-        // Draw the deck
+
+
+
+        // y co-ordinate is a gap of 50 plus half the card size
+
+        deck = new BasicCard(754, 410, 90, 120, cardBackSprite, GeoSprite, "deck", "description", CardSchools.MEDICS, false,
+                49);
+
+    }
+
+
+    // calculates rects based on the fields of the cards
+    public void calculateRect (int x, int y, int w, int h)
+
+    {
+
 
 
     }
+
 
     public void run ()
 
@@ -405,12 +452,13 @@ public class GameLoop implements Runnable
             for (int i = 0; i < touchListener.MAX_TOUCH_POINTS; i++)
 
             {
-                // check if the touch was cont...
+
                 if (touchListener.isTouchContinuous(i))
                 {
 
                     float x = touchListener.getTouchX(i), y = touchListener.getTouchY(i);
 
+                    
                 if (movementRect.contains((int) x, (int) y))
 
                     {
@@ -421,42 +469,23 @@ public class GameLoop implements Runnable
                         Geologist.x = x;
                         Geologist.y = y;
 
-                       // doThingy();
-
                     }
 
+
+
+                 // the graveyard can destroy cards
+                 if (graveYardRect.contains((int) Geologist.x , (int) Geologist.y))
+
+                    {
+                      System.out.println("Ok");
+                      Geologist.destroyed = true;
+
+                    }
 
                 // set up more rects here for each card
 
                 // These are the slots for each monster card
 
-                /*
-
-                if (MSlot1Rect.contains((int) x, (int) y))
-
-                {
-
-
-
-                }
-
-                if (MSlot2Rect.contains((int) x, (int) y))
-
-                {
-
-
-
-                }
-
-                if (MSlot3Rect.contains((int) x, (int) y))
-
-                {
-
-
-
-                }
-
-                */
 
                 }
 
@@ -482,6 +511,8 @@ public class GameLoop implements Runnable
 
             }
 
+
+
             break; // end NEW case
         }
 
@@ -496,9 +527,22 @@ public class GameLoop implements Runnable
         // Instantiate new rects here
 
         movementRect = new Rect ( 0, 0, GameLoop.width, GameLoop.height);
+
+
         // MSlot1Rect = new Rect etc.
         // MSlot2Rect = new Rect etc.
         // MSlot3Rect = new Rect etc.
+
+        // graveyard and deck rects
+        graveYardRect = new Rect(
+                (int) (754 - (90 / 2)),
+                (int) (280 - (120 / 2)),
+                (int) (754 + (90 / 2)),
+                (int) (280 + (120 / 2)));
+
+        // deckRect = new Rect(754, 410, 90, 120);
+
+        // halfScreenRect = new Rect(0, 0, GameLoop.width / 2, GameLoop.height / 2);
 
         initializeDeck();
 
@@ -554,11 +598,14 @@ public class GameLoop implements Runnable
 
     }
 
+    // This method should be altered.
+
     private void updateCard ()
 
     {
         Geologist.update();
         graveYard.update();
+        deck.update();
 
     }
 
@@ -657,6 +704,8 @@ public class GameLoop implements Runnable
 
 
     }
+
+
 
 
 
