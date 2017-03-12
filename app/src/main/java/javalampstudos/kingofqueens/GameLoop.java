@@ -1,5 +1,6 @@
 package javalampstudos.kingofqueens;
 
+import android.graphics.Matrix;
 import android.util.DisplayMetrics;
 
 /**
@@ -28,6 +29,7 @@ import android.content.res.AssetManager;
 import android.media.SoundPool;
 import android.util.Log;
 import android.content.Context;
+import android.graphics.Canvas;
 
 // Java Imports
 
@@ -68,6 +70,10 @@ public class GameLoop implements Runnable
 
     // Declare a gamestate
     public GameState gameState;
+
+
+    // Variables for flipping images
+    private Matrix matrix = new Matrix();
 
     // PUT TOUCH INPUT RECTS HERE
 
@@ -281,7 +287,7 @@ public class GameLoop implements Runnable
 
         // Slot 1
 
-        Geologist = new MonsterCard(20, 350, 90, 200, GeoSprite,GeoSprite, false, 49, "Geologist", "description", CardLevel.UNDERGRAD, 140,0,CardSchools.EEECS, CardSchools.ARTS_HUMANITIES,
+        Geologist = new MonsterCard(20, 350, 90, 120, GeoSprite,GeoSprite, false, 49, "Geologist", "description", CardLevel.UNDERGRAD, 140,0,CardSchools.EEECS, CardSchools.ARTS_HUMANITIES,
                 CardSchools.MEDICS, "Hack", 20, attack2ManaRequiredHM, "Error 404", 50, attack2ManaRequiredHM);
 
         // Slot 2
@@ -458,7 +464,7 @@ public class GameLoop implements Runnable
 
                     float x = touchListener.getTouchX(i), y = touchListener.getTouchY(i);
 
-                    
+
                 if (movementRect.contains((int) x, (int) y))
 
                     {
@@ -469,9 +475,10 @@ public class GameLoop implements Runnable
                         Geologist.x = x;
                         Geologist.y = y;
 
+
+
+
                     }
-
-
 
                  // the graveyard can destroy cards
                  if (graveYardRect.contains((int) Geologist.x , (int) Geologist.y))

@@ -93,7 +93,6 @@ public class MonsterCard extends BasicCard {
     {
         super.draw(canvas);
 
-
     }
 
 // Brian's + Matts Method

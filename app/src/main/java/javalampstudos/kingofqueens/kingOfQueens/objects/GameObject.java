@@ -6,14 +6,20 @@ package javalampstudos.kingofqueens.kingOfQueens.objects;
 
 // Android Imports
 
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Matrix;
+import android.support.v4.app.Fragment;
 
 // Local Imports
 
 import javalampstudos.kingofqueens.GameLoop;
+
+// Test flipping images
+import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 
 public abstract class GameObject
 
@@ -25,6 +31,12 @@ public abstract class GameObject
     public Bitmap sprite;
     // Drawing information
     public Rect rect;
+
+    // Source rect
+    Rect source;
+    // Destination rect
+    Rect destination;
+
 
 
     public GameObject(float x, float y, int width, int height,
@@ -67,6 +79,8 @@ public abstract class GameObject
 
     }
 
+    // Actual drawing happens here
+
     public void draw (Canvas canvas)
 
     {
@@ -77,7 +91,29 @@ public abstract class GameObject
         }
 
 
+
+        // draw images in their normal orientation
         canvas.drawBitmap(sprite, null, rect, null);
+
+        // need a seperate drawBitmap call for flipping images
+
+        // SmallGeo is 213 x 300
+
+        source = new Rect ();
+        destination = new Rect ();
+
+        source.set(432, 641, 0, 0);
+        // second two must be greater than first two
+
+        // combine this with the current method for drawing
+
+        destination.set(50, 50, 150, 150);
+        // Call to draw
+        canvas.drawBitmap(sprite, source, destination, null);
+
+
+
+
 
     }
 

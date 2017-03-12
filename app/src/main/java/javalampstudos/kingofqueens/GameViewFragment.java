@@ -211,7 +211,6 @@ public class GameViewFragment extends CanvasFragment {
         loop.graveYard.draw(canvas);
         loop.deck.draw(canvas);
 
-
     }
 
     // seperate draw methods for each card type
