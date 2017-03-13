@@ -25,6 +25,7 @@ public class Deck extends GameObject {
     Bitmap sprite)
     {
         super(x, y, width, height, sprite);
+
     }
 
     public BasicCard[] getDeck() {
@@ -33,6 +34,11 @@ public class Deck extends GameObject {
 
     public void setDeck(BasicCard[] deck) {
         this.deck = deck;
+    }
+
+    public int getDeckSize()
+    {
+        return deckSize;
     }
 
     boolean deckSizeCheck(boolean deckMaximum)
@@ -88,5 +94,15 @@ public class Deck extends GameObject {
         }
 
     }
+
+    public BasicCard draw()
+    {
+        BasicCard drawnCard=deck[0];
+        for (int i=0;i<deckSize;i++) {
+            deck[i] = deck[i + 1];
+        }
+        return drawnCard;
+    }
+
 
 }
