@@ -13,6 +13,7 @@ import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 import android.content.res.AssetManager;
 import android.graphics.Canvas;
 import android.graphics.Bitmap;
+import android.graphics.Paint;
 import android.graphics.Rect;
 
 // Java Imports
@@ -43,6 +44,10 @@ public class MainMenuFragment extends MenuFragment
         // Loads in image assets related to the currently selected languge
         AssetManager assetManager = getActivity().getAssets();
 
+        // Sets up paint values
+        paint.setTextAlign(Paint.Align.LEFT);
+        paint.setTextSize(16 * gameScaling);
+
       // Load bitmaps for menu buttons
       startBitmap = AssetLoader.loadBitmap(assetManager, "img/TempButtons/play.png");
       loadBitmap = AssetLoader.loadBitmap(assetManager, "img/TempButtons/continue.png");
@@ -68,6 +73,10 @@ public class MainMenuFragment extends MenuFragment
 
     {
         super.doDraw(canvas);
+
+        // experiment with drawing text
+        canvas.drawText("King of Queens", 200, 100, paint);
+
 
         // draw each bitmap to the screen
         canvas.drawBitmap(startBitmap, null, startRect, null);

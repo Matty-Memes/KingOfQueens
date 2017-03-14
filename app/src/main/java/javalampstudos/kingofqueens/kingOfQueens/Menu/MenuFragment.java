@@ -43,6 +43,9 @@ public abstract class MenuFragment extends CanvasFragment
     protected CanvasRenderer renderer;
     protected MultitouchListener input;
 
+    // only visible to the package
+    protected Paint paint;
+
     // Sprites and bitmaps etc
     protected Bitmap backgroundSprite;
     protected Rect backgroundRect;
@@ -97,12 +100,25 @@ public abstract class MenuFragment extends CanvasFragment
 
 
 
+        // relates to the paint stuff as well
         AssetManager assetManager = getActivity().getAssets();
 
         // Set up the basic background
         backgroundRect = new Rect();
         backgroundSprite = AssetLoader.loadBitmap(assetManager,
                 "img/Nathan/cloudyBackground.png");
+
+        // Experimenting with paint
+
+        paint = new Paint();
+
+        paint.setColor(Color.WHITE);
+        paint.setTypeface(Typeface.createFromAsset(assetManager,
+                "minecraftia.ttf"));
+
+
+
+
 
         /*
 
