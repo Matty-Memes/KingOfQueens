@@ -20,6 +20,8 @@ import javalampstudos.kingofqueens.kingOfQueens.engine.SFX.SoundFX;
 import javalampstudos.kingofqueens.MainActivity;
 import javalampstudos.kingofqueens.GameViewFragment;
 import javalampstudos.kingofqueens.kingOfQueens.util.Random;
+import javalampstudos.kingofqueens.kingOfQueens.util.andyManaCounter;
+import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.boardLayout;
 
 // Android Imports
 
@@ -67,6 +69,8 @@ public class GameLoop implements Runnable
     }
 
     public Context context;
+
+    public boardLayout gameBoard;
 
     // Declare a gamestate
     public GameState gameState;
@@ -268,6 +272,8 @@ public class GameLoop implements Runnable
 
         // set the gamestate to new intially - in the finished version will depend on the presence of a save file
         gameState = GameState.NEW;
+
+        gameBoard = new boardLayout();
 
         // input stuff
         touchListener = new MultitouchListener();
@@ -551,7 +557,7 @@ public class GameLoop implements Runnable
 
         // halfScreenRect = new Rect(0, 0, GameLoop.width / 2, GameLoop.height / 2);
 
-        initializeDeck();
+        gameBoard.initializeRects();
 
     }
 
