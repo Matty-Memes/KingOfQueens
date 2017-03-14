@@ -1,15 +1,14 @@
 package javalampstudos.kingofqueens.kingOfQueens.util;
 
 /**
- * Created by Andrew on 04/03/2017.
+ * Created by Andrew on 14/03/2017.
  */
 
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 
-public class Random
+public class randomGenerator
 
 {
-
     public boolean active = true;
     public boolean innerSearchActive = true;
 
@@ -18,14 +17,39 @@ public class Random
     // randomly index a position in the array
     int randomNumber;
 
+    // Move the arguments here
+    int [] playerHasAppeared;
+    int counter;
+
+    Random rand;
+
+
     // Constructor
-    public Random ()
+    public randomGenerator ()
 
     {
+        // Instantiate
+        playerHasAppeared = new int [40];
+
+
+        // Initialize appeared arrays
+
+        for (int i = 0; i < 40; i++)
+
+        {
+
+            playerHasAppeared[0] = 41;
+
+        }
+
+        rand = new Random();
+
 
     }
 
-    public int generateRandomNumber (int [] appeared, int counter)
+    // should switch the variables being accessed depending on whether it's the player or the AI
+
+    public int generateRandomNumber ()
 
     {
         // choose a card at random from the deck
@@ -35,17 +59,17 @@ public class Random
         while (active == true)
 
         {
-            // may have to generate this in a different way
-            // randomNumber = ThreadLocalRandom.current().nextInt(min, max + 1);
 
-            System.out.println(randomNumber);
+            int randomNumber = rand.nextInt((max - min) + 1) + min;
+
+            System.out.println(randomNumber + "is");
 
             // should probably be global
             int innerCounter = 0;
 
 
             // if a match is found at any stage the loop fails
-            while (randomNumber != appeared[innerCounter] && innerSearchActive == true)
+            while (randomNumber != playerHasAppeared[innerCounter] && innerSearchActive == true)
 
             {
 
@@ -68,12 +92,14 @@ public class Random
 
         // add it to the array seperately - it's not linked so it always goes in the right order
         // this is seperate to the hand array
-        appeared[counter] = randomNumber;
+        playerHasAppeared[counter] = randomNumber;
         counter++;
 
         // keep this
         active = true;
         innerSearchActive = true;
+
+        System.out.println("randomNumber is" + randomNumber);
 
         return randomNumber;
 
@@ -114,5 +140,8 @@ public class Random
     }
 
     */
+
+
+
 
 }

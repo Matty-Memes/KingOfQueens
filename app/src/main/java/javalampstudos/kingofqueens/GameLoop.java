@@ -17,27 +17,21 @@ import javalampstudos.kingofqueens.kingOfQueens.engine.input.MultitouchListener;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.*;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 import javalampstudos.kingofqueens.kingOfQueens.engine.SFX.SoundFX;
-import javalampstudos.kingofqueens.MainActivity;
-import javalampstudos.kingofqueens.GameViewFragment;
-import javalampstudos.kingofqueens.kingOfQueens.util.Random;
-import javalampstudos.kingofqueens.kingOfQueens.util.andyManaCounter;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.boardLayout;
+import javalampstudos.kingofqueens.kingOfQueens.util.randomGenerator;
 
 // Android Imports
 
 import android.graphics.Rect;
 import android.graphics.Bitmap;
 import android.content.res.AssetManager;
-import android.media.SoundPool;
 import android.util.Log;
 import android.content.Context;
-import android.graphics.Canvas;
 
 // Java Imports
 
 import java.io.IOException;
-// import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
+
 import java.util.ArrayList;
 
 public class GameLoop implements Runnable
@@ -123,7 +117,7 @@ public class GameLoop implements Runnable
 
     // Random Logic
 
-    public Random random;
+    public randomGenerator rand;
 
     // player
     public int [] playerHasAppeared = new int [40];
@@ -132,7 +126,6 @@ public class GameLoop implements Runnable
     // opponent
     public int [] opponentHasAppeared = new int [40];
     public int opponenthCounter = 0;
-
 
     // Variables relating to the players hand
 
@@ -223,7 +216,7 @@ public class GameLoop implements Runnable
 
 
     // Random number value for brians method
-    private static Random rand;
+    // private static Random rand;
     // track the position in the discardPile array
     int discardCounter = 0;
 
@@ -315,6 +308,8 @@ public class GameLoop implements Runnable
 
         deck = new BasicCard(754, 410, 90, 120, cardBackSprite, GeoSprite, "deck", "description", CardSchools.MEDICS, false,
                 49);
+
+        rand = new randomGenerator();
 
     }
 
@@ -471,6 +466,8 @@ public class GameLoop implements Runnable
                     float x = touchListener.getTouchX(i), y = touchListener.getTouchY(i);
 
 
+
+
                 if (movementRect.contains((int) x, (int) y))
 
                     {
@@ -498,6 +495,21 @@ public class GameLoop implements Runnable
                 // set up more rects here for each card
 
                 // These are the slots for each monster card
+
+                if (deckRect.contains((int) x, (int) y))
+
+                {
+                  System.out.println("Check");
+
+                  // get an array index at random - make sure you use the updated method
+                  int index = rand.generateRandomNumber();
+
+                  System.out.println(index);
+
+                  // should assign this object to the current object
+
+                  // draw the card to that rect
+                }
 
 
                 }
@@ -553,10 +565,13 @@ public class GameLoop implements Runnable
                 (int) (754 + (90 / 2)),
                 (int) (280 + (120 / 2)));
 
-        // deckRect = new Rect(754, 410, 90, 120);
+        deckRect = new Rect(
+                (int) (754 - (90 / 2)),
+                (int) (410 - (120 / 2)),
+                (int) (754 + (90 / 2)),
+                (int) (410 + (120 / 2)));
 
-        // halfScreenRect = new Rect(0, 0, GameLoop.width / 2, GameLoop.height / 2);
-
+        // move all rect initialization here
         gameBoard.initializeRects();
 
     }
@@ -674,6 +689,9 @@ public class GameLoop implements Runnable
 
         // Declare Mana Cards here
 
+
+        /*
+
         for (int i = 0; i < 40; i++)
 
         {
@@ -692,6 +710,8 @@ public class GameLoop implements Runnable
 
         // keep for troubleshooting
         deckInitialized = true;
+
+    */
 
     }
 
@@ -723,6 +743,8 @@ public class GameLoop implements Runnable
 
 
     // keep this for testing
+
+    /*
 
     private void populateHand ()
 
@@ -763,6 +785,9 @@ public class GameLoop implements Runnable
         }
 
     }
+
+
+    */
 
     // THIS IS PSEUDOCODE WHICH NEEDS TO BE IMPLEMNENTED
 
