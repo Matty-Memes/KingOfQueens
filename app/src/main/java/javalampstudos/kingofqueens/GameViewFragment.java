@@ -21,6 +21,8 @@ import android.view.WindowManager;
 
 // Local imports
 
+import javalampstudos.kingofqueens.kingOfQueens.Menu.MainMenuFragment;
+import javalampstudos.kingofqueens.kingOfQueens.Menu.PauseFragment;
 import javalampstudos.kingofqueens.kingOfQueens.engine.SFX.SoundFX;
 import javalampstudos.kingofqueens.kingOfQueens.engine.graphics.CanvasFragment;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
@@ -127,6 +129,7 @@ public class GameViewFragment extends CanvasFragment {
         mImage2 = AssetLoader.loadBitmap(assetManager, "img/Nathan/cloudyBackground.png");
         // mImage3 = AssetLoader.loadBitmap(assetManager, "img/Nathan/KofQ.png");
 
+
         // deal with just the background
         // instantiate a rectangle that relates to the background
         cloudyBackgroundBound = new Rect(0, 0, width, height);
@@ -168,6 +171,7 @@ public class GameViewFragment extends CanvasFragment {
         // drawManaCards(canvas);
 
         // drawSupportCards(canvas);
+
 
     }
 

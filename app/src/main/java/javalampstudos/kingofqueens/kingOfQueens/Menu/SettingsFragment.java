@@ -89,13 +89,18 @@ public class SettingsFragment extends MenuFragment
         for (int i = 0; i < input.MAX_TOUCH_POINTS; i++) {
             if (input.isTouchDown(i)) {
                 int x = (int) input.getTouchX(i), y = (int) input.getTouchY(i);
+
+                if(backRect.contains(x, y)) {
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.container, new MainMenuFragment(), "main_menu_fragment").commit();
+                }
+
+
+
             }
         }
 
-        /*if(backRect.contains(x, y)) {
-            getFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.container, new MainMenuFragment(), "main_menu_fragment").commit();
-        }*/
+
     }
 }

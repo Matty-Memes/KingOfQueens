@@ -9,8 +9,6 @@ package javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard;
 import android.graphics.Rect;
 
 
-
-
 public class boardLayout
 
 {

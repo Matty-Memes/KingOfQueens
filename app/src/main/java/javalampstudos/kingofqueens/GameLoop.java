@@ -1,5 +1,6 @@
 package javalampstudos.kingofqueens;
 
+import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.util.DisplayMetrics;
 
@@ -9,6 +10,7 @@ import android.util.DisplayMetrics;
 
 // Local Imports
 
+import javalampstudos.kingofqueens.kingOfQueens.Menu.PauseFragment;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardSchools;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaCard;
 import javalampstudos.kingofqueens.kingOfQueens.engine.graphics.CanvasRenderer;
@@ -19,6 +21,8 @@ import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 import javalampstudos.kingofqueens.kingOfQueens.engine.SFX.SoundFX;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.boardLayout;
 import javalampstudos.kingofqueens.kingOfQueens.util.randomGenerator;
+
+
 
 // Android Imports
 
@@ -87,6 +91,10 @@ public class GameLoop implements Runnable
 
     // the whole screen
     private Rect movementRect;
+
+    //pause rect and bitmap
+    private Rect pauseRect;
+    private Bitmap pauseBitmap;
 
     // half the screen
     private Rect halfScreenRect;
@@ -512,6 +520,16 @@ public class GameLoop implements Runnable
                 }
 
 
+
+                    /* Touch input for each menu rect
+
+                         /*   if(pauseRect.contains(x, y)) {
+                                getFragmentManager()
+                                        .beginTransaction()
+                                        .replace(R.id.container, new PauseFragment(), "game_fragment").commit();
+                            }*/
+
+
                 }
 
                 else
@@ -549,9 +567,14 @@ public class GameLoop implements Runnable
     private void gameSetup ()
 
     {
+        AssetManager assetManager = fragment.getActivity().getAssets();
+
         // Instantiate new rects here
 
         movementRect = new Rect ( 0, 0, GameLoop.width, GameLoop.height);
+
+        //Pause Bitmap
+        pauseBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/Pause.png");
 
 
         // MSlot1Rect = new Rect etc.
@@ -574,7 +597,13 @@ public class GameLoop implements Runnable
         // move all rect initialization here
         gameBoard.initializeRects();
 
+        // Set up values for each menu rect
+        pauseRect = new Rect((int) (85),
+                (int) (410),
+                (int) (285),
+                (int) (510));
     }
+
 
     private void doThingy ()
 
