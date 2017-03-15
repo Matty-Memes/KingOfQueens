@@ -23,9 +23,9 @@ public class MainMenuFragment extends MenuFragment
 
 {
     // Main Menu Bitmaps
-    private Bitmap startBitmap, loadBitmap, settingsBitmap, quitBitmap;
+    private Bitmap newBitmap, continueBitmap, settingsBitmap, quitBitmap;
     // Main Menu Rects
-    private Rect startRect, loadRect, settingsRect, quitRect;
+    private Rect newRect, continueRect, settingsRect, quitRect;
 
 
     public MainMenuFragment ()
@@ -44,28 +44,33 @@ public class MainMenuFragment extends MenuFragment
         // Loads in image assets related to the currently selected languge
         AssetManager assetManager = getActivity().getAssets();
 
-        // Sets up paint values
+       /* // Sets up paint values
         paint.setTextAlign(Paint.Align.LEFT);
         paint.setTextSize(16 * gameScaling);
-
+*/
       // Load bitmaps for menu buttons
-      startBitmap = AssetLoader.loadBitmap(assetManager, "img/TempButtons/play.png");
-      loadBitmap = AssetLoader.loadBitmap(assetManager, "img/TempButtons/continue.png");
-      settingsBitmap = AssetLoader.loadBitmap(assetManager, "img/TempButtons/settings.png");
+      newBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/new.png");
+      continueBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/continue.png");
+      settingsBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/settingsicon.png");
+        quitBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/quit.png");
 
       // Set up values for each menu rect
-        startRect = new Rect((int) (width - 256 * uiScaling - 8 * gameScaling),
+        newRect = new Rect((int) (width - 256 * uiScaling - 8 * gameScaling),
                 (int) (height / 2 - 56 * uiScaling),
                 (int) (width - 8 * gameScaling),
                 (int) (height / 2 - 8 * uiScaling));
-        loadRect = new Rect((int) (width - 256 * uiScaling - 8 * gameScaling),
-                (int) (height / 2), (int) (width - 8 * gameScaling),
-                (int) (height / 2 + 48 * uiScaling));
-        settingsRect = new Rect(
-                (int) (width - 256 * uiScaling - 8 * gameScaling),
-                (int) (height / 2 + 56 * uiScaling),
+        continueRect = new Rect((int) (width - 256 * uiScaling - 8 * gameScaling),
+                (int) (height / 2),
                 (int) (width - 8 * gameScaling),
-                (int) (height / 2 + 104 * uiScaling));
+                (int) (height / 2 + 48 * uiScaling));
+        settingsRect = new Rect( (int) (width - 96 * uiScaling - 3 * gameScaling),
+            (int) (height / 2 + 56 * uiScaling),
+            (int) (width - 8 * gameScaling),
+            (int) (height / 2 + 98 * uiScaling));
+        quitRect = new Rect((int) (width - 256 * uiScaling - 8 * gameScaling),
+                (int) (height / 2 + 104 * uiScaling),
+                (int) (width - 8 * gameScaling),
+                (int) (height / 2 + 148 * uiScaling));
        // Add more rects as required
     }
 
@@ -75,14 +80,14 @@ public class MainMenuFragment extends MenuFragment
         super.doDraw(canvas);
 
         // experiment with drawing text
-        canvas.drawText("King of Queens", 200, 100, paint);
+        /*canvas.drawText("King of Queens", 200, 100, paint);*/
 
 
         // draw each bitmap to the screen
-        canvas.drawBitmap(startBitmap, null, startRect, null);
-        canvas.drawBitmap(loadBitmap, null, loadRect, null);
+        canvas.drawBitmap(newBitmap, null, newRect, null);
+        canvas.drawBitmap(continueBitmap, null, continueRect, null);
         canvas.drawBitmap(settingsBitmap, null, settingsRect, null);
-        // canvas.drawBitmap(quitBitmap, null, quitRect, null);
+        canvas.drawBitmap(quitBitmap, null, quitRect, null);
 
         // Touch input for each menu rect
 
@@ -91,7 +96,7 @@ public class MainMenuFragment extends MenuFragment
                 int x = (int) input.getTouchX(i), y = (int) input.getTouchY(i);
 
                 //
-                if(startRect.contains(x, y)) {
+                if(newRect.contains(x, y)) {
                     getFragmentManager()
                             .beginTransaction()
                             .replace(R.id.container, new GameViewFragment(), "game_fragment").commit();
@@ -100,23 +105,23 @@ public class MainMenuFragment extends MenuFragment
 
 
 
-                if(loadRect.contains(x, y)) {
+
+              /*  if(continueRect.contains(x, y)) {
                     getFragmentManager()
                             .beginTransaction()
                             .replace(R.id.container, new SettingsFragment(),
                                     "settings_fragment").commit();
-                }
+                }*/
 
-                /*
 
-                // The Settings Button loads the SettingsFragment
+
                 if(settingsRect.contains(x, y)) {
                     getFragmentManager()
                             .beginTransaction()
                             .replace(R.id.container, new SettingsFragment(),
                                     "settings_fragment").commit();
                 }
-                // The How To Play Button loads the HowToPlayFragment
+               /* // The How To Play Button loads the HowToPlayFragment
                 if(quitRect.contains(x, y)) {
                     getFragmentManager()
                             .beginTransaction()
