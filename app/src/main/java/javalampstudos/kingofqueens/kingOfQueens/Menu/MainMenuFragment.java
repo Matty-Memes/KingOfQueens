@@ -51,26 +51,23 @@ public class MainMenuFragment extends MenuFragment
       // Load bitmaps for menu buttons
       newBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/new.png");
       continueBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/continue.png");
-      settingsBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/settingsicon.png");
+      settingsBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/Settings.png");
         quitBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/quit.png");
 
       // Set up values for each menu rect
-        newRect = new Rect((int) (width - 256 * uiScaling - 8 * gameScaling),
-                (int) (height / 2 - 56 * uiScaling),
-                (int) (width - 8 * gameScaling),
-                (int) (height / 2 - 8 * uiScaling));
-        continueRect = new Rect((int) (width - 256 * uiScaling - 8 * gameScaling),
-                (int) (height / 2),
-                (int) (width - 8 * gameScaling),
-                (int) (height / 2 + 48 * uiScaling));
-        settingsRect = new Rect( (int) (width - 96 * uiScaling - 3 * gameScaling),
-            (int) (height / 2 + 56 * uiScaling),
-            (int) (width - 8 * gameScaling),
-            (int) (height / 2 + 98 * uiScaling));
-        quitRect = new Rect((int) (width - 256 * uiScaling - 8 * gameScaling),
-                (int) (height / 2 + 104 * uiScaling),
-                (int) (width - 8 * gameScaling),
-                (int) (height / 2 + 148 * uiScaling));
+        newRect = new Rect((int) (85),
+                (int) (410),
+                (int) (285),
+                (int) (510));
+        continueRect = new Rect((int) (300),
+                (int) (410),
+                (int) (500),
+                (int) (510));
+        settingsRect = new Rect ( 515, 410, 715, 510 );
+        quitRect = new Rect((int) (730),
+                (int) (410),
+                (int) (930),
+                (int) (510));
        // Add more rects as required
     }
 

@@ -68,8 +68,8 @@ public abstract class MenuFragment extends CanvasFragment
         width = point.x;
         height = point.y;
 
-        System.out.println(width);
-        System.out.println(height);
+        System.out.println("The with is " + width);
+        System.out.println("The height is " + height);
 
         gameScaling = width / 256.0f;
 
