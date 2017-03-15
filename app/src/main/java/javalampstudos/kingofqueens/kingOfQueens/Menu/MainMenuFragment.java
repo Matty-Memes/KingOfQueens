@@ -106,12 +106,12 @@ public class MainMenuFragment extends MenuFragment
 
 
 
-              /*  if(continueRect.contains(x, y)) {
+                if(continueRect.contains(x, y)) {
                     getFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.container, new SettingsFragment(),
-                                    "settings_fragment").commit();
-                }*/
+                            .replace(R.id.container, new PauseFragment(),
+                                    "pause_fragment").commit();
+                }
 
 
 
