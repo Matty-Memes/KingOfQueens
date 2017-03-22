@@ -7,16 +7,25 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.MonsterCard;
  */
 
 public class graveYard {
-    public static final int maxGaraveYardSize = 5;
-    private static int graveCounter;
-
+    public  final int maxGraveYardSize = 5;
+    private int graveCounter;
+private MonsterCard graveYard [] = new MonsterCard[maxGraveYardSize];
     public graveYard( )
     { // NOTE not to sure about the intialising of the array to contain graveyard - in here or where it is ?
+
         setGraveCounter(0);
     }
 
     public int getGraveCounter() {
         return graveCounter;
+    }
+
+    public MonsterCard[] getGraveYard() {
+        return graveYard;
+    }
+
+    public void setGraveYard(MonsterCard[] graveYard) {
+        graveYard = graveYard;
     }
 
     public void setGraveCounter(int graveCounter) {
@@ -28,13 +37,14 @@ public class graveYard {
     // this method allows for the card to be removed from the deck and placed here, where it will be tallied in order to find the score
     // if the grave counter exceeds the maximum number of cards then the match should end.
     //40111707
-    public static void addToGraveYard(MonsterCard deadCard)
+    public void addToGraveYard(MonsterCard deadCard)
     {
-        if( graveCounter < maxGaraveYardSize )
+        if( graveCounter < maxGraveYardSize )
         {
-
-            //  this may have to be done via cloneing from the deck array
+            // set the destroyed value to true, this removes it from the hand and deck.
             deadCard.destroyed = true;
+            // puting it into the graveyard allows for faster searching of dead cards.
+            graveYard[graveCounter] = deadCard;
             graveCounter ++;
         }
         else
@@ -44,7 +54,6 @@ public class graveYard {
         }
     }
 
-
 // this method allows for the dead card the the player choose to be revived by setting the destroyed variable to false.
     //40111707
     public void removeFromGraveYard(MonsterCard reviveCardChoice)
@@ -53,6 +62,15 @@ public class graveYard {
         {
             // changing the destroyed vairable back to false will allow the player to reuse the card once again
             reviveCardChoice.destroyed = false;
+
+            for(int i=0; i < graveYard.length; i++)
+            {
+                if(graveYard[i].getName().equals(reviveCardChoice.getName()))
+                {
+                    // when the card is found it needs to be removed from the array.
+                    graveYard[i] = null;
+                }
+            }
         }
 
     }

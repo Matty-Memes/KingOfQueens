@@ -59,7 +59,7 @@ public class MonsterCard extends BasicCard {
 
     }
 
-    // ADD GETTERS AND SETTERS
+    // ADD GETTERS AND SETTERS // Brian :: Matt will you keep all these getters and setters i need to accsess them.
 
     public CardLevel getLevel() {
         return level;
@@ -77,12 +77,76 @@ public class MonsterCard extends BasicCard {
         this.health = health;
     }
 
+    public int getDefence() {
+        return defence;
+    }
+
+    public void setDefence(int defence) {
+        this.defence = defence;
+    }
+
+    public CardSchools getStrength() {
+        return strength;
+    }
+
+    public void setStrength(CardSchools strength) {
+        this.strength = strength;
+    }
+
     public CardSchools getWeakness() {
         return weakness;
     }
 
-    public void setDefence(CardSchools weakness) {
+    public void setWeakness(CardSchools weakness) {
         this.weakness = weakness;
+    }
+
+    public String getAttack1Name() {
+        return attack1Name;
+    }
+
+    public void setAttack1Name(String attack1Name) {
+        this.attack1Name = attack1Name;
+    }
+
+    public int getAttack1Strength() {
+        return attack1Strength;
+    }
+
+    public void setAttack1Strength(int attack1Strength) {
+        this.attack1Strength = attack1Strength;
+    }
+
+    public ManaTypes[] getAttack1ManaRequired() {
+        return attack1ManaRequired;
+    }
+
+    public void setAttack1ManaRequired(ManaTypes[] attack1ManaRequired) {
+        this.attack1ManaRequired = attack1ManaRequired;
+    }
+
+    public String getAttack2Name() {
+        return attack2Name;
+    }
+
+    public void setAttack2Name(String attack2Name) {
+        this.attack2Name = attack2Name;
+    }
+
+    public int getAttack2Strength() {
+        return attack2Strength;
+    }
+
+    public void setAttack2Strength(int attack2Strength) {
+        this.attack2Strength = attack2Strength;
+    }
+
+    public ManaTypes[] getAttack2ManaRequired() {
+        return attack2ManaRequired;
+    }
+
+    public void setAttack2ManaRequired(ManaTypes[] attack2ManaRequired) {
+        this.attack2ManaRequired = attack2ManaRequired;
     }
 
 
