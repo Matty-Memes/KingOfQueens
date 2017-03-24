@@ -159,6 +159,9 @@ public class MonsterCard extends BasicCard {
 
     }
 
+
+    /*
+
 // Brian's + Matts Method
     public void attack(MonsterCard attackingCard, MonsterCard defendingCard)
     {
@@ -177,6 +180,8 @@ public class MonsterCard extends BasicCard {
 
     }
 
+
+
     // this method just checks if the defending card of the above method has died, then adds it to the graveyard
     //40111707
     //brian
@@ -189,6 +194,8 @@ public class MonsterCard extends BasicCard {
         }
 
     }
+
+    */
 
 
     // gets both cards school types and then goes through the if statements in order to find if the combination fits

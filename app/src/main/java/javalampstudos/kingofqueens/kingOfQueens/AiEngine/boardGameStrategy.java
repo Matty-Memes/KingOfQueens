@@ -12,7 +12,7 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.PlaySpace;
 public class boardGameStrategy {
 
 
-    PlaySpace AiPlayer = new PlaySpace(); // still neeeds to be populated
+    // PlaySpace AiPlayer = new PlaySpace(); // still neeeds to be populated
 
 
 
@@ -70,6 +70,9 @@ public class boardGameStrategy {
 
 // 40111707 brians method
     // this method will find the highest attack card that can be played.
+
+    /*
+
     public void searchHandForCardWithHighestAttack(BasicCard[] hand, MonsterCard enemeyCard)
     {
         int bestCardIndex=0;
@@ -119,7 +122,7 @@ public class boardGameStrategy {
 
 
 
+  */
 
 
-    //
 }

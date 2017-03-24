@@ -60,7 +60,7 @@ public class randomGenerator
 
         {
 
-            int randomNumber = rand.nextInt((max - min) + 1) + min;
+            randomNumber = rand.nextInt((max - min) + 1) + min;
 
             System.out.println(randomNumber + "is");
 

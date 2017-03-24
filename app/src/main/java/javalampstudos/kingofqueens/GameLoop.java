@@ -104,6 +104,8 @@ public class GameLoop implements Runnable
 
     // CARD GAME LOGIC
 
+    public BasicCard [] hand;
+
     public boolean playerTurn;
 
     // Declare all Sprites here - always include "Sprite" after the name of the image
@@ -126,6 +128,8 @@ public class GameLoop implements Runnable
     // Random Logic
 
     public randomGenerator rand;
+    public int randomIndex;
+
 
     // player
     public int [] playerHasAppeared = new int [40];
@@ -318,6 +322,8 @@ public class GameLoop implements Runnable
                 49);
 
         rand = new randomGenerator();
+
+        hand = new BasicCard [5];
 
     }
 
@@ -744,6 +750,15 @@ public class GameLoop implements Runnable
 
     }
 
+    private void populateHand ()
+
+    {
+
+
+
+
+    }
+
     // keep for testing
 
     private void clearHand ()
@@ -763,6 +778,17 @@ public class GameLoop implements Runnable
     {
       // if the touch area is touched once
       // change the colour and "prepare" the first attack
+
+
+    }
+
+
+    //
+
+    private void drawFromDeck ()
+
+    {
+      randomIndex = rand.generateRandomNumber();
 
 
     }
