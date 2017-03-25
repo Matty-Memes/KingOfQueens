@@ -76,6 +76,14 @@ public class GameLoop implements Runnable
     private Matrix matrix = new Matrix();
 
     // PUT TOUCH INPUT RECTS HERE
+    // This could be moved to it's own class
+
+    // Hand Slots - Must instantiate these
+    public Rect handRect1;
+    public Rect handRect2;
+    public Rect handRect3;
+    public Rect handRect4;
+    public Rect handRect5;
 
     // Monster Slots
 
@@ -99,6 +107,9 @@ public class GameLoop implements Runnable
 
     // Declare an instance of multi-touch listener
     protected MultitouchListener touchListener;
+
+    // END TOUCH INPUT LOGIC
+
 
     // CARD GAME LOGIC
 
@@ -129,15 +140,6 @@ public class GameLoop implements Runnable
 
     public randomGenerator rand;
     public int randomIndex;
-
-
-    // player
-    public int [] playerHasAppeared = new int [40];
-    public int playerhCounter = 0;
-
-    // opponent
-    public int [] opponentHasAppeared = new int [40];
-    public int opponenthCounter = 0;
 
     // Variables relating to the players hand
 
@@ -177,6 +179,9 @@ public class GameLoop implements Runnable
     public BasicCard currentCard;
     public int touchCounter = 0;
 
+    // Attack Logic Variables
+    public MonsterCard attacker;
+
     // The game needs to be able to access every possible card
     public BasicCard [] cardList = new BasicCard [40];
 
@@ -210,7 +215,7 @@ public class GameLoop implements Runnable
 
     // booleans for each state - keep things ordered (probably delete this)
     public boolean draw = true;
-    public boolean mana = true;
+    public boolean placement = true;
     public boolean strat = true;
     public boolean attack = true;
 
@@ -239,14 +244,6 @@ public class GameLoop implements Runnable
     public ArrayList<BasicCard> monsterCards = new ArrayList<BasicCard>();
     public ArrayList<ManaCard> manaCards = new ArrayList<ManaCard>();
     public ArrayList<SupportCard> supportCards = new ArrayList<SupportCard>();
-
-    // temporary rect variables
-
-    private int rectLX;
-    private int rectLY;
-    private int rectRX;
-    private int rectRY;
-
 
     // GameLoop Constructor
     public GameLoop (CanvasFragment fragment, int width, int height)
@@ -489,12 +486,11 @@ public class GameLoop implements Runnable
                     {
                         System.out.println("Touch detected");
 
+                        // This is needed for all methods
                         Geologist.setPointerID(i);
 
                         Geologist.x = x;
                         Geologist.y = y;
-
-
 
 
                     }
@@ -508,37 +504,112 @@ public class GameLoop implements Runnable
 
                     }
 
-                // set up more rects here for each card
+                /*
 
-                // These are the slots for each monster card
+                // Monster Card Placement Logic
 
-                if (deckRect.contains((int) x, (int) y))
+                if (handRect1.contains((int) x, (int) y))
 
                 {
-                  System.out.println("Check");
-
-                  // get an array index at random - make sure you use the updated method
-                  int index = rand.generateRandomNumber();
-
-                  System.out.println(index);
-
-                  // should assign this object to the current object
-
-                  // draw the card to that rect
-                }
-
-
-
-                    /* Touch input for each menu rect
-
-                         /*   if(pauseRect.contains(x, y)) {
-                                getFragmentManager()
-                                        .beginTransaction()
-                                        .replace(R.id.container, new PauseFragment(), "game_fragment").commit();
-                            }*/
-
+                  // make the current object the one currently at hand position 1
+                  currentCard = hand[0];
+                  // Now the user can drag the card
+                  currentCard.x = x;
+                  currentCard.y = y;
 
                 }
+
+                    if (handRect2.contains((int) x, (int) y))
+
+                    {
+                        // make the current object the one currently at hand position 1
+                        currentCard = hand[1];
+                        // Now the user can drag the card
+                        currentCard.x = x;
+                        currentCard.y = y;
+
+                    }
+
+                    if (handRect3.contains((int) x, (int) y))
+
+                    {
+                        // make the current object the one currently at hand position 1
+                        currentCard = hand[2];
+                        // Now the user can drag the card
+                        currentCard.x = x;
+                        currentCard.y = y;
+
+
+                    }
+
+                    if (handRect4.contains((int) x, (int) y))
+
+                    {
+                        // make the current object the one currently at hand position 1
+                        currentCard = hand[3];
+                        // Now the user can drag the card
+                        currentCard.x = x;
+                        currentCard.y = y;
+
+
+                    }
+
+                    if (handRect5.contains((int) x, (int) y))
+
+                    {
+                        // make the current object the one currently at hand position 1
+                        currentCard = hand[4];
+                        // Now the user can drag the card
+                        currentCard.x = x;
+                        currentCard.y = y;
+
+
+                    }
+
+                    // Deal with monster card placement
+
+                    if (MSlot1Rect.contains((int) currentCard.x , (int) currentCard.y) && placement == true)
+
+                    {
+                       // the current card knows snaps to the position of the rect
+                       currentCard.x = 40;
+                       currentCard.y = 32;
+                       // add the card to an array containg the mosnters on the field
+
+
+                    }
+
+                    if (MSlot2Rect.contains((int) currentCard.x , (int) currentCard.y) && placement == true)
+
+                    {
+                        // the current card knows snaps to the position of the rect
+                        currentCard.x = 40;
+                        currentCard.y = 32;
+
+                    }
+
+                    if (MSlot3Rect.contains((int) currentCard.x , (int) currentCard.y) && placement == true)
+
+                    {
+                        // the current card knows snaps to the position of the rect
+                        currentCard.x = 40;
+                        currentCard.y = 32;
+
+                    }
+
+                    // For the attack phase the monster slot becomes the point from which to drag
+
+
+
+
+
+                 */
+
+
+
+                }
+
+                // Snapping goes here
 
                 else
 
@@ -561,6 +632,8 @@ public class GameLoop implements Runnable
 
 
             }
+
+             // end for loop
 
 
 
