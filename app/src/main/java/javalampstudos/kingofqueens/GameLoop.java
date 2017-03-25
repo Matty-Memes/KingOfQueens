@@ -22,8 +22,6 @@ import javalampstudos.kingofqueens.kingOfQueens.engine.SFX.SoundFX;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.boardLayout;
 import javalampstudos.kingofqueens.kingOfQueens.util.randomGenerator;
 
-
-
 // Android Imports
 
 import android.graphics.Rect;
@@ -105,6 +103,8 @@ public class GameLoop implements Runnable
     // CARD GAME LOGIC
 
     public BasicCard [] hand;
+    public int handPos;
+
 
     public boolean playerTurn;
 
@@ -269,7 +269,6 @@ public class GameLoop implements Runnable
         System.out.println("GameScaling is " + gameScaling);
 
         // Getting UI scaling from display metrics
-        // Getting UI scaling from display metrics
         DisplayMetrics metrics = new DisplayMetrics();
         fragment.getActivity().getWindowManager().getDefaultDisplay()
                 .getMetrics(metrics);
@@ -323,7 +322,10 @@ public class GameLoop implements Runnable
 
         rand = new randomGenerator();
 
+        // Initialize hand stuff
         hand = new BasicCard [5];
+        handPos = 0;
+
 
     }
 
@@ -750,11 +752,34 @@ public class GameLoop implements Runnable
 
     }
 
+
+
     private void populateHand ()
 
     {
 
+      // this fills the hand array
+      for (int i = 0; i < 5; i++)
 
+      {
+          drawFromDeck();
+
+      }
+
+    }
+
+    private void populateHandAnimation ()
+
+    {
+      for (int i = 0; i < 5; i++)
+
+      {
+        //  hand[i].x++;
+        //  hand[i].y++;
+
+        // need to setup bounds which prevent movement after a certain position
+
+      }
 
 
     }
@@ -783,12 +808,18 @@ public class GameLoop implements Runnable
     }
 
 
-    //
+    // get a random index
+    // pull a card out of the source deck at random
+    // put in the hand
+
+    // modify so the player and opponent can share this
 
     private void drawFromDeck ()
 
     {
       randomIndex = rand.generateRandomNumber();
+      hand [handPos] = cardList[randomIndex];
+      handPos++;
 
 
     }

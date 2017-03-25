@@ -44,7 +44,6 @@ public class randomGenerator
 
         rand = new Random();
 
-
     }
 
     // should switch the variables being accessed depending on whether it's the player or the AI
