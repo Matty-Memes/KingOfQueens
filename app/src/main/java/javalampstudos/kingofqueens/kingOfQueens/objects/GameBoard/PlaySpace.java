@@ -161,7 +161,7 @@ public class PlaySpace extends GameObject {
         {
             //set the current position of card to the current card
             card = deck.draw();
-            hand.getHand()[currentCard] = card; // NOTE:  THIS SYNTAX MAY BE WEIRD =  LOOk INTO THIS LATER
+            hand.AddToHandArray(card,currentCard); // method to add the card to the array.
             currentCard++;
             deckSize--;
         }

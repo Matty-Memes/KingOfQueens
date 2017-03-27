@@ -119,10 +119,10 @@ public class MonsterCard extends BasicCard {
 
         if(compareCardAttackBonus(attackingCard.getCardSchool(),defendingCard.getCardSchool()) == true) {
             defendingCard.health -= (attackingCard.attackValue *attackBonus);
-          //  determineDeathOfMonster(defendingCard);
+
         }else {
             defendingCard.health -= attackingCard.attackValue;
-          //  determineDeathOfMonster(defendingCard);
+
         }
 
 

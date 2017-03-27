@@ -45,9 +45,16 @@ public class Hand extends GameObject {
         return MAXHANDSIZE;
     }
 
-
+// 40111707
+    // brians method to accsess elements within the hand array.
     public BasicCard ReturnCard (int index){
 
-        return hand[index];
+        return this.hand[index];
+    }
+// 40111707
+// brians method
+    public void AddToHandArray(BasicCard card, int index)
+    {
+        this.hand[index] = card;
     }
 }
