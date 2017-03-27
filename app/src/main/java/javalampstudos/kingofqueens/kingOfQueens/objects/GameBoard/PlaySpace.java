@@ -6,6 +6,7 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BasicCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.MonsterCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.graveYard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
+import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Hand;
 
 /**
  * Created by Matt on 06/02/2017.
@@ -13,7 +14,7 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
 
 public class PlaySpace extends GameObject {
     private Deck deck;
-    private Hand hand;
+    private Hand hand = new Hand();
     private final int maxLifeValue = 6;
     private int life;
     private graveYard GraveYard;
@@ -160,7 +161,7 @@ public class PlaySpace extends GameObject {
         {
             //set the current position of card to the current card
             card = deck.draw();
-            hand[currentCard] = card;
+            hand.getHand()[currentCard] = card; // NOTE:  THIS SYNTAX MAY BE WEIRD =  LOOk INTO THIS LATER
             currentCard++;
             deckSize--;
         }

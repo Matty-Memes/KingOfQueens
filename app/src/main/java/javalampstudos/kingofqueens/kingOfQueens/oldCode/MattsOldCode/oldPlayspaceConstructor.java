@@ -22,6 +22,6 @@ public class oldPlayspaceConstructor {
         this.deck=deck;
         this.life=life;
         this.GraveYard= GraveYard;
-        this*/.manaCounter=manaCounter;
-    }
+        this.manaCounter=manaCounter;
+    }*/
 }

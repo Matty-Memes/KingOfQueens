@@ -18,7 +18,7 @@ public class Hand extends GameObject {
 // augmented by brian on 27/03/2017
     public Hand(float x, float y, int width, int height, Bitmap sprite, BasicCard[] hand, int currentHandSize) {
         super(x, y, width, height, sprite);
-        hand = new BasicCard[getMAXHANDSIZE()];
+        this.hand = new BasicCard[getMAXHANDSIZE()];
         this.currentHandSize = currentHandSize;
     }
 
