@@ -14,7 +14,7 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Hand;
 
 public class PlaySpace extends GameObject {
     private Deck deck;
-    private Hand hand = new Hand();
+    private Hand hand;
     private final int maxLifeValue = 6;
     private int life;
     private graveYard GraveYard;

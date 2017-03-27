@@ -44,4 +44,10 @@ public class Hand extends GameObject {
     public int getMAXHANDSIZE() {
         return MAXHANDSIZE;
     }
+
+
+    public BasicCard ReturnCard (int index){
+
+        return hand[index];
+    }
 }

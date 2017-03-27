@@ -2,6 +2,7 @@ package javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard;
 
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import javalampstudos.kingofqueens.kingOfQueens.AiEngine.boardGameStrategy;
 
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
 

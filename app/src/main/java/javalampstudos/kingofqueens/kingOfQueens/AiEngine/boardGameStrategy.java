@@ -8,6 +8,7 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BasicCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.MonsterCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.ManaCounter;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.PlaySpace;
+import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Hand;
 
 public class boardGameStrategy {
 
@@ -57,9 +58,9 @@ public class boardGameStrategy {
 // 40111707 brians method
     // this method will find the highest attack card that can be played.
 
-    /*
 
-    public void searchHandForCardWithHighestAttack(BasicCard[] hand, MonsterCard enemeyCard)
+
+    public void searchHandForCardWithHighestAttack(Hand hand, MonsterCard enemeyCard)
     {
         int bestCardIndex=0;
         // for loop begins at one so that first card can be compared to
@@ -69,7 +70,7 @@ public class boardGameStrategy {
             //1. the card is higher attack than enemeys defence
             // 2.the card is also higher than the best card so far
             // 3.the cards mana also allows it to be played.
-            if (hand[i].getAttack1Strength() > enemeyCard.getDefence()
+            if (hand.ReturnCard(i).getAttackValue() > enemeyCard.getDefence()
                     && hand[i].getAttack1Strength() > hand[bestCardIndex].getAttack1Strength()
                     && hand[i].getAttack1ManaRequired() < ManaCounter.get(hand[i].getCardSchool())) // manacounter still needs to be changed to a hashmap
             {
@@ -86,7 +87,7 @@ public class boardGameStrategy {
             playCard(hand[bestCardIndex]);
         }
 }
-
+*/
 
 // brians method,
     // this method will choose which zone to play the card on then drag it to that zone.
