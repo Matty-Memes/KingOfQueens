@@ -1,22 +1,21 @@
 package javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard;
 
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BasicCard;
-
+import android.graphics.Rect;
 /**
  * Created by Matt on 13/03/2017.
+ * alterd by Brian on 27/03
  */
 
 public class CardZone {
     private boolean active;
     private BasicCard currentCard;
-    private CardZone leftCardzone;
-    private CardZone rightCardzone;
+    private Rect Zone;
 
-    public CardZone(boolean active, BasicCard currentCard, CardZone leftCardzone, CardZone rightCardzone) {
+    public CardZone(boolean active, BasicCard currentCard, Rect zone) {
         this.active = active;
         this.currentCard = currentCard;
-        this.leftCardzone = leftCardzone;
-        this.rightCardzone = rightCardzone;
+        Zone = zone;
     }
 
     public boolean isActive() {
@@ -36,14 +35,7 @@ public class CardZone {
     }
 
     //the cardZones are used to work out adjacency for certain moves e.g turret destruction.
-    public CardZone getLeftCardzone() {
-        return leftCardzone;
-    }
 
-
-    public CardZone getRightCardzone() {
-        return rightCardzone;
-    }
 
 
 }

@@ -27,8 +27,8 @@ public class MonsterCard extends BasicCard {
     // holds a list of the mana types required
     private ManaTypes [] attackManaRequired;
 
-    // Brian + Matt
 
+    // Brian + Matt
     public MonsterCard(int x, int y, int width, int height, Bitmap Sprite, Bitmap cardBackSprite,
                        String name, String description, CardSchools cardSchool, boolean destroyed,
                        int pointerID, CardLevel level, int health, int defence, CardSchools school,
@@ -119,10 +119,10 @@ public class MonsterCard extends BasicCard {
 
         if(compareCardAttackBonus(attackingCard.getCardSchool(),defendingCard.getCardSchool()) == true) {
             defendingCard.health -= (attackingCard.attackValue *attackBonus);
-            determineDeathOfMonster(defendingCard);
+          //  determineDeathOfMonster(defendingCard);
         }else {
             defendingCard.health -= attackingCard.attackValue;
-            determineDeathOfMonster(defendingCard);
+          //  determineDeathOfMonster(defendingCard);
         }
 
 
@@ -130,7 +130,7 @@ public class MonsterCard extends BasicCard {
 
 
 
-    // this method just checks if the defending card of the above method has died, then adds it to the graveyard
+   /* // this method just checks if the defending card of the above method has died, then adds it to the graveyard
     // this method needs to be sent in to where the stuff is being played. NOTE:: BRIAN
     //40111707
     //brian
@@ -142,7 +142,7 @@ public class MonsterCard extends BasicCard {
             // the card needs to be removed here aswell.
         }
 
-    }
+    }*/
 
 
 
