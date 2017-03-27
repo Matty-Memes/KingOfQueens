@@ -109,6 +109,9 @@ public class boardGameStrategy {
         } else if (!zone3.isActive()) {
             //call the seek method to send the card there
             card.seek(zone3.position());
+        } else
+        {
+            // the card cannot be played - there is no room.
         }
 
     }
