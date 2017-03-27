@@ -55,7 +55,7 @@ public class PlaySpace extends GameObject {
     }
 
     public int getLifeValue() {
-        return lifeValue;
+        return maxLifeValue;
     }
 
     public int getLife() {
