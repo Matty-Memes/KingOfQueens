@@ -19,47 +19,31 @@ public class MonsterCard extends BasicCard {
     private CardLevel level; // ENUM
     private int health;
     private int defence;
-    private CardSchools strength;
-    private CardSchools weakness; // ENUM
-
-
+    private CardSchools school;
+    private final double attackBonus = 1.5;
     // Attack Values
 
-    private String attack1Name;
-    private int attack1Strength;
+    private int attackValue;
     // holds a list of the mana types required
-    private ManaTypes [] attack1ManaRequired;
+    private ManaTypes [] attackManaRequired;
 
-    private String attack2Name;
-    private int attack2Strength;
-    // holds a list of the mana types required
-    private ManaTypes [] attack2ManaRequired;
+    // Brian + Matt
 
-    // Reduce the number of fields somehow
-
-    public MonsterCard(int x, int y, int width, int height, Bitmap Sprite,Bitmap cardBackSprite, boolean destroyed,int pointerID,
-                       String name, String description, CardLevel level, int health,int defence, CardSchools cardSchools, CardSchools strength, CardSchools weakness,
-                       String attack1Name, int attack1Strength, ManaTypes [] attack1ManaRequired,
-                       String attack2Name, int attack2Strength, ManaTypes [] attack2ManaRequired ) {
-        super(x, y, width, height, Sprite,cardBackSprite, name,description,cardSchools,destroyed,pointerID);
-
-
+    public MonsterCard(int x, int y, int width, int height, Bitmap Sprite, Bitmap cardBackSprite,
+                       String name, String description, CardSchools cardSchool, boolean destroyed,
+                       int pointerID, CardLevel level, int health, int defence, CardSchools school,
+                       int attackValue, ManaTypes[] attackManaRequired) {
+        super(x, y, width, height, Sprite, cardBackSprite, name, description, cardSchool, destroyed, pointerID);
         this.level = level;
         this.health = health;
         this.defence = defence;
-        this.strength = strength;
-        this.weakness = weakness;
-
-        this.attack1Name = attack1Name;
-        this.attack1Strength = attack1Strength;
-        this.attack1ManaRequired = attack1ManaRequired;
-        this.attack2Name = attack2Name;
-        this.attack2Strength = attack2Strength;
-        this.attack2ManaRequired = attack2ManaRequired;
-
+        this.school = school;
+        this.attackValue = attackValue;
+        this.attackManaRequired = attackManaRequired;
     }
 
-    // ADD GETTERS AND SETTERS // Brian :: Matt will you keep all these getters and setters i need to accsess them.
+
+    // ADD GETTERS AND SETTERS //
 
     public CardLevel getLevel() {
         return level;
@@ -85,68 +69,32 @@ public class MonsterCard extends BasicCard {
         this.defence = defence;
     }
 
-    public CardSchools getStrength() {
-        return strength;
+    public CardSchools getSchool() {
+        return school;
     }
 
-    public void setStrength(CardSchools strength) {
-        this.strength = strength;
+    public void setSchool(CardSchools school) {
+        this.school = school;
     }
 
-    public CardSchools getWeakness() {
-        return weakness;
+    public double getAttackBonus() {
+        return attackBonus;
     }
 
-    public void setWeakness(CardSchools weakness) {
-        this.weakness = weakness;
+    public int getAttackValue() {
+        return attackValue;
     }
 
-    public String getAttack1Name() {
-        return attack1Name;
+    public void setAttackValue(int attackValue) {
+        this.attackValue = attackValue;
     }
 
-    public void setAttack1Name(String attack1Name) {
-        this.attack1Name = attack1Name;
+    public ManaTypes[] getAttackManaRequired() {
+        return attackManaRequired;
     }
 
-    public int getAttack1Strength() {
-        return attack1Strength;
-    }
-
-    public void setAttack1Strength(int attack1Strength) {
-        this.attack1Strength = attack1Strength;
-    }
-
-    public ManaTypes[] getAttack1ManaRequired() {
-        return attack1ManaRequired;
-    }
-
-    public void setAttack1ManaRequired(ManaTypes[] attack1ManaRequired) {
-        this.attack1ManaRequired = attack1ManaRequired;
-    }
-
-    public String getAttack2Name() {
-        return attack2Name;
-    }
-
-    public void setAttack2Name(String attack2Name) {
-        this.attack2Name = attack2Name;
-    }
-
-    public int getAttack2Strength() {
-        return attack2Strength;
-    }
-
-    public void setAttack2Strength(int attack2Strength) {
-        this.attack2Strength = attack2Strength;
-    }
-
-    public ManaTypes[] getAttack2ManaRequired() {
-        return attack2ManaRequired;
-    }
-
-    public void setAttack2ManaRequired(ManaTypes[] attack2ManaRequired) {
-        this.attack2ManaRequired = attack2ManaRequired;
+    public void setAttackManaRequired(ManaTypes[] attackManaRequired) {
+        this.attackManaRequired = attackManaRequired;
     }
 
 
@@ -160,7 +108,7 @@ public class MonsterCard extends BasicCard {
     }
 
 
-    /*
+
 
 // Brian's + Matts Method
     public void attack(MonsterCard attackingCard, MonsterCard defendingCard)
@@ -170,10 +118,10 @@ public class MonsterCard extends BasicCard {
         //Matt: I need to get touch input to tell the class what monster to attack.
 
         if(compareCardAttackBonus(attackingCard.getCardSchool(),defendingCard.getCardSchool()) == true) {
-            defendingCard.health -= (attackingCard.attack1Strength *1.5);
+            defendingCard.health -= (attackingCard.attackValue *attackBonus);
             determineDeathOfMonster(defendingCard);
         }else {
-            defendingCard.health -= attackingCard.attack1Strength;
+            defendingCard.health -= attackingCard.attackValue;
             determineDeathOfMonster(defendingCard);
         }
 
@@ -183,19 +131,20 @@ public class MonsterCard extends BasicCard {
 
 
     // this method just checks if the defending card of the above method has died, then adds it to the graveyard
+    // this method needs to be sent in to where the stuff is being played. NOTE:: BRIAN
     //40111707
     //brian
     public void determineDeathOfMonster(MonsterCard dyingCard){
         if(dyingCard.getHealth() <= 0)
         {
-          graveYard.addToGraveYard(dyingCard);
+          addToGraveYard(dyingCard);
 
             // the card needs to be removed here aswell.
         }
 
     }
 
-    */
+
 
 
     // gets both cards school types and then goes through the if statements in order to find if the combination fits

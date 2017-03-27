@@ -9,7 +9,7 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.MonsterCard;
 public class graveYard {
     public  final int maxGraveYardSize = 5;
     private int graveCounter;
-private MonsterCard graveYard [] = new MonsterCard[maxGraveYardSize];
+    private MonsterCard graveYard [] = new MonsterCard[maxGraveYardSize];
     public graveYard( )
     { // NOTE not to sure about the intialising of the array to contain graveyard - in here or where it is ?
 
@@ -42,7 +42,7 @@ private MonsterCard graveYard [] = new MonsterCard[maxGraveYardSize];
         if( graveCounter < maxGraveYardSize )
         {
             // set the destroyed value to true, this removes it from the hand and deck.
-            deadCard.destroyed = true;
+            deadCard.setDestroyed(true);
             // puting it into the graveyard allows for faster searching of dead cards.
             graveYard[graveCounter] = deadCard;
             graveCounter ++;
@@ -74,7 +74,8 @@ private MonsterCard graveYard [] = new MonsterCard[maxGraveYardSize];
         }
 
     }
-    // this method will allow the player to see the cards that have died and then choose which they want to revive by calling the above method.
+    // this method will allow the player to see the cards that have died and then
+    // choose which they want to revive by calling the above method.
     public void displayGraveYard()
     {
 

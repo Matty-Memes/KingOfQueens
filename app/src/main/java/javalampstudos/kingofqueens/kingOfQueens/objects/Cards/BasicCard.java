@@ -57,8 +57,35 @@ public class BasicCard extends GameObject {
 
     public void setCardSchool() { this.cardSchool = cardSchool;}
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-    // set the pointer ID
+    public void setCardSchool(CardSchools cardSchool) {
+        this.cardSchool = cardSchool;
+    }
+
+    public Bitmap getCardBackSprite() {
+        return cardBackSprite;
+    }
+
+    public void setCardBackSprite(Bitmap cardBackSprite) {
+        this.cardBackSprite = cardBackSprite;
+    }
+
+    public boolean isDestroyed() {
+        return destroyed;
+    }
+
+    public void setDestroyed(boolean destroyed) {
+        this.destroyed = destroyed;
+    }
+
+    public int getPointerID() {
+        return pointerID;
+    }
+
+// set the pointer ID
 
     public void setPointerID (int pID)
 

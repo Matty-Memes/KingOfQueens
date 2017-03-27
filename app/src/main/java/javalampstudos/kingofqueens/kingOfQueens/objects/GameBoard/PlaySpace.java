@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BasicCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.MonsterCard;
+import javalampstudos.kingofqueens.kingOfQueens.objects.graveYard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
 
 /**
@@ -14,7 +15,7 @@ public class PlaySpace extends GameObject {
     private Deck deck;
     private BasicCard[] hand = new BasicCard[10];
     private int life = 6;
-    private Deck graveyard;
+    private graveYard GraveYard;
     private ManaCounter[] manaCounter = new ManaCounter[6];
     private CardZone zoneLeft,zoneMiddle,zoneRight;
 
