@@ -11,19 +11,37 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
  */
 
 public class Hand extends GameObject {
-    private BasicCard[] hand = new BasicCard[10];
+    private BasicCard[] hand;
     private final int MAXHANDSIZE = 10;
     private int currentHandSize;
 
-
-    public Hand(float x, float y, int width, int height,
-                      Bitmap sprite) {
-        super(x,y,width,height,null);
-
+// augmented by brian on 27/03/2017
+    public Hand(float x, float y, int width, int height, Bitmap sprite, BasicCard[] hand, int currentHandSize) {
+        super(x, y, width, height, sprite);
+        hand = new BasicCard[getMAXHANDSIZE()];
+        this.currentHandSize = currentHandSize;
     }
 
+    //GETTERS AND SETTERS
 
 
+    public BasicCard[] getHand() {
+        return hand;
+    }
 
+    public void setHand(BasicCard[] hand) {
+        this.hand = hand;
+    }
 
+    public int getCurrentHandSize() {
+        return currentHandSize;
+    }
+
+    public void setCurrentHandSize(int currentHandSize) {
+        this.currentHandSize = currentHandSize;
+    }
+
+    public int getMAXHANDSIZE() {
+        return MAXHANDSIZE;
+    }
 }

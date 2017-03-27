@@ -13,27 +13,115 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
 
 public class PlaySpace extends GameObject {
     private Deck deck;
-    private BasicCard[] hand = new BasicCard[10];
-    private int life = 6;
+    private Hand hand;
+    private final int maxLifeValue = 6;
+    private int life;
     private graveYard GraveYard;
     private ManaCounter[] manaCounter = new ManaCounter[6];
     private CardZone zoneLeft,zoneMiddle,zoneRight;
 
-
-    public PlaySpace(float x, float y, int width, int height,
-               Bitmap sprite,Deck deck, BasicCard[] hand, int life, Deck graveyard, ManaCounter[] manaCounter)
-    {
+    public PlaySpace(float x, float y, int width, int height, Bitmap sprite, Deck deck,
+                     Hand hand, int life, graveYard graveYard,
+                     ManaCounter[] manaCounter, CardZone zoneLeft,
+                     CardZone zoneMiddle, CardZone zoneRight, int currentCard, int deckSize) {
         super(x, y, width, height, sprite);
-        this.deck=deck;
-        this.life=life;
-        this.graveyard=graveyard;
-        this.manaCounter=manaCounter;
+        this.deck = deck;
+        this.hand = hand;
+        this.life = maxLifeValue;
+        GraveYard = graveYard;
+        this.manaCounter = manaCounter;
+        this.zoneLeft = zoneLeft;
+        this.zoneMiddle = zoneMiddle;
+        this.zoneRight = zoneRight;
+        this.currentCard = currentCard;
+        this.deckSize = deckSize;
     }
 
-    public int getLife()
-    {
+
+    public Deck getDeck() {
+        return deck;
+    }
+
+    public void setDeck(Deck deck) {
+        this.deck = deck;
+    }
+
+    public Hand getHand() {
+        return hand;
+    }
+
+    public void setHand(Hand hand) {
+        this.hand = hand;
+    }
+
+    public int getLifeValue() {
+        return lifeValue;
+    }
+
+    public int getLife() {
         return life;
     }
+
+    public void setLife(int life) {
+        this.life = life;
+    }
+
+    public graveYard getGraveYard() {
+        return GraveYard;
+    }
+
+    public void setGraveYard(graveYard graveYard) {
+        GraveYard = graveYard;
+    }
+
+    public ManaCounter[] getManaCounter() {
+        return manaCounter;
+    }
+
+    public void setManaCounter(ManaCounter[] manaCounter) {
+        this.manaCounter = manaCounter;
+    }
+
+    public CardZone getZoneLeft() {
+        return zoneLeft;
+    }
+
+    public void setZoneLeft(CardZone zoneLeft) {
+        this.zoneLeft = zoneLeft;
+    }
+
+    public CardZone getZoneMiddle() {
+        return zoneMiddle;
+    }
+
+    public void setZoneMiddle(CardZone zoneMiddle) {
+        this.zoneMiddle = zoneMiddle;
+    }
+
+    public CardZone getZoneRight() {
+        return zoneRight;
+    }
+
+    public void setZoneRight(CardZone zoneRight) {
+        this.zoneRight = zoneRight;
+    }
+
+    public int getCurrentCard() {
+        return currentCard;
+    }
+
+    public void setCurrentCard(int currentCard) {
+        this.currentCard = currentCard;
+    }
+
+    public int getDeckSize() {
+        return deckSize;
+    }
+
+    public void setDeckSize(int deckSize) {
+        this.deckSize = deckSize;
+    }
+
     public void setupPlay()
     {
         deck.generateDeck();
@@ -41,6 +129,20 @@ public class PlaySpace extends GameObject {
     }
 
 
+
+     // this method just checks if the defending card of the above method has died, then adds it to the graveyard
+     // this method needs to be sent in to where the stuff is being played. NOTE:: BRIAN
+     //40111707
+     //brian
+     public void determineDeathOfMonster(MonsterCard dyingCard){
+         if(dyingCard.getHealth() <= 0)
+         {
+           GraveYard.addToGraveYard(dyingCard);
+            removeLife();
+             // the card needs to be removed here aswell.
+         }
+
+     }
     //When a monster is destroyed, call this method
     public void removeLife()
     {

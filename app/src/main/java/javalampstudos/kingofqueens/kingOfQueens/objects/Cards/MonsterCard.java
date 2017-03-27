@@ -130,19 +130,6 @@ public class MonsterCard extends BasicCard {
 
 
 
-   /* // this method just checks if the defending card of the above method has died, then adds it to the graveyard
-    // this method needs to be sent in to where the stuff is being played. NOTE:: BRIAN
-    //40111707
-    //brian
-    public void determineDeathOfMonster(MonsterCard dyingCard){
-        if(dyingCard.getHealth() <= 0)
-        {
-          addToGraveYard(dyingCard);
-
-            // the card needs to be removed here aswell.
-        }
-
-    }*/
 
 
 
