@@ -54,6 +54,8 @@ public class graveYard {
         }
     }
 
+    /*
+
 // this method allows for the dead card the the player choose to be revived by setting the destroyed variable to false.
     //40111707
     public void removeFromGraveYard(MonsterCard reviveCardChoice)
@@ -76,6 +78,10 @@ public class graveYard {
     }
     // this method will allow the player to see the cards that have died and then
     // choose which they want to revive by calling the above method.
+
+
+    */
+
     public void displayGraveYard()
     {
 

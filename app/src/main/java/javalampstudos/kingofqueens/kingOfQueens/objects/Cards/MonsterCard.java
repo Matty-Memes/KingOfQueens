@@ -19,25 +19,27 @@ public class MonsterCard extends BasicCard {
     private CardLevel level; // ENUM
     private int health;
     private int defence;
-    private CardSchools school;
+    private CardSchools weakness;
     private final double attackBonus = 1.5;
     // Attack Values
 
+    private String attackName;
     private int attackValue;
     // holds a list of the mana types required
     private ManaTypes [] attackManaRequired;
 
 
     // Brian + Matt
-    public MonsterCard(int x, int y, int width, int height, Bitmap Sprite, Bitmap cardBackSprite,
-                       String name, String description, CardSchools cardSchool, boolean destroyed,
-                       int pointerID, CardLevel level, int health, int defence, CardSchools school,
+    // Modified by Andrew - 27/03/17
+    public MonsterCard(int x, int y, int width, int height, Bitmap Sprite, CardSchools cardSchool, boolean destroyed,
+                       int pointerID, CardLevel level, int health, int defence, CardSchools weakness, String attackName,
                        int attackValue, ManaTypes[] attackManaRequired) {
-        super(x, y, width, height, Sprite, cardBackSprite, name, description, cardSchool, destroyed, pointerID);
+        super(x, y, width, height, Sprite, cardSchool, destroyed, pointerID);
         this.level = level;
         this.health = health;
         this.defence = defence;
-        this.school = school;
+        this.weakness = weakness;
+        this.attackName = attackName;
         this.attackValue = attackValue;
         this.attackManaRequired = attackManaRequired;
     }
@@ -69,12 +71,12 @@ public class MonsterCard extends BasicCard {
         this.defence = defence;
     }
 
-    public CardSchools getSchool() {
-        return school;
+    public CardSchools getWeakness() {
+        return weakness;
     }
 
-    public void setSchool(CardSchools school) {
-        this.school = school;
+    public void setSchool(CardSchools weakness) {
+        this.weakness = weakness;
     }
 
     public double getAttackBonus() {

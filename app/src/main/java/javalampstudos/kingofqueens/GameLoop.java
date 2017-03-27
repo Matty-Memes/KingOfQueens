@@ -207,6 +207,23 @@ public class GameLoop implements Runnable
     public BasicCard graveYard;
     public BasicCard deck;
 
+    // These are temporary cards for checking positions
+
+    // Hand Cards
+
+    public BasicCard handCard1;
+    public BasicCard handCard2;
+    public BasicCard handCard3;
+    public BasicCard handCard4;
+    public BasicCard handCard5;
+
+    // Monster Cards
+
+    public BasicCard monsterCard1;
+    public BasicCard monsterCard2;
+    public BasicCard monsterCard3;
+
+
     // booleans
     public boolean addToHand;
 
@@ -225,7 +242,7 @@ public class GameLoop implements Runnable
     public boolean deckInitialized = false;
 
     // counters
-    public int monstersInPlay = 0;
+    // public int monstersInPlay = 0;
 
     // deck booleans
     public boolean deckClicked = false;
@@ -244,6 +261,11 @@ public class GameLoop implements Runnable
     public ArrayList<BasicCard> monsterCards = new ArrayList<BasicCard>();
     public ArrayList<ManaCard> manaCards = new ArrayList<ManaCard>();
     public ArrayList<SupportCard> supportCards = new ArrayList<SupportCard>();
+
+    // These keep track of and draw the actual cards
+
+    public ArrayList<BasicCard> handCards = new ArrayList<>();
+    public ArrayList<MonsterCard> monstersInPlay = new ArrayList<>();
 
     // GameLoop Constructor
     public GameLoop (CanvasFragment fragment, int width, int height)
@@ -294,8 +316,8 @@ public class GameLoop implements Runnable
 
         // Slot 1
 
-        Geologist = new MonsterCard(20, 350, 90, 120, GeoSprite,GeoSprite, false, 49, "Geologist", "description", CardLevel.UNDERGRAD, 140,0,CardSchools.EEECS, CardSchools.ARTS_HUMANITIES,
-                CardSchools.MEDICS, "Hack", 20, attack2ManaRequiredHM, "Error 404", 50, attack2ManaRequiredHM);
+        Geologist = new MonsterCard(20, 350, 90, 120, GeoSprite, CardSchools.EEECS, false, 49, CardLevel.UNDERGRAD, 140,0,
+                CardSchools.MEDICS, "Hack", 20, attack2ManaRequiredHM);
 
         // Slot 2
 
@@ -303,18 +325,41 @@ public class GameLoop implements Runnable
 
         // Mana
 
+        // Positioning the hand - horizontal gaps are always 10
+
+        // The first gap is slightly larger to make it obvious the deck is seperate
+        handCard1 = new BasicCard(194, 410, 90, 120, cardBackSprite, CardSchools.MEDICS, false,
+                49);
+
+        // The rest of the gaps should be either 10 or 20
+
+        handCard2 = new BasicCard(294, 410, 90, 120, cardBackSprite, CardSchools.MEDICS, false,
+                49);
+        handCard3 = new BasicCard(394, 410, 90, 120, cardBackSprite, CardSchools.MEDICS, false,
+                49);
+        handCard4 = new BasicCard(494, 410, 90, 120, cardBackSprite, CardSchools.MEDICS, false,
+                49);
+        handCard5 = new BasicCard(594, 410, 90, 120, cardBackSprite, CardSchools.MEDICS, false,
+                49);
+
+        // Positioning the monsters
+
+        monsterCard1 = new BasicCard(194, 280, 90, 120, cardBackSprite, CardSchools.MEDICS, false,
+                49);
+        monsterCard2 = new BasicCard(394, 280, 90, 120, cardBackSprite, CardSchools.MEDICS, false,
+                49);
+        monsterCard3 = new BasicCard(594, 280, 90, 120, cardBackSprite, CardSchools.MEDICS, false,
+                49);
+
         // Hand
 
         // Draw the graveyard pile
-        graveYard = new BasicCard(754, 280, 90, 120, cardBackSprite, GeoSprite, "graveYard", "description", CardSchools.MEDICS, false,
+        graveYard = new BasicCard(754, 280, 90, 120, cardBackSprite, CardSchools.MEDICS, false,
             49);
-
-
-
 
         // y co-ordinate is a gap of 50 plus half the card size
 
-        deck = new BasicCard(754, 410, 90, 120, cardBackSprite, GeoSprite, "deck", "description", CardSchools.MEDICS, false,
+        deck = new BasicCard(754, 410, 90, 120, cardBackSprite, CardSchools.MEDICS, false,
                 49);
 
         rand = new randomGenerator();
@@ -742,6 +787,25 @@ public class GameLoop implements Runnable
 
     {
         Geologist.update();
+
+        // Get all the placeholders drawn
+
+        // Hands
+
+        handCard1.update();
+        handCard2.update();
+        handCard3.update();
+        handCard4.update();
+        handCard5.update();
+
+        // Monsters
+
+        monsterCard1.update();
+        monsterCard2.update();
+        monsterCard3.update();
+
+        // Graveyard and deck updates
+
         graveYard.update();
         deck.update();
 
@@ -835,7 +899,7 @@ public class GameLoop implements Runnable
       for (int i = 0; i < 5; i++)
 
       {
-          drawFromDeck();
+          drawFromDeck(i);
 
       }
 
@@ -887,19 +951,45 @@ public class GameLoop implements Runnable
 
     // modify so the player and opponent can share this
 
-    private void drawFromDeck ()
+    private void drawFromDeck (int index)
 
     {
-      randomIndex = rand.generateRandomNumber();
-      hand [handPos] = cardList[randomIndex];
-      handPos++;
+        randomIndex = rand.generateRandomNumber();
+        System.out.println(randomIndex);
 
+        // pull out a random card
+        // give it a position
+
+        // gives you access to the card you pulled out
+        BasicCard temp = cardList[randomIndex];
+
+        // Depending on which card you drew
+        // Updates these using the positions worked out
+
+        switch (index)
+
+        {
+            case 1:
+                temp.x = 4;
+                temp.y = 3;
+            case 2:
+                temp.x = 10;
+                temp.y = 6;
+            case 3:
+                temp.x = 14;
+                temp.y = 12;
+            case 4:
+                temp.x = 13;
+                temp.x = 12;
+            case 5:
+                temp.x = 54;
+                temp.y = 15;
+
+        }
+
+        handCards.add(temp);
 
     }
-
-
-
-
 
     // keep this for testing
 

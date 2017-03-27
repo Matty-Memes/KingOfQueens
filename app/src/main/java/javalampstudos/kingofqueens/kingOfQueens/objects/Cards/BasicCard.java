@@ -13,10 +13,7 @@ import android.graphics.Canvas;
 // so it's linked to update
 public class BasicCard extends GameObject {
 
-    private String name,description;
     private CardSchools cardSchool;
-    private Bitmap cardBackSprite;
-
 
     // monitors whether or not a card is destroyed
     public boolean destroyed;
@@ -27,13 +24,11 @@ public class BasicCard extends GameObject {
     // need all the fields from the superclass
 
 
-    public BasicCard(int x, int y, int width, int height, Bitmap Sprite, Bitmap cardBackSprite,
-                     String name, String description, CardSchools cardSchool, boolean destroyed,int pointerID)
+    // Modified by Andrew - 27/03/17
+    public BasicCard(int x, int y, int width, int height, Bitmap Sprite,
+                     CardSchools cardSchool, boolean destroyed,int pointerID)
     {
         super(x, y, width, height, Sprite);
-        this.cardBackSprite = cardBackSprite;
-        this.name = name;
-        this.description= description;
         this.cardSchool = cardSchool;
         this.destroyed = destroyed;
         this.pointerID = pointerID;
@@ -41,36 +36,12 @@ public class BasicCard extends GameObject {
 
     // getters and setters
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {return description;}
-
-    public void setDescription() {this.description =description;}
-
     public CardSchools getCardSchool() {return cardSchool;}
 
     public void setCardSchool() { this.cardSchool = cardSchool;}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public void setCardSchool(CardSchools cardSchool) {
         this.cardSchool = cardSchool;
-    }
-
-    public Bitmap getCardBackSprite() {
-        return cardBackSprite;
-    }
-
-    public void setCardBackSprite(Bitmap cardBackSprite) {
-        this.cardBackSprite = cardBackSprite;
     }
 
     public boolean isDestroyed() {

@@ -12,6 +12,7 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Hand;
 
 public class boardGameStrategy {
 
+   /*
 
    PlaySpace AiPlayer = new PlaySpace(); // still neeeds to be populated
 
@@ -52,6 +53,8 @@ public class boardGameStrategy {
         }
 }
 
+
+    /*
 
 // brians method,
     // this method will choose which zone to play the card on then drag it to that zone.

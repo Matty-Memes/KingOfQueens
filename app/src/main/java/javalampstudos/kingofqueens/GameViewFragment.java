@@ -160,17 +160,11 @@ public class GameViewFragment extends CanvasFragment {
 
         canvas.drawBitmap(mImage2, null, cloudyBackgroundBound, null);
 
-        // push control out to specific methods for drawing each thing
-
-        // System.out.println("Drawing is about to take place");
-
         drawCard(canvas);
 
-        drawMonsterCards(canvas);
+        // drawMonsterCards(canvas);
 
-        // drawManaCards(canvas);
-
-        // drawSupportCards(canvas);
+        // drawHand(canvas);
 
 
     }
@@ -195,73 +189,66 @@ public class GameViewFragment extends CanvasFragment {
     private void drawCard (Canvas canvas)
 
     {
-      if (loop.Geologist.destroyed == false)
+        if (loop.Geologist.destroyed == false)
 
-      {
-          loop.Geologist.draw(canvas);
+        {
+            loop.Geologist.draw(canvas);
 
-      }
+        }
 
         else
 
-      {
-          System.out.println("Geologist was destroyed");
+        {
+            System.out.println("Geologist was destroyed");
 
-      }
+        }
 
+        // draw temp cards for positioning
 
-      // Other draws
+        // hands
+        loop.handCard1.draw(canvas);
+        loop.handCard2.draw(canvas);
+        loop.handCard3.draw(canvas);
+        loop.handCard4.draw(canvas);
+        loop.handCard5.draw(canvas);
 
+        // monsters
+        loop.monsterCard1.draw(canvas);
+        loop.monsterCard2.draw(canvas);
+        loop.monsterCard3.draw(canvas);
+
+        // deck and graveyard
         loop.graveYard.draw(canvas);
         loop.deck.draw(canvas);
-
     }
 
-    // seperate draw methods for each card type
+
+    // DRAW SETS OF CARDS
+
+    private void drawHand (Canvas canvas)
+
+    {
+        for (int i = 0; i < loop.handCards.size(); i++)
+
+        {
+            loop.handCards.get(i).draw(canvas);
+
+        }
+
+
+    }
 
     private void drawMonsterCards (Canvas canvas)
 
     {
+        for (int i = 0; i < loop.monstersInPlay.size(); i++)
 
-        for (int i = 0;  i < loop.monsterCards.size(); i++)
         {
 
-            // this needs a guard to check if the cards has been destroyed
-
-            loop.monsterCards.get(i).draw(canvas);
+            loop.monstersInPlay.get(i).draw(canvas);
 
         }
 
     }
-
-    private void drawManaCards (Canvas canvas)
-
-    {
-        for (int i = 0;  i < loop.manaCards.size(); i++)
-        {
-            loop.manaCards.get(i).draw(canvas);
-
-        }
-
-
-    }
-
-    private void drawSupportCards (Canvas canvas)
-
-    {
-        for (int i = 0;  i < loop.monsterCards.size(); i++)
-        {
-            loop.supportCards.get(i).draw(canvas);
-
-        }
-
-
-    }
-
-
-
-
-
-
 
 }

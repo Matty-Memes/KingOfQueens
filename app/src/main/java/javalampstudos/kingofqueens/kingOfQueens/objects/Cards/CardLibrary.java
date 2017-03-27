@@ -15,6 +15,8 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaCard;
 public class CardLibrary {
     //This class contains all the information for each card in the game
 
+    /*
+
     AssetManager assetManager;
     private int x = 0;
     private int y = 0;
@@ -23,9 +25,9 @@ public class CardLibrary {
     private int pointerID = 42;
     private Bitmap cardbackSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Cardback.png");
 
-    //*Monster Cards*//
+    // Monster Cards
 
-    /*Engineering*/
+    // Engineering
 
     //Engineer1
     private Bitmap eng1Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Engineering/Engineer-1.png");
@@ -46,7 +48,7 @@ public class CardLibrary {
             "Auto Turret 2",0,attack2ManaCostEng2);
 
 
-    //*Mana Cards*//
+    //Mana Cards
 
     //Engineering
     private Bitmap engManaSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Mana/Mana-Engineering.png");
@@ -83,4 +85,8 @@ public class CardLibrary {
 
     ManaCard ArtsMana = new ManaCard(x,y,width,height,artsManaSprite,cardbackSprite,"Arts and Humanities Mana","Mana used to perform Arts and Humanities attacks",
             false,CardSchools.ARTS_HUMANITIES,ManaTypes.ARTS_HUMANITIES_MANA,42);
+
+
+    */
+
 }
