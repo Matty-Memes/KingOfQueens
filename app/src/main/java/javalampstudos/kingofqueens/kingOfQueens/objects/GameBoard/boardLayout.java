@@ -39,8 +39,6 @@ public class boardLayout
       monsterSlot1 = new Rect();
 
 
-
-
     }
 
 }

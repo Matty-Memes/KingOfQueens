@@ -368,7 +368,6 @@ public class GameLoop implements Runnable
         hand = new BasicCard [5];
         handPos = 0;
 
-
     }
 
 
@@ -537,7 +536,6 @@ public class GameLoop implements Runnable
                         Geologist.x = x;
                         Geologist.y = y;
 
-
                     }
 
                  // the graveyard can destroy cards
@@ -548,6 +546,17 @@ public class GameLoop implements Runnable
                       Geologist.destroyed = true;
 
                     }
+
+                 // testing other touch input rects
+
+                 if (handRect1.contains((int) x, (int) y))
+
+                 {
+                    System.out.println("HandRect1 was touched");
+
+
+                 }
+
 
                 /*
 
@@ -644,13 +653,7 @@ public class GameLoop implements Runnable
 
                     // For the attack phase the monster slot becomes the point from which to drag
 
-
-
-
-
                  */
-
-
 
                 }
 
@@ -701,6 +704,61 @@ public class GameLoop implements Runnable
 
         //Pause Bitmap
         pauseBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/Pause.png");
+
+
+        // Hand Rects
+
+        handRect1 = new Rect(
+                (int) (194 - (90 / 2)),
+                (int) (410 - (120 / 2)),
+                (int) (194 + (90 / 2)),
+                (int) (410 + (120 / 2)));
+
+        handRect2 = new Rect(
+                (int) (294 - (90 / 2)),
+                (int) (410 - (120 / 2)),
+                (int) (294 + (90 / 2)),
+                (int) (410 + (120 / 2)));
+
+        handRect3 = new Rect(
+                (int) (394 - (90 / 2)),
+                (int) (410 - (120 / 2)),
+                (int) (394 + (90 / 2)),
+                (int) (410 + (120 / 2)));
+
+        handRect4 = new Rect(
+                (int) (494 - (90 / 2)),
+                (int) (410 - (120 / 2)),
+                (int) (494 + (90 / 2)),
+                (int) (410 + (120 / 2)));
+
+        handRect5 = new Rect(
+                (int) (594 - (90 / 2)),
+                (int) (410 - (120 / 2)),
+                (int) (594 + (90 / 2)),
+                (int) (410 + (120 / 2)));
+
+
+        // Monster Slot Rects
+
+        MSlot1Rect = new Rect(
+                (int) (194 - (90 / 2)),
+                (int) (280 - (120 / 2)),
+                (int) (194 + (90 / 2)),
+                (int) (280 + (120 / 2)));
+
+        MSlot2Rect = new Rect(
+                (int) (394 - (90 / 2)),
+                (int) (280 - (120 / 2)),
+                (int) (394 + (90 / 2)),
+                (int) (280 + (120 / 2)));
+
+        MSlot3Rect = new Rect(
+                (int) (594 - (90 / 2)),
+                (int) (280 - (120 / 2)),
+                (int) (594 + (90 / 2)),
+                (int) (280 + (120 / 2)));
+
 
 
         // MSlot1Rect = new Rect etc.
@@ -778,7 +836,6 @@ public class GameLoop implements Runnable
 
         }
 
-
     }
 
     // This method should be altered.
@@ -792,6 +849,7 @@ public class GameLoop implements Runnable
 
         // Hands
 
+        // As long as the card exists update information must be relayed back
         handCard1.update();
         handCard2.update();
         handCard3.update();
