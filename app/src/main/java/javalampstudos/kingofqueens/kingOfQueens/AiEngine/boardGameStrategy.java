@@ -54,7 +54,7 @@ public class boardGameStrategy {
 
 
 
-
+/*
 // brians method,
     // this method will choose which zone to play the card on then drag it to that zone.
     //40111707
