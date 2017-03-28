@@ -161,7 +161,7 @@ public class PlaySpace extends GameObject {
         {
             //set the current position of card to the current card
             card = deck.draw();
-            hand.AddToHandArray(card,currentCard); // method to add the card to the array.
+            hand.AddToHandArray(card,currentCard); // method to add the card to the array. takes the card + the index where it should be added to.
             currentCard++;
             deckSize--;
         }

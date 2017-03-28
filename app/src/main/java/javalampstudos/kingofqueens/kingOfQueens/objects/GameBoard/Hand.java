@@ -47,7 +47,7 @@ public class Hand extends GameObject {
 
 // 40111707
     // brians method to accsess elements within the hand array.
-    public BasicCard ReturnCard (int index){
+    public BasicCard getCardFromHand (int index){
 
         return this.hand[index];
     }

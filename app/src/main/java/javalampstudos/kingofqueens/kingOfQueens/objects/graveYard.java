@@ -54,22 +54,20 @@ public class graveYard {
         }
     }
 
-    /*
 
-// this method allows for the dead card the the player choose to be revived by setting the destroyed variable to false.
+// this method allows for the dead card the the player choose to be revived by
+// setting the destroyed variable to false, and removing it from the graveyard array.
     //40111707
     public void removeFromGraveYard(MonsterCard reviveCardChoice)
     {
         if( reviveCardChoice.destroyed == true )
         {
-            // changing the destroyed vairable back to false will allow the player to reuse the card once again
-            reviveCardChoice.destroyed = false;
-
             for(int i=0; i < graveYard.length; i++)
             {
-                if(graveYard[i].getName().equals(reviveCardChoice.getName()))
+                if(graveYard[i].equals(reviveCardChoice) == true)
                 {
                     // when the card is found it needs to be removed from the array.
+                    reviveCardChoice.setDestroyed(false); // this allows it to come back into the decks view.
                     graveYard[i] = null;
                 }
             }
@@ -80,7 +78,6 @@ public class graveYard {
     // choose which they want to revive by calling the above method.
 
 
-    */
 
     public void displayGraveYard()
     {

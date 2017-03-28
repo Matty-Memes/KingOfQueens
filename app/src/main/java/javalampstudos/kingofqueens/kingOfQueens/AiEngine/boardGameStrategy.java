@@ -31,24 +31,24 @@ public class boardGameStrategy {
             // 2.the card is also higher than the best card so far
             // 3.the cards mana also allows it to be played.
 
-            if(hand.ReturnCard(i) instanceof MonsterCard)
+            if(hand.etCardFromHand(i) instanceof MonsterCard)
             {
 
-            if (((MonsterCard) hand.ReturnCard(i)).getAttackValue() > enemeyCard.getDefence()
-                    && ((MonsterCard) hand.ReturnCard(i)).getAttackValue() > ((MonsterCard) hand.ReturnCard(bestCardIndex)).getAttackValue()
-                    && ((MonsterCard) hand.ReturnCard(i)).getAttackValue() < ManaCounter.get(((MonsterCard) hand.ReturnCard(i)).getCardSchool())) // manacounter still needs to be changed to a hashmap
+            if (((MonsterCard) hand.getCardFromHand(i)).getAttackValue() > enemeyCard.getDefence()
+                    && ((MonsterCard) hand.getCardFromHand(i)).getAttackValue() > ((MonsterCard) hand.getCardFromHand(bestCardIndex)).getAttackValue()
+                    && ((MonsterCard) hand.getCardFromHand(i)).getAttackValue() < ManaCounter.get(((MonsterCard) hand.getCardFromHand(i)).getCardSchool())) // manacounter still needs to be changed to a hashmap
             {
                 bestCardIndex =i;
             }
             // this assumes the card that has the highest attack cannot be played,
 //				so it simply checks for a card with a better attack than the player, with enough mana to be played.
-            else if (((MonsterCard) hand.ReturnCard(i)).getAttackValue() > enemeyCard.getDefence()
-                    &&  ((MonsterCard) hand.ReturnCard(i)).getAttackManaRequired() <  ManaCounter.get(((MonsterCard) hand.ReturnCard(i)).getCardSchool()))
+            else if (((MonsterCard) hand.getCardFromHand(i)).getAttackValue() > enemeyCard.getDefence()
+                    &&  ((MonsterCard) hand.getCardFromHand(i)).getAttackManaRequired() <  ManaCounter.get(((MonsterCard) hand.getCardFromHand(i)).getCardSchool()))
             {
                 bestCardIndex = i;
             }
 
-            playCard(((MonsterCard) hand.ReturnCard(bestCardIndex)));
+            playCard(((MonsterCard) hand.getCardFromHand(bestCardIndex)));
         }
         }
 }
