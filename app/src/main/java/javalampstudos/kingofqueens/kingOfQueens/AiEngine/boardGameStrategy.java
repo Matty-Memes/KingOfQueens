@@ -10,14 +10,14 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.monsterCard;
 /**
  * Created by brian on 27/02/2017.
  */
+/*
 
 public class boardGameStrategy {
 
 
-/*
    PlaySpace AiPlayer = new PlaySpace(); // still neeeds to be populated
 public manaTypes[] mana = new manaTypes [] {manaTypes.ARTS_HUMANITIES_MANA};
-// 40111707 brians method
+// 40111707 brians + nathans method
     // this method will find the highest attack card that can be played.
     // in order for this method to be finished manacounter needs to be made into a hashmap.
     public void searchHandForCardWithHighestAttack(Hand hand, monsterCard enemeyCard)
@@ -36,15 +36,15 @@ public manaTypes[] mana = new manaTypes [] {manaTypes.ARTS_HUMANITIES_MANA};
             {
 
             if (((monsterCard) hand.getCardFromHand(i)).getAttackValue() > enemeyCard.getDefence()
-                    && ((monsterCard) hand.getCardFromHand(i)).getAttackValue() > ((monsterCard) hand.getCardFromHand(bestCardIndex)).getAttackValue()
-                    && ((monsterCard) hand.getCardFromHand(i)). < AiPlayer.getManaCount(((monsterCard) hand.getCardFromHand(i)).getCardSchool())); // manacounter still needs to be changed to a hashmap
+                    && ((monsterCard) hand.getCardFromHand(i)).getAttackValue() > ((monsterCard) hand.getCardFromHand(bestCardIndex)).getAttackValue() // there needs to be a method to convert from card school to card mana type.
+                    && ((monsterCard) hand.getCardFromHand(i)).getAttackManaRequirement() < AiPlayer.getManaCount(((monsterCard) hand.getCardFromHand(i)).getAttackManaRequirement().get(manaTypes.SOCIAL_SCIENCES_MANA))); // manacounter still needs to be changed to a hashmap
             {
                 bestCardIndex =i;
             }
             // this assumes the card that has the highest attack cannot be played,
 //				so it simply checks for a card with a better attack than the player, with enough mana to be played.
             else if (((monsterCard) hand.getCardFromHand(i)).getAttackValue() > enemeyCard.getDefence()
-                    &&  ((monsterCard) hand.getCardFromHand(i)).getAttackManaRequired() <  ManaCounter.get(((monsterCard) hand.getCardFromHand(i)).getCardSchool()))
+                    &&  ((monsterCard) hand.getCardFromHand(i)).getAttackManaRequirement() <  manaCounter.get(((monsterCard) hand.getCardFromHand(i)).getCardSchool()))
             {
                 bestCardIndex = i;
             }
@@ -52,7 +52,8 @@ public manaTypes[] mana = new manaTypes [] {manaTypes.ARTS_HUMANITIES_MANA};
             playCard(((monsterCard) hand.getCardFromHand(bestCardIndex)));
         }
         }
-}*/
+}
+*/
 
 
 

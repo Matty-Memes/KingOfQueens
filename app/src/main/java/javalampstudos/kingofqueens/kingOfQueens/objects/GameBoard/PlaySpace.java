@@ -7,8 +7,10 @@ import java.util.HashMap;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.basicCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.cardSchools;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.monsterCard;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.manaTypes;
 import javalampstudos.kingofqueens.kingOfQueens.objects.graveYard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
+import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.ManaCounter;
 
 /**
  * Created by Matt on 06/02/2017.
@@ -20,7 +22,7 @@ public class PlaySpace extends GameObject {
     private Hand hand;
     private int life;
     private graveYard GraveYard;
-    private  ManaCounter manaCounter;
+    private ManaCounter manaCounter;
     private CardZone zoneLeft,zoneMiddle,zoneRight;
 // NOTE : MATT THIS CONSTRUCTOR NEEDS UPDATED.
     public PlaySpace(float x, float y, int width, int height, Bitmap sprite, Deck deck,
@@ -78,11 +80,11 @@ public class PlaySpace extends GameObject {
         GraveYard = graveYard;
     }
 
-/*    public void getManaCount(manaTypes manaType)
+    public void getManaCount(manaTypes manaType)
     {
-        NOTE :: THIS METHOD HAS AN ERROR. CONSTRUCTOR NEEDS UPDATED
-        manaCounter.get(manaType);
-    }*/
+       // NOTE :: THIS METHOD HAS AN ERROR. CONSTRUCTOR NEEDS UPDATED
+        manaCounter.getManaCounter().get(manaType);
+    }
 
 
     public CardZone getZoneLeft() {
