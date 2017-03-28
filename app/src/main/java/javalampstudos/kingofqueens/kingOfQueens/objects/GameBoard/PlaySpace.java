@@ -2,15 +2,11 @@ package javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard;
 
 import android.graphics.Bitmap;
 
-import java.util.HashMap;
-
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.basicCard;
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.cardSchools;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.monsterCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.manaTypes;
 import javalampstudos.kingofqueens.kingOfQueens.objects.graveYard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
-import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.ManaCounter;
 
 /**
  * Created by Matt on 06/02/2017.
@@ -80,12 +76,10 @@ public class PlaySpace extends GameObject {
         GraveYard = graveYard;
     }
 
-    public void getManaCount(manaTypes manaType)
-    {
-       // NOTE :: THIS METHOD HAS AN ERROR. CONSTRUCTOR NEEDS UPDATED
-        manaCounter.getManaCounter().get(manaType);
-    }
 
+    public ManaCounter getManaCounter() {
+        return manaCounter;
+    }
 
     public CardZone getZoneLeft() {
         return zoneLeft;

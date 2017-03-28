@@ -7,13 +7,13 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.monsterCard;
 
 
 
-/**
+/*
  * Created by brian on 27/02/2017.
  */
-/*
+
 
 public class boardGameStrategy {
-
+/*
 
    PlaySpace AiPlayer = new PlaySpace(); // still neeeds to be populated
 public manaTypes[] mana = new manaTypes [] {manaTypes.ARTS_HUMANITIES_MANA};
@@ -37,8 +37,11 @@ public manaTypes[] mana = new manaTypes [] {manaTypes.ARTS_HUMANITIES_MANA};
 
             if (((monsterCard) hand.getCardFromHand(i)).getAttackValue() > enemeyCard.getDefence()
                     && ((monsterCard) hand.getCardFromHand(i)).getAttackValue() > ((monsterCard) hand.getCardFromHand(bestCardIndex)).getAttackValue() // there needs to be a method to convert from card school to card mana type.
-                    && ((monsterCard) hand.getCardFromHand(i)).getAttackManaRequirement() < AiPlayer.getManaCount(((monsterCard) hand.getCardFromHand(i)).getAttackManaRequirement().get(manaTypes.SOCIAL_SCIENCES_MANA))); // manacounter still needs to be changed to a hashmap
+                    && ((monsterCard) hand.getCardFromHand(i)).getAttackManaRequirement().containsKey(AiPlayer.getManaCounter().getManaCounterHashMap().keySet()) */
+/*< AiPlayer.getManaCounter().getManaCounterHashMap().values()*//*
+); // manacounter still needs to be changed to a hashmap
             {
+
                 bestCardIndex =i;
             }
             // this assumes the card that has the highest attack cannot be played,
@@ -84,6 +87,7 @@ public manaTypes[] mana = new manaTypes [] {manaTypes.ARTS_HUMANITIES_MANA};
 
 
   */
+
 
 
 }

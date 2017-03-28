@@ -81,6 +81,18 @@ public class monsterCard extends basicCard {
         this.attackManaRequirement = attackManaRequirement;
     }
 
+/*
+// this method will itereate through the
+    // 40111707
+    // brians method
+    public manaTypes getManaRequirements()
+    {
+        for(manaTypes key : attackManaRequirement.keySet()){
+             attackManaRequirement.get(key);
+        }
+
+    }
+*/
 
     // draw monster cards to the screen
 
@@ -102,10 +114,10 @@ public class monsterCard extends basicCard {
         //Matt: I need to get touch input to tell the class what monster to attack.
 
         if(compareCardAttackBonus(attackingCard.getCardSchool(),defendingCard.getCardSchool()) == true) {
-            defendingCard.health -= (attackingCard.attackValue *attackBonus);
+            defendingCard.health -= (attackingCard.getAttackValue() *attackBonus);
 
         }else {
-            defendingCard.health -= attackingCard.attackValue;
+            defendingCard.health -= attackingCard.getAttackValue();
 
         }
 

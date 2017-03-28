@@ -2,7 +2,6 @@ package javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard;
 
 import java.util.HashMap;
 
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.cardSchools;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.manaTypes;
 
 /**
@@ -13,11 +12,11 @@ public class ManaCounter {
 
     // augmented by brian on 28/03/2017 see oldManaCounterConstructorClass
     private int totalMana,unusedMana;
-    private HashMap<manaTypes,Integer> manaCounter;
+    private HashMap<manaTypes,Integer> manaCounterHashMap;
 // hashmap is created within the constructor, this allows for it to be populated with the correct manatypes.
     public ManaCounter(int unusedMana, int totalMana) {
-        manaCounter = new HashMap<manaTypes,Integer>();
-        setupManaCounter(manaCounter);
+        manaCounterHashMap = new HashMap<manaTypes,Integer>();
+        setupManaCounter(manaCounterHashMap);
         this.unusedMana = unusedMana;
         this.totalMana = totalMana;
     }
@@ -38,12 +37,12 @@ public class ManaCounter {
         this.unusedMana = unusedMana;
     }
 
-    public HashMap<manaTypes, Integer> getManaCounter() {
-        return manaCounter;
+    public HashMap<manaTypes, Integer> getManaCounterHashMap() {
+        return manaCounterHashMap;
     }
 
-    public void setManaCounter(HashMap<manaTypes, Integer> manaCounter) {
-        this.manaCounter = manaCounter;
+    public void setManaCounterHashMap(HashMap<manaTypes, Integer> manaCounterHashMap) {
+        this.manaCounterHashMap = manaCounterHashMap;
     }
 
     //40111707
@@ -57,13 +56,19 @@ public class ManaCounter {
         map.put(manaTypes.MEDICS_MANA,0);
         map.put(manaTypes.SOCIAL_SCIENCES_MANA,0);
     }
-
+// 40111707
+    // brians method
+    // this method returns the value from the hashmap, by using the enum key for it.
+    public void getManaCountValue(manaTypes manaType)
+    {
+        getManaCounterHashMap().get(manaType);
+    }
 
     //Add mana to the mana counter
     // brian + matts method
     public void addMana(manaTypes mana, int amount)
     {
-        manaCounter.put(mana,amount);
+        manaCounterHashMap.put(mana,amount);
     }
 
     //Use mana from the pool in for an attack
