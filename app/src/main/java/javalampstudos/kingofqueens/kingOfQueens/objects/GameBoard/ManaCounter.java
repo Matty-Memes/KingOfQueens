@@ -1,5 +1,8 @@
 package javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard;
 
+import java.util.HashMap;
+
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.cardSchools;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.manaTypes;
 
 /**
@@ -7,14 +10,15 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.manaTypes;
  */
 
 public class ManaCounter {
-    private int totalMana,unusedMana;
-    private manaTypes manatype;
 
-    public ManaCounter (manaTypes manatype, int totalMana)
-    {
-        this.manatype = manatype;
+    // augmented by brian on 28/03/2017 see oldManaCounterConstructorClass
+    private int totalMana,unusedMana;
+    private HashMap<manaTypes,Integer> manaCounter = new HashMap<manaTypes,Integer>();
+
+    public ManaCounter(HashMap<manaTypes, Integer> manaCounter, int unusedMana, int totalMana) {
+        setupManaCounter();
+        this.unusedMana = unusedMana;
         this.totalMana = totalMana;
-        unusedMana = totalMana;
     }
 
     public int getTotalMana() {
@@ -33,15 +37,30 @@ public class ManaCounter {
         this.unusedMana = unusedMana;
     }
 
-    public manaTypes getManatype() {
-        return manatype;
+    public HashMap<manaTypes, Integer> getManaCounter() {
+        return manaCounter;
     }
 
+    public void setManaCounter(HashMap<manaTypes, Integer> manaCounter) {
+        this.manaCounter = manaCounter;
+    }
+
+    //40111707
+    // brians method
+    // initalises the hashmap for the manacounter and sets all of the values to 0 initally.
+    public void setupManaCounter(){
+        manaCounter.put(manaTypes.ARTS_HUMANITIES_MANA,0);
+        manaCounter.put(manaTypes.BUILT_ENVIRONMENT_MANA,0);
+        manaCounter.put(manaTypes.EEECS_MANA,0);
+        manaCounter.put(manaTypes.ENGINEERING_MANA,0);
+        manaCounter.put(manaTypes.MEDICS_MANA,0);
+        manaCounter.put(manaTypes.SOCIAL_SCIENCES_MANA,0);
+    }
     //Add mana to the mana counter
-    public void addMana()
+    // brian + matts method
+    public void addMana(manaTypes mana, int amount)
     {
-        totalMana++;
-        unusedMana=totalMana;
+        manaCounter.put(mana,amount);
     }
 
     //Use mana from the pool in for an attack

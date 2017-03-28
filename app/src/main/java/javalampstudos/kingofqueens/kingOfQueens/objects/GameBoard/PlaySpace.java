@@ -2,7 +2,10 @@ package javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard;
 
 import android.graphics.Bitmap;
 
+import java.util.HashMap;
+
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.basicCard;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.cardSchools;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.monsterCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.graveYard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
@@ -12,12 +15,12 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
  */
 
 public class PlaySpace extends GameObject {
+    private final int maxLifeValue = 6;
     private Deck deck;
     private Hand hand;
-    private final int maxLifeValue = 6;
     private int life;
     private graveYard GraveYard;
-    private ManaCounter[] manaCounter = new ManaCounter[6];
+    private  ManaCounter manaCounter;
     private CardZone zoneLeft,zoneMiddle,zoneRight;
 
     public PlaySpace(float x, float y, int width, int height, Bitmap sprite, Deck deck,
@@ -28,13 +31,15 @@ public class PlaySpace extends GameObject {
         this.deck = deck;
         this.hand = hand;
         this.life = maxLifeValue;
-        GraveYard = graveYard;
-        this.manaCounter = manaCounter;
+        this.GraveYard = graveYard;
         this.zoneLeft = zoneLeft;
         this.zoneMiddle = zoneMiddle;
         this.zoneRight = zoneRight;
         this.currentCard = currentCard;
         this.deckSize = deckSize;
+
+
+
     }
 
 
@@ -74,12 +79,10 @@ public class PlaySpace extends GameObject {
         GraveYard = graveYard;
     }
 
-    public ManaCounter[] getManaCounter() {
-        return manaCounter;
-    }
+    public void getManaCount(cardSchools manaType)
+    {
 
-    public void setManaCounter(ManaCounter[] manaCounter) {
-        this.manaCounter = manaCounter;
+        manaCounter.get(manaType);
     }
 
     public CardZone getZoneLeft() {
@@ -150,7 +153,6 @@ public class PlaySpace extends GameObject {
     }
 
 
-
     int currentCard =0;
     int deckSize = 30;
     public void addToHand(basicCard card)
@@ -160,7 +162,7 @@ public class PlaySpace extends GameObject {
         {
             //set the current position of card to the current card
             card = deck.draw();
-            hand.AddToHandArray(card,currentCard); // method to add the card to the array. takes the card + the index where it should be added to.
+            hand.addToHandArray(card,currentCard); // method to add the card to the array. takes the card + the index where it should be added to.
             currentCard++;
             deckSize--;
         }

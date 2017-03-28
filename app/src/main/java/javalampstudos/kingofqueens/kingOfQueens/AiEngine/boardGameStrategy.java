@@ -17,7 +17,7 @@ public class boardGameStrategy {
     {
 
         int bestCardIndex=0;
-        // for loop begins at one so that first card can be compared to
+        // for loop begins at one so that first card can be compared to the second.
         for (int i=1; i < hand.getHand().length; i++)
         {// within here i need to make sure only monster cards will be accepted.
             // this if statement checks 3 things.
