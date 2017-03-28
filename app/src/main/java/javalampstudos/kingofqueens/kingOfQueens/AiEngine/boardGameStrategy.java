@@ -59,7 +59,7 @@ public class boardGameStrategy {
 // brians method,
     // this method will choose which zone to play the card on then drag it to that zone.
     //40111707
-    public void playCard(MonsterCard card) {
+    public void playCard(BasicCard card) {
 
 // you need to allocate a zone for the card to be sent to
 // requires a seek method, it should send the card to the correct zone, then also give the card zone that card as its current card.

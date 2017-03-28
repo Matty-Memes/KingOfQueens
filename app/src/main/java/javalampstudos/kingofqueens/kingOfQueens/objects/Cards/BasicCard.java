@@ -59,14 +59,12 @@ public class BasicCard extends GameObject {
 // set the pointer ID
 
     public void setPointerID (int pID)
-
     {
       this.pointerID = pID;
 
     }
 
     public void draw (Canvas canvas)
-
     {
 
         
