@@ -2,7 +2,6 @@ package javalampstudos.kingofqueens.kingOfQueens.objects.Cards;
 
 
 // Local Imports
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardSchools;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
 
 // Android Imports
@@ -11,9 +10,9 @@ import android.graphics.Canvas;
 
 
 // so it's linked to update
-public class BasicCard extends GameObject {
+public class basicCard extends GameObject {
 
-    private CardSchools cardSchool;
+    private cardSchools cardSchool;
 
     // monitors whether or not a card is destroyed
     public boolean destroyed;
@@ -25,8 +24,8 @@ public class BasicCard extends GameObject {
 
 
     // Modified by Andrew - 27/03/17
-    public BasicCard(int x, int y, int width, int height, Bitmap Sprite,
-                     CardSchools cardSchool, boolean destroyed,int pointerID)
+    public basicCard(int x, int y, int width, int height, Bitmap Sprite,
+                     cardSchools cardSchool, boolean destroyed, int pointerID)
     {
         super(x, y, width, height, Sprite);
         this.cardSchool = cardSchool;
@@ -36,11 +35,11 @@ public class BasicCard extends GameObject {
 
     // getters and setters
 
-    public CardSchools getCardSchool() {return cardSchool;}
+    public cardSchools getCardSchool() {return cardSchool;}
 
     public void setCardSchool() { this.cardSchool = cardSchool;}
 
-    public void setCardSchool(CardSchools cardSchool) {
+    public void setCardSchool(cardSchools cardSchool) {
         this.cardSchool = cardSchool;
     }
 
@@ -77,28 +76,28 @@ public class BasicCard extends GameObject {
 
     public void setCardSchoolGraphic()
     {
-        if (getCardSchool()== CardSchools.EEECS)
+        if (getCardSchool()== cardSchools.EEECS)
         {
             //Set card type graphic to EEECS
         }
 
-        if (getCardSchool()== CardSchools.MEDICS)
+        if (getCardSchool()== cardSchools.MEDICS)
         {
             //Set card type graphic to Medic
         }
-        if (getCardSchool()== CardSchools.ARTS_HUMANITIES)
+        if (getCardSchool()== cardSchools.ARTS_HUMANITIES)
         {
             //Set card type graphic to Arts & Humanities
         }
-        if (getCardSchool()== CardSchools.BUILT_ENVIORNMENT)
+        if (getCardSchool()== cardSchools.BUILT_ENVIORNMENT)
         {
             //Set card type graphic to Built Environment
         }
-        if(getCardSchool()== CardSchools.ENGINEERING)
+        if(getCardSchool()== cardSchools.ENGINEERING)
         {
             //Set card type graphic to Engineering
         }
-        if(getCardSchool()== CardSchools.SOCIAL_SCIENCES)
+        if(getCardSchool()== cardSchools.SOCIAL_SCIENCES)
         {
             //Set card type graphic to Social Sciences
         }

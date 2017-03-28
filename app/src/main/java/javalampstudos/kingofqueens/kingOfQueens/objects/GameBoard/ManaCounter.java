@@ -1,6 +1,6 @@
 package javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard;
 
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaTypes;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.manaTypes;
 
 /**
  * Created by Matt on 08/03/2017.
@@ -8,9 +8,9 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaTypes;
 
 public class ManaCounter {
     private int totalMana,unusedMana;
-    private ManaTypes manatype;
+    private manaTypes manatype;
 
-    public ManaCounter (ManaTypes manatype,int totalMana)
+    public ManaCounter (manaTypes manatype, int totalMana)
     {
         this.manatype = manatype;
         this.totalMana = totalMana;
@@ -33,7 +33,7 @@ public class ManaCounter {
         this.unusedMana = unusedMana;
     }
 
-    public ManaTypes getManatype() {
+    public manaTypes getManatype() {
         return manatype;
     }
 

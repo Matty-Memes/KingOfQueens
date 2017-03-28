@@ -4,12 +4,6 @@ package javalampstudos.kingofqueens.kingOfQueens.AiEngine;
  * Created by brian on 27/02/2017.
  */
 
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BasicCard;
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.MonsterCard;
-import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.ManaCounter;
-import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.PlaySpace;
-import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Hand;
-
 public class boardGameStrategy {
 
    /*
@@ -19,7 +13,7 @@ public class boardGameStrategy {
 // 40111707 brians method
     // this method will find the highest attack card that can be played.
     // in order for this method to be finished manacounter needs to be made into a hashmap.
-    public void searchHandForCardWithHighestAttack(Hand hand, MonsterCard enemeyCard)
+    public void searchHandForCardWithHighestAttack(Hand hand, monsterCard enemeyCard)
     {
 
         int bestCardIndex=0;
@@ -31,24 +25,24 @@ public class boardGameStrategy {
             // 2.the card is also higher than the best card so far
             // 3.the cards mana also allows it to be played.
 
-            if(hand.etCardFromHand(i) instanceof MonsterCard)
+            if(hand.etCardFromHand(i) instanceof monsterCard)
             {
 
-            if (((MonsterCard) hand.getCardFromHand(i)).getAttackValue() > enemeyCard.getDefence()
-                    && ((MonsterCard) hand.getCardFromHand(i)).getAttackValue() > ((MonsterCard) hand.getCardFromHand(bestCardIndex)).getAttackValue()
-                    && ((MonsterCard) hand.getCardFromHand(i)).getAttackValue() < ManaCounter.get(((MonsterCard) hand.getCardFromHand(i)).getCardSchool())) // manacounter still needs to be changed to a hashmap
+            if (((monsterCard) hand.getCardFromHand(i)).getAttackValue() > enemeyCard.getDefence()
+                    && ((monsterCard) hand.getCardFromHand(i)).getAttackValue() > ((monsterCard) hand.getCardFromHand(bestCardIndex)).getAttackValue()
+                    && ((monsterCard) hand.getCardFromHand(i)).getAttackValue() < ManaCounter.get(((monsterCard) hand.getCardFromHand(i)).getCardSchool())) // manacounter still needs to be changed to a hashmap
             {
                 bestCardIndex =i;
             }
             // this assumes the card that has the highest attack cannot be played,
 //				so it simply checks for a card with a better attack than the player, with enough mana to be played.
-            else if (((MonsterCard) hand.getCardFromHand(i)).getAttackValue() > enemeyCard.getDefence()
-                    &&  ((MonsterCard) hand.getCardFromHand(i)).getAttackManaRequired() <  ManaCounter.get(((MonsterCard) hand.getCardFromHand(i)).getCardSchool()))
+            else if (((monsterCard) hand.getCardFromHand(i)).getAttackValue() > enemeyCard.getDefence()
+                    &&  ((monsterCard) hand.getCardFromHand(i)).getAttackManaRequired() <  ManaCounter.get(((monsterCard) hand.getCardFromHand(i)).getCardSchool()))
             {
                 bestCardIndex = i;
             }
 
-            playCard(((MonsterCard) hand.getCardFromHand(bestCardIndex)));
+            playCard(((monsterCard) hand.getCardFromHand(bestCardIndex)));
         }
         }
 }
@@ -59,7 +53,7 @@ public class boardGameStrategy {
 // brians method,
     // this method will choose which zone to play the card on then drag it to that zone.
     //40111707
-    public void playCard(BasicCard card) {
+    public void playCard(basicCard card) {
 
 // you need to allocate a zone for the card to be sent to
 // requires a seek method, it should send the card to the correct zone, then also give the card zone that card as its current card.

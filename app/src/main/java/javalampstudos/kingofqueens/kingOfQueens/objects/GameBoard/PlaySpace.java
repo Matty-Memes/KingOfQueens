@@ -2,11 +2,10 @@ package javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard;
 
 import android.graphics.Bitmap;
 
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BasicCard;
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.MonsterCard;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.basicCard;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.monsterCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.graveYard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
-import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Hand;
 
 /**
  * Created by Matt on 06/02/2017.
@@ -135,7 +134,7 @@ public class PlaySpace extends GameObject {
      // this method needs to be sent in to where the stuff is being played. NOTE:: BRIAN
      //40111707
      //brian
-     public void determineDeathOfMonster(MonsterCard dyingCard){
+     public void determineDeathOfMonster(monsterCard dyingCard){
          if(dyingCard.getHealth() <= 0)
          {
            GraveYard.addToGraveYard(dyingCard);
@@ -154,7 +153,7 @@ public class PlaySpace extends GameObject {
 
     int currentCard =0;
     int deckSize = 30;
-    public void addToHand(BasicCard card)
+    public void addToHand(basicCard card)
     {
         //checks if there is room in the hand
         if (currentCard< 9)

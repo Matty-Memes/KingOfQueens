@@ -11,30 +11,30 @@ public class MonsterCardOldConstructor {
     // matts old constructor for Monster card, 27/03/2017
 
     /*
-    import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BasicCard;
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardLevel;
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaTypes;
+    import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.basicCard;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.cardLevel;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.manaTypes;
 import javalampstudos.kingofqueens.kingOfQueens.objects.graveYard;
-public class MonsterCard extends BasicCard {
-    private CardLevel level; // ENUM
+public class monsterCard extends basicCard {
+    private cardLevel level; // ENUM
     private int health;
     private int defence;
-    private CardSchools strength;
-    private CardSchools weakness; // ENUM
+    private cardSchools strength;
+    private cardSchools weakness; // ENUM
     // Attack Values
     private String attack1Name;
     private int attack1Strength;
     // holds a list of the mana types required
-    private ManaTypes [] attack1ManaRequired;
+    private manaTypes [] attack1ManaRequired;
     private String attack2Name;
     private int attack2Strength;
     // holds a list of the mana types required
-    private ManaTypes [] attack2ManaRequired;
+    private manaTypes [] attack2ManaRequired;
     // Reduce the number of fields somehow
-    public MonsterCard(int x, int y, int width, int height, Bitmap Sprite,Bitmap cardBackSprite, boolean destroyed,int pointerID,
-                       String name, String description, CardLevel level, int health,int defence, CardSchools cardSchools, CardSchools strength, CardSchools weakness,
-                       String attack1Name, int attack1Strength, ManaTypes [] attack1ManaRequired,
-                       String attack2Name, int attack2Strength, ManaTypes [] attack2ManaRequired ) {
+    public monsterCard(int x, int y, int width, int height, Bitmap Sprite,Bitmap cardBackSprite, boolean destroyed,int pointerID,
+                       String name, String description, cardLevel level, int health,int defence, cardSchools cardSchools, cardSchools strength, cardSchools weakness,
+                       String attack1Name, int attack1Strength, manaTypes [] attack1ManaRequired,
+                       String attack2Name, int attack2Strength, manaTypes [] attack2ManaRequired ) {
         super(x, y, width, height, Sprite,cardBackSprite, name,description,cardSchools,destroyed,pointerID);
         this.level = level;
         this.health = health;
@@ -49,10 +49,10 @@ public class MonsterCard extends BasicCard {
         this.attack2ManaRequired = attack2ManaRequired;
     }
     // ADD GETTERS AND SETTERS // Brian :: Matt will you keep all these getters and setters i need to accsess them.
-    public CardLevel getLevel() {
+    public cardLevel getLevel() {
         return level;
     }
-    public void setLevel(CardLevel level) {
+    public void setLevel(cardLevel level) {
         this.level = level;
     }
     public int getHealth() {
@@ -67,16 +67,16 @@ public class MonsterCard extends BasicCard {
     public void setDefence(int defence) {
         this.defence = defence;
     }
-    public CardSchools getStrength() {
+    public cardSchools getStrength() {
         return strength;
     }
-    public void setStrength(CardSchools strength) {
+    public void setStrength(cardSchools strength) {
         this.strength = strength;
     }
-    public CardSchools getWeakness() {
+    public cardSchools getWeakness() {
         return weakness;
     }
-    public void setWeakness(CardSchools weakness) {
+    public void setWeakness(cardSchools weakness) {
         this.weakness = weakness;
     }
     public String getAttack1Name() {
@@ -91,10 +91,10 @@ public class MonsterCard extends BasicCard {
     public void setAttack1Strength(int attack1Strength) {
         this.attack1Strength = attack1Strength;
     }
-    public ManaTypes[] getAttack1ManaRequired() {
+    public manaTypes[] getAttack1ManaRequired() {
         return attack1ManaRequired;
     }
-    public void setAttack1ManaRequired(ManaTypes[] attack1ManaRequired) {
+    public void setAttack1ManaRequired(manaTypes[] attack1ManaRequired) {
         this.attack1ManaRequired = attack1ManaRequired;
     }
     public String getAttack2Name() {
@@ -109,10 +109,10 @@ public class MonsterCard extends BasicCard {
     public void setAttack2Strength(int attack2Strength) {
         this.attack2Strength = attack2Strength;
     }
-    public ManaTypes[] getAttack2ManaRequired() {
+    public manaTypes[] getAttack2ManaRequired() {
         return attack2ManaRequired;
     }
-    public void setAttack2ManaRequired(ManaTypes[] attack2ManaRequired) {
+    public void setAttack2ManaRequired(manaTypes[] attack2ManaRequired) {
         this.attack2ManaRequired = attack2ManaRequired;
     }
 

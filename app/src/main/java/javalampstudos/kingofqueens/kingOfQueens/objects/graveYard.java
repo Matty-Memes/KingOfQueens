@@ -1,6 +1,6 @@
 package javalampstudos.kingofqueens.kingOfQueens.objects;
 
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.MonsterCard;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.monsterCard;
 
 /**
  * Created by brian on 14/02/2017.
@@ -9,7 +9,7 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.MonsterCard;
 public class graveYard {
     public  final int maxGraveYardSize = 5;
     private int graveCounter;
-    private MonsterCard graveYard [] = new MonsterCard[maxGraveYardSize];
+    private monsterCard graveYard [] = new monsterCard[maxGraveYardSize];
     public graveYard( )
     { // NOTE not to sure about the intialising of the array to contain graveyard - in here or where it is ?
 
@@ -20,11 +20,11 @@ public class graveYard {
         return graveCounter;
     }
 
-    public MonsterCard[] getGraveYard() {
+    public monsterCard[] getGraveYard() {
         return graveYard;
     }
 
-    public void setGraveYard(MonsterCard[] graveYard) {
+    public void setGraveYard(monsterCard[] graveYard) {
         graveYard = graveYard;
     }
 
@@ -37,7 +37,7 @@ public class graveYard {
     // this method allows for the card to be removed from the deck and placed here, where it will be tallied in order to find the score
     // if the grave counter exceeds the maximum number of cards then the match should end.
     //40111707
-    public void addToGraveYard(MonsterCard deadCard)
+    public void addToGraveYard(monsterCard deadCard)
     {
         if( graveCounter < maxGraveYardSize )
         {
@@ -58,7 +58,7 @@ public class graveYard {
 // this method allows for the dead card the the player choose to be revived by
 // setting the destroyed variable to false, and removing it from the graveyard array.
     //40111707
-    public void removeFromGraveYard(MonsterCard reviveCardChoice)
+    public void removeFromGraveYard(monsterCard reviveCardChoice)
     {
         if( reviveCardChoice.destroyed == true )
         {

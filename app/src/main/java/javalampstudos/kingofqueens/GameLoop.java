@@ -1,6 +1,5 @@
 package javalampstudos.kingofqueens;
 
-import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.util.DisplayMetrics;
 
@@ -10,9 +9,8 @@ import android.util.DisplayMetrics;
 
 // Local Imports
 
-import javalampstudos.kingofqueens.kingOfQueens.Menu.PauseFragment;
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardSchools;
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaCard;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.cardSchools;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.manaCard;
 import javalampstudos.kingofqueens.kingOfQueens.engine.graphics.CanvasRenderer;
 import javalampstudos.kingofqueens.kingOfQueens.engine.graphics.CanvasFragment;
 import javalampstudos.kingofqueens.kingOfQueens.engine.input.MultitouchListener;
@@ -113,7 +111,7 @@ public class GameLoop implements Runnable
 
     // CARD GAME LOGIC
 
-    public BasicCard [] hand;
+    public basicCard[] hand;
     public int handPos;
 
 
@@ -128,13 +126,13 @@ public class GameLoop implements Runnable
 
 
     // DataAdmin
-    public ManaTypes [] attack1ManaRequiredDA;
-    public ManaTypes [] attack2ManaRequiredDA;
+    public manaTypes[] attack1ManaRequiredDA;
+    public manaTypes[] attack2ManaRequiredDA;
 
     // Hackerman
 
-    public ManaTypes [] attack1ManaRequiredHM;
-    public ManaTypes [] attack2ManaRequiredHM;
+    public manaTypes[] attack1ManaRequiredHM;
+    public manaTypes[] attack2ManaRequiredHM;
 
     // Random Logic
 
@@ -150,20 +148,20 @@ public class GameLoop implements Runnable
     // AREAS OF THE BOARD - add using dedicated method
 
     // player variables
-    public BasicCard [] playerHand = new BasicCard [10];
-    public BasicCard [] playerMonsterArea = new MonsterCard [3];
+    public basicCard[] playerHand = new basicCard[10];
+    public basicCard[] playerMonsterArea = new monsterCard[3];
     // Four for each monster card and one general mana
-    public ManaCard [] playerManaPool = new ManaCard [13];
+    public manaCard[] playerManaPool = new manaCard[13];
     // Adjust size accordingly
-    public BasicCard [] playerDiscardPile = new BasicCard [40];
+    public basicCard[] playerDiscardPile = new basicCard[40];
 
     // opponent variables
-    public BasicCard [] opponentHand = new BasicCard [10];
-    public  BasicCard [] opponentMonsterArea = new MonsterCard [3];
+    public basicCard[] opponentHand = new basicCard[10];
+    public  basicCard[] opponentMonsterArea = new monsterCard[3];
     // Four for each monster card and one general mana
-    public ManaCard [] opponentManaPool = new ManaCard [13];
+    public manaCard[] opponentManaPool = new manaCard[13];
     // Adjust size accordingly
-    public BasicCard [] opponentDiscardPile = new BasicCard [40];
+    public basicCard[] opponentDiscardPile = new basicCard[40];
 
     // increment this when a card is destroyed
     int cardsDestroyed = 0;
@@ -176,52 +174,52 @@ public class GameLoop implements Runnable
     int opponentDeckSize = 40;
 
     // Current card - temporarily stores the card you're working with
-    public BasicCard currentCard;
+    public basicCard currentCard;
     public int touchCounter = 0;
 
     // Attack Logic Variables
-    public MonsterCard attacker;
+    public monsterCard attacker;
 
     // The game needs to be able to access every possible card
-    public BasicCard [] cardList = new BasicCard [40];
+    public basicCard[] cardList = new basicCard[40];
 
     // Declare all the monsters here
-    public MonsterCard DataAdmin;
-    public MonsterCard HackerMan;
-    public MonsterCard Geologist;
+    public monsterCard DataAdmin;
+    public monsterCard HackerMan;
+    public monsterCard Geologist;
 
     // Declare all the mana cards here
-    public ManaCard EEECS;
-    public ManaCard BuiltEnvironment;
-    public ManaCard MedicalScience;
-    public ManaCard SocialSciences;
-    public ManaCard ArtsandHumanities;
-    public ManaCard AnyMana;
-    public ManaCard Engineering;
+    public manaCard EEECS;
+    public manaCard BuiltEnvironment;
+    public manaCard MedicalScience;
+    public manaCard SocialSciences;
+    public manaCard ArtsandHumanities;
+    public manaCard AnyMana;
+    public manaCard Engineering;
 
     // Declare all the buff/support cards here
 
 
     // Declare card backs here
 
-    public BasicCard graveYard;
-    public BasicCard deck;
+    public basicCard graveYard;
+    public basicCard deck;
 
     // These are temporary cards for checking positions
 
     // Hand Cards
 
-    public BasicCard handCard1;
-    public BasicCard handCard2;
-    public BasicCard handCard3;
-    public BasicCard handCard4;
-    public BasicCard handCard5;
+    public basicCard handCard1;
+    public basicCard handCard2;
+    public basicCard handCard3;
+    public basicCard handCard4;
+    public basicCard handCard5;
 
     // Monster Cards
 
-    public BasicCard monsterCard1;
-    public BasicCard monsterCard2;
-    public BasicCard monsterCard3;
+    public basicCard monsterCard1;
+    public basicCard monsterCard2;
+    public basicCard monsterCard3;
 
 
     // booleans
@@ -258,14 +256,14 @@ public class GameLoop implements Runnable
     public boolean handCardSelected = false;
 
     // ARRAY LISTS OF CARDS
-    public ArrayList<BasicCard> monsterCards = new ArrayList<BasicCard>();
-    public ArrayList<ManaCard> manaCards = new ArrayList<ManaCard>();
-    public ArrayList<SupportCard> supportCards = new ArrayList<SupportCard>();
+    public ArrayList<basicCard> monsterCards = new ArrayList<basicCard>();
+    public ArrayList<manaCard> manaCards = new ArrayList<manaCard>();
+    public ArrayList<supportCard> supportCards = new ArrayList<supportCard>();
 
     // These keep track of and draw the actual cards
 
-    public ArrayList<BasicCard> handCards = new ArrayList<>();
-    public ArrayList<MonsterCard> monstersInPlay = new ArrayList<>();
+    public ArrayList<basicCard> handCards = new ArrayList<>();
+    public ArrayList<monsterCard> monstersInPlay = new ArrayList<>();
 
     // GameLoop Constructor
     public GameLoop (CanvasFragment fragment, int width, int height)
@@ -316,8 +314,8 @@ public class GameLoop implements Runnable
 
         // Slot 1
 
-        Geologist = new MonsterCard(20, 350, 90, 120, GeoSprite, CardSchools.EEECS, false, 49, CardLevel.UNDERGRAD, 140,0,
-                CardSchools.MEDICS, "Hack", 20, attack2ManaRequiredHM);
+        Geologist = new monsterCard(20, 350, 90, 120, GeoSprite, cardSchools.EEECS, false, 49, cardLevel.UNDERGRAD, 140,0,
+                cardSchools.MEDICS, "Hack", 20, attack2ManaRequiredHM);
 
         // Slot 2
 
@@ -328,44 +326,44 @@ public class GameLoop implements Runnable
         // Positioning the hand - horizontal gaps are always 10
 
         // The first gap is slightly larger to make it obvious the deck is seperate
-        handCard1 = new BasicCard(194, 410, 90, 120, cardBackSprite, CardSchools.MEDICS, false,
+        handCard1 = new basicCard(194, 410, 90, 120, cardBackSprite, cardSchools.MEDICS, false,
                 49);
 
         // The rest of the gaps should be either 10 or 20
 
-        handCard2 = new BasicCard(294, 410, 90, 120, cardBackSprite, CardSchools.MEDICS, false,
+        handCard2 = new basicCard(294, 410, 90, 120, cardBackSprite, cardSchools.MEDICS, false,
                 49);
-        handCard3 = new BasicCard(394, 410, 90, 120, cardBackSprite, CardSchools.MEDICS, false,
+        handCard3 = new basicCard(394, 410, 90, 120, cardBackSprite, cardSchools.MEDICS, false,
                 49);
-        handCard4 = new BasicCard(494, 410, 90, 120, cardBackSprite, CardSchools.MEDICS, false,
+        handCard4 = new basicCard(494, 410, 90, 120, cardBackSprite, cardSchools.MEDICS, false,
                 49);
-        handCard5 = new BasicCard(594, 410, 90, 120, cardBackSprite, CardSchools.MEDICS, false,
+        handCard5 = new basicCard(594, 410, 90, 120, cardBackSprite, cardSchools.MEDICS, false,
                 49);
 
         // Positioning the monsters
 
-        monsterCard1 = new BasicCard(194, 280, 90, 120, cardBackSprite, CardSchools.MEDICS, false,
+        monsterCard1 = new basicCard(194, 280, 90, 120, cardBackSprite, cardSchools.MEDICS, false,
                 49);
-        monsterCard2 = new BasicCard(394, 280, 90, 120, cardBackSprite, CardSchools.MEDICS, false,
+        monsterCard2 = new basicCard(394, 280, 90, 120, cardBackSprite, cardSchools.MEDICS, false,
                 49);
-        monsterCard3 = new BasicCard(594, 280, 90, 120, cardBackSprite, CardSchools.MEDICS, false,
+        monsterCard3 = new basicCard(594, 280, 90, 120, cardBackSprite, cardSchools.MEDICS, false,
                 49);
 
         // Hand
 
         // Draw the graveyard pile
-        graveYard = new BasicCard(754, 280, 90, 120, cardBackSprite, CardSchools.MEDICS, false,
+        graveYard = new basicCard(754, 280, 90, 120, cardBackSprite, cardSchools.MEDICS, false,
             49);
 
         // y co-ordinate is a gap of 50 plus half the card size
 
-        deck = new BasicCard(754, 410, 90, 120, cardBackSprite, CardSchools.MEDICS, false,
+        deck = new basicCard(754, 410, 90, 120, cardBackSprite, cardSchools.MEDICS, false,
                 49);
 
         rand = new randomGenerator();
 
         // Initialize hand stuff
-        hand = new BasicCard [5];
+        hand = new basicCard[5];
         handPos = 0;
 
     }
@@ -912,12 +910,12 @@ public class GameLoop implements Runnable
     {
 
         // DataAdmin
-        attack1ManaRequiredDA = new ManaTypes [] { ManaTypes.EEECS_MANA, ManaTypes.GENERIC_MANA };
-        attack2ManaRequiredDA = new ManaTypes [] { ManaTypes.EEECS_MANA, ManaTypes.EEECS_MANA, ManaTypes.EEECS_MANA };
+        attack1ManaRequiredDA = new manaTypes[] { manaTypes.EEECS_MANA, manaTypes.GENERIC_MANA };
+        attack2ManaRequiredDA = new manaTypes[] { manaTypes.EEECS_MANA, manaTypes.EEECS_MANA, manaTypes.EEECS_MANA };
 
         // Hackerman
-        attack2ManaRequiredHM = new ManaTypes [] { ManaTypes.EEECS_MANA, ManaTypes.GENERIC_MANA };
-        attack2ManaRequiredHM = new ManaTypes [] { ManaTypes.EEECS_MANA, ManaTypes.EEECS_MANA, ManaTypes.EEECS_MANA, ManaTypes.EEECS_MANA };
+        attack2ManaRequiredHM = new manaTypes[] { manaTypes.EEECS_MANA, manaTypes.GENERIC_MANA };
+        attack2ManaRequiredHM = new manaTypes[] { manaTypes.EEECS_MANA, manaTypes.EEECS_MANA, manaTypes.EEECS_MANA, manaTypes.EEECS_MANA };
 
         // Declare Mana Cards here
 
@@ -993,7 +991,7 @@ public class GameLoop implements Runnable
 
     // Something needs to clear the touchCounter
 
-    private void selectAttack (BasicCard currentCard)
+    private void selectAttack (basicCard currentCard)
 
     {
       // if the touch area is touched once
@@ -1019,7 +1017,7 @@ public class GameLoop implements Runnable
         // give it a position
 
         // gives you access to the card you pulled out
-        BasicCard temp = cardList[randomIndex];
+        basicCard temp = cardList[randomIndex];
 
         // Depending on which card you drew
         // Updates these using the positions worked out
