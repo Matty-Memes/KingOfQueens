@@ -115,7 +115,7 @@ public class monsterCard extends basicCard {
     // gets both cards school types and then goes through the if statements in order to find if the combination fits
     // if the combination fits then it returns true, this then allows for the 1.5X multiplier to be added to the attack.
     // 40111707
-
+    // brian
     public boolean compareCardAttackBonus(cardSchools attackingCard, cardSchools defendingCard)
     {
         if(attackingCard == cardSchools.MEDICS && defendingCard == cardSchools.EEECS)
