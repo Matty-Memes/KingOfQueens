@@ -7,7 +7,7 @@ import android.graphics.Canvas;
  * Created by brian on 24/11/2016.
  * 40111707
  * Modified by Matt on 09/03/2017
- * Removed mana value as it is now redundant with the ManaCounter class. Each mana card is worth 1
+ * Removed mana value as it is now redundant with the manaCounter class. Each mana card is worth 1
  */
 
 

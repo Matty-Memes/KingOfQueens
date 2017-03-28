@@ -9,13 +9,13 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
  * Created by Matt on 13/03/2017.
  */
 
-public class Hand extends GameObject {
-    private basicCard[] hand;
+public class hand extends GameObject {
     private final int MAXHANDSIZE = 10;
+    private basicCard[] hand;
     private int currentHandSize;
 
-// augmented by brian on 27/03/2017
-    public Hand(float x, float y, int width, int height, Bitmap sprite, basicCard[] hand, int currentHandSize) {
+    // augmented by brian on 27/03/2017
+    public hand(float x, float y, int width, int height, Bitmap sprite, basicCard[] hand, int currentHandSize) {
         super(x, y, width, height, sprite);
         this.hand = new basicCard[getMAXHANDSIZE()];
         this.currentHandSize = currentHandSize;
@@ -44,24 +44,22 @@ public class Hand extends GameObject {
         return MAXHANDSIZE;
     }
 
-// 40111707
+    // 40111707
     // brians method to accsess elements within the hand array.
-    public basicCard getCardFromHand (int index)
-    {
+    public basicCard getCardFromHand(int index) {
 
         return this.hand[index];
     }
-// 40111707
+
+    // 40111707
 // brians method
-    public void addToHandArray(basicCard card, int index)
-    {
+    public void addToHandArray(basicCard card, int index) {
         this.hand[index] = card;
     }
 
- // 40111707
- // brians method
-    public void removeFromHandArray(int index)
-    {
+    // 40111707
+    // brians method
+    public void removeFromHandArray(int index) {
         // sets the corresponding index of the hand array to null, thus removing the card.
         this.hand[index] = null;
     }

@@ -15,7 +15,7 @@ public class oldManaCounterConstructor {
     private manaTypes manatype;
     private HashMap<manaTypes,Integer> manaCounter = new HashMap<manaTypes,Integer>();
 
-    public ManaCounter (manaTypes manatype, int totalMana)
+    public manaCounter (manaTypes manatype, int totalMana)
     {
         this.manatype = manatype;
         this.totalMana = totalMana;

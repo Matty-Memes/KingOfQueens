@@ -76,7 +76,7 @@ public class GameLoop implements Runnable
     // PUT TOUCH INPUT RECTS HERE
     // This could be moved to it's own class
 
-    // Hand Slots - Must instantiate these
+    // hand Slots - Must instantiate these
     public Rect handRect1;
     public Rect handRect2;
     public Rect handRect3;
@@ -207,7 +207,7 @@ public class GameLoop implements Runnable
 
     // These are temporary cards for checking positions
 
-    // Hand Cards
+    // hand Cards
 
     public basicCard handCard1;
     public basicCard handCard2;
@@ -352,7 +352,7 @@ public class GameLoop implements Runnable
         monsterCard3 = new basicCard(594, 280, 90, 120, cardBackSprite, cardSchools.MEDICS, false,
                 49);
 
-        // Hand
+        // hand
 
         // Draw the graveyard pile
         graveYard = new basicCard(754, 280, 90, 120, cardBackSprite, cardSchools.MEDICS, false,
@@ -707,7 +707,7 @@ public class GameLoop implements Runnable
         pauseBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/Pause.png");
 
 
-        // Hand Rects
+        // hand Rects
 
         handRect1 = new Rect(
                 (int) (194 - (90 / 2)),

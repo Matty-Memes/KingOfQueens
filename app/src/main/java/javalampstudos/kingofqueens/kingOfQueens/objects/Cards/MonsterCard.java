@@ -1,7 +1,6 @@
 package javalampstudos.kingofqueens.kingOfQueens.objects.Cards;
 
 
-
 // Android imports
 
 import android.graphics.Bitmap;
@@ -19,7 +18,7 @@ public class monsterCard extends basicCard {
     private int defence;
     private int attackValue;
     // holds a list of the mana types required
-    private HashMap<manaTypes,Integer> attackManaRequirement ;
+    private HashMap<manaTypes, Integer> attackManaRequirement;
 
     // Brian + Matt
     // Modified by Andrew - 27/03/17
@@ -32,7 +31,7 @@ public class monsterCard extends basicCard {
         this.health = health;
         this.defence = defence;
         this.attackValue = attackValue;
-        this.attackManaRequirement = attackManaRequirement;
+        this.attackManaRequirement = new HashMap<manaTypes, Integer>(attackManaRequirement);
     }
 
     // ADD GETTERS AND SETTERS //
@@ -104,19 +103,16 @@ public class monsterCard extends basicCard {
     }
 
 
-
-
-// Brian's + Matts Method
-    public void attack(monsterCard attackingCard, monsterCard defendingCard)
-    {
+    // Brian's + Matts Method
+    public void attack(monsterCard attackingCard, monsterCard defendingCard) {
 
         //monsterCard target = this.monsterCard;
         //Matt: I need to get touch input to tell the class what monster to attack.
 
-        if(compareCardAttackBonus(attackingCard.getCardSchool(),defendingCard.getCardSchool()) == true) {
-            defendingCard.health -= (attackingCard.getAttackValue() *attackBonus);
+        if (compareCardAttackBonus(attackingCard.getCardSchool(), defendingCard.getCardSchool()) == true) {
+            defendingCard.health -= (attackingCard.getAttackValue() * attackBonus);
 
-        }else {
+        } else {
             defendingCard.health -= attackingCard.getAttackValue();
 
         }
@@ -128,40 +124,20 @@ public class monsterCard extends basicCard {
     // if the combination fits then it returns true, this then allows for the 1.5X multiplier to be added to the attack.
     // 40111707
     // brian
-    public boolean compareCardAttackBonus(cardSchools attackingCard, cardSchools defendingCard)
-    {
-        if(attackingCard == cardSchools.MEDICS && defendingCard == cardSchools.EEECS)
-        {
+    public boolean compareCardAttackBonus(cardSchools attackingCard, cardSchools defendingCard) {
+        if (attackingCard == cardSchools.MEDICS && defendingCard == cardSchools.EEECS) {
             return true;
-        }
-
-        else if(attackingCard == cardSchools.EEECS && defendingCard == cardSchools.ARTS_HUMANITIES)
-        {
+        } else if (attackingCard == cardSchools.EEECS && defendingCard == cardSchools.ARTS_HUMANITIES) {
             return true;
-        }
-
-        else if(attackingCard == cardSchools.ARTS_HUMANITIES && defendingCard == cardSchools.MEDICS)
-
-        {
+        } else if (attackingCard == cardSchools.ARTS_HUMANITIES && defendingCard == cardSchools.MEDICS) {
             return true;
-
-        }
-        else if(attackingCard == cardSchools.ENGINEERING && defendingCard == cardSchools.SOCIAL_SCIENCES)
-        {
+        } else if (attackingCard == cardSchools.ENGINEERING && defendingCard == cardSchools.SOCIAL_SCIENCES) {
             return true;
-        }
-
-        else if(attackingCard == cardSchools.BUILT_ENVIORNMENT && defendingCard == cardSchools.ENGINEERING)
-        {
+        } else if (attackingCard == cardSchools.BUILT_ENVIORNMENT && defendingCard == cardSchools.ENGINEERING) {
             return true;
-        }
-
-        else if(attackingCard == cardSchools.SOCIAL_SCIENCES && defendingCard == cardSchools.BUILT_ENVIORNMENT)
-        {
+        } else if (attackingCard == cardSchools.SOCIAL_SCIENCES && defendingCard == cardSchools.BUILT_ENVIORNMENT) {
             return true;
-        }
-
-        else {
+        } else {
             return false;
         }
 
