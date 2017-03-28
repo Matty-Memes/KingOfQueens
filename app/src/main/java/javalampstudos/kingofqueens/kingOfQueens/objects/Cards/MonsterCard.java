@@ -15,7 +15,6 @@ public class monsterCard extends basicCard {
     private cardLevel level; // ENUM
     private int health;
     private int defence;
-    private cardSchools school; // each monster is only concerened with its own school, see attack methods for how this works.
     private int attackValue;
     // holds a list of the mana types required
     private manaTypes[] attackManaRequired;
@@ -24,15 +23,15 @@ public class monsterCard extends basicCard {
     // Modified by Andrew - 27/03/17
     // constructor
     public monsterCard(int x, int y, int width, int height, Bitmap Sprite,
-                       cardSchools cardSchool, boolean destroyed, int pointerID,
+                       boolean destroyed, int pointerID,
                        cardLevel level, int health, int defence,
-                       cardSchools school, int attackValue,
+                       cardSchools cardSchool, int attackValue,
                        manaTypes[] attackManaRequired) {
         super(x, y, width, height, Sprite, cardSchool, destroyed, pointerID);
         this.level = level;
         this.health = health;
         this.defence = defence;
-        this.school = school;
+
         this.attackValue = attackValue;
         this.attackManaRequired = attackManaRequired;
     }
@@ -62,14 +61,6 @@ public class monsterCard extends basicCard {
 
     public void setDefence(int defence) {
         this.defence = defence;
-    }
-
-    public cardSchools getSchool() {
-        return school;
-    }
-
-    public void setSchool(cardSchools school) {
-        this.school = school;
     }
 
     public double getAttackBonus() {
@@ -122,12 +113,6 @@ public class monsterCard extends basicCard {
 
 
     }
-
-
-
-
-
-
 
     // gets both cards school types and then goes through the if statements in order to find if the combination fits
     // if the combination fits then it returns true, this then allows for the 1.5X multiplier to be added to the attack.

@@ -314,9 +314,12 @@ public class GameLoop implements Runnable
 
         // Slot 1
 
-        Geologist = new monsterCard(20, 350, 90, 120, GeoSprite, cardSchools.EEECS, false, 49, cardLevel.UNDERGRAD, 140,0,
+     /*   Geologist = new monsterCard(20, 350, 90, 120, GeoSprite, cardSchools.EEECS, false, 49, cardLevel.UNDERGRAD, 140,0,
                 cardSchools.MEDICS, "Hack", 20, attack2ManaRequiredHM);
 
+            NOTE:DREWBIE THE  IMPLEMENTATION BELOW IS CORRECT
+        monsterCard geol = new monsterCard(20,350,90,120,GeoSprite,false,49,
+                cardLevel.UNDERGRAD,140,70,cardSchools.EEECS,20,attack2ManaRequiredHM);*/
         // Slot 2
 
         // Slot 3
