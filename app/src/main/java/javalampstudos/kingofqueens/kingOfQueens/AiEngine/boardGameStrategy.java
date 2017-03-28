@@ -1,12 +1,16 @@
 package javalampstudos.kingofqueens.kingOfQueens.AiEngine;
 
+import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.PlaySpace;
+import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Hand;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.monsterCard;
 /**
  * Created by brian on 27/02/2017.
  */
 
 public class boardGameStrategy {
 
-   /*
+
+/*
 
    PlaySpace AiPlayer = new PlaySpace(); // still neeeds to be populated
 
@@ -25,12 +29,12 @@ public class boardGameStrategy {
             // 2.the card is also higher than the best card so far
             // 3.the cards mana also allows it to be played.
 
-            if(hand.etCardFromHand(i) instanceof monsterCard)
+            if(hand.getCardFromHand(i) instanceof monsterCard)
             {
 
             if (((monsterCard) hand.getCardFromHand(i)).getAttackValue() > enemeyCard.getDefence()
                     && ((monsterCard) hand.getCardFromHand(i)).getAttackValue() > ((monsterCard) hand.getCardFromHand(bestCardIndex)).getAttackValue()
-                    && ((monsterCard) hand.getCardFromHand(i)).getAttackValue() < ManaCounter.get(((monsterCard) hand.getCardFromHand(i)).getCardSchool())) // manacounter still needs to be changed to a hashmap
+                    && ((monsterCard) hand.getCardFromHand(i)).get < AiPlayer.getManaCount(((monsterCard) hand.getCardFromHand(i)).getCardSchool())); // manacounter still needs to be changed to a hashmap
             {
                 bestCardIndex =i;
             }
@@ -46,9 +50,10 @@ public class boardGameStrategy {
         }
         }
 }
+*/
 
 
-    /*
+
 
 // brians method,
     // this method will choose which zone to play the card on then drag it to that zone.

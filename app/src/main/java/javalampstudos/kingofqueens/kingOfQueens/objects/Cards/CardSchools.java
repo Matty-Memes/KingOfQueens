@@ -5,7 +5,6 @@ package javalampstudos.kingofqueens.kingOfQueens.objects.Cards;
  */
 
 public enum cardSchools {
-
     EEECS,
     MEDICS,
     ARTS_HUMANITIES,

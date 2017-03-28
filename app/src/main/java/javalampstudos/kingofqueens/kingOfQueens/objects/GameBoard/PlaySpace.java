@@ -22,7 +22,7 @@ public class PlaySpace extends GameObject {
     private graveYard GraveYard;
     private  ManaCounter manaCounter;
     private CardZone zoneLeft,zoneMiddle,zoneRight;
-
+// NOTE : MATT THIS CONSTRUCTOR NEEDS UPDATED.
     public PlaySpace(float x, float y, int width, int height, Bitmap sprite, Deck deck,
                      Hand hand, int life, graveYard graveYard,
                      ManaCounter[] manaCounter, CardZone zoneLeft,
