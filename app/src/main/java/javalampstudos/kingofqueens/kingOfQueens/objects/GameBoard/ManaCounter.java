@@ -13,10 +13,11 @@ public class ManaCounter {
 
     // augmented by brian on 28/03/2017 see oldManaCounterConstructorClass
     private int totalMana,unusedMana;
-    private HashMap<manaTypes,Integer> manaCounter = new HashMap<manaTypes,Integer>();
-
-    public ManaCounter(HashMap<manaTypes, Integer> manaCounter, int unusedMana, int totalMana) {
-        setupManaCounter();
+    private HashMap<manaTypes,Integer> manaCounter;
+// hashmap is created within the constructor, this allows for it to be populated with the correct manatypes.
+    public ManaCounter(int unusedMana, int totalMana) {
+        manaCounter = new HashMap<manaTypes,Integer>();
+        setupManaCounter(manaCounter);
         this.unusedMana = unusedMana;
         this.totalMana = totalMana;
     }
@@ -48,14 +49,16 @@ public class ManaCounter {
     //40111707
     // brians method
     // initalises the hashmap for the manacounter and sets all of the values to 0 initally.
-    public void setupManaCounter(){
-        manaCounter.put(manaTypes.ARTS_HUMANITIES_MANA,0);
-        manaCounter.put(manaTypes.BUILT_ENVIRONMENT_MANA,0);
-        manaCounter.put(manaTypes.EEECS_MANA,0);
-        manaCounter.put(manaTypes.ENGINEERING_MANA,0);
-        manaCounter.put(manaTypes.MEDICS_MANA,0);
-        manaCounter.put(manaTypes.SOCIAL_SCIENCES_MANA,0);
+    public void setupManaCounter(HashMap map){
+        map.put(manaTypes.ARTS_HUMANITIES_MANA,0);
+        map.put(manaTypes.BUILT_ENVIRONMENT_MANA,0);
+        map.put(manaTypes.EEECS_MANA,0);
+        map.put(manaTypes.ENGINEERING_MANA,0);
+        map.put(manaTypes.MEDICS_MANA,0);
+        map.put(manaTypes.SOCIAL_SCIENCES_MANA,0);
     }
+
+
     //Add mana to the mana counter
     // brian + matts method
     public void addMana(manaTypes mana, int amount)

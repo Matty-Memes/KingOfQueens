@@ -1,8 +1,12 @@
 package javalampstudos.kingofqueens.kingOfQueens.AiEngine;
 
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.manaTypes;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.PlaySpace;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Hand;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.monsterCard;
+
+
+
 /**
  * Created by brian on 27/02/2017.
  */
@@ -11,9 +15,8 @@ public class boardGameStrategy {
 
 
 /*
-
    PlaySpace AiPlayer = new PlaySpace(); // still neeeds to be populated
-
+public manaTypes[] mana = new manaTypes [] {manaTypes.ARTS_HUMANITIES_MANA};
 // 40111707 brians method
     // this method will find the highest attack card that can be played.
     // in order for this method to be finished manacounter needs to be made into a hashmap.
@@ -34,7 +37,7 @@ public class boardGameStrategy {
 
             if (((monsterCard) hand.getCardFromHand(i)).getAttackValue() > enemeyCard.getDefence()
                     && ((monsterCard) hand.getCardFromHand(i)).getAttackValue() > ((monsterCard) hand.getCardFromHand(bestCardIndex)).getAttackValue()
-                    && ((monsterCard) hand.getCardFromHand(i)).get < AiPlayer.getManaCount(((monsterCard) hand.getCardFromHand(i)).getCardSchool())); // manacounter still needs to be changed to a hashmap
+                    && ((monsterCard) hand.getCardFromHand(i)). < AiPlayer.getManaCount(((monsterCard) hand.getCardFromHand(i)).getCardSchool())); // manacounter still needs to be changed to a hashmap
             {
                 bestCardIndex =i;
             }
@@ -49,8 +52,7 @@ public class boardGameStrategy {
             playCard(((monsterCard) hand.getCardFromHand(bestCardIndex)));
         }
         }
-}
-*/
+}*/
 
 
 

@@ -39,7 +39,6 @@ public class PlaySpace extends GameObject {
         this.deckSize = deckSize;
 
 
-
     }
 
 
@@ -79,11 +78,12 @@ public class PlaySpace extends GameObject {
         GraveYard = graveYard;
     }
 
-    public void getManaCount(cardSchools manaType)
+/*    public void getManaCount(manaTypes manaType)
     {
-
+        NOTE :: THIS METHOD HAS AN ERROR. CONSTRUCTOR NEEDS UPDATED
         manaCounter.get(manaType);
-    }
+    }*/
+
 
     public CardZone getZoneLeft() {
         return zoneLeft;

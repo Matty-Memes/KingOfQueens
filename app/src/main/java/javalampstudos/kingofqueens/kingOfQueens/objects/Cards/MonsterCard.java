@@ -7,6 +7,8 @@ package javalampstudos.kingofqueens.kingOfQueens.objects.Cards;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
+import java.util.HashMap;
+
 // Local imports
 
 
@@ -17,27 +19,27 @@ public class monsterCard extends basicCard {
     private int defence;
     private int attackValue;
     // holds a list of the mana types required
-    private manaTypes[] attackManaRequired;
+    private HashMap<manaTypes,Integer> attackManaRequirement ;
 
     // Brian + Matt
     // Modified by Andrew - 27/03/17
     // constructor
-    public monsterCard(int x, int y, int width, int height, Bitmap Sprite,
-                       boolean destroyed, int pointerID,
-                       cardLevel level, int health, int defence,
-                       cardSchools cardSchool, int attackValue,
-                       manaTypes[] attackManaRequired) {
+    public monsterCard(int x, int y, int width, int height, Bitmap Sprite, cardSchools cardSchool, boolean destroyed,
+                       int pointerID, cardLevel level, int health, int defence, int attackValue,
+                       HashMap<manaTypes, Integer> attackManaRequirement) {
         super(x, y, width, height, Sprite, cardSchool, destroyed, pointerID);
         this.level = level;
         this.health = health;
         this.defence = defence;
-
         this.attackValue = attackValue;
-        this.attackManaRequired = attackManaRequired;
+        this.attackManaRequirement = attackManaRequirement;
     }
 
-
     // ADD GETTERS AND SETTERS //
+
+    public double getAttackBonus() {
+        return attackBonus;
+    }
 
     public cardLevel getLevel() {
         return level;
@@ -63,10 +65,6 @@ public class monsterCard extends basicCard {
         this.defence = defence;
     }
 
-    public double getAttackBonus() {
-        return attackBonus;
-    }
-
     public int getAttackValue() {
         return attackValue;
     }
@@ -75,12 +73,12 @@ public class monsterCard extends basicCard {
         this.attackValue = attackValue;
     }
 
-    public manaTypes[] getAttackManaRequired() {
-        return attackManaRequired;
+    public HashMap<manaTypes, Integer> getAttackManaRequirement() {
+        return attackManaRequirement;
     }
 
-    public void setAttackManaRequired(manaTypes[] attackManaRequired) {
-        this.attackManaRequired = attackManaRequired;
+    public void setAttackManaRequirement(HashMap<manaTypes, Integer> attackManaRequirement) {
+        this.attackManaRequirement = attackManaRequirement;
     }
 
 
