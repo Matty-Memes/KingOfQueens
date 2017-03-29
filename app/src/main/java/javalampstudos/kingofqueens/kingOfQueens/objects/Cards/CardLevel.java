@@ -1,12 +1,15 @@
 package javalampstudos.kingofqueens.kingOfQueens.objects.Cards;
 
 /**
- * Created by brian on 24/11/2016.
- * 40111707
+ * Created by Andrew on 29/03/2017.
  */
 
-public enum cardLevel {
+public enum CardLevel
+
+{
     UNDERGRAD,
     GRAD,
     DOCTRATE;
+
+
 }

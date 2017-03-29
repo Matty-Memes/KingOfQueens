@@ -1,10 +1,12 @@
 package javalampstudos.kingofqueens.kingOfQueens.objects.Cards;
 
 /**
- * Created by Matt on 08/03/2017.
+ * Created by Andrew on 29/03/2017.
  */
 
-public class cardLibrary {
+public class CardLibrary
+
+{
     //This class contains all the information for each card in the game
 
     /*
@@ -80,5 +82,6 @@ public class cardLibrary {
 
 
     */
+
 
 }

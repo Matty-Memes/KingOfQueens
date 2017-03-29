@@ -2,10 +2,10 @@ package javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard;
 
 import android.graphics.Bitmap;
 
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.basicCard;
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.manaCard;
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.monsterCard;
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.supportCard;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BasicCard;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaCard;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.MonsterCard;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.SupportCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
 import java.util.ArrayList;
 
@@ -19,7 +19,7 @@ public class Deck extends GameObject {
     private int deckSize=0;
     final private int MAXDECKSIZE=40;
 
-    private basicCard[] deck = new basicCard[MAXDECKSIZE];
+    private BasicCard[] deck = new BasicCard[MAXDECKSIZE];
 
     public Deck(float x, float y, int width, int height,
     Bitmap sprite)
@@ -28,11 +28,11 @@ public class Deck extends GameObject {
 
     }
 
-    public basicCard[] getDeck() {
+    public BasicCard[] getDeck() {
         return deck;
     }
 
-    public void setDeck(basicCard[] deck) {
+    public void setDeck(BasicCard[] deck) {
         this.deck = deck;
     }
 
@@ -50,20 +50,20 @@ public class Deck extends GameObject {
 
     /*Deck assembly*/
 
-    private ArrayList<monsterCard> monsterArray = new ArrayList<>(noOfMonsterCards);
-    public void addMonstersCards(monsterCard monsterCard)
+    private ArrayList<MonsterCard> monsterArray = new ArrayList<>(noOfMonsterCards);
+    public void addMonstersCards(MonsterCard monsterCard)
     {
         monsterArray.add(noOfMonsterCards,monsterCard);
     }
-    private ArrayList<manaCard> manaArray= new ArrayList<>(noOfManaCards);
-    public void addManaCards(manaCard manaCard)
+    private ArrayList<ManaCard> manaArray= new ArrayList<>(noOfManaCards);
+    public void addManaCards(ManaCard manaCard)
     {
         manaArray.add(noOfManaCards,manaCard);
 
     }
 
-    private ArrayList<supportCard> supportArray = new ArrayList<>(noOfSupportCards);
-    public void addSupportCards(supportCard supportCard)
+    private ArrayList<SupportCard> supportArray = new ArrayList<>(noOfSupportCards);
+    public void addSupportCards(SupportCard supportCard)
     {
         supportArray.add(noOfSupportCards,supportCard);
 
@@ -95,9 +95,9 @@ public class Deck extends GameObject {
 
     }
 
-    public basicCard draw()
+    public BasicCard draw()
     {
-        basicCard drawnCard=deck[0];
+        BasicCard drawnCard=deck[0];
         for (int i=0;i<deckSize;i++) {
             deck[i] = deck[i + 1];
         }

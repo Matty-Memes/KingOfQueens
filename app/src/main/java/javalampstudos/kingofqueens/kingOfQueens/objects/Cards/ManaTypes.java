@@ -1,11 +1,12 @@
 package javalampstudos.kingofqueens.kingOfQueens.objects.Cards;
 
 /**
- * Created by brian on 24/11/2016.
+ * Created by Andrew on 29/03/2017.
  */
 
-public enum manaTypes {
+public enum ManaTypes
 
+{
     GENERIC_MANA,
     EEECS_MANA,
     MEDICS_MANA,
@@ -13,4 +14,7 @@ public enum manaTypes {
     ENGINEERING_MANA,
     SOCIAL_SCIENCES_MANA,
     BUILT_ENVIRONMENT_MANA;
+
+
+
 }

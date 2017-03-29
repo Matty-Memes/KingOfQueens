@@ -2,7 +2,7 @@ package javalampstudos.kingofqueens.kingOfQueens.oldCode.MattsOldCode;
 
 import java.util.HashMap;
 
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.manaTypes;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaTypes;
 
 /**
  * Created by brian on 28/03/2017.

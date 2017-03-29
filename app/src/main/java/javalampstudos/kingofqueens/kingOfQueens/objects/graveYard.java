@@ -1,6 +1,6 @@
 package javalampstudos.kingofqueens.kingOfQueens.objects;
 
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.monsterCard;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.MonsterCard;
 
 /**
  * Created by brian on 14/02/2017.
@@ -9,7 +9,7 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.monsterCard;
 public class graveYard {
     public  final int maxGraveYardSize = 5;
     private int graveCounter;
-    private monsterCard graveYard [] = new monsterCard[maxGraveYardSize];
+    private MonsterCard graveYard [] = new MonsterCard[maxGraveYardSize];
     public graveYard( )
     { // NOTE not to sure about the intialising of the array to contain graveyard - in here or where it is ?
 
@@ -20,11 +20,11 @@ public class graveYard {
         return graveCounter;
     }
 
-    public monsterCard[] getGraveYard() {
+    public MonsterCard[] getGraveYard() {
         return graveYard;
     }
 
-    public void setGraveYard(monsterCard[] graveYard) {
+    public void setGraveYard(MonsterCard[] graveYard) {
         graveYard = graveYard;
     }
 
@@ -33,6 +33,8 @@ public class graveYard {
     }
 
 
+
+    /*
 
     // this method allows for the card to be removed from the deck and placed here, where it will be tallied in order to find the score
     // if the grave counter exceeds the maximum number of cards then the match should end.
@@ -83,4 +85,6 @@ public class graveYard {
     {
 
     }
+
+    */
 }

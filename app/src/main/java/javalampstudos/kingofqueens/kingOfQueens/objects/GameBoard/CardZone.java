@@ -1,6 +1,6 @@
 package javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard;
 
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.basicCard;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BasicCard;
 
 import android.graphics.Rect;
 /**
@@ -10,10 +10,10 @@ import android.graphics.Rect;
 
 public class CardZone {
     private boolean active;
-    private basicCard currentCard;
+    private BasicCard currentCard;
     private Rect Zone;
 
-    public CardZone(boolean active, basicCard currentCard, Rect zone) {
+    public CardZone(boolean active, BasicCard currentCard, Rect zone) {
         this.active = active;
         this.currentCard = currentCard;
         Zone = zone;
@@ -27,11 +27,11 @@ public class CardZone {
         this.active = active;
     }
 
-    public basicCard getCurrentCard() {
+    public BasicCard getCurrentCard() {
         return currentCard;
     }
 
-    public void setCurrentCard(basicCard currentCard) {
+    public void setCurrentCard(BasicCard currentCard) {
         this.currentCard = currentCard;
     }
 

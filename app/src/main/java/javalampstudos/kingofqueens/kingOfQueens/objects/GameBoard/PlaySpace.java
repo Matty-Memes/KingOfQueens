@@ -2,8 +2,8 @@ package javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard;
 
 import android.graphics.Bitmap;
 
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.basicCard;
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.monsterCard;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BasicCard;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.MonsterCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.graveYard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
 
@@ -14,15 +14,15 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
 public class PlaySpace extends GameObject {
     private final int maxLifeValue = 6;
     private Deck deck;
-    private javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.hand hand;
+    private javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Hand hand;
     private int life;
     private graveYard GraveYard;
-    private javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.manaCounter manaCounter;
+    private javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.ManaCounter manaCounter;
     private CardZone zoneLeft,zoneMiddle,zoneRight;
 // NOTE : MATT THIS CONSTRUCTOR NEEDS UPDATED.
     public PlaySpace(float x, float y, int width, int height, Bitmap sprite, Deck deck,
-                     javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.hand hand, int life, graveYard graveYard,
-                     javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.manaCounter[] manaCounter, CardZone zoneLeft,
+                     javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Hand hand, int life, graveYard graveYard,
+                     javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.ManaCounter[] manaCounter, CardZone zoneLeft,
                      CardZone zoneMiddle, CardZone zoneRight, int currentCard, int deckSize) {
         super(x, y, width, height, sprite);
         this.deck = deck;
@@ -32,8 +32,8 @@ public class PlaySpace extends GameObject {
         this.zoneLeft = zoneLeft;
         this.zoneMiddle = zoneMiddle;
         this.zoneRight = zoneRight;
-        this.currentCard = currentCard;
-        this.deckSize = deckSize;
+        // this.currentCard = currentCard;
+        // this.deckSize = deckSize;
 
 
     }
@@ -47,11 +47,11 @@ public class PlaySpace extends GameObject {
         this.deck = deck;
     }
 
-    public javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.hand getHand() {
+    public javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Hand getHand() {
         return hand;
     }
 
-    public void setHand(javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.hand hand) {
+    public void setHand(javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Hand hand) {
         this.hand = hand;
     }
 
@@ -76,7 +76,7 @@ public class PlaySpace extends GameObject {
     }
 
 
-    public javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.manaCounter getManaCounter() {
+    public javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.ManaCounter getManaCounter() {
         return manaCounter;
     }
 
@@ -104,21 +104,6 @@ public class PlaySpace extends GameObject {
         this.zoneRight = zoneRight;
     }
 
-    public int getCurrentCard() {
-        return currentCard;
-    }
-
-    public void setCurrentCard(int currentCard) {
-        this.currentCard = currentCard;
-    }
-
-    public int getDeckSize() {
-        return deckSize;
-    }
-
-    public void setDeckSize(int deckSize) {
-        this.deckSize = deckSize;
-    }
 
     public void setupPlay()
     {
@@ -127,6 +112,8 @@ public class PlaySpace extends GameObject {
     }
 
 
+
+     /*
 
      // this method just checks if the defending card of the above method has died, then adds it to the graveyard
      // this method needs to be sent in to where the stuff is being played. NOTE:: BRIAN
@@ -166,7 +153,7 @@ public class PlaySpace extends GameObject {
 
     }
 
-
+   */
 
 
 
