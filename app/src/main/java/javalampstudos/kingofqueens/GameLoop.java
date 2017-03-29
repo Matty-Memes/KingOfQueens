@@ -1,5 +1,6 @@
 package javalampstudos.kingofqueens;
 
+import android.content.Intent;
 import android.graphics.Matrix;
 import android.util.DisplayMetrics;
 
@@ -33,6 +34,7 @@ import android.content.Context;
 import java.io.IOException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GameLoop implements Runnable
 
@@ -300,14 +302,16 @@ public class GameLoop implements Runnable
                 cardSchools.MEDICS, "Hack", 20, attack2ManaRequiredHM);
 
         */
-
-        Geologist = new MonsterCard(20, 350, 90, 120, GeoSprite, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3);
+        // ANDREW: the code below was causing an erro because of monstercards constructor. it needs to be given a hashman with the right values.
+        HashMap<ManaTypes,Integer> requiredMana = new HashMap<ManaTypes,Integer>();
+        requiredMana.put(ManaTypes.BUILT_ENVIRONMENT_MANA,5);
+       Geologist = new MonsterCard(20, 350, 90, 120, GeoSprite, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3,requiredMana);
 
       /*
 
             NOTE:DREWBIE THE  IMPLEMENTATION BELOW IS CORRECT
-        monsterCard geol = new monsterCard(20,350,90,120,GeoSprite,false,49,
-                cardLevel.UNDERGRAD,140,70,cardSchools.EEECS,20,attack2ManaRequiredHM);
+        MonsterCard geol = new MonsterCard(20,350,90,120,GeoSprite,false,49,
+                CardLevel.UNDERGRAD,140,70,CardSchools.EEECS,20,attack2ManaRequiredHM);
         // Slot 2
 
         // Slot 3

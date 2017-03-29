@@ -63,13 +63,13 @@ public class boardGameStrategy {
 
 // you need to allocate a zone for the card to be sent to
 // requires a seek method, it should send the card to the correct zone, then also give the card zone that card as its current card.
-        if (AiPlayer.getZoneLeft().isActive() == false) {
+        if (!AiPlayer.getZoneLeft().isActive()) {
             //call the seek method to send the card there
           AiPlayer.getZoneLeft().setCurrentCard(card);
-        } else if (AiPlayer.getZoneMiddle().isActive() == false) {
+        } else if (!AiPlayer.getZoneMiddle().isActive()) {
             //call the seek method to send the card there
          AiPlayer.getZoneMiddle().setCurrentCard(card);
-        } else if (AiPlayer.getZoneRight().isActive() == false) {
+        } else if (!AiPlayer.getZoneRight().isActive()) {
             //call the seek method to send the card there
           AiPlayer.getZoneRight().setCurrentCard(card);
         } else
