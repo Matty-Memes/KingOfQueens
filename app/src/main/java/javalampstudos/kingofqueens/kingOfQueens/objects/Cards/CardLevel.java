@@ -5,7 +5,7 @@ package javalampstudos.kingofqueens.kingOfQueens.objects.Cards;
  * 40111707
  */
 
-public enum CardLevel {
+public enum cardLevel {
     UNDERGRAD,
     GRAD,
     DOCTRATE;

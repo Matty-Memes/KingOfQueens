@@ -3,9 +3,6 @@ package javalampstudos.kingofqueens.kingOfQueens.objects.Cards;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BasicCard;
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BuffType;
-
 /**
  * Created by brian on 24/11/2016.
  * 40111707
@@ -14,24 +11,24 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BuffType;
 
 
 // Modified by Andrew - 27/03/17
-public class SupportCard extends BasicCard {
-    private BuffType buff;
+public class supportCard extends basicCard {
+    private buffType buff;
     private boolean active;
 
     private int cardAttack, cardDefence;
 
-    public SupportCard(int x, int y, int width, int height, Bitmap Sprite, CardSchools cardSchool, boolean destroyed,int pointerID ,BuffType buff)
+    public supportCard(int x, int y, int width, int height, Bitmap Sprite, cardSchools cardSchool, boolean destroyed, int pointerID , buffType buff)
     {
         super(x, y, width, height, Sprite, cardSchool, destroyed,pointerID);
         this.buff = buff;
 
     }
 
-    public BuffType getBuff() {
+    public buffType getBuff() {
         return buff;
     }
 
-    public void setBuff(BuffType buff) {
+    public void setBuff(buffType buff) {
         this.buff = buff;
     }
 

@@ -1,57 +1,50 @@
 package javalampstudos.kingofqueens.kingOfQueens.objects.Cards;
 
 
-
 // Android imports
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
+import java.util.HashMap;
+
 // Local imports
 
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BasicCard;
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardLevel;
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaTypes;
-import javalampstudos.kingofqueens.kingOfQueens.objects.graveYard;
 
-public class MonsterCard extends BasicCard {
-
-    private CardLevel level; // ENUM
+public class monsterCard extends basicCard {
+    private final double attackBonus = 1.5;
+    private cardLevel level; // ENUM
     private int health;
     private int defence;
-    private CardSchools weakness;
-    private final double attackBonus = 1.5;
-    // Attack Values
-
-    private String attackName;
     private int attackValue;
     // holds a list of the mana types required
-    private ManaTypes [] attackManaRequired;
-
+    private HashMap<manaTypes, Integer> attackManaRequirement;
 
     // Brian + Matt
     // Modified by Andrew - 27/03/17
-    public MonsterCard(int x, int y, int width, int height, Bitmap Sprite, CardSchools cardSchool, boolean destroyed,
-                       int pointerID, CardLevel level, int health, int defence, CardSchools weakness, String attackName,
-                       int attackValue, ManaTypes[] attackManaRequired) {
+    // constructor
+    public monsterCard(int x, int y, int width, int height, Bitmap Sprite, cardSchools cardSchool, boolean destroyed,
+                       int pointerID, cardLevel level, int health, int defence, int attackValue,
+                       HashMap<manaTypes, Integer> attackManaRequirement) {
         super(x, y, width, height, Sprite, cardSchool, destroyed, pointerID);
         this.level = level;
         this.health = health;
         this.defence = defence;
-        this.weakness = weakness;
-        this.attackName = attackName;
         this.attackValue = attackValue;
-        this.attackManaRequired = attackManaRequired;
+        this.attackManaRequirement = new HashMap<manaTypes, Integer>(attackManaRequirement);
     }
-
 
     // ADD GETTERS AND SETTERS //
 
-    public CardLevel getLevel() {
+    public double getAttackBonus() {
+        return attackBonus;
+    }
+
+    public cardLevel getLevel() {
         return level;
     }
 
-    public void setLevel(CardLevel level) {
+    public void setLevel(cardLevel level) {
         this.level = level;
     }
 
@@ -71,18 +64,6 @@ public class MonsterCard extends BasicCard {
         this.defence = defence;
     }
 
-    public CardSchools getWeakness() {
-        return weakness;
-    }
-
-    public void setSchool(CardSchools weakness) {
-        this.weakness = weakness;
-    }
-
-    public double getAttackBonus() {
-        return attackBonus;
-    }
-
     public int getAttackValue() {
         return attackValue;
     }
@@ -91,14 +72,26 @@ public class MonsterCard extends BasicCard {
         this.attackValue = attackValue;
     }
 
-    public ManaTypes[] getAttackManaRequired() {
-        return attackManaRequired;
+    public HashMap<manaTypes, Integer> getAttackManaRequirement() {
+        return attackManaRequirement;
     }
 
-    public void setAttackManaRequired(ManaTypes[] attackManaRequired) {
-        this.attackManaRequired = attackManaRequired;
+    public void setAttackManaRequirement(HashMap<manaTypes, Integer> attackManaRequirement) {
+        this.attackManaRequirement = attackManaRequirement;
     }
 
+/*
+// this method will itereate through the
+    // 40111707
+    // brians method
+    public manaTypes getManaRequirements()
+    {
+        for(manaTypes key : attackManaRequirement.keySet()){
+             attackManaRequirement.get(key);
+        }
+
+    }
+*/
 
     // draw monster cards to the screen
 
@@ -110,70 +103,41 @@ public class MonsterCard extends BasicCard {
     }
 
 
+    // Brian's + Matts Method
+    public void attack(monsterCard attackingCard, monsterCard defendingCard) {
 
-
-// Brian's + Matts Method
-    public void attack(MonsterCard attackingCard, MonsterCard defendingCard)
-    {
-
-        //MonsterCard target = this.MonsterCard;
+        //monsterCard target = this.monsterCard;
         //Matt: I need to get touch input to tell the class what monster to attack.
 
-        if(compareCardAttackBonus(attackingCard.getCardSchool(),defendingCard.getCardSchool()) == true) {
-            defendingCard.health -= (attackingCard.attackValue *attackBonus);
+        if (compareCardAttackBonus(attackingCard.getCardSchool(), defendingCard.getCardSchool()) == true) {
+            defendingCard.health -= (attackingCard.getAttackValue() * attackBonus);
 
-        }else {
-            defendingCard.health -= attackingCard.attackValue;
+        } else {
+            defendingCard.health -= attackingCard.getAttackValue();
 
         }
 
 
     }
 
-
-
-
-
-
-
     // gets both cards school types and then goes through the if statements in order to find if the combination fits
     // if the combination fits then it returns true, this then allows for the 1.5X multiplier to be added to the attack.
     // 40111707
-
-    public boolean compareCardAttackBonus(CardSchools attackingCard, CardSchools defendingCard)
-    {
-        if(attackingCard == CardSchools.MEDICS && defendingCard == CardSchools.EEECS)
-        {
+    // brian
+    public boolean compareCardAttackBonus(cardSchools attackingCard, cardSchools defendingCard) {
+        if (attackingCard == cardSchools.MEDICS && defendingCard == cardSchools.EEECS) {
             return true;
-        }
-
-        else if(attackingCard == CardSchools.EEECS && defendingCard == CardSchools.ARTS_HUMANITIES)
-        {
+        } else if (attackingCard == cardSchools.EEECS && defendingCard == cardSchools.ARTS_HUMANITIES) {
             return true;
-        }
-
-        else if(attackingCard == CardSchools.ARTS_HUMANITIES && defendingCard == CardSchools.MEDICS)
-
-        {
+        } else if (attackingCard == cardSchools.ARTS_HUMANITIES && defendingCard == cardSchools.MEDICS) {
             return true;
-
-        }
-        else if(attackingCard == CardSchools.ENGINEERING && defendingCard == CardSchools.SOCIAL_SCIENCES)
-        {
+        } else if (attackingCard == cardSchools.ENGINEERING && defendingCard == cardSchools.SOCIAL_SCIENCES) {
             return true;
-        }
-
-        else if(attackingCard == CardSchools.BUILT_ENVIORNMENT && defendingCard == CardSchools.ENGINEERING)
-        {
+        } else if (attackingCard == cardSchools.BUILT_ENVIORNMENT && defendingCard == cardSchools.ENGINEERING) {
             return true;
-        }
-
-        else if(attackingCard == CardSchools.SOCIAL_SCIENCES && defendingCard == CardSchools.BUILT_ENVIORNMENT)
-        {
+        } else if (attackingCard == cardSchools.SOCIAL_SCIENCES && defendingCard == cardSchools.BUILT_ENVIORNMENT) {
             return true;
-        }
-
-        else {
+        } else {
             return false;
         }
 

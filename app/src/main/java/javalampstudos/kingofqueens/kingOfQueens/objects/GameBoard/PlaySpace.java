@@ -2,40 +2,40 @@ package javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard;
 
 import android.graphics.Bitmap;
 
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BasicCard;
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.MonsterCard;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.basicCard;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.monsterCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.graveYard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
-import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Hand;
 
 /**
  * Created by Matt on 06/02/2017.
  */
 
 public class PlaySpace extends GameObject {
-    private Deck deck;
-    private Hand hand;
     private final int maxLifeValue = 6;
+    private Deck deck;
+    private javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.hand hand;
     private int life;
     private graveYard GraveYard;
-    private ManaCounter[] manaCounter = new ManaCounter[6];
+    private javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.manaCounter manaCounter;
     private CardZone zoneLeft,zoneMiddle,zoneRight;
-
+// NOTE : MATT THIS CONSTRUCTOR NEEDS UPDATED.
     public PlaySpace(float x, float y, int width, int height, Bitmap sprite, Deck deck,
-                     Hand hand, int life, graveYard graveYard,
-                     ManaCounter[] manaCounter, CardZone zoneLeft,
+                     javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.hand hand, int life, graveYard graveYard,
+                     javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.manaCounter[] manaCounter, CardZone zoneLeft,
                      CardZone zoneMiddle, CardZone zoneRight, int currentCard, int deckSize) {
         super(x, y, width, height, sprite);
         this.deck = deck;
         this.hand = hand;
         this.life = maxLifeValue;
-        GraveYard = graveYard;
-        this.manaCounter = manaCounter;
+        this.GraveYard = graveYard;
         this.zoneLeft = zoneLeft;
         this.zoneMiddle = zoneMiddle;
         this.zoneRight = zoneRight;
         this.currentCard = currentCard;
         this.deckSize = deckSize;
+
+
     }
 
 
@@ -47,11 +47,11 @@ public class PlaySpace extends GameObject {
         this.deck = deck;
     }
 
-    public Hand getHand() {
+    public javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.hand getHand() {
         return hand;
     }
 
-    public void setHand(Hand hand) {
+    public void setHand(javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.hand hand) {
         this.hand = hand;
     }
 
@@ -75,12 +75,9 @@ public class PlaySpace extends GameObject {
         GraveYard = graveYard;
     }
 
-    public ManaCounter[] getManaCounter() {
-        return manaCounter;
-    }
 
-    public void setManaCounter(ManaCounter[] manaCounter) {
-        this.manaCounter = manaCounter;
+    public javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.manaCounter getManaCounter() {
+        return manaCounter;
     }
 
     public CardZone getZoneLeft() {
@@ -135,7 +132,7 @@ public class PlaySpace extends GameObject {
      // this method needs to be sent in to where the stuff is being played. NOTE:: BRIAN
      //40111707
      //brian
-     public void determineDeathOfMonster(MonsterCard dyingCard){
+     public void determineDeathOfMonster(monsterCard dyingCard){
          if(dyingCard.getHealth() <= 0)
          {
            GraveYard.addToGraveYard(dyingCard);
@@ -151,17 +148,16 @@ public class PlaySpace extends GameObject {
     }
 
 
-
     int currentCard =0;
     int deckSize = 30;
-    public void addToHand(BasicCard card)
+    public void addToHand(basicCard card)
     {
         //checks if there is room in the hand
         if (currentCard< 9)
         {
             //set the current position of card to the current card
             card = deck.draw();
-            hand.AddToHandArray(card,currentCard); // method to add the card to the array.
+            hand.addToHandArray(card,currentCard); // method to add the card to the array. takes the card + the index where it should be added to.
             currentCard++;
             deckSize--;
         }
