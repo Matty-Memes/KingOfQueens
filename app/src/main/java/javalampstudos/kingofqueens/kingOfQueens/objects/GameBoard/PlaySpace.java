@@ -6,6 +6,8 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BasicCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.MonsterCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.graveYard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
+import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Hand;
+import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.ManaCounter;
 
 /**
  * Created by Matt on 06/02/2017.
@@ -14,14 +16,14 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
 public class PlaySpace extends GameObject {
     private final int maxLifeValue = 6;
     private Deck deck;
-    private javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Hand hand;
+    private Hand hand;
     private int life;
     private graveYard GraveYard;
-    private javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.ManaCounter manaCounter;
+    private ManaCounter manaCounter;
     private CardZone zoneLeft,zoneMiddle,zoneRight;
 // NOTE : MATT THIS CONSTRUCTOR NEEDS UPDATED.
     public PlaySpace(float x, float y, int width, int height, Bitmap sprite, Deck deck,
-                     javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Hand hand, int life, graveYard graveYard,
+                     Hand hand, int life, graveYard graveYard,
                      javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.ManaCounter[] manaCounter, CardZone zoneLeft,
                      CardZone zoneMiddle, CardZone zoneRight, int currentCard, int deckSize) {
         super(x, y, width, height, sprite);
@@ -32,8 +34,8 @@ public class PlaySpace extends GameObject {
         this.zoneLeft = zoneLeft;
         this.zoneMiddle = zoneMiddle;
         this.zoneRight = zoneRight;
-        // this.currentCard = currentCard;
-        // this.deckSize = deckSize;
+        this.currentCard = currentCard;
+        this.deckSize = deckSize;
 
 
     }
@@ -113,13 +115,13 @@ public class PlaySpace extends GameObject {
 
 
 
-     /*
+
 
      // this method just checks if the defending card of the above method has died, then adds it to the graveyard
      // this method needs to be sent in to where the stuff is being played. NOTE:: BRIAN
      //40111707
      //brian
-     public void determineDeathOfMonster(monsterCard dyingCard){
+     public void determineDeathOfMonster(MonsterCard dyingCard){
          if(dyingCard.getHealth() <= 0)
          {
            GraveYard.addToGraveYard(dyingCard);
@@ -137,7 +139,7 @@ public class PlaySpace extends GameObject {
 
     int currentCard =0;
     int deckSize = 30;
-    public void addToHand(basicCard card)
+    public void addToHand(BasicCard card)
     {
         //checks if there is room in the hand
         if (currentCard< 9)
@@ -153,7 +155,6 @@ public class PlaySpace extends GameObject {
 
     }
 
-   */
 
 
 

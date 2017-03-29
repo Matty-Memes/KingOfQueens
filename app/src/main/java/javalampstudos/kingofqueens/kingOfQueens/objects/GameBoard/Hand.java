@@ -9,20 +9,20 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
  * Created by Andrew on 29/03/2017.
  */
 
-public class Hand
+public class Hand extends GameObject
 
 {
     /**
      * Created by Matt on 13/03/2017.
      */
 
-    public class hand extends GameObject {
+
         private final int MAXHANDSIZE = 10;
         private BasicCard[] hand;
         private int currentHandSize;
 
         // augmented by brian on 27/03/2017
-        public hand(float x, float y, int width, int height, Bitmap sprite, BasicCard[] hand, int currentHandSize) {
+        public Hand(float x, float y, int width, int height, Bitmap sprite, BasicCard[] hand, int currentHandSize) {
             super(x, y, width, height, sprite);
             this.hand = new BasicCard[getMAXHANDSIZE()];
             this.currentHandSize = currentHandSize;
@@ -70,7 +70,7 @@ public class Hand
             // sets the corresponding index of the hand array to null, thus removing the card.
             this.hand[index] = null;
         }
-    }
+
 
 
 

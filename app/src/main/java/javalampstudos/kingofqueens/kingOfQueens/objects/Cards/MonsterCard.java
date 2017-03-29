@@ -2,8 +2,7 @@ package javalampstudos.kingofqueens.kingOfQueens.objects.Cards;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-
-// import java.util.HashMap;
+import java.util.HashMap;
 
 /**
  * Created by Andrew on 29/03/2017.
@@ -18,22 +17,25 @@ public class MonsterCard extends BasicCard
         private int defence;
         private int attackValue;
         // holds a list of the mana types required
-        // private HashMap<ManaTypes, Integer> attackManaRequirement;
+         private HashMap<ManaTypes, Integer> attackManaRequirement;
 
         // Brian + Matt
         // Modified by Andrew - 27/03/17
         // constructor
-        public MonsterCard(int x, int y, int width, int height, Bitmap Sprite, CardSchools cardSchool, boolean destroyed,
-                           int pointerID, CardLevel level, int health, int defence, int attackValue) {
-            super(x, y, width, height, Sprite, cardSchool, destroyed, pointerID);
-            this.level = level;
-            this.health = health;
-            this.defence = defence;
-            this.attackValue = attackValue;
 
-        }
+    public MonsterCard(int x, int y, int width, int height, Bitmap Sprite, CardSchools cardSchool,
+                       boolean destroyed, int pointerID, CardLevel level, int health, int defence,
+                       int attackValue, HashMap<ManaTypes, Integer> attackManaRequirement) {
+        super(x, y, width, height, Sprite, cardSchool, destroyed, pointerID);
+        this.level = level;
+        this.health = health;
+        this.defence = defence;
+        this.attackValue = attackValue;
+        this.attackManaRequirement = attackManaRequirement;
+    }
 
-        // ADD GETTERS AND SETTERS //
+
+    // ADD GETTERS AND SETTERS //
 
         public double getAttackBonus() {
             return attackBonus;
@@ -72,30 +74,16 @@ public class MonsterCard extends BasicCard
         }
 
 
-        /*
+
         public HashMap<ManaTypes, Integer> getAttackManaRequirement() {
             return attackManaRequirement;
         }
 
-        */
 
-        /*
         public void setAttackManaRequirement(HashMap<ManaTypes, Integer> attackManaRequirement) {
             this.attackManaRequirement = attackManaRequirement;
         }
 
-/*
-// this method will itereate through the
-    // 40111707
-    // brians method
-    public manaTypes getManaRequirements()
-    {
-        for(manaTypes key : attackManaRequirement.keySet()){
-             attackManaRequirement.get(key);
-        }
-
-    }
-*/
 
         // draw monster cards to the screen
 

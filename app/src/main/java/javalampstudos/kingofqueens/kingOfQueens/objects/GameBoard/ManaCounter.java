@@ -1,6 +1,7 @@
 package javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard;
 
 import java.util.HashMap;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaTypes;
 
 /**
  * Created by Andrew on 29/03/2017.
@@ -13,12 +14,12 @@ public class ManaCounter
 
         // augmented by brian on 28/03/2017 see oldManaCounterConstructorClass
         private int totalMana, unusedMana;
-        // private HashMap<manaTypes, Integer> manaCounterHashMap;
+         private HashMap<ManaTypes, Integer> manaCounterHashMap;
 
         // hashmap is created within the constructor, this allows for it to be populated with the correct manatypes.
         public ManaCounter(int unusedMana, int totalMana) {
-            // manaCounterHashMap = new HashMap<manaTypes, Integer>();
-            // setupManaCounter(manaCounterHashMap);
+             manaCounterHashMap = new HashMap<ManaTypes, Integer>();
+            setupManaCounter(manaCounterHashMap);
             this.unusedMana = unusedMana;
             this.totalMana = totalMana;
         }
@@ -39,13 +40,12 @@ public class ManaCounter
             this.unusedMana = unusedMana;
         }
 
-        /*
 
-        public HashMap<manaTypes, Integer> getManaCounterHashMap() {
+        public HashMap<ManaTypes, Integer> getManaCounterHashMap() {
             return manaCounterHashMap;
         }
 
-        public void setManaCounterHashMap(HashMap<manaTypes, Integer> manaCounterHashMap) {
+        public void setManaCounterHashMap(HashMap<ManaTypes, Integer> manaCounterHashMap) {
             this.manaCounterHashMap = manaCounterHashMap;
         }
 
@@ -53,24 +53,24 @@ public class ManaCounter
         // brians method
         // initalises the hashmap for the manacounter and sets all of the values to 0 initally.
         public void setupManaCounter(HashMap map) {
-            map.put(manaTypes.ARTS_HUMANITIES_MANA, 0);
-            map.put(manaTypes.BUILT_ENVIRONMENT_MANA, 0);
-            map.put(manaTypes.EEECS_MANA, 0);
-            map.put(manaTypes.ENGINEERING_MANA, 0);
-            map.put(manaTypes.MEDICS_MANA, 0);
-            map.put(manaTypes.SOCIAL_SCIENCES_MANA, 0);
+            map.put(ManaTypes.ARTS_HUMANITIES_MANA, 0);
+            map.put(ManaTypes.BUILT_ENVIRONMENT_MANA, 0);
+            map.put(ManaTypes.EEECS_MANA, 0);
+            map.put(ManaTypes.ENGINEERING_MANA, 0);
+            map.put(ManaTypes.MEDICS_MANA, 0);
+            map.put(ManaTypes.SOCIAL_SCIENCES_MANA, 0);
         }
 
         // 40111707
         // brians method
         // this method returns the value from the hashmap, by using the enum key for it.
-        public void getManaCountValue(manaTypes manaType) {
+        public void getManaCountValue(ManaTypes manaType) {
             getManaCounterHashMap().get(manaType);
         }
 
         //Add mana to the mana counter
         // brian + matts method
-        public void addMana(manaTypes mana, int amount) {
+        public void addMana(ManaTypes mana, int amount) {
             manaCounterHashMap.put(mana, amount);
         }
 
@@ -86,9 +86,9 @@ public class ManaCounter
         public void resetMana() {
             unusedMana = totalMana;
         }
-    }
 
-    */
+
+
 
 
 
