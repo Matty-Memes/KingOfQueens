@@ -72,6 +72,8 @@ public class GameLoop implements Runnable
     public GameState gameState;
 
 
+
+
     // Variables for flipping images
     private Matrix matrix = new Matrix();
 
@@ -110,6 +112,7 @@ public class GameLoop implements Runnable
 
     // END TOUCH INPUT LOGIC
 
+    public boolean deckCompleted = false;
 
     // CARD GAME LOGIC
 
@@ -125,6 +128,9 @@ public class GameLoop implements Runnable
     public Bitmap HackerManSprite;
     public Bitmap GeoSprite;
     public Bitmap cardBackSprite;
+
+    public Bitmap PsychologistSprite;
+    public Bitmap SociologistSprite;
 
 
     // DataAdmin
@@ -171,6 +177,8 @@ public class GameLoop implements Runnable
     public MonsterCard DataAdmin;
     public MonsterCard HackerMan;
     public MonsterCard Geologist;
+    public MonsterCard Psychologist;
+    public MonsterCard Sociologist;
 
     // Declare all the mana cards here
     public ManaCard EEECS;
@@ -305,7 +313,22 @@ public class GameLoop implements Runnable
         // ANDREW: the code below was causing an erro because of monstercards constructor. it needs to be given a hashman with the right values.
         HashMap<ManaTypes,Integer> requiredMana = new HashMap<ManaTypes,Integer>();
         requiredMana.put(ManaTypes.BUILT_ENVIRONMENT_MANA,5);
-       Geologist = new MonsterCard(20, 350, 90, 120, GeoSprite, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3,requiredMana);
+        // Geologist = new MonsterCard(20, 350, 90, 120, GeoSprite, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3,requiredMana);
+
+        Geologist = new MonsterCard(20, 350, 90, 120, GeoSprite, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3, requiredMana);
+        DataAdmin = new MonsterCard(0, 0, 0, 0, DataAdminSprite, CardSchools.EEECS, false, 49, CardLevel.GRAD, 140, 0, 2, requiredMana);
+        HackerMan = new MonsterCard(0, 0, 0, 0, HackerManSprite, CardSchools.MEDICS, false, 49, CardLevel.DOCTRATE, 140, 0, 3, requiredMana);
+        Psychologist = new MonsterCard(0, 0, 0, 0, PsychologistSprite, CardSchools.MEDICS, false, 49, CardLevel.DOCTRATE, 140, 0, 3, requiredMana);
+        Sociologist = new MonsterCard(0, 0, 0, 0, SociologistSprite, CardSchools.MEDICS, false, 49, CardLevel.DOCTRATE, 140, 0, 3, requiredMana);
+
+        // Load the created cards into the cardList array
+        // cardList[0] = Geologist;
+        cardList[0] = DataAdmin;
+        cardList[1] = HackerMan;
+        cardList[2] = Psychologist;
+        cardList[3] = Sociologist;
+        cardList[4] = Geologist;
+
 
       /*
 
@@ -340,6 +363,14 @@ public class GameLoop implements Runnable
                 49);
         handCard5 = new BasicCard(594, 410, 90, 120, cardBackSprite, CardSchools.MEDICS, false,
                 49);
+
+        // Put the hand cards in the array
+
+        handCards.add(handCard1);
+        handCards.add(handCard2);
+        handCards.add(handCard3);
+        handCards.add(handCard4);
+        handCards.add(handCard5);
 
         // Positioning the monsters
 
@@ -405,11 +436,13 @@ public class GameLoop implements Runnable
 
                 {
                     case NEW:
+
                         newGame();
                         // always do this first
-                        updateTouch ();
                         updateCard();
-                        updateMonsterCards();
+                        updateTouch();
+                        updateHand();
+                        // updateMonsterCards();
                         break;
                     case CARDGAME:
 
@@ -543,6 +576,15 @@ public class GameLoop implements Runnable
                     {
                       System.out.println("Ok");
                       Geologist.destroyed = true;
+
+                    }
+
+                    if (deckRect.contains((int) x, (int) y) && deckCompleted == false)
+
+                    {
+                        populateHand();
+                        System.out.println("Completed");
+
 
                     }
 
@@ -837,29 +879,30 @@ public class GameLoop implements Runnable
 
     }
 
+    private void updateHand ()
+
+    {
+
+        for (int i = 0; i < handCards.size(); i++)
+
+        {
+            handCards.get(i).update();
+
+        }
+
+
+
+    }
+
     // This method should be altered.
 
     private void updateCard ()
 
     {
-        Geologist.update();
-
-        // Get all the placeholders drawn
-
-        // Hands
-
-        // As long as the card exists update information must be relayed back
-        handCard1.update();
-        handCard2.update();
-        handCard3.update();
-        handCard4.update();
-        handCard5.update();
-
-        // Monsters
-
         monsterCard1.update();
         monsterCard2.update();
         monsterCard3.update();
+
 
         // Graveyard and deck updates
 
@@ -878,6 +921,9 @@ public class GameLoop implements Runnable
         HackerManSprite = AssetLoader.loadBitmap(assetManager, "img/Matthew/HackermanSmall.png");
 
         GeoSprite = AssetLoader.loadBitmap(assetManager, "img/Matthew/SmallGeo.png");
+
+        PsychologistSprite = AssetLoader.loadBitmap(assetManager, "img/Matthew/Psycho.png");
+        SociologistSprite = AssetLoader.loadBitmap(assetManager, "img/Matthew/Social.png");
 
         // load cardback sprite
         cardBackSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Cardback.png");
@@ -960,6 +1006,12 @@ public class GameLoop implements Runnable
 
       }
 
+
+        System.out.println("Hand populated");
+
+        deckCompleted = true;
+
+
     }
 
     private void populateHandAnimation ()
@@ -1018,33 +1070,38 @@ public class GameLoop implements Runnable
         // give it a position
 
         // gives you access to the card you pulled out
-        BasicCard temp = cardList[randomIndex];
+        // int indie = cardList[randomIndex-1];
 
         // Depending on which card you drew
         // Updates these using the positions worked out
 
+        int dex = randomIndex-1;
+
+        // Set the x and y first then update
         switch (index)
 
         {
+            case 0:
+                handCard1.sprite = cardList[dex].sprite;
+                break;
             case 1:
-                temp.x = 4;
-                temp.y = 3;
+                handCard2.sprite = cardList[dex].sprite;
+                break;
             case 2:
-                temp.x = 10;
-                temp.y = 6;
+                handCard3.sprite = cardList[dex].sprite;
+                break;
             case 3:
-                temp.x = 14;
-                temp.y = 12;
+                handCard4.sprite = cardList[dex].sprite;
+                break;
             case 4:
-                temp.x = 13;
-                temp.x = 12;
-            case 5:
-                temp.x = 54;
-                temp.y = 15;
-
+                handCard5.sprite = cardList[dex].sprite;
+                break;
         }
 
-        handCards.add(temp);
+
+
+        System.out.println("Finished this method");
+
 
     }
 

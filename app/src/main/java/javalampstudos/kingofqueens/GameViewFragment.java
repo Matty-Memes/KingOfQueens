@@ -164,7 +164,7 @@ public class GameViewFragment extends CanvasFragment {
 
         // drawMonsterCards(canvas);
 
-        // drawHand(canvas);
+        drawHand(canvas);
 
 
     }

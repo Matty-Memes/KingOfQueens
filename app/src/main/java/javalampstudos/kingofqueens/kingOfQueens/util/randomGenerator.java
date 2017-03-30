@@ -53,7 +53,7 @@ public class randomGenerator
     {
         // choose a card at random from the deck
         int min = 0;
-        int max = 8;
+        int max = 5;
 
         while (active == true)
 
@@ -61,7 +61,7 @@ public class randomGenerator
 
             randomNumber = rand.nextInt((max - min) + 1) + min;
 
-            System.out.println(randomNumber + "is");
+            // System.out.println(randomNumber + "is");
 
             // should probably be global
             int innerCounter = 0;
@@ -81,7 +81,7 @@ public class randomGenerator
                 {
                     innerSearchActive = false;
                     active = false;
-                    System.out.println("Finished");
+                    // System.out.println("Finished");
                 }
 
             }
@@ -98,7 +98,6 @@ public class randomGenerator
         active = true;
         innerSearchActive = true;
 
-        System.out.println("randomNumber is" + randomNumber);
 
         return randomNumber;
 
