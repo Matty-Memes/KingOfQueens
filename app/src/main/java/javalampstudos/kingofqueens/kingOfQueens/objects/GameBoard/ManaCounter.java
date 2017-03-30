@@ -11,9 +11,7 @@ public class ManaCounter
 
 {
 
-
-
-        private HashMap<ManaTypes,Integer> unusedMana;
+         private HashMap<ManaTypes,Integer> unusedMana;
          private HashMap<ManaTypes, Integer> manaCounterHashMap;
 
         // hashmaps are created within the constructor, this allows for it to be populated with the correct manatypes.
@@ -60,13 +58,21 @@ public class ManaCounter
 
         // 40111707
         // brians method
-        //Use mana from the pool in for an attack
+        //Use mana finds the remainder of mana after an attack has been done.
         public void useMana(int manaCost,ManaTypes mana) {
-            if((manaCounterHashMap.get(mana)-manaCost) > 0){
-                unusedMana.put(mana, manaCounterHashMap.get(mana) - manaCost);
-            }
-            else{
-                // there is not enough mana for this attack
+            if(unusedMana.get(mana) > 0) {
+                if ((manaCounterHashMap.get(mana) - manaCost) > 0) {
+                    unusedMana.put(mana, manaCounterHashMap.get(mana) - manaCost);
+                } else {
+                    // there is not enough mana for this attack
+                }
+            } else{
+                if(((unusedMana.get(mana) - manaCost) > 0)){
+                    unusedMana.put(mana, unusedMana.get(mana) - manaCost);
+                }
+                else {
+                    // the mana is not enough
+                }
             }
         }
         // 40111707

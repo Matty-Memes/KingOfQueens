@@ -37,7 +37,7 @@ public class boardGameStrategy {
 
                 if (((MonsterCard) hand.getCardFromHand(i)).getAttackValue() > enemeyCard.getDefence()
                         && ((MonsterCard) hand.getCardFromHand(i)).getAttackValue() > ((MonsterCard) hand.getCardFromHand(bestCardIndex)).getAttackValue() // there needs to be a method to convert from card school to card mana type.
-                        && compareManaRequirementWithManaCounter(((MonsterCard)hand.getCardFromHand(i)).getAttackManaRequirement(),AiPlayer.getManaCounter().getManaCounterHashMap()))
+                        && compareManaRequirementWithManaCounter(((MonsterCard)hand.getCardFromHand(i)).getAttackManaRequirement(),AiPlayer.getManaCounter().getManaCounterHashMap()));
 
                 {
 
