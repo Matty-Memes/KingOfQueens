@@ -95,10 +95,9 @@ public class MonsterCard extends BasicCard
         }
 
 
-    /*
 
     // Brian's + Matts Method
-    public void attack(monsterCard attackingCard, monsterCard defendingCard) {
+    public void attack(MonsterCard attackingCard, MonsterCard defendingCard) {
 
         //monsterCard target = this.monsterCard;
         //Matt: I need to get touch input to tell the class what monster to attack.
@@ -120,18 +119,18 @@ public class MonsterCard extends BasicCard
     // if the combination fits then it returns true, this then allows for the 1.5X multiplier to be added to the attack.
     // 40111707
     // brian
-    public boolean compareCardAttackBonus(cardSchools attackingCard, cardSchools defendingCard) {
-        if (attackingCard == cardSchools.MEDICS && defendingCard == cardSchools.EEECS) {
+    public boolean compareCardAttackBonus(CardSchools attackingCard, CardSchools defendingCard) {
+        if (attackingCard == CardSchools.MEDICS && defendingCard == CardSchools.EEECS) {
             return true;
-        } else if (attackingCard == cardSchools.EEECS && defendingCard == cardSchools.ARTS_HUMANITIES) {
+        } else if (attackingCard == CardSchools.EEECS && defendingCard == CardSchools.ARTS_HUMANITIES) {
             return true;
-        } else if (attackingCard == cardSchools.ARTS_HUMANITIES && defendingCard == cardSchools.MEDICS) {
+        } else if (attackingCard == CardSchools.ARTS_HUMANITIES && defendingCard == CardSchools.MEDICS) {
             return true;
-        } else if (attackingCard == cardSchools.ENGINEERING && defendingCard == cardSchools.SOCIAL_SCIENCES) {
+        } else if (attackingCard == CardSchools.ENGINEERING && defendingCard == CardSchools.SOCIAL_SCIENCES) {
             return true;
-        } else if (attackingCard == cardSchools.BUILT_ENVIORNMENT && defendingCard == cardSchools.ENGINEERING) {
+        } else if (attackingCard == CardSchools.BUILT_ENVIORNMENT && defendingCard == CardSchools.ENGINEERING) {
             return true;
-        } else if (attackingCard == cardSchools.SOCIAL_SCIENCES && defendingCard == cardSchools.BUILT_ENVIORNMENT) {
+        } else if (attackingCard == CardSchools.SOCIAL_SCIENCES && defendingCard == CardSchools.BUILT_ENVIORNMENT) {
             return true;
         } else {
             return false;
@@ -140,7 +139,6 @@ public class MonsterCard extends BasicCard
 
     }
 
-    */
 
 
 }

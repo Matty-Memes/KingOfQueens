@@ -3,6 +3,7 @@ package javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard;
 import android.graphics.Bitmap;
 
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BasicCard;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.MonsterCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
 
 /**
@@ -57,6 +58,17 @@ public class Hand extends GameObject
 
             return this.hand[index];
         }
+
+        //40111707
+    //brians method
+    // this method allows me to return only a monsterCard for the Ai methods.
+    public MonsterCard returnMonsterCardFromHand (BasicCard card){
+        if(card instanceof MonsterCard)
+        {
+            return ((MonsterCard)card);
+        }
+        return null;
+    }
 
         // 40111707
 // brians method

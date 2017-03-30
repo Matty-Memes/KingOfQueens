@@ -24,7 +24,7 @@ public class PlaySpace extends GameObject {
 // NOTE : MATT THIS CONSTRUCTOR NEEDS UPDATED.
     public PlaySpace(float x, float y, int width, int height, Bitmap sprite, Deck deck,
                      Hand hand, int life, graveYard graveYard,
-                     javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.ManaCounter[] manaCounter, CardZone zoneLeft,
+                     ManaCounter[] manaCounter, CardZone zoneLeft,
                      CardZone zoneMiddle, CardZone zoneRight, int currentCard, int deckSize) {
         super(x, y, width, height, sprite);
         this.deck = deck;
@@ -49,11 +49,11 @@ public class PlaySpace extends GameObject {
         this.deck = deck;
     }
 
-    public javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Hand getHand() {
+    public Hand getHand() {
         return hand;
     }
 
-    public void setHand(javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Hand hand) {
+    public void setHand(Hand hand) {
         this.hand = hand;
     }
 
@@ -78,7 +78,7 @@ public class PlaySpace extends GameObject {
     }
 
 
-    public javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.ManaCounter getManaCounter() {
+    public ManaCounter getManaCounter() {
         return manaCounter;
     }
 
@@ -130,6 +130,18 @@ public class PlaySpace extends GameObject {
          }
 
      }
+
+
+     // brian method
+    //40111707
+    public boolean checkAllZonesAreActive(){
+
+        if(zoneLeft.isActive() && zoneMiddle.isActive() && zoneRight.isActive())
+        {
+            return true;
+        }
+        return false;
+    }
     //When a monster is destroyed, call this method
     public void removeLife()
     {

@@ -6,6 +6,7 @@ package javalampstudos.kingofqueens.kingOfQueens.AiEngine;
 import java.util.HashMap;
 
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BasicCard;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaTypes;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.MonsterCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Hand;
@@ -42,14 +43,14 @@ public class boardGameStrategy {
 
                     bestCardIndex = i;
                 }
-                // this assumes the card that has the highest attack cannot be played,
+                /*// this assumes the card that has the highest attack cannot be played,
 				//so it simply checks for a card with a better attack than the player, with enough mana to be played.
                 else if (((MonsterCard) hand.getCardFromHand(i)).getAttackValue() > enemeyCard.getDefence()
                         && compareManaRequirementWithManaCounter(((MonsterCard)hand.getCardFromHand(i)).getAttackManaRequirement(),AiPlayer.getManaCounter().getManaCounterHashMap())) {
                     bestCardIndex = i;
-                }
+                }*/
 
-                playCard(((MonsterCard) hand.getCardFromHand(bestCardIndex)));
+                playCard(hand.getCardFromHand(bestCardIndex));
             }
         }
     }
@@ -63,23 +64,27 @@ public class boardGameStrategy {
 
 // you need to allocate a zone for the card to be sent to
 // requires a seek method, it should send the card to the correct zone, then also give the card zone that card as its current card.
-        if (!AiPlayer.getZoneLeft().isActive()) {
-            //call the seek method to send the card there
-          AiPlayer.getZoneLeft().setCurrentCard(card);
-        } else if (!AiPlayer.getZoneMiddle().isActive()) {
-            //call the seek method to send the card there
-         AiPlayer.getZoneMiddle().setCurrentCard(card);
-        } else if (!AiPlayer.getZoneRight().isActive()) {
-            //call the seek method to send the card there
-          AiPlayer.getZoneRight().setCurrentCard(card);
-        } else
+       if(!AiPlayer.checkAllZonesAreActive()) {
+           if (!AiPlayer.getZoneLeft().isActive()) {
+               //call the seek method to send the card there
+               AiPlayer.getZoneLeft().setCurrentCard(card);
+           } else if (!AiPlayer.getZoneMiddle().isActive()) {
+               //call the seek method to send the card there
+               AiPlayer.getZoneMiddle().setCurrentCard(card);
+           } else if (!AiPlayer.getZoneRight().isActive()) {
+               //call the seek method to send the card there
+               AiPlayer.getZoneRight().setCurrentCard(card);
+           }
+       }
+        else
         {
             // the card cannot be played - there is no room.
         }
 
     }
 
-
+// brians method
+    // 40111707
     public boolean compareManaRequirementWithManaCounter(HashMap<ManaTypes,Integer> manaRequirement, HashMap<ManaTypes,Integer> manaCounter){
         for (ManaTypes key : manaRequirement.keySet()) {
             if (manaRequirement.get(key) > manaCounter.get(key)) {
@@ -91,6 +96,43 @@ public class boardGameStrategy {
 
         }
         return true;
+    }
+
+    //brians method
+    //40111707
+    // this method allows the Ai to check if it is holding mana within its hand, if it is it should be played.
+    public void playMana(Hand hand){
+        int i =0;
+        boolean manaCardFound =false;
+        while( manaCardFound = false){
+            if(hand.getCardFromHand(i) instanceof ManaCard)
+            {
+                manaCardFound =true;
+                playCard(hand.getCardFromHand(i));
+            }
+            i++;
+        }
+    }
+
+    // brians method
+    // 40111707
+    // make sure that it is the ai players mana counter that is pased in
+    // the Ai's hand also needs to be passed in so that each monster cards mana requirement can be accsessed.
+    public int whichManaDoINeedTheMost(Hand hand,HashMap<ManaTypes,Integer> manaCounter){
+        int genericMana =0;
+        int eeecsMana=0;
+        int medicMana=0;
+        int artsHumanitiesMana =0;
+        int enegineeringMana =0;
+        int socaulSciencesMana =0;
+
+       // for(manaTypes key : )
+
+        // you need to go through the hand, count each cards mana requirements
+        // then check if i have a mana card of that type that has the most need
+        // then it needs to be played.
+        int j=0; // used only for return statement.
+        return j;
     }
 
 
