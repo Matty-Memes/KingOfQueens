@@ -1,8 +1,6 @@
 package javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard;
 
 import android.graphics.Bitmap;
-import android.graphics.Rect;
-import javalampstudos.kingofqueens.kingOfQueens.AiEngine.boardGameStrategy;
 
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
 
@@ -13,16 +11,17 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
 public class GameBoard extends GameObject {
 
     private PlaySpace player;
-    private PlaySpace ai;
+    private AiPlaySpace ai;
 
     public GameBoard(float x, float y, int width, int height,
-                     Bitmap sprite, PlaySpace player,PlaySpace ai)
+                     Bitmap sprite, PlaySpace player,AiPlaySpace ai)
     {
         super(x, y, width, height, sprite);
         this.player = player;
         this.ai = ai;
 
     }
+
 
 
 

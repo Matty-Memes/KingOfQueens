@@ -10,24 +10,23 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaTypes;
 public class ManaCounter
 
 {
-
-         private HashMap<ManaTypes,Integer> unusedMana;
+         private HashMap<ManaTypes,Integer> unusedManaHashMap;
          private HashMap<ManaTypes, Integer> manaCounterHashMap;
 
         // hashmaps are created within the constructor, this allows for it to be populated with the correct manatypes.
         public ManaCounter() {
              manaCounterHashMap = new HashMap<ManaTypes, Integer>();
             setupManaCounter(manaCounterHashMap);
-            unusedMana = new HashMap<ManaTypes,Integer>();
-            setupManaCounter(unusedMana);
+            unusedManaHashMap = new HashMap<ManaTypes,Integer>();
+            setupManaCounter(unusedManaHashMap);
         }
 
-    public HashMap<ManaTypes, Integer> getUnusedMana() {
-        return unusedMana;
+    public HashMap<ManaTypes, Integer> getUnusedManaHashMap() {
+        return unusedManaHashMap;
     }
 
-    public void setUnusedMana(HashMap<ManaTypes, Integer> unusedMana) {
-        this.unusedMana = unusedMana;
+    public void setUnusedManaHashMap(HashMap<ManaTypes, Integer> unusedMana) {
+        this.unusedManaHashMap = unusedMana;
     }
 
     public HashMap<ManaTypes, Integer> getManaCounterHashMap() {
@@ -52,23 +51,23 @@ public class ManaCounter
 
            //Add mana to the mana counter
         // brian method
-        public void addMana(ManaTypes mana, int amount) {
-            manaCounterHashMap.put(mana, amount);
+        public void addMana(ManaTypes mana) {
+            manaCounterHashMap.put(mana, manaCounterHashMap.get(mana)+1);
         }
 
         // 40111707
         // brians method
         //Use mana finds the remainder of mana after an attack has been done.
         public void useMana(int manaCost,ManaTypes mana) {
-            if(unusedMana.get(mana) > 0) {
+            if(unusedManaHashMap.get(mana) > 0) {
                 if ((manaCounterHashMap.get(mana) - manaCost) > 0) {
-                    unusedMana.put(mana, manaCounterHashMap.get(mana) - manaCost);
+                    unusedManaHashMap.put(mana, manaCounterHashMap.get(mana) - manaCost);
                 } else {
                     // there is not enough mana for this attack
                 }
             } else{
-                if(((unusedMana.get(mana) - manaCost) > 0)){
-                    unusedMana.put(mana, unusedMana.get(mana) - manaCost);
+                if(((unusedManaHashMap.get(mana) - manaCost) > 0)){
+                    unusedManaHashMap.put(mana, unusedManaHashMap.get(mana) - manaCost);
                 }
                 else {
                     // the mana is not enough
@@ -78,8 +77,8 @@ public class ManaCounter
         // 40111707
         // brians method
         //Reset the unusedMana at the beginning of every turn
-        public void resetMana() {
-            setupManaCounter(unusedMana);
+        public void resetUsedMana() {
+            unusedManaHashMap.putAll(manaCounterHashMap);
         }
 
 

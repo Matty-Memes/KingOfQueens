@@ -20,25 +20,22 @@ public class PlaySpace extends GameObject {
     private int life;
     private graveYard GraveYard;
     private ManaCounter manaCounter;
-    private CardZone zoneLeft,zoneMiddle,zoneRight;
-    public PlaySpace(float x, float y, int width, int height, Bitmap sprite, Deck deck,
-                     Hand hand, int life, graveYard graveYard,
-                     ManaCounter manaCounter, CardZone zoneLeft,
-                     CardZone zoneMiddle, CardZone zoneRight, int currentCard, int deckSize) {
+    private CardZone [] cardZones;
+
+    public PlaySpace(float x, float y, int width, int height,
+                     Bitmap sprite, Deck deck, Hand hand, int life,
+                     graveYard graveYard, ManaCounter manaCounter, CardZone[] cardZones,
+                     int currentCard, int deckSize) {
         super(x, y, width, height, sprite);
         this.deck = deck;
         this.hand = hand;
-        this.life = maxLifeValue;
-        this.GraveYard = graveYard;
-        this.zoneLeft = zoneLeft;
-        this.zoneMiddle = zoneMiddle;
-        this.zoneRight = zoneRight;
+        this.life = life;
+        GraveYard = graveYard;
+        this.manaCounter = manaCounter;
+        this.cardZones = new CardZone[3];
         this.currentCard = currentCard;
         this.deckSize = deckSize;
-
-
     }
-
 
     public Deck getDeck() {
         return deck;
@@ -81,30 +78,14 @@ public class PlaySpace extends GameObject {
         return manaCounter;
     }
 
-    public CardZone getZoneLeft() {
-        return zoneLeft;
+
+    public CardZone[] getCardZones() {
+        return cardZones;
     }
 
-    public void setZoneLeft(CardZone zoneLeft) {
-        this.zoneLeft = zoneLeft;
+    public void setCardZones(CardZone[] cardZones) {
+        this.cardZones = cardZones;
     }
-
-    public CardZone getZoneMiddle() {
-        return zoneMiddle;
-    }
-
-    public void setZoneMiddle(CardZone zoneMiddle) {
-        this.zoneMiddle = zoneMiddle;
-    }
-
-    public CardZone getZoneRight() {
-        return zoneRight;
-    }
-
-    public void setZoneRight(CardZone zoneRight) {
-        this.zoneRight = zoneRight;
-    }
-
 
     public void setupPlay()
     {
@@ -133,14 +114,15 @@ public class PlaySpace extends GameObject {
 
      // brian method
     //40111707
-    public boolean checkAllZonesAreActive(){
+    // to be fixed to work with array.
+    /*public boolean checkAllZonesAreActive(){
 
         if(zoneLeft.isActive() && zoneMiddle.isActive() && zoneRight.isActive())
         {
             return true;
         }
         return false;
-    }
+    }*/
     //When a monster is destroyed, call this method
     public void removeLife()
     {
