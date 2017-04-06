@@ -115,14 +115,20 @@ public class PlaySpace extends GameObject {
      // brian method
     //40111707
     // to be fixed to work with array.
-    /*public boolean checkAllZonesAreActive(){
-
-        if(zoneLeft.isActive() && zoneMiddle.isActive() && zoneRight.isActive())
-        {
-            return true;
-        }
-        return false;
-    }*/
+    public boolean checkAllZonesAreActive(){
+        boolean allZonesActive =false;
+       for(int i=0; i < getCardZones().length || allZonesActive; i++)
+       {
+           if(!getCardZones()[i].isActive())
+           {
+               allZonesActive = false;
+           }
+           else {
+               allZonesActive = true;
+           }
+       }
+       return allZonesActive;
+    }
     //When a monster is destroyed, call this method
     public void removeLife()
     {

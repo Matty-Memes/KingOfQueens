@@ -25,7 +25,7 @@ public class AiPlaySpace extends PlaySpace {
 
     // 40111707 brians
         // this method will find the highest attack card that can be played.
-        // in order for this method to be finished manacounter needs to be made into a hashmap.
+        // use for putting level 1 cards in play
         public void PlayCardWithHighestAtt(Hand hand, MonsterCard enemeyCard, ManaCounter unusedMana) {
 
             int bestCardIndex = 0;
@@ -52,7 +52,7 @@ public class AiPlaySpace extends PlaySpace {
 
                 }
             }
-         //   playCard(hand.getCardFromHand(bestCardIndex));
+            playCard(hand.getCardFromHand(bestCardIndex));
         }
 
 
@@ -60,20 +60,18 @@ public class AiPlaySpace extends PlaySpace {
         // brians method,
         // this method will choose which zone to play the card on then drag it to that zone.
         //40111707
-       /* public void playCard(BasicCard card) {
-
+        public void playCard(BasicCard card) {
+            boolean found = false;
             // you need to allocate a zone for the card to be sent to
             // requires a seek method, it should send the card to the correct zone, then also give the card zone that card as its current card.
             if(!checkAllZonesAreActive()) {
-                if (!getZoneLeft().isActive()) {
-                    //call the seek method to send the card there
-                    getZoneLeft().setCurrentCard(card);
-                } else if (!getZoneMiddle().isActive()) {
-                    //call the seek method to send the card there
-                    getZoneMiddle().setCurrentCard(card);
-                } else if (!getZoneRight().isActive()) {
-                    //call the seek method to send the card there
-                    getZoneRight().setCurrentCard(card);
+                for(int i=0; i < getCardZones().length && !found;i++)
+                {
+                    if(!getCardZones()[i].isActive())
+                    {
+                        getCardZones()[i].setCurrentCard(card);
+                        found =true;
+                    }
                 }
             }
             else
@@ -81,7 +79,7 @@ public class AiPlaySpace extends PlaySpace {
                 // the card cannot be played - there is no room.
             }
 
-        }*/
+        }
 
         // brians method
         // 40111707
@@ -102,14 +100,14 @@ public class AiPlaySpace extends PlaySpace {
         //40111707
         // this method allows the Ai to check if it is holding mana within its hand, if it is it should be played.
         // at the minute it is only playing the first mana type that it comes across.
-        public void playMana(Hand hand,AiPlaySpace AiPlayer){
+        public void playMana(Hand hand){
             int i =0;
             boolean manaCardFound =false;
             while( manaCardFound = false){
                 if(hand.getCardFromHand(i) instanceof ManaCard)
                 {
                     manaCardFound =true;
-                    AiPlayer.getManaCounter().addMana(((ManaCard) hand.getCardFromHand(i)).getManaType());
+                    getManaCounter().addMana(((ManaCard) hand.getCardFromHand(i)).getManaType());
                 }
                 i++;
             }
