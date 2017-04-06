@@ -22,9 +22,9 @@ public class Deck extends GameObject {
     private BasicCard[] deck = new BasicCard[MAXDECKSIZE];
 
     public Deck(float x, float y, int width, int height,
-    Bitmap sprite)
+    Bitmap sprite, boolean player)
     {
-        super(x, y, width, height, sprite);
+        super(x, y, width, height, sprite, player);
 
     }
 

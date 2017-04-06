@@ -19,8 +19,8 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.graveYard;
 public class AiPlaySpace extends PlaySpace {
 
 
-    public AiPlaySpace(float x, float y, int width, int height, Bitmap sprite, Deck deck, Hand hand, int life, graveYard graveYard, ManaCounter manaCounter, CardZone[] cardZones, int currentCard, int deckSize) {
-        super(x, y, width, height, sprite, deck, hand, life, graveYard, manaCounter, cardZones, currentCard, deckSize);
+    public AiPlaySpace(float x, float y, int width, int height, Bitmap sprite, boolean player, Deck deck, Hand hand, int life, graveYard graveYard, ManaCounter manaCounter, CardZone[] cardZones, int currentCard, int deckSize) {
+        super(x, y, width, height, sprite, player, deck, hand, life, graveYard, manaCounter, cardZones, currentCard, deckSize);
     }
 
     // 40111707 brians

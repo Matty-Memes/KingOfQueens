@@ -180,6 +180,12 @@ public class GameLoop implements Runnable
     public MonsterCard Psychologist;
     public MonsterCard Sociologist;
 
+    // Declare opponent monster cards here
+    public MonsterCard opponentCard1;
+    public MonsterCard opponentCard2;
+    public MonsterCard opponentCard3;
+
+
     // Declare all the mana cards here
     public ManaCard EEECS;
     public ManaCard BuiltEnvironment;
@@ -190,7 +196,6 @@ public class GameLoop implements Runnable
     public ManaCard Engineering;
 
     // Declare all the buff/support cards here
-
 
     // Declare card backs here
 
@@ -237,8 +242,6 @@ public class GameLoop implements Runnable
     // deck booleans
     public boolean deckClicked = false;
 
-
-
     // Random number value for brians method
     // private static Random rand;
     // track the position in the discardPile array
@@ -256,6 +259,11 @@ public class GameLoop implements Runnable
 
     public ArrayList<BasicCard> handCards = new ArrayList<>();
     public ArrayList<MonsterCard> monstersInPlay = new ArrayList<>();
+
+    // Opponent card variables
+    public MonsterCard opponent1;
+    public MonsterCard opponent2;
+    public MonsterCard opponent3;
 
     // GameLoop Constructor
     public GameLoop (CanvasFragment fragment, int width, int height)
@@ -315,11 +323,11 @@ public class GameLoop implements Runnable
         requiredMana.put(ManaTypes.BUILT_ENVIRONMENT_MANA,5);
         // Geologist = new MonsterCard(20, 350, 90, 120, GeoSprite, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3,requiredMana);
 
-        Geologist = new MonsterCard(20, 350, 90, 120, GeoSprite, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3, requiredMana);
-        DataAdmin = new MonsterCard(0, 0, 0, 0, DataAdminSprite, CardSchools.EEECS, false, 49, CardLevel.GRAD, 140, 0, 2, requiredMana);
-        HackerMan = new MonsterCard(0, 0, 0, 0, HackerManSprite, CardSchools.MEDICS, false, 49, CardLevel.DOCTRATE, 140, 0, 3, requiredMana);
-        Psychologist = new MonsterCard(0, 0, 0, 0, PsychologistSprite, CardSchools.MEDICS, false, 49, CardLevel.DOCTRATE, 140, 0, 3, requiredMana);
-        Sociologist = new MonsterCard(0, 0, 0, 0, SociologistSprite, CardSchools.MEDICS, false, 49, CardLevel.DOCTRATE, 140, 0, 3, requiredMana);
+        Geologist = new MonsterCard(20, 350, 90, 120, GeoSprite, true, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3, requiredMana);
+        DataAdmin = new MonsterCard(0, 0, 0, 0, DataAdminSprite, true, CardSchools.EEECS, false, 49, CardLevel.GRAD, 140, 0, 2, requiredMana);
+        HackerMan = new MonsterCard(0, 0, 0, 0, HackerManSprite, true, CardSchools.MEDICS, false, 49, CardLevel.DOCTRATE, 140, 0, 3, requiredMana);
+        Psychologist = new MonsterCard(0, 0, 0, 0, PsychologistSprite, true, CardSchools.MEDICS, false, 49, CardLevel.DOCTRATE, 140, 0, 3, requiredMana);
+        Sociologist = new MonsterCard(0, 0, 0, 0, SociologistSprite, true, CardSchools.MEDICS, false, 49, CardLevel.DOCTRATE, 140, 0, 3, requiredMana);
 
         // Load the created cards into the cardList array
         // cardList[0] = Geologist;
@@ -328,6 +336,12 @@ public class GameLoop implements Runnable
         cardList[2] = Psychologist;
         cardList[3] = Sociologist;
         cardList[4] = Geologist;
+
+        // Opponent card
+        opponentCard1 = new MonsterCard(194, 100, 90, 120, cardBackSprite, false, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3, requiredMana);
+        opponentCard2 = new MonsterCard(394, 100, 90, 120, cardBackSprite, false, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3, requiredMana);
+        opponentCard3 = new MonsterCard(594, 100, 90, 120, cardBackSprite, false, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3, requiredMana);
+
 
 
       /*
@@ -350,18 +364,18 @@ public class GameLoop implements Runnable
 
 
 
-        handCard1 = new BasicCard(194, 410, 90, 120, cardBackSprite, CardSchools.MEDICS, false,
+        handCard1 = new BasicCard(194, 410, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
                 49);
 
         // The rest of the gaps should be either 10 or 20
 
-        handCard2 = new BasicCard(294, 410, 90, 120, cardBackSprite, CardSchools.MEDICS, false,
+        handCard2 = new BasicCard(294, 410, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
                 49);
-        handCard3 = new BasicCard(394, 410, 90, 120, cardBackSprite, CardSchools.MEDICS, false,
+        handCard3 = new BasicCard(394, 410, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
                 49);
-        handCard4 = new BasicCard(494, 410, 90, 120, cardBackSprite, CardSchools.MEDICS, false,
+        handCard4 = new BasicCard(494, 410, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
                 49);
-        handCard5 = new BasicCard(594, 410, 90, 120, cardBackSprite, CardSchools.MEDICS, false,
+        handCard5 = new BasicCard(594, 410, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
                 49);
 
         // Put the hand cards in the array
@@ -374,22 +388,22 @@ public class GameLoop implements Runnable
 
         // Positioning the monsters
 
-        monsterCard1 = new BasicCard(194, 280, 90, 120, cardBackSprite, CardSchools.MEDICS, false,
+        monsterCard1 = new BasicCard(194, 280, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
                 49);
-        monsterCard2 = new BasicCard(394, 280, 90, 120, cardBackSprite, CardSchools.MEDICS, false,
+        monsterCard2 = new BasicCard(394, 280, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
                 49);
-        monsterCard3 = new BasicCard(594, 280, 90, 120, cardBackSprite, CardSchools.MEDICS, false,
+        monsterCard3 = new BasicCard(594, 280, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
                 49);
 
         // hand
 
         // Draw the graveyard pile
-        graveYard = new BasicCard(754, 280, 90, 120, cardBackSprite, CardSchools.MEDICS, false,
+        graveYard = new BasicCard(754, 280, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
             49);
 
         // y co-ordinate is a gap of 50 plus half the card size
 
-        deck = new BasicCard(754, 410, 90, 120, cardBackSprite, CardSchools.MEDICS, false,
+        deck = new BasicCard(754, 410, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
                 49);
 
         rand = new randomGenerator();
@@ -837,21 +851,11 @@ public class GameLoop implements Runnable
         // There are known problems with this
         // test.play(0, 0.5f, 0.5f, 1, 0, 1.0f);
 
-
-
-        System.out.println("Touch input was received and now thingy is being done");
         // int x = generateRandomNumber();
         // System.out.println(x);
 
         // testing soundfx
         // test.playSoundFX();
-
-        // Add the dataadmin to the array
-        monsterCards.add(DataAdmin);
-
-        // Test another monster card
-        monsterCards.add(HackerMan);
-
 
     }
 
@@ -903,11 +907,16 @@ public class GameLoop implements Runnable
         monsterCard2.update();
         monsterCard3.update();
 
-
         // Graveyard and deck updates
 
         graveYard.update();
         deck.update();
+
+        // opponent card
+        opponentCard1.update();
+        opponentCard2.update();
+        opponentCard3.update();
+
 
     }
 

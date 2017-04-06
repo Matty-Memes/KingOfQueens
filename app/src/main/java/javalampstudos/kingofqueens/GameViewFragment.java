@@ -217,6 +217,11 @@ public class GameViewFragment extends CanvasFragment {
         loop.monsterCard2.draw(canvas);
         loop.monsterCard3.draw(canvas);
 
+        // draw opponent card
+        loop.opponentCard1.draw(canvas);
+        loop.opponentCard2.draw(canvas);
+        loop.opponentCard3.draw(canvas);
+
         // deck and graveyard
         loop.graveYard.draw(canvas);
         loop.deck.draw(canvas);

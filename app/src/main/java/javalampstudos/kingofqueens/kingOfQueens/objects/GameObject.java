@@ -32,23 +32,34 @@ public abstract class GameObject
     // Drawing information
     public Rect rect;
 
+    // true if this is a player card
+    // false if it's an opponent card
+    public boolean player;
+
+    // For flipping images
     // Source rect
-    Rect source;
+
+    // Have a single source rect and change the values of the dest rect
+    // Top right is now top left
+    // Bottom
+    Rect source = new Rect(432, 641, 0, 0);
     // Destination rect
-    Rect destination;
-
-
 
     public GameObject(float x, float y, int width, int height,
-                      Bitmap sprite) {
+                      Bitmap sprite, boolean player) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.sprite = sprite;
+        this.player = player;
+
         // instantiate a new rect
+        // this isn't exposed in the objects
         this.rect = new Rect();
     }
+
+    // work out the destination rect
 
     public void update ()
 
@@ -91,11 +102,24 @@ public abstract class GameObject
         }
 
 
+        if (player)
 
-        // draw images in their normal orientation
-        canvas.drawBitmap(sprite, null, rect, null);
+        {
 
-        // need a seperate drawBitmap call for flipping images
+            // draw images in their normal orientation
+            canvas.drawBitmap(sprite, null, rect, null);
+
+        }
+
+        // for flipped cards
+
+        else
+
+        {
+
+            canvas.drawBitmap(sprite, source, rect, null);
+
+        }
 
         // SmallGeo is 213 x 300
 

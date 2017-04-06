@@ -21,17 +21,20 @@ public class BasicCard extends GameObject
         // pointer id for keeping track of touch input
         public int pointerID;
 
+
+
         // need all the fields from the superclass
 
 
         // Modified by Andrew - 27/03/17
-        public BasicCard(int x, int y, int width, int height, Bitmap Sprite,
+        public BasicCard(int x, int y, int width, int height, Bitmap Sprite, boolean player,
                          CardSchools cardSchool, boolean destroyed, int pointerID)
         {
-            super(x, y, width, height, Sprite);
+            super(x, y, width, height, Sprite, player);
             this.cardSchool = cardSchool;
             this.destroyed = destroyed;
             this.pointerID = pointerID;
+
         }
 
         // getters and setters

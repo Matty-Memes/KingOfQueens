@@ -23,10 +23,10 @@ public class PlaySpace extends GameObject {
     private CardZone [] cardZones;
 
     public PlaySpace(float x, float y, int width, int height,
-                     Bitmap sprite, Deck deck, Hand hand, int life,
+                     Bitmap sprite, boolean player, Deck deck, Hand hand, int life,
                      graveYard graveYard, ManaCounter manaCounter, CardZone[] cardZones,
                      int currentCard, int deckSize) {
-        super(x, y, width, height, sprite);
+        super(x, y, width, height, sprite, player);
         this.deck = deck;
         this.hand = hand;
         this.life = life;

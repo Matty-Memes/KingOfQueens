@@ -23,16 +23,19 @@ public class MonsterCard extends BasicCard
         // Modified by Andrew - 27/03/17
         // constructor
 
-    public MonsterCard(int x, int y, int width, int height, Bitmap Sprite, CardSchools cardSchool,
+    public MonsterCard(int x, int y, int width, int height, Bitmap Sprite, boolean player, CardSchools cardSchool,
                        boolean destroyed, int pointerID, CardLevel level, int health, int defence,
                        int attackValue, HashMap<ManaTypes, Integer> attackManaRequirement) {
-        super(x, y, width, height, Sprite, cardSchool, destroyed, pointerID);
+        super(x, y, width, height, Sprite, player, cardSchool, destroyed, pointerID);
         this.level = level;
         this.health = health;
         this.defence = defence;
         this.attackValue = attackValue;
         this.attackManaRequirement = attackManaRequirement;
     }
+
+    // Set the source and destination rects
+
 
 
     // ADD GETTERS AND SETTERS //
