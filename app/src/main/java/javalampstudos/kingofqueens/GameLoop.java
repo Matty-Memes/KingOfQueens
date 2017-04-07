@@ -77,9 +77,11 @@ public class GameLoop implements Runnable
     // Declare a gamestate
     public GameState gameState;
 
+
+    // Access the two main arrays - hand and monstersinplay
+    // Use proper names
     public int handIndex;
-
-
+    public int monsterIndex;
 
     // Variables for flipping images
     private Matrix matrix = new Matrix();
@@ -104,10 +106,12 @@ public class GameLoop implements Runnable
     private Rect graveYardRect;
     private Rect deckRect;
 
-    // the whole screen
+    // Splitting the screen into movement rects
     private Rect movementRect;
 
     private Rect playerMovementRect;
+    private Rect attackRect;
+
 
     //pause rect and bitmap
     private Rect pauseRect;
@@ -143,11 +147,19 @@ public class GameLoop implements Runnable
     public Bitmap PsychologistSprite;
     public Bitmap SociologistSprite;
 
+    // Prevent multiple runs of single methods
+
+    // Hands
     public boolean handRect1Active = true;
     public boolean handRect2Active = true;
     public boolean handRect3Active = true;
     public boolean handRect4Active = true;
     public boolean handRect5Active = true;
+
+    //Monsters
+    public boolean monsterSlot1Active = true;
+    public boolean monsterSlot2Active = true;
+    public boolean monsterSlot3Active = true;
 
 
     // DataAdmin
@@ -715,102 +727,39 @@ public class GameLoop implements Runnable
 
                     }
 
+                   // ATTACK PHASE LOGIC
 
 
-
-
-
-
-
-                    // Monster Card Placement Logic
-                // the hand must be populated
-
-
-
-                /*
-
-                    if (handRect2.contains((int) x, (int) y))
+                    if (MSlot1Rect.contains((int) x, (int) y) && attack && monsterSlot1Active)
 
                     {
-                        // make the current object the one currently at hand position 1
-                        currentCard = hand[1];
-                        // Now the user can drag the card
-                        currentCard.x = x;
-                        currentCard.y = y;
+                        System.out.println("Combinatorics right?");
+                        dragActive = true;
+                        monsterIndex = 0;
+                        monsterSlot1Active = false;
 
                     }
 
-                    if (handRect3.contains((int) x, (int) y))
+                    if (MSlot2Rect.contains((int) x, (int) y) && attack && monsterSlot2Active)
 
                     {
-                        // make the current object the one currently at hand position 1
-                        currentCard = hand[2];
-                        // Now the user can drag the card
-                        currentCard.x = x;
-                        currentCard.y = y;
-
+                        System.out.println("Combinatorics right?");
+                        dragActive = true;
+                        monsterIndex = 0;
+                        monsterSlot2Active = false;
 
                     }
 
-                    if (handRect4.contains((int) x, (int) y))
+                    if (MSlot3Rect.contains((int) x, (int) y) && attack && monsterSlot3Active)
 
                     {
-                        // make the current object the one currently at hand position 1
-                        currentCard = hand[3];
-                        // Now the user can drag the card
-                        currentCard.x = x;
-                        currentCard.y = y;
-
+                        System.out.println("Combinatorics right?");
+                        dragActive = true;
+                        monsterIndex = 0;
+                        monsterSlot2Active = false;
 
                     }
 
-                    if (handRect5.contains((int) x, (int) y))
-
-                    {
-                        // make the current object the one currently at hand position 1
-                        currentCard = hand[4];
-                        // Now the user can drag the card
-                        currentCard.x = x;
-                        currentCard.y = y;
-
-
-                    }
-
-                    // Deal with monster card placement
-
-                    if (MSlot1Rect.contains((int) currentCard.x , (int) currentCard.y) && placement == true)
-
-                    {
-                       // the current card knows snaps to the position of the rect
-                       currentCard.x = 40;
-                       currentCard.y = 32;
-                       // add the card to an array containg the mosnters on the field
-
-
-                    }
-
-                    if (MSlot2Rect.contains((int) currentCard.x , (int) currentCard.y) && placement == true)
-
-                    {
-                        // the current card knows snaps to the position of the rect
-                        currentCard.x = 40;
-                        currentCard.y = 32;
-
-                    }
-
-                    if (MSlot3Rect.contains((int) currentCard.x , (int) currentCard.y) && placement == true)
-
-                    {
-                        // the current card knows snaps to the position of the rect
-                        currentCard.x = 40;
-                        currentCard.y = 32;
-
-                    }
-
-                    // For the attack phase the monster slot becomes the point from which to drag
-
-
-               */
 
 
                 }

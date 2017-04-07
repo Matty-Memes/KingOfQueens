@@ -72,7 +72,7 @@ public class Brain {
             {
                 if(!cardZones[i].isActive())
                 {
-                    cardZones[i].setCurrentCard(card);
+                    cardZones[i].setCurrentCard((MonsterCard)card);
                     found =true;
                 }
             }
