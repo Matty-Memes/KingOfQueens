@@ -100,16 +100,16 @@ public class MonsterCard extends BasicCard
 
 
     // Brian's + Matts Method
-    public void attack(MonsterCard attackingCard, MonsterCard defendingCard) {
+    public void attack(MonsterCard defendingCard) {
 
         //monsterCard target = this.monsterCard;
         //Matt: I need to get touch input to tell the class what monster to attack.
 
-        if (compareCardAttackBonus(attackingCard.getCardSchool(), defendingCard.getCardSchool()) == true) {
-            defendingCard.health -= (attackingCard.getAttackValue() * attackBonus);
+        if (compareCardAttackBonus(getCardSchool(), defendingCard.getCardSchool()) == true) {
+            defendingCard.health -= (getAttackValue() * attackBonus);
 
         } else {
-            defendingCard.health -= attackingCard.getAttackValue();
+            defendingCard.health -= getAttackValue();
 
         }
 
