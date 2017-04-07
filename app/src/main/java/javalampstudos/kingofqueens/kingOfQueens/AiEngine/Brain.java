@@ -124,7 +124,7 @@ public class Brain {
     public void playMana(Hand hand, ManaCounter manaCounter){
         int i =0;
         boolean manaCardFound =false;
-        while( manaCardFound = false){// NOTE THIS STILL NEEDS TO BE TESTED. IT SHOULD COMPARE THE ENUMS TO STRINGS THEN SEE IF CARD SCHOOLS IS CONTAINTED WITHIN THE MANATYPE.
+        while( manaCardFound = false){
             if(hand.getCardFromHand(i) instanceof ManaCard)
             {
                 if(whichManaDoINeedTheMost(hand,manaCounter).toString().startsWith( hand.getCardFromHand(i).getCardSchool().toString()))

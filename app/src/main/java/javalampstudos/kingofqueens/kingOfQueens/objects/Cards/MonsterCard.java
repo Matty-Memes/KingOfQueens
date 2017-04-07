@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import java.util.HashMap;
 
+import javalampstudos.kingofqueens.kingOfQueens.util.randomGenerator;
+
 /**
  * Created by Andrew on 29/03/2017.
  */
@@ -11,7 +13,7 @@ import java.util.HashMap;
 public class MonsterCard extends BasicCard
 
 {
-        private final double attackBonus = 1.5;
+        private final double attackBonus = 0.1;
         private CardLevel level; // ENUM
         private int health;
         private int defence;
@@ -105,8 +107,10 @@ public class MonsterCard extends BasicCard
         //monsterCard target = this.monsterCard;
         //Matt: I need to get touch input to tell the class what monster to attack.
 
+        randomGenerator rand = new randomGenerator();
+        int randomMultiplier = rand.generateRandomNumber();
         if (compareCardAttackBonus(getCardSchool(), defendingCard.getCardSchool()) == true) {
-            defendingCard.health -= (getAttackValue() * attackBonus);
+            defendingCard.health -= (getAttackValue() * (attackBonus * randomMultiplier));
 
         } else {
             defendingCard.health -= getAttackValue();
