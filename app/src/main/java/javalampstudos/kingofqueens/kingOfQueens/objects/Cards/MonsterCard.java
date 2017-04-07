@@ -13,9 +13,7 @@ public class MonsterCard extends BasicCard
 {
         private final double attackBonus = 1.5;
         private CardLevel level; // ENUM
-        private int health;
-        private int defence;
-        private int attackValue;
+        private int health,defence,attackValue,evolutionID;
         // holds a list of the mana types required
          private HashMap<ManaTypes, Integer> attackManaRequirement;
 
@@ -25,12 +23,13 @@ public class MonsterCard extends BasicCard
 
     public MonsterCard(int x, int y, int width, int height, Bitmap Sprite, boolean player, CardSchools cardSchool,
                        boolean destroyed, int pointerID, CardLevel level, int health, int defence,
-                       int attackValue, HashMap<ManaTypes, Integer> attackManaRequirement) {
+                       int attackValue,int evolutionID, HashMap<ManaTypes, Integer> attackManaRequirement) {
         super(x, y, width, height, Sprite, player, cardSchool, destroyed, pointerID);
         this.level = level;
         this.health = health;
         this.defence = defence;
         this.attackValue = attackValue;
+        this.evolutionID = evolutionID;
         this.attackManaRequirement = attackManaRequirement;
     }
 
@@ -140,6 +139,16 @@ public class MonsterCard extends BasicCard
         }
 
 
+    }
+
+    //MATT:
+    public boolean evolutionCheck(MonsterCard currentCard, MonsterCard evolutionCandidateCard)
+    {
+        if((currentCard.evolutionID == evolutionCandidateCard.evolutionID)&& ((currentCard.level == CardLevel.UNDERGRAD) && (evolutionCandidateCard.level == CardLevel.GRAD))
+                ||((currentCard.level==CardLevel.GRAD)&&(evolutionCandidateCard.level==CardLevel.DOCTRATE)))
+            return true;
+        else
+            return false;
     }
 
 
