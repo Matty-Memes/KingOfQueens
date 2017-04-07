@@ -103,8 +103,8 @@ public class AiPlaySpace extends PlaySpace {
         public void playMana(Hand hand){
             int i =0;
             boolean manaCardFound =false;
-            while( manaCardFound = false){
-                if(hand.getCardFromHand(i) instanceof ManaCard)
+            while( manaCardFound = false){// NOTE THIS STILL NEEDS TO BE TESTED. IT SHOULD COMPARE THE ENUMS TO STRINGS THEN SEE IF CARD SCHOOLS IS CONTAINTED WITHIN THE MANATYPE.
+                if(hand.getCardFromHand(i) instanceof ManaCard && whichManaDoINeedTheMost(hand).toString().startsWith( hand.getCardFromHand(i).getCardSchool().toString()))
                 {
                     manaCardFound =true;
                     getManaCounter().addMana(((ManaCard) hand.getCardFromHand(i)).getManaType());
@@ -115,24 +115,53 @@ public class AiPlaySpace extends PlaySpace {
 
         // brians method
         // 40111707
-        // make sure that it is the ai players mana counter that is pased in
-        // the Ai's hand also needs to be passed in so that each monster cards mana requirement can be accsessed.
-        public int whichManaDoINeedTheMost(Hand hand,HashMap<ManaTypes,Integer> manaCounter){
-            int genericMana =0;
-            int eeecsMana=0;
-            int medicMana=0;
-            int artsHumanitiesMana =0;
-            int enegineeringMana =0;
-            int socaulSciencesMana =0;
+        // this method finds the manatype that the Ai will need the most depeneing on the cards that are
+        // currently in its hand
+        public ManaTypes whichManaDoINeedTheMost(Hand hand){
+            HashMap<ManaTypes,Integer> temp = new HashMap<ManaTypes,Integer>();
+            int highestNeedMana=0;
+            ManaTypes key1 = null;
 
-            // for(manaTypes key : )
+            // this loop is used to count all of the mana requirements of the monstercards within the hand.
+            for(int i=0; i < hand.getHand().length;i++ )
+            {
+                if(hand.getCardFromHand(i) instanceof  MonsterCard)
+                {
+                    for (ManaTypes key:getManaCounter().getManaCounterHashMap().keySet())
+                    {
+                       temp.put(key,((MonsterCard)hand.getCardFromHand(i)).getAttackManaRequirement().get(key)) ;
+                    }
 
-            // you need to go through the hand, count each cards mana requirements
-            // then check if i have a mana card of that type that has the most need
-            // then it needs to be played.
-            int j=0; // used only for return statement.
-            return j;
+                }
+
+            }
+            // this loop is used to find the mana type that will have the highest need.
+            for (ManaTypes key:temp.keySet())
+            {
+                if(temp.get(key) > highestNeedMana)
+                {
+                    highestNeedMana = temp.get(key);
+
+                }
+            }
+
+
+            // this loop is for finding the key of the manaType that has the highest need.
+            for (ManaTypes key:temp.keySet())
+            {
+             if(temp.get(key) == highestNeedMana)
+             {
+                 key1 = key;
+             }
+            }
+
+
+            // finally reutnring the key for the mana type that has the highest need.
+            return key1;
         }
+
+
+
 
 
 

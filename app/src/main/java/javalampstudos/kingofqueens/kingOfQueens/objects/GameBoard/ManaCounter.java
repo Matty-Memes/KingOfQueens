@@ -18,7 +18,7 @@ public class ManaCounter
              manaCounterHashMap = new HashMap<ManaTypes, Integer>();
             setupManaCounter(manaCounterHashMap);
             unusedManaHashMap = new HashMap<ManaTypes,Integer>();
-            setupManaCounter(unusedManaHashMap);
+            setupUsedMana();
         }
 
     public HashMap<ManaTypes, Integer> getUnusedManaHashMap() {
@@ -77,7 +77,7 @@ public class ManaCounter
         // 40111707
         // brians method
         //Reset the unusedMana at the beginning of every turn
-        public void resetUsedMana() {
+        public void setupUsedMana() {
             unusedManaHashMap.putAll(manaCounterHashMap);
         }
 
