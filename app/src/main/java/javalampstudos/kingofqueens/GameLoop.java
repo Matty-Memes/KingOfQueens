@@ -71,6 +71,7 @@ public class GameLoop implements Runnable
     // Declare a gamestate
     public GameState gameState;
 
+    public int handIndex;
 
 
 
@@ -100,6 +101,8 @@ public class GameLoop implements Runnable
     // the whole screen
     private Rect movementRect;
 
+    private Rect playerMovementRect;
+
     //pause rect and bitmap
     private Rect pauseRect;
     private Bitmap pauseBitmap;
@@ -109,6 +112,8 @@ public class GameLoop implements Runnable
 
     // Declare an instance of multi-touch listener
     protected MultitouchListener touchListener;
+
+    public boolean dragActive = false;
 
     // END TOUCH INPUT LOGIC
 
@@ -131,6 +136,12 @@ public class GameLoop implements Runnable
 
     public Bitmap PsychologistSprite;
     public Bitmap SociologistSprite;
+
+    public boolean handRect1Active = true;
+    public boolean handRect2Active = true;
+    public boolean handRect3Active = true;
+    public boolean handRect4Active = true;
+    public boolean handRect5Active = true;
 
 
     // DataAdmin
@@ -571,6 +582,8 @@ public class GameLoop implements Runnable
 
 
 
+                /*
+
                 if (movementRect.contains((int) x, (int) y))
 
                     {
@@ -583,6 +596,8 @@ public class GameLoop implements Runnable
                         Geologist.y = y;
 
                     }
+
+                 */
 
                  // the graveyard can destroy cards
                  if (graveYardRect.contains((int) Geologist.x , (int) Geologist.y))
@@ -599,34 +614,111 @@ public class GameLoop implements Runnable
                         populateHand();
                         System.out.println("Completed");
 
+                    }
+
+                // cards can be moved anywhere in the players half of the screen
+                if(playerMovementRect.contains((int) x, (int) y) && dragActive)
+
+                {
+                   // how do you know which card this effects
+                   // set the index of the array to talk to
+                   handCards.get(handIndex).x = x;
+                   handCards.get(handIndex).y = y;
+
+                }
+
+                if (handRect1.contains((int) x, (int) y) && handRect1Active == true)
+
+                {
+                   dragActive = true;
+                   handIndex = 0;
+                   handRect1Active = false;
+
+                }
+
+
+                    if (handRect2.contains((int) x, (int) y) && handRect2Active == true)
+
+                    {
+                        dragActive = true;
+                        handIndex = 1;
+                        handRect2Active = false;
 
                     }
 
-                 // testing other touch input rects
+                    if (handRect3.contains((int) x, (int) y) && handRect3Active == true)
 
-                 if (handRect1.contains((int) x, (int) y))
+                    {
+                        dragActive = true;
+                        handIndex = 2;
+                        handRect3Active = false;
 
-                 {
-                    System.out.println("HandRect1 was touched");
+                    }
+
+                    if (handRect4.contains((int) x, (int) y) && handRect4Active == true)
+
+                    {
+                        dragActive = true;
+                        handIndex = 3;
+                        handRect4Active = false;
+
+                    }
+
+                    if (handRect5.contains((int) x, (int) y) && handRect5Active == true)
+
+                    {
+                        dragActive = true;
+                        handIndex = 4;
+                        handRect5Active = false;
+
+                    }
+
+                    // Monster Slot Detection
 
 
-                 }
+                    if (MSlot1Rect.contains((int) x, (int) y))
+
+                {
+                   handCards.get(handIndex).x = 194;
+                   handCards.get(handIndex).y = 280;
+                   dragActive = false;
+
+
+                }
+
+                    if (MSlot2Rect.contains((int) x, (int) y))
+
+                    {
+                        handCards.get(handIndex).x = 394;
+                        handCards.get(handIndex).y = 280;
+                        dragActive = false;
+
+
+                    }
+
+                    if (MSlot3Rect.contains((int) x, (int) y))
+
+                    {
+                        handCards.get(handIndex).x = 594;
+                        handCards.get(handIndex).y = 280;
+                        dragActive = false;
+
+
+                    }
+
+
+
+
+
+
+
+
+                    // Monster Card Placement Logic
+                // the hand must be populated
+
 
 
                 /*
-
-                // Monster Card Placement Logic
-
-                if (handRect1.contains((int) x, (int) y))
-
-                {
-                  // make the current object the one currently at hand position 1
-                  currentCard = hand[0];
-                  // Now the user can drag the card
-                  currentCard.x = x;
-                  currentCard.y = y;
-
-                }
 
                     if (handRect2.contains((int) x, (int) y))
 
@@ -708,9 +800,13 @@ public class GameLoop implements Runnable
 
                     // For the attack phase the monster slot becomes the point from which to drag
 
-                 */
+
+               */
+
 
                 }
+
+
 
                 // Snapping goes here
 
@@ -732,6 +828,10 @@ public class GameLoop implements Runnable
 
 
                 }
+
+                // Single touch stuff - fires once and then stops
+
+
 
 
             }
@@ -841,6 +941,10 @@ public class GameLoop implements Runnable
                 (int) (410),
                 (int) (285),
                 (int) (510));
+
+        // playerArea
+        playerMovementRect = new Rect((int) 0, (int) (GameLoop.height / 2), (int) GameLoop.width, (int) GameLoop.height);
+
     }
 
 
