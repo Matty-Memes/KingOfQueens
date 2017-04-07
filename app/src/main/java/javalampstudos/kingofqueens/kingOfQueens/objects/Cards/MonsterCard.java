@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import java.util.HashMap;
 
+import javalampstudos.kingofqueens.kingOfQueens.util.randomGenerator;
+
 /**
  * Created by Andrew on 29/03/2017.
  */
@@ -11,7 +13,7 @@ import java.util.HashMap;
 public class MonsterCard extends BasicCard
 
 {
-        private final double attackBonus = 1.5;
+        private final double attackBonus = 0.2;
         private CardLevel level; // ENUM
         private int health,defence,attackValue,evolutionID;
         // holds a list of the mana types required
@@ -99,16 +101,18 @@ public class MonsterCard extends BasicCard
 
 
     // Brian's + Matts Method
-    public void attack(MonsterCard attackingCard, MonsterCard defendingCard) {
+    public void attack(MonsterCard defendingCard) {
 
         //monsterCard target = this.monsterCard;
         //Matt: I need to get touch input to tell the class what monster to attack.
 
-        if (compareCardAttackBonus(attackingCard.getCardSchool(), defendingCard.getCardSchool()) == true) {
-            defendingCard.health -= (attackingCard.getAttackValue() * attackBonus);
+        randomGenerator rand = new randomGenerator();
+        int randomMultiplier = rand.generateRandomNumber();
+        if (compareCardAttackBonus(getCardSchool(), defendingCard.getCardSchool()) == true) {
+            defendingCard.health -= (getAttackValue() * (attackBonus * randomMultiplier));
 
         } else {
-            defendingCard.health -= attackingCard.getAttackValue();
+            defendingCard.health -= getAttackValue();
 
         }
 

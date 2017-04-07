@@ -11,17 +11,16 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
 public class GameBoard extends GameObject {
 
     private PlaySpace playerSpace;
-    private AiPlaySpace ai;
+    private PlaySpace ai;
 
     public GameBoard(float x, float y, int width, int height,
-                     Bitmap sprite, boolean player, PlaySpace playerSpace,AiPlaySpace ai)
+                     Bitmap sprite, boolean player, PlaySpace playerSpace,PlaySpace ai)
     {
         super(x, y, width, height, sprite, player);
         this.playerSpace = playerSpace;
         this.ai = ai;
 
     }
-
 
 
 
