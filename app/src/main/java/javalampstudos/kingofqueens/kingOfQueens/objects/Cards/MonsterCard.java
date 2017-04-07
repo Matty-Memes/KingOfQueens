@@ -13,7 +13,7 @@ import javalampstudos.kingofqueens.kingOfQueens.util.randomGenerator;
 public class MonsterCard extends BasicCard
 
 {
-        private final double attackBonus = 0.1;
+        private final double attackBonus = 0.2;
         private CardLevel level; // ENUM
         private int health;
         private int defence;
