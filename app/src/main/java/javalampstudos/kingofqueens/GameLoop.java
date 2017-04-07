@@ -600,26 +600,6 @@ public class GameLoop implements Runnable
 
                     float x = touchListener.getTouchX(i), y = touchListener.getTouchY(i);
 
-
-
-
-                /*
-
-                if (movementRect.contains((int) x, (int) y))
-
-                    {
-                        System.out.println("Touch detected");
-
-                        // This is needed for all methods
-                        Geologist.setPointerID(i);
-
-                        Geologist.x = x;
-                        Geologist.y = y;
-
-                    }
-
-                 */
-
                  // the graveyard can destroy cards
                  if (graveYardRect.contains((int) Geologist.x , (int) Geologist.y))
 
@@ -637,8 +617,9 @@ public class GameLoop implements Runnable
 
                     }
 
-                // cards can be moved anywhere in the players half of the screen
-                if(playerMovementRect.contains((int) x, (int) y) && dragActive)
+
+                // The players can be place cards in his half of the screen
+                if(playerMovementRect.contains((int) x, (int) y) && dragActive && placement)
 
                 {
                    // how do you know which card this effects
@@ -648,7 +629,10 @@ public class GameLoop implements Runnable
 
                 }
 
-                if (handRect1.contains((int) x, (int) y) && handRect1Active == true)
+
+
+
+                if (handRect1.contains((int) x, (int) y) && handRect1Active && placement)
 
                 {
                    dragActive = true;
@@ -658,7 +642,7 @@ public class GameLoop implements Runnable
                 }
 
 
-                    if (handRect2.contains((int) x, (int) y) && handRect2Active == true)
+                    if (handRect2.contains((int) x, (int) y) && handRect2Active && placement)
 
                     {
                         dragActive = true;
@@ -667,7 +651,7 @@ public class GameLoop implements Runnable
 
                     }
 
-                    if (handRect3.contains((int) x, (int) y) && handRect3Active == true)
+                    if (handRect3.contains((int) x, (int) y) && handRect3Active && placement)
 
                     {
                         dragActive = true;
@@ -676,7 +660,7 @@ public class GameLoop implements Runnable
 
                     }
 
-                    if (handRect4.contains((int) x, (int) y) && handRect4Active == true)
+                    if (handRect4.contains((int) x, (int) y) && handRect4Active && placement)
 
                     {
                         dragActive = true;
@@ -685,7 +669,7 @@ public class GameLoop implements Runnable
 
                     }
 
-                    if (handRect5.contains((int) x, (int) y) && handRect5Active == true)
+                    if (handRect5.contains((int) x, (int) y) && handRect5Active && placement)
 
                     {
                         dragActive = true;
@@ -697,32 +681,35 @@ public class GameLoop implements Runnable
                     // Monster Slot Detection
 
 
-                    if (MSlot1Rect.contains((int) x, (int) y))
+                    if (MSlot1Rect.contains((int) x, (int) y) && placement)
 
                 {
                    handCards.get(handIndex).x = 194;
                    handCards.get(handIndex).y = 280;
                    dragActive = false;
+                   placement = false;
 
 
                 }
 
-                    if (MSlot2Rect.contains((int) x, (int) y))
+                    if (MSlot2Rect.contains((int) x, (int) y) && placement)
 
                     {
                         handCards.get(handIndex).x = 394;
                         handCards.get(handIndex).y = 280;
                         dragActive = false;
+                        placement = false;
 
 
                     }
 
-                    if (MSlot3Rect.contains((int) x, (int) y))
+                    if (MSlot3Rect.contains((int) x, (int) y) && placement)
 
                     {
                         handCards.get(handIndex).x = 594;
                         handCards.get(handIndex).y = 280;
                         dragActive = false;
+                        placement = false;
 
 
                     }
