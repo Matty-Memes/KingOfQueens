@@ -10,6 +10,7 @@ import android.util.DisplayMetrics;
 
 // Local Imports
 
+import javalampstudos.kingofqueens.kingOfQueens.AiEngine.Brain;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardSchools;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaCard;
 import javalampstudos.kingofqueens.kingOfQueens.engine.graphics.CanvasRenderer;
@@ -39,6 +40,11 @@ import java.util.HashMap;
 public class GameLoop implements Runnable
 
 {
+
+    // delcaring Brians AiBrain
+   public Brain aiBrain;
+
+
     // instantiate CanvasFragment
     public CanvasFragment fragment;
 
@@ -419,6 +425,9 @@ public class GameLoop implements Runnable
 
         rand = new randomGenerator();
 
+
+        // initialzing AiBrain.
+        aiBrain = new Brain();
         // Initialize hand stuff
         hand = new BasicCard[5];
         handPos = 0;

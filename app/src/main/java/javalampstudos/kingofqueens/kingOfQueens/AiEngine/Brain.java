@@ -103,6 +103,7 @@ public class Brain {
     }
     // brians method
     // 40111707
+    // this method is used for comparing the mana requirements of a single monster card to see if there is enough mana to be played.
     public boolean compareManaRequirementWithManaCounter(HashMap<ManaTypes,Integer> manaRequirement, HashMap<ManaTypes,Integer> manaCounter){
         for (ManaTypes key : manaRequirement.keySet()) {
             if (manaRequirement.get(key) > manaCounter.get(key)) {
