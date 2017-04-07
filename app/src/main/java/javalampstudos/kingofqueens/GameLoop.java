@@ -20,6 +20,7 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.*;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 import javalampstudos.kingofqueens.kingOfQueens.engine.SFX.SoundFX;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.boardLayout;
+import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
 import javalampstudos.kingofqueens.kingOfQueens.util.randomGenerator;
 
 // Android Imports
@@ -36,6 +37,8 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+// GET RID OF ALL THE PRINT STATEMENTS
 
 public class GameLoop implements Runnable
 
@@ -146,6 +149,13 @@ public class GameLoop implements Runnable
 
     public Bitmap PsychologistSprite;
     public Bitmap SociologistSprite;
+
+
+    // Mana Bitmap
+    public Bitmap manaZoneSprite;
+
+    // Mana GameObject for interaction
+    public BasicCard manaZone;
 
     // Prevent multiple runs of single methods
 
@@ -334,7 +344,7 @@ public class GameLoop implements Runnable
 
         // EXAMPLE CARDS TO TEST
 
-        // 90,120 - standard card width and height
+        // 90,120 - standard card width and height - this should be set in BasicCard
 
         // Use these for the touch rects as well
 
@@ -367,9 +377,9 @@ public class GameLoop implements Runnable
         cardList[4] = Geologist;
 
         // Opponent card
-        opponentCard1 = new MonsterCard(194, 100, 90, 120, cardBackSprite, false, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3,1, requiredMana);
-        opponentCard2 = new MonsterCard(394, 100, 90, 120, cardBackSprite, false, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3,4, requiredMana);
-        opponentCard3 = new MonsterCard(594, 100, 90, 120, cardBackSprite, false, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3,8, requiredMana);
+        opponentCard1 = new MonsterCard(234, 100, 90, 120, cardBackSprite, false, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3,1, requiredMana);
+        opponentCard2 = new MonsterCard(434, 100, 90, 120, cardBackSprite, false, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3,4, requiredMana);
+        opponentCard3 = new MonsterCard(634, 100, 90, 120, cardBackSprite, false, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3,8, requiredMana);
 
 
 
@@ -390,21 +400,18 @@ public class GameLoop implements Runnable
 
         // The first gap is slightly larger to make it obvious the deck is seperate
 
-
-
-
-        handCard1 = new BasicCard(194, 410, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
+        handCard1 = new BasicCard(234, 410, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
                 49);
 
         // The rest of the gaps should be either 10 or 20
 
-        handCard2 = new BasicCard(294, 410, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
+        handCard2 = new BasicCard(334, 410, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
                 49);
-        handCard3 = new BasicCard(394, 410, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
+        handCard3 = new BasicCard(434, 410, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
                 49);
-        handCard4 = new BasicCard(494, 410, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
+        handCard4 = new BasicCard(534, 410, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
                 49);
-        handCard5 = new BasicCard(594, 410, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
+        handCard5 = new BasicCard(634, 410, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
                 49);
 
         // Put the hand cards in the array
@@ -417,23 +424,28 @@ public class GameLoop implements Runnable
 
         // Positioning the monsters
 
-        monsterCard1 = new BasicCard(194, 280, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
+        monsterCard1 = new BasicCard(234, 280, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
                 49);
-        monsterCard2 = new BasicCard(394, 280, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
+        monsterCard2 = new BasicCard(434, 280, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
                 49);
-        monsterCard3 = new BasicCard(594, 280, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
+        monsterCard3 = new BasicCard(634, 280, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
                 49);
 
         // hand
 
         // Draw the graveyard pile
-        graveYard = new BasicCard(754, 280, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
+        graveYard = new BasicCard(800, 280, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
             49);
 
         // y co-ordinate is a gap of 50 plus half the card size
 
-        deck = new BasicCard(754, 410, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
+        // x is half the height less than the total card size
+        deck = new BasicCard(800, 410, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
                 49);
+
+        // Declare and use the mana zone
+        // There should be a proper non-abstract class for this kind of object
+        manaZone = new BasicCard(100, 340, 140, 240, manaZoneSprite, true, CardSchools.MEDICS, false, 49);
 
         rand = new randomGenerator();
 
@@ -684,7 +696,7 @@ public class GameLoop implements Runnable
                     if (MSlot1Rect.contains((int) x, (int) y) && placement)
 
                 {
-                   handCards.get(handIndex).x = 194;
+                   handCards.get(handIndex).x = 234;
                    handCards.get(handIndex).y = 280;
                    dragActive = false;
                    placement = false;
@@ -695,7 +707,7 @@ public class GameLoop implements Runnable
                     if (MSlot2Rect.contains((int) x, (int) y) && placement)
 
                     {
-                        handCards.get(handIndex).x = 394;
+                        handCards.get(handIndex).x = 434;
                         handCards.get(handIndex).y = 280;
                         dragActive = false;
                         placement = false;
@@ -706,7 +718,7 @@ public class GameLoop implements Runnable
                     if (MSlot3Rect.contains((int) x, (int) y) && placement)
 
                     {
-                        handCards.get(handIndex).x = 594;
+                        handCards.get(handIndex).x = 634;
                         handCards.get(handIndex).y = 280;
                         dragActive = false;
                         placement = false;
@@ -720,7 +732,7 @@ public class GameLoop implements Runnable
                     if (MSlot1Rect.contains((int) x, (int) y) && attack && monsterSlot1Active)
 
                     {
-                        System.out.println("Combinatorics right?");
+
                         dragActive = true;
                         monsterIndex = 0;
                         monsterSlot1Active = false;
@@ -730,7 +742,7 @@ public class GameLoop implements Runnable
                     if (MSlot2Rect.contains((int) x, (int) y) && attack && monsterSlot2Active)
 
                     {
-                        System.out.println("Combinatorics right?");
+
                         dragActive = true;
                         monsterIndex = 0;
                         monsterSlot2Active = false;
@@ -740,7 +752,7 @@ public class GameLoop implements Runnable
                     if (MSlot3Rect.contains((int) x, (int) y) && attack && monsterSlot3Active)
 
                     {
-                        System.out.println("Combinatorics right?");
+
                         dragActive = true;
                         monsterIndex = 0;
                         monsterSlot2Active = false;
@@ -748,10 +760,7 @@ public class GameLoop implements Runnable
                     }
 
 
-
                 }
-
-
 
                 // Snapping goes here
 
@@ -771,19 +780,14 @@ public class GameLoop implements Runnable
                   }
 
 
-
                 }
 
-                // Single touch stuff - fires once and then stops
-
-
+                // Put any single touch logic here
 
 
             }
 
              // end for loop
-
-
 
             break; // end NEW case
         }
@@ -809,54 +813,54 @@ public class GameLoop implements Runnable
         // hand Rects
 
         handRect1 = new Rect(
-                (int) (194 - (90 / 2)),
+                (int) (234 - (90 / 2)),
                 (int) (410 - (120 / 2)),
-                (int) (194 + (90 / 2)),
+                (int) (234 + (90 / 2)),
                 (int) (410 + (120 / 2)));
 
         handRect2 = new Rect(
-                (int) (294 - (90 / 2)),
+                (int) (334 - (90 / 2)),
                 (int) (410 - (120 / 2)),
-                (int) (294 + (90 / 2)),
+                (int) (334 + (90 / 2)),
                 (int) (410 + (120 / 2)));
 
         handRect3 = new Rect(
-                (int) (394 - (90 / 2)),
+                (int) (434 - (90 / 2)),
                 (int) (410 - (120 / 2)),
-                (int) (394 + (90 / 2)),
+                (int) (434 + (90 / 2)),
                 (int) (410 + (120 / 2)));
 
         handRect4 = new Rect(
-                (int) (494 - (90 / 2)),
+                (int) (534 - (90 / 2)),
                 (int) (410 - (120 / 2)),
-                (int) (494 + (90 / 2)),
+                (int) (534 + (90 / 2)),
                 (int) (410 + (120 / 2)));
 
         handRect5 = new Rect(
-                (int) (594 - (90 / 2)),
+                (int) (634 - (90 / 2)),
                 (int) (410 - (120 / 2)),
-                (int) (594 + (90 / 2)),
+                (int) (634 + (90 / 2)),
                 (int) (410 + (120 / 2)));
 
 
         // Monster Slot Rects
 
         MSlot1Rect = new Rect(
-                (int) (194 - (90 / 2)),
+                (int) (234 - (90 / 2)),
                 (int) (280 - (120 / 2)),
-                (int) (194 + (90 / 2)),
+                (int) (234 + (90 / 2)),
                 (int) (280 + (120 / 2)));
 
         MSlot2Rect = new Rect(
-                (int) (394 - (90 / 2)),
+                (int) (434 - (90 / 2)),
                 (int) (280 - (120 / 2)),
-                (int) (394 + (90 / 2)),
+                (int) (434 + (90 / 2)),
                 (int) (280 + (120 / 2)));
 
         MSlot3Rect = new Rect(
-                (int) (594 - (90 / 2)),
+                (int) (634 - (90 / 2)),
                 (int) (280 - (120 / 2)),
-                (int) (594 + (90 / 2)),
+                (int) (634 + (90 / 2)),
                 (int) (280 + (120 / 2)));
 
 
@@ -867,16 +871,19 @@ public class GameLoop implements Runnable
 
         // graveyard and deck rects
         graveYardRect = new Rect(
-                (int) (754 - (90 / 2)),
+                (int) (800 - (90 / 2)),
                 (int) (280 - (120 / 2)),
-                (int) (754 + (90 / 2)),
+                (int) (800 + (90 / 2)),
                 (int) (280 + (120 / 2)));
 
         deckRect = new Rect(
-                (int) (754 - (90 / 2)),
+                (int) (800 - (90 / 2)),
                 (int) (410 - (120 / 2)),
-                (int) (754 + (90 / 2)),
+                (int) (800 + (90 / 2)),
                 (int) (410 + (120 / 2)));
+
+        // Initialize the mana zone here
+
 
         // move all rect initialization here
         gameBoard.initializeRects();
@@ -961,6 +968,8 @@ public class GameLoop implements Runnable
         graveYard.update();
         deck.update();
 
+        manaZone.update();
+
         // opponent card
         opponentCard1.update();
         opponentCard2.update();
@@ -985,6 +994,13 @@ public class GameLoop implements Runnable
 
         // load cardback sprite
         cardBackSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Cardback.png");
+
+        // load mana cards here
+
+        manaZoneSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Mana/ManaZoner.png");
+
+        // load manazone sprite
+
 
 
         // load SFX in here

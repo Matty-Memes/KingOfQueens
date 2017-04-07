@@ -166,10 +166,11 @@ public class GameViewFragment extends CanvasFragment {
 
         drawHand(canvas);
 
-
     }
 
-    public void onPause() {
+    public void onPause()
+
+    {
 
         loop.pause();
         super.onPause();
@@ -180,7 +181,6 @@ public class GameViewFragment extends CanvasFragment {
     {
         super.onResume();
         loop.resume();
-
 
     }
 
@@ -221,6 +221,8 @@ public class GameViewFragment extends CanvasFragment {
         loop.opponentCard1.draw(canvas);
         loop.opponentCard2.draw(canvas);
         loop.opponentCard3.draw(canvas);
+
+        loop.manaZone.draw(canvas);
 
         // deck and graveyard
         loop.graveYard.draw(canvas);
