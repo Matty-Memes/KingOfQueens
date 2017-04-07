@@ -49,7 +49,7 @@ public class Brain {
 
                 {
 
-                    bestCardIndex = i;
+                    bestCardIndex =  i;
                 }
 
 
@@ -57,6 +57,7 @@ public class Brain {
         }
         playCard(hand.getCardFromHand(bestCardIndex),cardZones);
     }
+//test
 
 
 
