@@ -93,10 +93,10 @@ public class Brain {
         {
             if(!cardZones[i].isActive())
             {
-                allZonesActive = false;
+                allZonesActive= false;
             }
             else {
-                allZonesActive = true;
+               return true;
             }
         }
         return allZonesActive;
