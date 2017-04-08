@@ -127,12 +127,7 @@ public class Brain {
         while( manaCardFound = false){// NOTE THIS STILL NEEDS TO BE TESTED. IT SHOULD COMPARE THE ENUMS TO STRINGS THEN SEE IF CARD SCHOOLS IS CONTAINTED WITHIN THE MANATYPE.
             if(hand.getCardFromHand(i) instanceof ManaCard)
             {
-                if(whichManaDoINeedTheMost(hand,manaCounter).toString().startsWith( hand.getCardFromHand(i).getCardSchool().toString()))
-                {
-                    manaCardFound =true;
-                    manaCounter.addMana(((ManaCard) hand.getCardFromHand(i)).getManaType());
-                }
-                else if(whichManaDoINeedTheMost(hand,manaCounter).toString().startsWith("GENERIC"))
+                if(whichManaDoINeedTheMost(hand,manaCounter).equals(((ManaCard) hand.getCardFromHand(i)).getManaType()))
                 {
                     manaCardFound =true;
                     manaCounter.addMana(((ManaCard) hand.getCardFromHand(i)).getManaType());
@@ -188,5 +183,45 @@ public class Brain {
 
         // finally reutnring the key for the mana type that has the highest need.
         return key1;
+    }
+
+
+// 40111707
+// brians method
+    // this method is for choosing which card has the lowest defence of the enemey in order for it to be attacked.
+    // this method also finds the best card within the Ais cardzone to attack that card.
+    public void whichCardShouldIAttack(CardZone[] enemyCardZone,CardZone[] aiCardZone)
+    {
+        final int LOWEST_HEALTH_SCORE =10;
+        // this section of the method finds the enemeys card with the lowest defence, then stores its index
+        int indexForCardWithLowestDef =0;
+        if(checkAllZonesAreActive(enemyCardZone))
+        {
+            for(int i=1; i < enemyCardZone.length; i++)
+            {
+                if(enemyCardZone[i].getCurrentCard().getDefence() < enemyCardZone[indexForCardWithLowestDef].getCurrentCard().getDefence())
+                {
+                    indexForCardWithLowestDef =i;
+                }
+            }
+        }
+
+        // this section of the method finds the card that has a higher attack than the player, then it attacks it.
+        int indexForCardToAttackWith =0;
+        if(checkAllZonesAreActive(aiCardZone))
+        {
+            for(int i=0; i < aiCardZone.length; i++)
+            {
+                if(aiCardZone[i].getCurrentCard().getAttackValue() > enemyCardZone[indexForCardWithLowestDef].getCurrentCard().getDefence())
+                {
+                    indexForCardToAttackWith =i;
+                }
+                // BRIAN : NOTE THINK OF A WAY TO FIND THE CARD THAT WILL DO THE MOST DAMAGE, NOT JUST KILL A CARD.
+            }
+        }
+
+        // calling the ais monster to attack the enemey card
+        aiCardZone[indexForCardToAttackWith].getCurrentCard().attack(enemyCardZone[indexForCardWithLowestDef].getCurrentCard());
+
     }
 }

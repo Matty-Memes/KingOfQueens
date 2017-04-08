@@ -31,7 +31,7 @@ public class CardZone {
         this.active = active;
     }
 
-    public BasicCard getCurrentCard() {
+    public MonsterCard getCurrentCard() {
         return currentCard;
     }
 
