@@ -22,6 +22,7 @@ import javalampstudos.kingofqueens.kingOfQueens.engine.SFX.SoundFX;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.boardLayout;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
 import javalampstudos.kingofqueens.kingOfQueens.util.randomGenerator;
+import javalampstudos.kingofqueens.kingOfQueens.util.andyManaCounter;
 
 // Android Imports
 
@@ -122,6 +123,9 @@ public class GameLoop implements Runnable
 
     // half the screen
     private Rect halfScreenRect;
+
+    // makea mana rect
+    private Rect manaRect;
 
     // Declare an instance of multi-touch listener
     protected MultitouchListener touchListener;
@@ -264,11 +268,18 @@ public class GameLoop implements Runnable
     // replaced with deckClicked
     public boolean resetDeck = false;
 
-    // booleans for each state - keep things ordered (probably delete this)
+
+    // These booleans enforce the turn structure
+
     public boolean draw = true;
     public boolean placement = true;
+    // used for mana placement
+    public boolean mplacement = true;
     public boolean strat = true;
     public boolean attack = true;
+
+    // Turn the manaZone off
+    public boolean manaflag = true;
 
     // "game state" variables - would need proper game state management in Android
     public boolean prepPhase = true;
@@ -303,6 +314,14 @@ public class GameLoop implements Runnable
     public MonsterCard opponent1;
     public MonsterCard opponent2;
     public MonsterCard opponent3;
+
+    // Mana Counters for each type
+    andyManaCounter engineering;
+    andyManaCounter artsAndHumanities;
+    andyManaCounter builtEnvironment;
+    andyManaCounter eeecs;
+    andyManaCounter Medic;
+
 
     // GameLoop Constructor
     public GameLoop (CanvasFragment fragment, int width, int height)
@@ -449,6 +468,11 @@ public class GameLoop implements Runnable
 
         rand = new randomGenerator();
 
+        engineering = new andyManaCounter(100, 250, "0");
+        artsAndHumanities = new andyManaCounter(100, 290 , "0");
+        builtEnvironment = new andyManaCounter(100, 335, "0");
+        eeecs = new andyManaCounter(100, 380, "0");
+        Medic = new andyManaCounter(100, 430, "0");
 
         // initialzing AiBrain.
         aiBrain = new Brain();
@@ -500,6 +524,7 @@ public class GameLoop implements Runnable
                         updateCard();
                         updateTouch();
                         updateHand();
+                        updateMana();
                         // updateMonsterCards();
                         break;
                     case CARDGAME:
@@ -759,6 +784,19 @@ public class GameLoop implements Runnable
 
                     }
 
+                    // Mana Handling
+
+                    if (manaRect.contains((int) x, (int) y) && manaflag)
+
+                    {
+                      // addToMana
+                      builtEnvironment.incrementCounter();
+                      manaflag = false;
+
+                      // need to pass information from the mana card in question
+
+                    }
+
 
                 }
 
@@ -897,7 +935,13 @@ public class GameLoop implements Runnable
         // playerArea
         playerMovementRect = new Rect((int) 0, (int) (GameLoop.height / 2), (int) GameLoop.width, (int) GameLoop.height);
 
-    }
+        // mana stuff
+        manaRect = new Rect(
+                (int) (100 - (140 / 2)),
+                (int) (340 - (240 / 2)),
+                (int) (100 + (140 / 2)),
+                (int) (340 + (240 / 2)));
+        }
 
 
     private void doThingy ()
@@ -951,6 +995,16 @@ public class GameLoop implements Runnable
         }
 
 
+    }
+
+    private void updateMana ()
+
+    {
+      engineering.update();
+      artsAndHumanities.update();
+      builtEnvironment.update();
+      eeecs.update();
+      Medic.update();
 
     }
 

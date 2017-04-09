@@ -166,6 +166,9 @@ public class GameViewFragment extends CanvasFragment {
 
         drawHand(canvas);
 
+        // draw the text for the mana counter
+        drawMana(canvas);
+
     }
 
     public void onPause()
@@ -229,6 +232,16 @@ public class GameViewFragment extends CanvasFragment {
         loop.deck.draw(canvas);
     }
 
+    private void drawMana(Canvas canvas)
+
+    {
+      loop.Medic.draw(canvas);
+      loop.artsAndHumanities.draw(canvas);
+      loop.engineering.draw(canvas);
+      loop.eeecs.draw(canvas);
+      loop.builtEnvironment.draw(canvas);
+
+    }
 
     // DRAW SETS OF CARDS
 
