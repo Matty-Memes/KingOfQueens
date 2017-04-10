@@ -88,8 +88,16 @@ public class MonsterCard extends BasicCard
             this.attackManaRequirement = attackManaRequirement;
         }
 
+    public int getEvolutionID() {
+        return evolutionID;
+    }
 
-        // draw monster cards to the screen
+    public void setEvolutionID(int evolutionID) {
+        this.evolutionID = evolutionID;
+    }
+
+
+    // draw monster cards to the screen
 
         public void draw(Canvas canvas)
 
