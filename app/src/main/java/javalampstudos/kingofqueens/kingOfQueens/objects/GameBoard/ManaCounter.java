@@ -17,6 +17,15 @@ public class ManaCounter
          private HashMap<ManaTypes, Integer> manaCounterHashMap;
 
 
+    private final int EEECS_Y_VALUE = 370;
+    private final int GENERIC_Y_VALUE = 410;
+    private final int BUILTENCIRONMENT_Y_VALUE = 330;
+    private final int ENGINERRING_Y_VALUE = 250;
+    private final int MEDICS_Y_VALUE = 450;
+    private final int SOCAILSCIENCE_Y_VALUE = 490;
+    private final int ARTSANDHUMANITIES_Y_VALUE = 290;
+    private final int X_CO_ORDINATES = 100;
+
 
         // hashmaps are created within the constructor, this allows for it to be populated with the correct manatypes.
         public ManaCounter() {
@@ -52,6 +61,7 @@ public class ManaCounter
             map.put(ManaTypes.ENGINEERING_MANA, 0);
             map.put(ManaTypes.MEDICS_MANA, 0);
             map.put(ManaTypes.SOCIAL_SCIENCES_MANA, 0);
+            map.put(ManaTypes.GENERIC_MANA, 0);
         }
 
            //Add mana to the mana counter
@@ -88,15 +98,46 @@ public class ManaCounter
 
 
 
+        public String manaValueToString(ManaTypes manaTypes)
+        {
+         String valueConvert =   manaCounterHashMap.get(manaTypes).toString();
+
+            return valueConvert;
+        }
         // 40111707
         // 40083349
         //brian + andrews method
+        // this method returns an arrray of converted objects so that i can print them.
+    public andyManaCounter[] manaCounterToDrawObject(Canvas canvas) {
+        andyManaCounter eeecs = new andyManaCounter(X_CO_ORDINATES, EEECS_Y_VALUE, manaValueToString(ManaTypes.EEECS_MANA));
+        andyManaCounter generic = new andyManaCounter(X_CO_ORDINATES, GENERIC_Y_VALUE, manaValueToString(ManaTypes.GENERIC_MANA));
+        andyManaCounter builtEnvironment = new andyManaCounter(X_CO_ORDINATES, BUILTENCIRONMENT_Y_VALUE,manaValueToString(ManaTypes.BUILT_ENVIRONMENT_MANA));
+        andyManaCounter enginerring = new andyManaCounter(X_CO_ORDINATES, ENGINERRING_Y_VALUE, manaValueToString(ManaTypes.ENGINEERING_MANA));
+        andyManaCounter medics = new andyManaCounter(X_CO_ORDINATES, MEDICS_Y_VALUE, manaValueToString(ManaTypes.MEDICS_MANA));
+        andyManaCounter socailScience = new andyManaCounter(X_CO_ORDINATES, SOCAILSCIENCE_Y_VALUE, manaValueToString(ManaTypes.SOCIAL_SCIENCES_MANA));
+        andyManaCounter artsAndHumanities = new andyManaCounter(X_CO_ORDINATES, ARTSANDHUMANITIES_Y_VALUE, manaValueToString(ManaTypes.ARTS_HUMANITIES_MANA));
 
-    public void drawManaCounter(Canvas canvas) {
-        andyManaCounter drawingthingy = new andyManaCounter(100, 380, manaCounterHashMap.get(ManaTypes.EEECS_MANA).toString());
-        drawingthingy.draw(canvas);
 
 
+
+
+
+
+        andyManaCounter manaArray[] = {eeecs,generic,builtEnvironment,enginerring,medics,socailScience,artsAndHumanities};
+
+
+        return manaArray;
+    }
+
+    // 40111707
+    // this method preforms draw on all of the objects in the manacounter.
+    public void drawValues (andyManaCounter[] values, Canvas canvas)
+    {
+
+        for(int i=0; i < values.length; i++)
+        {
+            values[i].draw(canvas);
+        }
     }
 
 }
