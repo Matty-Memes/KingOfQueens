@@ -4,6 +4,7 @@ import java.util.HashMap;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaTypes;
 import javalampstudos.kingofqueens.kingOfQueens.util.Text;
 import javalampstudos.kingofqueens.kingOfQueens.util.andyManaCounter;
+import android.graphics.Canvas;
 
 /**
  * Created by Brian on 30/03/2017.
@@ -91,12 +92,11 @@ public class ManaCounter
         // 40083349
         //brian + andrews method
 
-    public void drawManaCounter(ManaTypes mana)
-    {
-        andyManaCounter drawingthingy = new andyManaCounter(100, 380, manaCounterHashMap.get(mana).toString() );
+    public void drawManaCounter(Canvas canvas) {
+        andyManaCounter drawingthingy = new andyManaCounter(100, 380, manaCounterHashMap.get(ManaTypes.EEECS_MANA).toString());
+        drawingthingy.draw(canvas);
+
+
     }
-
-
-
 
 }
