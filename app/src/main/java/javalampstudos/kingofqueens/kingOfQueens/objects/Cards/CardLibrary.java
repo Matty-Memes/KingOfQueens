@@ -45,37 +45,37 @@ public class CardLibrary
     //Mana Cards
 
     //Engineering
-    private Bitmap engManaSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Mana/Mana-Engineering.png");
+    private Bitmap engManaSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Mana/EngineeringMana.png");
 
     public manaCard engineeringMana = new manaCard(x,y,width,height,engManaSprite,cardbackSprite,"Engineering Mana","Mana used to perform Engineering attacks",
             false,cardSchools.ENGINEERING,manaTypes.ENGINEERING_MANA,42);
 
     //EEECS
-    private Bitmap EEECSManaSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Mana/Mana-EEECS.png");
+    private Bitmap EEECSManaSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Mana/EEECSMana.png");
 
     public manaCard EEECSMana = new manaCard(x,y,width,height,EEECSManaSprite,cardbackSprite,"EEECS Mana","Mana used to perform EEECS attacks",
             false,cardSchools.EEECS,manaTypes.EEECS_MANA,42);
 
     //Medical
-    private Bitmap medicalManaSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Mana/Mana-Medical.png");
+    private Bitmap medicalManaSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Mana/MedicalMana.png");
 
     public manaCard medicalMana = new manaCard(x,y,width,height,medicalManaSprite,cardbackSprite,"Medical Science Mana","Mana used to perform Medical Science attacks",
             false,cardSchools.MEDICS,manaTypes.MEDICS_MANA,42);
 
     //Social Science
-    private Bitmap socialSciManaSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Mana/Mana-SocialSci.png");
+    private Bitmap socialSciManaSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Mana/SocialSciencesMana.png");
 
     public manaCard socialSciMana = new manaCard(x,y,width,height,socialSciManaSprite,cardbackSprite,"Social Science Mana","Mana used to perform Social Science attacks",
             false,cardSchools.SOCIAL_SCIENCES,manaTypes.SOCIAL_SCIENCES_MANA,42);
 
     //Built Environment
-    private Bitmap builtEnviManaSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Mana/Mana-BuiltEnvironment.png");
+    private Bitmap builtEnviManaSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Mana/BuiltMana.png");
 
     public manaCard builtEnvironmentMana = new manaCard(x,y,width,height,builtEnviManaSprite,cardbackSprite,"Built Environment Mana","Mana used to perform Built Environment attacks",
             false,cardSchools.BUILT_ENVIORNMENT,manaTypes.BUILT_ENVIRONMENT_MANA,42);
 
     //Arts & Humanities
-    private Bitmap artsManaSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Mana/Mana-Arts.png");
+    private Bitmap artsManaSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Mana/ArtsMana.png");
 
     manaCard ArtsMana = new manaCard(x,y,width,height,artsManaSprite,cardbackSprite,"Arts and Humanities Mana","Mana used to perform Arts and Humanities attacks",
             false,cardSchools.ARTS_HUMANITIES,manaTypes.ARTS_HUMANITIES_MANA,42);

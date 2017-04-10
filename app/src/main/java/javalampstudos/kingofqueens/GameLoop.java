@@ -158,6 +158,16 @@ public class GameLoop implements Runnable
     public Bitmap SociologistSprite;
 
 
+    // MANA BITMAPS
+
+    public Bitmap artsManaSprite;
+    public Bitmap builtEnvironmentManaSprite;
+    public Bitmap eeecsManaSprite;
+    public Bitmap engineeringManaSprite;
+    public Bitmap medicalManaSprite;
+    public Bitmap socialScienceSprite;
+
+
     // Mana Bitmap
     public Bitmap manaZoneSprite;
 
@@ -405,8 +415,6 @@ public class GameLoop implements Runnable
         opponentCard2 = new MonsterCard(434, 100, 90, 120, cardBackSprite, false, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3,4, requiredMana);
         opponentCard3 = new MonsterCard(634, 100, 90, 120, cardBackSprite, false, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3,8, requiredMana);
 
-
-
       /*
 
             NOTE:DREWBIE THE  IMPLEMENTATION BELOW IS CORRECT
@@ -416,10 +424,21 @@ public class GameLoop implements Runnable
 
         // Slot 3
 
-        // Mana
+        */
+
+        // MANA Cards
+
+        /*
+        EEECS = new ManaCard();
+        BuiltEnvironment = new ManaCard();
+        MedicalScience = new ManaCard();
+        SocialSciences = new ManaCard();
+        ArtsandHumanities = new ManaCard();
+        Engineering = new ManaCard();
+
+        */
 
 
-          */
         // Positioning the hand - horizontal gaps are always 10
 
         // The first gap is slightly larger to make it obvious the deck is seperate
@@ -799,12 +818,22 @@ public class GameLoop implements Runnable
 
                     // Mana Handling
 
+                    // HandRects should set the index so it knows what to put in
+
+                    //
+
                     if (manaRect.contains((int) x, (int) y) && manaflag)
 
                     {
+                        // get the manatype of this card
+                        handCards.get(handIndex);
+                        // manaTest.addMana();
+
+
+
 
                         // gives a value of 3
-                        manaTest.addMana(ManaTypes.EEECS_MANA);
+                        // manaTest.addMana(ManaTypes.EEECS_MANA);
 
                       /*
 
@@ -1062,6 +1091,8 @@ public class GameLoop implements Runnable
 
     }
 
+    // MATTHEW - MOVE THIS TO THE CARD LIBRARY CLASS
+
     private void loadAssets ()
 
     {
@@ -1078,6 +1109,15 @@ public class GameLoop implements Runnable
 
         // load cardback sprite
         cardBackSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Cardback.png");
+
+        // ManaSprites
+
+        socialScienceSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Mana/SocialSciencesMana.png");
+        medicalManaSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Mana/MedicalMana.png");
+        artsManaSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Mana/ArtsMana.png");
+        eeecsManaSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Mana/EEECSMana.png");
+        engineeringManaSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Mana/EEECSMana.png");
+        builtEnvironmentManaSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Mana/BuiltMana.png");
 
         // load mana cards here
 
