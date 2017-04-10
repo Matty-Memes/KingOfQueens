@@ -16,9 +16,9 @@ public class SupportCard extends BasicCard
 
         private int cardAttack, cardDefence;
 
-        public SupportCard(int x, int y, int width, int height, Bitmap Sprite, boolean player, CardSchools cardSchool, boolean destroyed, int pointerID , BuffType buff)
+        public SupportCard(int x, int y, int width, int height, Bitmap Sprite, boolean player, int id, CardSchools cardSchool, boolean destroyed, int pointerID , BuffType buff)
         {
-            super(x, y, width, height, Sprite, player, cardSchool, destroyed,pointerID);
+            super(x, y, width, height, Sprite, player, id, cardSchool, destroyed,pointerID);
             this.buff = buff;
 
         }

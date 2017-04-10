@@ -53,7 +53,7 @@ public class randomGenerator
     {
         // choose a card at random from the deck
         int min = 0;
-        int max = 5;
+        int max = 10;
 
         while (active == true)
 

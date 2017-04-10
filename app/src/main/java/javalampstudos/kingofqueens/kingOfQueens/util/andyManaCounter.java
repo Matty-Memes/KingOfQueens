@@ -8,11 +8,7 @@ package javalampstudos.kingofqueens.kingOfQueens.util;
 import android.graphics.Paint;
 import android.graphics.Canvas;
 
-
-
 // Local Imports
-
-
 
 
 public class andyManaCounter extends Text
@@ -26,12 +22,9 @@ public class andyManaCounter extends Text
     public andyManaCounter(float x, float y, String text)
 
     {
-      // Call to superclass constructor
-      super(x, y, text);
-      counter = Integer.parseInt(text);
-
-      // counter should always start at 0 and then be incremented
-      // counter = 0;
+        super(x, y, text);
+        // Counter always starts at 0
+        counter = 0;
 
     }
 
@@ -52,12 +45,6 @@ public class andyManaCounter extends Text
        super.draw(canvas);
 
     }
-
-
-
-
-    //
-
 
 
 }
