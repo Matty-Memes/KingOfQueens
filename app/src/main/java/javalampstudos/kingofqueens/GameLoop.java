@@ -826,15 +826,20 @@ public class GameLoop implements Runnable
 
                     {
                         // get the manatype of this card
-                        handCards.get(handIndex);
+                         handCards.get(handIndex);
                         // manaTest.addMana();
 
 
 
 
                         // gives a value of 3
-                        // manaTest.addMana(ManaTypes.EEECS_MANA);
-
+                     /*
+                     curently not working
+                      //  here is how to add mana for your arraylist andrew
+                        if(handCards.get(handIndex) instanceof ManaCard) {
+                            manaTest.addMana((ManaCard) handCards.get(handIndex).getManaType());
+                            // manaTest.addMana(ManaTypes.EEECS_MANA);
+                        }*/
                       /*
 
                       // addToMana

@@ -16,7 +16,7 @@ public class ManaCounter
          private HashMap<ManaTypes,Integer> unusedManaHashMap;
          private HashMap<ManaTypes, Integer> manaCounterHashMap;
 
-
+    // these values are used for drawing the values to the screen.
     private final int EEECS_Y_VALUE = 370;
     private final int GENERIC_Y_VALUE = 410;
     private final int BUILTENCIRONMENT_Y_VALUE = 330;
@@ -108,7 +108,7 @@ public class ManaCounter
         // 40083349
         //brian + andrews method
         // this method returns an arrray of converted objects so that i can print them.
-    public andyManaCounter[] manaCounterToDrawObject(Canvas canvas) {
+    public andyManaCounter[] manaCounterToDrawObject() {
         andyManaCounter eeecs = new andyManaCounter(X_CO_ORDINATES, EEECS_Y_VALUE, manaValueToString(ManaTypes.EEECS_MANA));
         andyManaCounter generic = new andyManaCounter(X_CO_ORDINATES, GENERIC_Y_VALUE, manaValueToString(ManaTypes.GENERIC_MANA));
         andyManaCounter builtEnvironment = new andyManaCounter(X_CO_ORDINATES, BUILTENCIRONMENT_Y_VALUE,manaValueToString(ManaTypes.BUILT_ENVIRONMENT_MANA));
@@ -118,11 +118,6 @@ public class ManaCounter
         andyManaCounter artsAndHumanities = new andyManaCounter(X_CO_ORDINATES, ARTSANDHUMANITIES_Y_VALUE, manaValueToString(ManaTypes.ARTS_HUMANITIES_MANA));
 
 
-
-
-
-
-
         andyManaCounter manaArray[] = {eeecs,generic,builtEnvironment,enginerring,medics,socailScience,artsAndHumanities};
 
 
@@ -130,6 +125,7 @@ public class ManaCounter
     }
 
     // 40111707
+    // brians method
     // this method preforms draw on all of the objects in the manacounter.
     public void drawValues (andyManaCounter[] values, Canvas canvas)
     {

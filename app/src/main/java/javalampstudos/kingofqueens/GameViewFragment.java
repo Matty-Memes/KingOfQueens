@@ -239,9 +239,11 @@ public class GameViewFragment extends CanvasFragment {
       loop.artsAndHumanities.draw(canvas);
       loop.engineering.draw(canvas);
      // loop.eeecs.draw(canvas);
-        // testing to be changed.
-        loop.manaTest.drawManaCounter(canvas);
       loop.builtEnvironment.draw(canvas);
+
+        // brians testing. This is the method that should give all of the values. needs to be uncommented
+        // this should be able to draw all of the values for each of the mana types. see Manacounter Class to see positions.
+       //loop.manaTest.drawValues(loop.manaTest.manaCounterToDrawObject(),canvas);
 
     }
 
