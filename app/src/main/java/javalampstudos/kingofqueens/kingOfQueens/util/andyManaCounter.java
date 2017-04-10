@@ -28,8 +28,10 @@ public class andyManaCounter extends Text
     {
       // Call to superclass constructor
       super(x, y, text);
+      counter = Integer.parseInt(text);
+
       // counter should always start at 0 and then be incremented
-      counter = 0;
+      // counter = 0;
 
     }
 

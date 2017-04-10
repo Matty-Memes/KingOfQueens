@@ -25,6 +25,7 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
 import javalampstudos.kingofqueens.kingOfQueens.util.randomGenerator;
 import javalampstudos.kingofqueens.kingOfQueens.util.andyManaCounter;
 
+
 // Android Imports
 
 import android.graphics.Rect;
@@ -32,6 +33,7 @@ import android.graphics.Bitmap;
 import android.content.res.AssetManager;
 import android.util.Log;
 import android.content.Context;
+import android.graphics.Canvas;
 
 // Java Imports
 
@@ -481,11 +483,9 @@ public class GameLoop implements Runnable
         // brians manaTest made
         manaTest = new ManaCounter();
 
-        // gives a value of 3
-        manaTest.addMana(ManaTypes.EEECS_MANA);
-        manaTest.addMana(ManaTypes.EEECS_MANA);
-        manaTest.addMana(ManaTypes.EEECS_MANA);
-        manaTest.drawManaCounter(ManaTypes.EEECS_MANA);
+
+
+
 
         // initialzing AiBrain.
         aiBrain = new Brain();
@@ -537,7 +537,7 @@ public class GameLoop implements Runnable
                         updateCard();
                         updateTouch();
                         updateHand();
-                        updateMana();
+                        // updateMana();
                         // updateMonsterCards();
                         break;
                     case CARDGAME:
@@ -802,11 +802,21 @@ public class GameLoop implements Runnable
                     if (manaRect.contains((int) x, (int) y) && manaflag)
 
                     {
+
+                        // gives a value of 3
+                        manaTest.addMana(ManaTypes.EEECS_MANA);
+
+                      /*
+
                       // addToMana
                       builtEnvironment.incrementCounter();
                       manaflag = false;
 
+                      */
+
                       // need to pass information from the mana card in question
+
+                        manaflag = false;
 
                     }
 
@@ -1010,16 +1020,23 @@ public class GameLoop implements Runnable
 
     }
 
+    /*
+
     private void updateMana ()
 
     {
       engineering.update();
       artsAndHumanities.update();
       builtEnvironment.update();
-      eeecs.update();
+      // eeecs.update();
       Medic.update();
 
+        manaTest.update();
+
+
     }
+
+    */
 
     // This method should be altered.
 

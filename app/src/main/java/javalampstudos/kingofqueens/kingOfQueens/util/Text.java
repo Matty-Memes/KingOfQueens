@@ -53,12 +53,16 @@ public abstract class Text
 
     // method for updating - is this necessary??
 
+    /*
+
     public void update()
 
     {
 
 
     }
+
+    */
 
     // method for drawing
 
