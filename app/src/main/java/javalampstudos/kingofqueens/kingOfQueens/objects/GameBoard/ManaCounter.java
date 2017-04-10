@@ -2,6 +2,8 @@ package javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard;
 
 import java.util.HashMap;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaTypes;
+import javalampstudos.kingofqueens.kingOfQueens.util.Text;
+import javalampstudos.kingofqueens.kingOfQueens.util.andyManaCounter;
 
 /**
  * Created by Brian on 30/03/2017.
@@ -12,6 +14,8 @@ public class ManaCounter
 {
          private HashMap<ManaTypes,Integer> unusedManaHashMap;
          private HashMap<ManaTypes, Integer> manaCounterHashMap;
+
+
 
         // hashmaps are created within the constructor, this allows for it to be populated with the correct manatypes.
         public ManaCounter() {
@@ -83,7 +87,14 @@ public class ManaCounter
 
 
 
+        // 40111707
+        // 40083349
+        //brian + andrews method
 
+    public void drawManaCounter(ManaTypes mana)
+    {
+        andyManaCounter drawingthingy = new andyManaCounter(100, 380, manaCounterHashMap.get(mana).toString() );
+    }
 
 
 

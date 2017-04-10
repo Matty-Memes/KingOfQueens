@@ -19,6 +19,7 @@ import javalampstudos.kingofqueens.kingOfQueens.engine.input.MultitouchListener;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.*;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 import javalampstudos.kingofqueens.kingOfQueens.engine.SFX.SoundFX;
+import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.ManaCounter;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.boardLayout;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
 import javalampstudos.kingofqueens.kingOfQueens.util.randomGenerator;
@@ -322,6 +323,8 @@ public class GameLoop implements Runnable
     andyManaCounter eeecs;
     andyManaCounter Medic;
 
+    // brians test for mc
+    ManaCounter manaTest;
 
     // GameLoop Constructor
     public GameLoop (CanvasFragment fragment, int width, int height)
@@ -471,8 +474,18 @@ public class GameLoop implements Runnable
         engineering = new andyManaCounter(100, 250, "0");
         artsAndHumanities = new andyManaCounter(100, 290 , "0");
         builtEnvironment = new andyManaCounter(100, 335, "0");
-        eeecs = new andyManaCounter(100, 380, "0");
+       // eeecs = new andyManaCounter(100, 380, "0");
         Medic = new andyManaCounter(100, 430, "0");
+
+
+        // brians manaTest made
+        manaTest = new ManaCounter();
+
+        // gives a value of 3
+        manaTest.addMana(ManaTypes.EEECS_MANA);
+        manaTest.addMana(ManaTypes.EEECS_MANA);
+        manaTest.addMana(ManaTypes.EEECS_MANA);
+        manaTest.drawManaCounter(ManaTypes.EEECS_MANA);
 
         // initialzing AiBrain.
         aiBrain = new Brain();
