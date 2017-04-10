@@ -70,7 +70,7 @@ public class Brain {
                 if(hand.getCardFromHand(i) instanceof  MonsterCard)
                 {
                     // put in matthews method here !!!
-                    if(((MonsterCard) hand.getCardFromHand(i)).getEvolutionID() == aiCardZone[j].getCurrentCard().getEvolutionID())
+                    if(((MonsterCard) hand.getCardFromHand(i)).evolutionCheck(aiCardZone[j].getCurrentCard(),((MonsterCard) hand.getCardFromHand(i))) )
                     {
                         nextLevelMonsterIndex = i;
                         previousLevelMonsterIndex =j;
