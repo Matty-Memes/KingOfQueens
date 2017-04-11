@@ -176,11 +176,16 @@ public class GameLoop implements Runnable
     // Prevent multiple runs of single methods
 
     // Hands
+
+    /*
     public boolean handRect1Active = true;
     public boolean handRect2Active = true;
     public boolean handRect3Active = true;
     public boolean handRect4Active = true;
     public boolean handRect5Active = true;
+    */
+
+    public boolean handActive = true;
 
     //Monsters
     public boolean monsterSlot1Active = true;
@@ -705,49 +710,49 @@ public class GameLoop implements Runnable
 
 
 
-                if (handRect1.contains((int) x, (int) y) && handRect1Active && placement)
+                if (handRect1.contains((int) x, (int) y) && handActive && placement)
 
                 {
                    dragActive = true;
                    handIndex = 0;
-                   handRect1Active = false;
+                   handActive = false;
 
                 }
 
 
-                    if (handRect2.contains((int) x, (int) y) && handRect2Active && placement)
+                    if (handRect2.contains((int) x, (int) y) && handActive && placement)
 
                     {
                         dragActive = true;
                         handIndex = 1;
-                        handRect2Active = false;
+                        handActive = false;
 
                     }
 
-                    if (handRect3.contains((int) x, (int) y) && handRect3Active && placement)
+                    if (handRect3.contains((int) x, (int) y) && handActive && placement)
 
                     {
                         dragActive = true;
                         handIndex = 2;
-                        handRect3Active = false;
+                        handActive = false;
 
                     }
 
-                    if (handRect4.contains((int) x, (int) y) && handRect4Active && placement)
+                    if (handRect4.contains((int) x, (int) y) && handActive && placement)
 
                     {
                         dragActive = true;
                         handIndex = 3;
-                        handRect4Active = false;
+                        handActive = false;
 
                     }
 
-                    if (handRect5.contains((int) x, (int) y) && handRect5Active && placement)
+                    if (handRect5.contains((int) x, (int) y) && handActive && placement)
 
                     {
                         dragActive = true;
                         handIndex = 4;
-                        handRect5Active = false;
+                        handActive = false;
 
                     }
 
