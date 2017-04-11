@@ -27,6 +27,7 @@ public class ManaCounter
     private final int X_CO_ORDINATES = 100;
 
 
+        // Should contain a call to the superclass constructor
         // hashmaps are created within the constructor, this allows for it to be populated with the correct manatypes.
         public ManaCounter() {
              manaCounterHashMap = new HashMap<ManaTypes, Integer>();

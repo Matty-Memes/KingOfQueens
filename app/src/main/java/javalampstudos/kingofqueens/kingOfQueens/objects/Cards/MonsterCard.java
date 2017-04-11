@@ -19,14 +19,16 @@ public class MonsterCard extends BasicCard
         // holds a list of the mana types required
          private HashMap<ManaTypes, Integer> attackManaRequirement;
 
+
         // Brian + Matt
         // Modified by Andrew - 27/03/17
         // constructor
 
-    public MonsterCard(int x, int y, int width, int height, Bitmap Sprite, boolean player, CardSchools cardSchool,
-                       boolean destroyed, int pointerID, CardLevel level, int health, int defence,
+    public MonsterCard(int x, int y, int width, int height, Bitmap Sprite, boolean player, int id, CardSchools cardSchool,
+                       boolean destroyed, int pointerID,CardLevel level, int health, int defence,
                        int attackValue,int evolutionID, HashMap<ManaTypes, Integer> attackManaRequirement) {
-        super(x, y, width, height, Sprite, player, cardSchool, destroyed, pointerID);
+        super(x, y, width, height, Sprite, player, id, cardSchool, destroyed, pointerID);
+        this.id = id;
         this.level = level;
         this.health = health;
         this.defence = defence;

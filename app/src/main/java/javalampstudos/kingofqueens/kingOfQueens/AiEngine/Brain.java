@@ -152,11 +152,15 @@ public class Brain {
         while( manaCardFound = false){// NOTE THIS STILL NEEDS TO BE TESTED. IT SHOULD COMPARE THE ENUMS TO STRINGS THEN SEE IF CARD SCHOOLS IS CONTAINTED WITHIN THE MANATYPE.
             if(hand.getCardFromHand(i) instanceof ManaCard)
             {
+                /*
+
                 if(whichManaDoINeedTheMost(hand,manaCounter).equals(((ManaCard) hand.getCardFromHand(i)).getManaType()))
                 {
                     manaCardFound =true;
                     manaCounter.addMana(((ManaCard) hand.getCardFromHand(i)).getManaType());
                 }
+
+                */
 
             }
             i++;

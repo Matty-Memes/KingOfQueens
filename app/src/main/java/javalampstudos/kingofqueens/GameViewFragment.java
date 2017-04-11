@@ -238,7 +238,7 @@ public class GameViewFragment extends CanvasFragment {
       loop.Medic.draw(canvas);
       loop.artsAndHumanities.draw(canvas);
       loop.engineering.draw(canvas);
-     // loop.eeecs.draw(canvas);
+      loop.eeecs.draw(canvas);
       loop.builtEnvironment.draw(canvas);
 
         // brians testing. This is the method that should give all of the values. needs to be uncommented
