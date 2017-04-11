@@ -3,6 +3,8 @@ package javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard;
 import android.graphics.Bitmap;
 
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BasicCard;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardLevel;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardSchools;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.MonsterCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
 
@@ -60,19 +62,33 @@ public class Hand extends GameObject
             }
             return null;
         }
-
+/*
         //40111707
     //brians method
     // this method allows me to return only a monsterCard for the Ai methods.
     public MonsterCard returnMonsterCardFromHand (int index){
         if(validateHandIndex(index)) {
             if (hand[index] instanceof MonsterCard) {
-                return ((MonsterCard) hand[index]);
+                float x = hand[index].x;
+                float y = hand[index].y;
+                int width = hand[index].width;
+                int height = hand[index].height;
+                boolean player = hand[index].player;
+                int id = hand[index].id;
+                CardSchools cardschool = hand[index].getCardSchool();
+                boolean destroyed = hand[index].destroyed;
+                int pointerID = hand[index].pointerID;
+                CardLevel cardlevel = ((MonsterCard)hand[index]).getLevel();
+
+                MonsterCard temp = new MonsterCard(x,y,width,height,player,id,cardschool,destroyed,pointerID,cardlevel);
+
+
+                return temp;
             }
 
         }
         return null;
-    }
+    }*/
 
 
     // 40111707

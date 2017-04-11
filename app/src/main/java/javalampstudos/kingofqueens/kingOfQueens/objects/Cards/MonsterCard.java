@@ -24,7 +24,7 @@ public class MonsterCard extends BasicCard
         // Modified by Andrew - 27/03/17
         // constructor
 
-    public MonsterCard(int x, int y, int width, int height, Bitmap Sprite, boolean player, int id, CardSchools cardSchool,
+    public MonsterCard(int x, int y, int width, int height, Bitmap Sprite, boolean player, int id, ManaTypes cardSchool,
                        boolean destroyed, int pointerID,CardLevel level, int health, int defence,
                        int attackValue,int evolutionID, HashMap<ManaTypes, Integer> attackManaRequirement) {
         super(x, y, width, height, Sprite, player, id, cardSchool, destroyed, pointerID);
@@ -135,18 +135,18 @@ public class MonsterCard extends BasicCard
     // if the combination fits then it returns true, this then allows for the 1.5X multiplier to be added to the attack.
     // 40111707
     // brian
-    public boolean compareCardAttackBonus(CardSchools attackingCard, CardSchools defendingCard) {
-        if (attackingCard == CardSchools.MEDICS && defendingCard == CardSchools.EEECS) {
+    public boolean compareCardAttackBonus(ManaTypes attackingCard, ManaTypes defendingCard) {
+        if (attackingCard == ManaTypes.MEDICS_MANA && defendingCard == ManaTypes.EEECS_MANA) {
             return true;
-        } else if (attackingCard == CardSchools.EEECS && defendingCard == CardSchools.ARTS_HUMANITIES) {
+        } else if (attackingCard == ManaTypes.EEECS_MANA && defendingCard == ManaTypes.ARTS_HUMANITIES_MANA) {
             return true;
-        } else if (attackingCard == CardSchools.ARTS_HUMANITIES && defendingCard == CardSchools.MEDICS) {
+        } else if (attackingCard == ManaTypes.ARTS_HUMANITIES_MANA && defendingCard == ManaTypes.MEDICS_MANA) {
             return true;
-        } else if (attackingCard == CardSchools.ENGINEERING && defendingCard == CardSchools.SOCIAL_SCIENCES) {
+        } else if (attackingCard == ManaTypes.ENGINEERING_MANA && defendingCard == ManaTypes.SOCIAL_SCIENCES_MANA) {
             return true;
-        } else if (attackingCard == CardSchools.BUILT_ENVIORNMENT && defendingCard == CardSchools.ENGINEERING) {
+        } else if (attackingCard == ManaTypes.BUILT_ENVIRONMENT_MANA && defendingCard == ManaTypes.ENGINEERING_MANA) {
             return true;
-        } else if (attackingCard == CardSchools.SOCIAL_SCIENCES && defendingCard == CardSchools.BUILT_ENVIORNMENT) {
+        } else if (attackingCard == ManaTypes.SOCIAL_SCIENCES_MANA && defendingCard == ManaTypes.BUILT_ENVIRONMENT_MANA) {
             return true;
         } else {
             return false;

@@ -16,20 +16,21 @@ public class ManaCard extends BasicCard
 
 {
     // cardSchools already serves this purpose
-     private ManaTypes manaType;
+    // private ManaTypes manaType;
 
 
     public ManaCard(int x, int y, int width, int height, Bitmap Sprite, boolean player, int id,
-                    CardSchools cardSchool,ManaTypes manaType, boolean destroyed, int pointerID)
+                    ManaTypes cardSchool, boolean destroyed, int pointerID)
 
     {
        super(x,  y, width, height, Sprite, player, id,
         cardSchool, destroyed, pointerID);
 
-         this.manaType = manaType;
+        // this.manaType = manaType;
 
     }
 
+/*
     public ManaTypes getManaType() {
         return manaType;
     }
@@ -37,6 +38,7 @@ public class ManaCard extends BasicCard
     public void setManaType(ManaTypes manaType) {
         this.manaType = manaType;
     }
+*/
 
     public void draw(Canvas canvas)
 
