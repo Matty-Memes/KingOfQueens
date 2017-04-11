@@ -7,36 +7,42 @@ import android.graphics.Canvas;
  * Created by Andrew on 29/03/2017.
  */
 
+// Local Imports
+
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardSchools;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaTypes;
 
 public class ManaCard extends BasicCard
 
 {
+    // cardSchools already serves this purpose
+     private ManaTypes manaType;
 
-    private ManaTypes manaType;
 
-    public ManaCard(int x, int y, int width, int height, Bitmap Sprite, boolean player, Bitmap cardbackSprite, String name, String description,
-                    boolean destroyed, CardSchools cardSchool, ManaTypes manaType, int pointerID)
+    public ManaCard(int x, int y, int width, int height, Bitmap Sprite, boolean player, int id,
+                    CardSchools cardSchool,ManaTypes manaType, boolean destroyed, int pointerID)
+
     {
-        super(x,y,width,height,Sprite, player, cardSchool,destroyed,pointerID);
-        this.manaType = manaType;
-    }
+       super(x,  y, width, height, Sprite, player, id,
+        cardSchool, destroyed, pointerID);
 
+         this.manaType = manaType;
+
+    }
 
     public ManaTypes getManaType() {
         return manaType;
     }
 
     public void setManaType(ManaTypes manaType) {
-        manaType = manaType;
+        this.manaType = manaType;
     }
-
 
     public void draw(Canvas canvas)
 
     {
 
-        // canvas.drawBitmap();
+      super.draw(canvas);
 
 
     }

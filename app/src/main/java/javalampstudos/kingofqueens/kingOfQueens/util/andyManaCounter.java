@@ -6,70 +6,43 @@ package javalampstudos.kingofqueens.kingOfQueens.util;
 
 // Android Imports
 import android.graphics.Paint;
-
+import android.graphics.Canvas;
 
 // Local Imports
 
 
-
-public class andyManaCounter
+public class andyManaCounter extends Text
 
 {
-    // Variables relating to each type of mana
 
-    private int csManaCounter;
-    private int medicsManaCounter;
-    private int engineeringManaCounter;
+    // Counter variable
+    private int counter;
 
-    // take in the card school and update the relevant mana card
-    private void incrementCounter (String school)
+    // Constructor
+    public andyManaCounter(float x, float y, String text)
 
     {
-        switch (school)
+        super(x, y, text);
+        // Counter always starts at 0
+        counter = 0;
 
-        {
+    }
 
-            case "EEECS":
-                // increment EEECS
-                csManaCounter++;
+    // adds to the counter and turns it into a string
+    public void incrementCounter()
 
-                // Convert the counter to a string and update the paint object
-                break;
-            case "Medics":
-                medicsManaCounter++;
-                break;
-            case "Engineering":
-                engineeringManaCounter++;
-                break;
-
-        } // end case statement
+    {
+     // counter++;
+      text = counter + "";
 
     }
 
 
-    // take in the card school and decrement mana
-    private void decrementCounter (String school)
+    public void draw(Canvas canvas)
 
     {
-        switch (school)
-
-        {
-
-            case "EEECS":
-                // increment EEECS
-                csManaCounter++;
-
-                // Convert the counter to a string and update the paint object
-                break;
-            case "Medics":
-                medicsManaCounter++;
-                break;
-            case "Engineering":
-                engineeringManaCounter++;
-                break;
-
-        } // end case statement
-
+       // Call the drawText method in Text
+       super.draw(canvas);
 
     }
 

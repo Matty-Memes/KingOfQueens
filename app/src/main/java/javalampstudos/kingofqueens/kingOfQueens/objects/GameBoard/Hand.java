@@ -55,32 +55,52 @@ public class Hand extends GameObject
         // 40111707
         // brians method to accsess elements within the hand array.
         public BasicCard getCardFromHand(int index) {
-
-            return this.hand[index];
+            if(validateHandIndex(index)){
+                return this.hand[index];
+            }
+            return null;
         }
 
         //40111707
     //brians method
     // this method allows me to return only a monsterCard for the Ai methods.
-    public MonsterCard returnMonsterCardFromHand (BasicCard card){
-        if(card instanceof MonsterCard)
-        {
-            return ((MonsterCard)card);
+    public MonsterCard returnMonsterCardFromHand (int index){
+        if(validateHandIndex(index)) {
+            if (hand[index] instanceof MonsterCard) {
+                return ((MonsterCard) hand[index]);
+            }
+
         }
         return null;
     }
 
+
+    // 40111707
+    // brians method
+    // used to validate an index being searched for is acutall one within the hand.
+    public boolean validateHandIndex(int index)
+    {
+        if(index < hand.length && index >= 0)
+        {
+            return true;
+        }
+        else return  false;
+    }
         // 40111707
 // brians method
         public void addToHandArray(BasicCard card, int index) {
-            this.hand[index] = card;
+            if(validateHandIndex(index)) {
+                this.hand[index] = card;
+            }
         }
 
         // 40111707
         // brians method
         public void removeFromHandArray(int index) {
             // sets the corresponding index of the hand array to null, thus removing the card.
-            this.hand[index] = null;
+            if(validateHandIndex(index)) {
+                this.hand[index] = null;
+            }
         }
 
 

@@ -121,26 +121,6 @@ public abstract class GameObject
 
         }
 
-        // SmallGeo is 213 x 300
-
-        // This is for flipping the images
-
-        /*
-        source = new Rect ();
-        destination = new Rect ();
-
-        source.set(432, 641, 0, 0);
-        // second two must be greater than first two
-
-        // combine this with the current method for drawing
-
-        destination.set(50, 50, 150, 150);
-        // Call to draw
-        canvas.drawBitmap(sprite, source, destination, null);
-        */
-
-
-
 
     }
 

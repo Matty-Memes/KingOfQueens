@@ -166,10 +166,14 @@ public class GameViewFragment extends CanvasFragment {
 
         drawHand(canvas);
 
+        // draw the text for the mana counter
+        drawMana(canvas);
 
     }
 
-    public void onPause() {
+    public void onPause()
+
+    {
 
         loop.pause();
         super.onPause();
@@ -180,7 +184,6 @@ public class GameViewFragment extends CanvasFragment {
     {
         super.onResume();
         loop.resume();
-
 
     }
 
@@ -222,11 +225,27 @@ public class GameViewFragment extends CanvasFragment {
         loop.opponentCard2.draw(canvas);
         loop.opponentCard3.draw(canvas);
 
+        loop.manaZone.draw(canvas);
+
         // deck and graveyard
         loop.graveYard.draw(canvas);
         loop.deck.draw(canvas);
     }
 
+    private void drawMana(Canvas canvas)
+
+    {
+     /* loop.Medic.draw(canvas);
+      loop.artsAndHumanities.draw(canvas);
+      loop.engineering.draw(canvas);
+      loop.eeecs.draw(canvas);
+      loop.builtEnvironment.draw(canvas);*/
+
+        // brians testing. This is the method that should give all of the values. needs to be uncommented
+        // this should be able to draw all of the values for each of the mana types. see Manacounter Class to see positions.
+       loop.manaTest.drawValues(loop.manaTest.manaCounterToDrawObject(),canvas);
+
+    }
 
     // DRAW SETS OF CARDS
 

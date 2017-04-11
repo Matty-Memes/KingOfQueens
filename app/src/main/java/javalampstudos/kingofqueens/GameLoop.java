@@ -19,8 +19,12 @@ import javalampstudos.kingofqueens.kingOfQueens.engine.input.MultitouchListener;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.*;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 import javalampstudos.kingofqueens.kingOfQueens.engine.SFX.SoundFX;
+import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.ManaCounter;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.boardLayout;
+import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
 import javalampstudos.kingofqueens.kingOfQueens.util.randomGenerator;
+import javalampstudos.kingofqueens.kingOfQueens.util.andyManaCounter;
+
 
 // Android Imports
 
@@ -29,6 +33,7 @@ import android.graphics.Bitmap;
 import android.content.res.AssetManager;
 import android.util.Log;
 import android.content.Context;
+import android.graphics.Canvas;
 
 // Java Imports
 
@@ -37,13 +42,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+// GET RID OF ALL THE PRINT STATEMENTS
+
 public class GameLoop implements Runnable
 
 {
 
     // delcaring Brians AiBrain
    public Brain aiBrain;
-
 
     // instantiate CanvasFragment
     public CanvasFragment fragment;
@@ -77,9 +83,11 @@ public class GameLoop implements Runnable
     // Declare a gamestate
     public GameState gameState;
 
+
+    // Access the two main arrays - hand and monstersinplay
+    // Use proper names
     public int handIndex;
-
-
+    public int monsterIndex;
 
     // Variables for flipping images
     private Matrix matrix = new Matrix();
@@ -104,10 +112,12 @@ public class GameLoop implements Runnable
     private Rect graveYardRect;
     private Rect deckRect;
 
-    // the whole screen
+    // Splitting the screen into movement rects
     private Rect movementRect;
 
     private Rect playerMovementRect;
+    private Rect attackRect;
+
 
     //pause rect and bitmap
     private Rect pauseRect;
@@ -115,6 +125,9 @@ public class GameLoop implements Runnable
 
     // half the screen
     private Rect halfScreenRect;
+
+    // makea mana rect
+    private Rect manaRect;
 
     // Declare an instance of multi-touch listener
     protected MultitouchListener touchListener;
@@ -143,11 +156,36 @@ public class GameLoop implements Runnable
     public Bitmap PsychologistSprite;
     public Bitmap SociologistSprite;
 
+
+    // MANA BITMAPS
+
+    public Bitmap artsManaSprite;
+    public Bitmap builtEnvironmentManaSprite;
+    public Bitmap eeecsManaSprite;
+    public Bitmap engineeringManaSprite;
+    public Bitmap medicalManaSprite;
+    public Bitmap socialScienceSprite;
+
+
+    // Mana Bitmap
+    public Bitmap manaZoneSprite;
+
+    // Mana GameObject for interaction
+    public BasicCard manaZone;
+
+    // Prevent multiple runs of single methods
+
+    // Hands
     public boolean handRect1Active = true;
     public boolean handRect2Active = true;
     public boolean handRect3Active = true;
     public boolean handRect4Active = true;
     public boolean handRect5Active = true;
+
+    //Monsters
+    public boolean monsterSlot1Active = true;
+    public boolean monsterSlot2Active = true;
+    public boolean monsterSlot3Active = true;
 
 
     // DataAdmin
@@ -242,11 +280,18 @@ public class GameLoop implements Runnable
     // replaced with deckClicked
     public boolean resetDeck = false;
 
-    // booleans for each state - keep things ordered (probably delete this)
+
+    // These booleans enforce the turn structure
+
     public boolean draw = true;
     public boolean placement = true;
+    // used for mana placement
+    public boolean mplacement = true;
     public boolean strat = true;
     public boolean attack = true;
+
+    // Turn the manaZone off
+    public boolean manaflag = true;
 
     // "game state" variables - would need proper game state management in Android
     public boolean prepPhase = true;
@@ -281,6 +326,16 @@ public class GameLoop implements Runnable
     public MonsterCard opponent1;
     public MonsterCard opponent2;
     public MonsterCard opponent3;
+
+    // Mana Counters for each type
+    /*andyManaCounter engineering;
+    andyManaCounter artsAndHumanities;
+    andyManaCounter builtEnvironment;
+    andyManaCounter eeecs;
+    andyManaCounter Medic;*/
+
+    // brians test for mc
+    ManaCounter manaTest;
 
     // GameLoop Constructor
     public GameLoop (CanvasFragment fragment, int width, int height)
@@ -322,7 +377,7 @@ public class GameLoop implements Runnable
 
         // EXAMPLE CARDS TO TEST
 
-        // 90,120 - standard card width and height
+        // 90,120 - standard card width and height - this should be set in BasicCard
 
         // Use these for the touch rects as well
 
@@ -340,11 +395,19 @@ public class GameLoop implements Runnable
         requiredMana.put(ManaTypes.BUILT_ENVIRONMENT_MANA,5);
         // Geologist = new MonsterCard(20, 350, 90, 120, GeoSprite, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3,requiredMana);
 
-        Geologist = new MonsterCard(20, 350, 90, 120, GeoSprite, true, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3, requiredMana);
-        DataAdmin = new MonsterCard(0, 0, 0, 0, DataAdminSprite, true, CardSchools.EEECS, false, 49, CardLevel.GRAD, 140, 0, 2, requiredMana);
-        HackerMan = new MonsterCard(0, 0, 0, 0, HackerManSprite, true, CardSchools.MEDICS, false, 49, CardLevel.DOCTRATE, 140, 0, 3, requiredMana);
-        Psychologist = new MonsterCard(0, 0, 0, 0, PsychologistSprite, true, CardSchools.MEDICS, false, 49, CardLevel.DOCTRATE, 140, 0, 3, requiredMana);
-        Sociologist = new MonsterCard(0, 0, 0, 0, SociologistSprite, true, CardSchools.MEDICS, false, 49, CardLevel.DOCTRATE, 140, 0, 3, requiredMana);
+        Geologist = new MonsterCard(20, 350, 90, 120, GeoSprite, true, 0, CardSchools.EEECS, false, 49,CardLevel.DOCTRATE, 140, 0, 3,10, requiredMana);
+        DataAdmin = new MonsterCard(0, 0, 0, 0, DataAdminSprite, true, 0, CardSchools.EEECS, false, 49, CardLevel.GRAD, 140, 0, 2,16, requiredMana);
+        HackerMan = new MonsterCard(0, 0, 0, 0, HackerManSprite, true, 0, CardSchools.MEDICS, false, 49, CardLevel.DOCTRATE, 140, 0, 3,16, requiredMana);
+        Psychologist = new MonsterCard(0, 0, 0, 0, PsychologistSprite, true, 0, CardSchools.MEDICS, false, 49, CardLevel.DOCTRATE, 140, 0, 3,12, requiredMana);
+        Sociologist = new MonsterCard(0, 0, 0, 0, SociologistSprite, true, 0, CardSchools.MEDICS, false, 49,CardLevel.DOCTRATE, 140, 0, 3,4, requiredMana);
+
+        // Make 5 mana cards for testing
+        EEECS = new ManaCard(0, 0, 90, 120, eeecsManaSprite, true, 1, CardSchools.EEECS,ManaTypes.EEECS_MANA, false, 49);
+        BuiltEnvironment = new ManaCard(0, 0, 90, 120, builtEnvironmentManaSprite, true, 1, CardSchools.BUILT_ENVIORNMENT, ManaTypes.BUILT_ENVIRONMENT_MANA, false, 49);
+        MedicalScience = new ManaCard(0, 0, 90, 120, medicalManaSprite, true, 1, CardSchools.MEDICS,ManaTypes.MEDICS_MANA, false, 49);
+        SocialSciences = new ManaCard(0, 0, 90, 120, socialScienceSprite, true, 1, CardSchools.SOCIAL_SCIENCES,ManaTypes.SOCIAL_SCIENCES_MANA, false, 49);
+        ArtsandHumanities = new ManaCard(0, 0, 90, 120, artsManaSprite, true, 1, CardSchools.ARTS_HUMANITIES,ManaTypes.ARTS_HUMANITIES_MANA,false, 49);
+        Engineering = new ManaCard(0, 0, 90, 120, engineeringManaSprite, true, 1, CardSchools.ENGINEERING,ManaTypes.ENGINEERING_MANA, false, 49);
 
         // Load the created cards into the cardList array
         // cardList[0] = Geologist;
@@ -354,10 +417,20 @@ public class GameLoop implements Runnable
         cardList[3] = Sociologist;
         cardList[4] = Geologist;
 
+        // Mana Cards
+        cardList[5] = EEECS;
+        cardList[6] = BuiltEnvironment;
+        cardList[7] = MedicalScience;
+        cardList[8] = ArtsandHumanities;
+        cardList[9] = Engineering;
+
+
+
         // Opponent card
-        opponentCard1 = new MonsterCard(194, 100, 90, 120, cardBackSprite, false, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3, requiredMana);
-        opponentCard2 = new MonsterCard(394, 100, 90, 120, cardBackSprite, false, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3, requiredMana);
-        opponentCard3 = new MonsterCard(594, 100, 90, 120, cardBackSprite, false, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3, requiredMana);
+        opponentCard1 = new MonsterCard(234, 100, 90, 120, cardBackSprite, false, 0, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3,1, requiredMana);
+        opponentCard2 = new MonsterCard(434, 100, 90, 120, cardBackSprite, false, 0, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3,4, requiredMana);
+        opponentCard3 = new MonsterCard(634, 100, 90, 120, cardBackSprite, false, 0, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3,8, requiredMana);
+
 
 
 
@@ -370,29 +443,24 @@ public class GameLoop implements Runnable
 
         // Slot 3
 
-        // Mana
+       */
 
-
-          */
         // Positioning the hand - horizontal gaps are always 10
 
         // The first gap is slightly larger to make it obvious the deck is seperate
 
-
-
-
-        handCard1 = new BasicCard(194, 410, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
+        handCard1 = new BasicCard(234, 410, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
                 49);
 
         // The rest of the gaps should be either 10 or 20
 
-        handCard2 = new BasicCard(294, 410, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
+        handCard2 = new BasicCard(334, 410, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
                 49);
-        handCard3 = new BasicCard(394, 410, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
+        handCard3 = new BasicCard(434, 410, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
                 49);
-        handCard4 = new BasicCard(494, 410, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
+        handCard4 = new BasicCard(534, 410, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
                 49);
-        handCard5 = new BasicCard(594, 410, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
+        handCard5 = new BasicCard(634, 410, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
                 49);
 
         // Put the hand cards in the array
@@ -405,25 +473,40 @@ public class GameLoop implements Runnable
 
         // Positioning the monsters
 
-        monsterCard1 = new BasicCard(194, 280, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
+        monsterCard1 = new BasicCard(234, 280, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
                 49);
-        monsterCard2 = new BasicCard(394, 280, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
+        monsterCard2 = new BasicCard(434, 280, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
                 49);
-        monsterCard3 = new BasicCard(594, 280, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
+        monsterCard3 = new BasicCard(634, 280, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
                 49);
 
         // hand
 
         // Draw the graveyard pile
-        graveYard = new BasicCard(754, 280, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
+        graveYard = new BasicCard(800, 280, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
             49);
 
         // y co-ordinate is a gap of 50 plus half the card size
 
-        deck = new BasicCard(754, 410, 90, 120, cardBackSprite, true, CardSchools.MEDICS, false,
+        // x is half the height less than the total card size
+        deck = new BasicCard(800, 410, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
                 49);
 
+        // Declare and use the mana zone
+        // There should be a proper non-abstract class for this kind of object
+        manaZone = new BasicCard(100, 340, 140, 240, manaZoneSprite, true, 3, CardSchools.MEDICS, false, 49);
+
         rand = new randomGenerator();
+
+      /*  engineering = new andyManaCounter(100, 250, "0");
+        artsAndHumanities = new andyManaCounter(100, 290 , "0");
+        builtEnvironment = new andyManaCounter(100, 335, "0");
+        eeecs = new andyManaCounter(100, 380, "0");
+        Medic = new andyManaCounter(100, 430, "0");*/
+
+
+        // brians manaTest made
+        manaTest = new ManaCounter();
 
 
         // initialzing AiBrain.
@@ -476,6 +559,7 @@ public class GameLoop implements Runnable
                         updateCard();
                         updateTouch();
                         updateHand();
+                        // updateMana();
                         // updateMonsterCards();
                         break;
                     case CARDGAME:
@@ -588,45 +672,27 @@ public class GameLoop implements Runnable
 
                     float x = touchListener.getTouchX(i), y = touchListener.getTouchY(i);
 
-
-
-
-                /*
-
-                if (movementRect.contains((int) x, (int) y))
+                    if (graveYardRect.contains((int) x, (int) y))
 
                     {
-                        System.out.println("Touch detected");
 
-                        // This is needed for all methods
-                        Geologist.setPointerID(i);
-
-                        Geologist.x = x;
-                        Geologist.y = y;
-
+                       graveYard.destroyed = true;
                     }
 
-                 */
 
-                 // the graveyard can destroy cards
-                 if (graveYardRect.contains((int) Geologist.x , (int) Geologist.y))
-
-                    {
-                      System.out.println("Ok");
-                      Geologist.destroyed = true;
-
-                    }
 
                     if (deckRect.contains((int) x, (int) y) && deckCompleted == false)
 
                     {
+
                         populateHand();
                         System.out.println("Completed");
 
                     }
 
-                // cards can be moved anywhere in the players half of the screen
-                if(playerMovementRect.contains((int) x, (int) y) && dragActive)
+
+                // The players can be place cards in his half of the screen
+                if(playerMovementRect.contains((int) x, (int) y) && dragActive && placement)
 
                 {
                    // how do you know which card this effects
@@ -636,7 +702,10 @@ public class GameLoop implements Runnable
 
                 }
 
-                if (handRect1.contains((int) x, (int) y) && handRect1Active == true)
+
+
+
+                if (handRect1.contains((int) x, (int) y) && handRect1Active && placement)
 
                 {
                    dragActive = true;
@@ -646,7 +715,7 @@ public class GameLoop implements Runnable
                 }
 
 
-                    if (handRect2.contains((int) x, (int) y) && handRect2Active == true)
+                    if (handRect2.contains((int) x, (int) y) && handRect2Active && placement)
 
                     {
                         dragActive = true;
@@ -655,7 +724,7 @@ public class GameLoop implements Runnable
 
                     }
 
-                    if (handRect3.contains((int) x, (int) y) && handRect3Active == true)
+                    if (handRect3.contains((int) x, (int) y) && handRect3Active && placement)
 
                     {
                         dragActive = true;
@@ -664,7 +733,7 @@ public class GameLoop implements Runnable
 
                     }
 
-                    if (handRect4.contains((int) x, (int) y) && handRect4Active == true)
+                    if (handRect4.contains((int) x, (int) y) && handRect4Active && placement)
 
                     {
                         dragActive = true;
@@ -673,7 +742,7 @@ public class GameLoop implements Runnable
 
                     }
 
-                    if (handRect5.contains((int) x, (int) y) && handRect5Active == true)
+                    if (handRect5.contains((int) x, (int) y) && handRect5Active && placement)
 
                     {
                         dragActive = true;
@@ -685,137 +754,149 @@ public class GameLoop implements Runnable
                     // Monster Slot Detection
 
 
-                    if (MSlot1Rect.contains((int) x, (int) y))
+                    if (MSlot1Rect.contains((int) x, (int) y) && placement)
 
                 {
-                   handCards.get(handIndex).x = 194;
+                   handCards.get(handIndex).x = 234;
                    handCards.get(handIndex).y = 280;
                    dragActive = false;
+                   placement = false;
 
 
                 }
 
-                    if (MSlot2Rect.contains((int) x, (int) y))
+                    if (MSlot2Rect.contains((int) x, (int) y) && placement)
 
                     {
-                        handCards.get(handIndex).x = 394;
+                        handCards.get(handIndex).x = 434;
                         handCards.get(handIndex).y = 280;
                         dragActive = false;
+                        placement = false;
 
 
                     }
 
-                    if (MSlot3Rect.contains((int) x, (int) y))
+                    if (MSlot3Rect.contains((int) x, (int) y) && placement)
 
                     {
-                        handCards.get(handIndex).x = 594;
+                        handCards.get(handIndex).x = 634;
                         handCards.get(handIndex).y = 280;
                         dragActive = false;
+                        placement = false;
 
 
                     }
 
+                   // ATTACK PHASE LOGIC
 
 
-
-
-
-
-
-                    // Monster Card Placement Logic
-                // the hand must be populated
-
-
-
-                /*
-
-                    if (handRect2.contains((int) x, (int) y))
+                    if (MSlot1Rect.contains((int) x, (int) y) && attack && monsterSlot1Active)
 
                     {
-                        // make the current object the one currently at hand position 1
-                        currentCard = hand[1];
-                        // Now the user can drag the card
-                        currentCard.x = x;
-                        currentCard.y = y;
+
+                        dragActive = true;
+                        monsterIndex = 0;
+                        monsterSlot1Active = false;
 
                     }
 
-                    if (handRect3.contains((int) x, (int) y))
+                    if (MSlot2Rect.contains((int) x, (int) y) && attack && monsterSlot2Active)
 
                     {
-                        // make the current object the one currently at hand position 1
-                        currentCard = hand[2];
-                        // Now the user can drag the card
-                        currentCard.x = x;
-                        currentCard.y = y;
 
+                        dragActive = true;
+                        monsterIndex = 0;
+                        monsterSlot2Active = false;
 
                     }
 
-                    if (handRect4.contains((int) x, (int) y))
+                    if (MSlot3Rect.contains((int) x, (int) y) && attack && monsterSlot3Active)
 
                     {
-                        // make the current object the one currently at hand position 1
-                        currentCard = hand[3];
-                        // Now the user can drag the card
-                        currentCard.x = x;
-                        currentCard.y = y;
 
+                        dragActive = true;
+                        monsterIndex = 0;
+                        monsterSlot2Active = false;
 
                     }
 
-                    if (handRect5.contains((int) x, (int) y))
+                    // Mana Handling
+
+                    // && handCards.get(handIndex) instanceof ManaCard
+
+                    // Only accept mana cards
+                    if (manaRect.contains((int)handCards.get(handIndex).x, (int)handCards.get(handIndex).y)
+                            && handCards.get(handIndex).id == 1 && manaflag == true)
 
                     {
-                        // make the current object the one currently at hand position 1
-                        currentCard = hand[4];
-                        // Now the user can drag the card
-                        currentCard.x = x;
-                        currentCard.y = y;
+
+                            // Work out which manaCounter object to update
+                            switch (((ManaCard)handCards.get(handIndex)).getManaType())
+
+                            {
+                                case ARTS_HUMANITIES_MANA:
+                                   // artsAndHumanities.incrementCounter();
+                                    manaTest.addMana(ManaTypes.ARTS_HUMANITIES_MANA);
+                                    break;
+                                case ENGINEERING_MANA:
+                                //    engineering.incrementCounter();
+                                    manaTest.addMana(ManaTypes.ENGINEERING_MANA);
+                                    break;
+                                case BUILT_ENVIRONMENT_MANA:
+                                //    builtEnvironment.incrementCounter();
+                                    manaTest.addMana(ManaTypes.BUILT_ENVIRONMENT_MANA);
+                                    break;
+                                case EEECS_MANA:
+                                    manaTest.addMana(ManaTypes.EEECS_MANA);
+                                 //   eeecs.incrementCounter();
+                                    break;
+                                case MEDICS_MANA:
+                                //    Medic.incrementCounter();
+                                    manaTest.addMana(ManaTypes.MEDICS_MANA);
+                                    break;
+                                case GENERIC_MANA:
+                                    manaTest.addMana(ManaTypes.GENERIC_MANA);
+                                    break;
+                                case SOCIAL_SCIENCES_MANA:
+                                    manaTest.addMana(ManaTypes.SOCIAL_SCIENCES_MANA);
+
+                            }
+
+                        // get the current card off the screen
+                        handCards.get(handIndex).destroyed = true;
 
 
-                    }
 
-                    // Deal with monster card placement
+                            // gives a value of 3
+                     /*
+                     curently not working
+                      //  here is how to add mana for your arraylist andrew
+                        if(handCards.get(handIndex) instanceof ManaCard) {
+                            manaTest.addMana((ManaCard) handCards.get(handIndex).getManaType());
+                            // manaTest.addMana(ManaTypes.EEECS_MANA);
+                        }*/
+                      /*
 
-                    if (MSlot1Rect.contains((int) currentCard.x , (int) currentCard.y) && placement == true)
+                      // addToMana
+                      builtEnvironment.incrementCounter();
+                      manaflag = false;
 
-                    {
-                       // the current card knows snaps to the position of the rect
-                       currentCard.x = 40;
-                       currentCard.y = 32;
-                       // add the card to an array containg the mosnters on the field
+                      */
 
-
-                    }
-
-                    if (MSlot2Rect.contains((int) currentCard.x , (int) currentCard.y) && placement == true)
-
-                    {
-                        // the current card knows snaps to the position of the rect
-                        currentCard.x = 40;
-                        currentCard.y = 32;
-
-                    }
-
-                    if (MSlot3Rect.contains((int) currentCard.x , (int) currentCard.y) && placement == true)
-
-                    {
-                        // the current card knows snaps to the position of the rect
-                        currentCard.x = 40;
-                        currentCard.y = 32;
-
-                    }
-
-                    // For the attack phase the monster slot becomes the point from which to drag
+                            // need to pass information from the mana card in question
 
 
-               */
+                            manaflag = false;
+
+
+
+
+
+                        }
+
 
 
                 }
-
-
 
                 // Snapping goes here
 
@@ -835,19 +916,14 @@ public class GameLoop implements Runnable
                   }
 
 
-
                 }
 
-                // Single touch stuff - fires once and then stops
-
-
+                // Put any single touch logic here
 
 
             }
 
              // end for loop
-
-
 
             break; // end NEW case
         }
@@ -873,54 +949,54 @@ public class GameLoop implements Runnable
         // hand Rects
 
         handRect1 = new Rect(
-                (int) (194 - (90 / 2)),
+                (int) (234 - (90 / 2)),
                 (int) (410 - (120 / 2)),
-                (int) (194 + (90 / 2)),
+                (int) (234 + (90 / 2)),
                 (int) (410 + (120 / 2)));
 
         handRect2 = new Rect(
-                (int) (294 - (90 / 2)),
+                (int) (334 - (90 / 2)),
                 (int) (410 - (120 / 2)),
-                (int) (294 + (90 / 2)),
+                (int) (334 + (90 / 2)),
                 (int) (410 + (120 / 2)));
 
         handRect3 = new Rect(
-                (int) (394 - (90 / 2)),
+                (int) (434 - (90 / 2)),
                 (int) (410 - (120 / 2)),
-                (int) (394 + (90 / 2)),
+                (int) (434 + (90 / 2)),
                 (int) (410 + (120 / 2)));
 
         handRect4 = new Rect(
-                (int) (494 - (90 / 2)),
+                (int) (534 - (90 / 2)),
                 (int) (410 - (120 / 2)),
-                (int) (494 + (90 / 2)),
+                (int) (534 + (90 / 2)),
                 (int) (410 + (120 / 2)));
 
         handRect5 = new Rect(
-                (int) (594 - (90 / 2)),
+                (int) (634 - (90 / 2)),
                 (int) (410 - (120 / 2)),
-                (int) (594 + (90 / 2)),
+                (int) (634 + (90 / 2)),
                 (int) (410 + (120 / 2)));
 
 
         // Monster Slot Rects
 
         MSlot1Rect = new Rect(
-                (int) (194 - (90 / 2)),
+                (int) (234 - (90 / 2)),
                 (int) (280 - (120 / 2)),
-                (int) (194 + (90 / 2)),
+                (int) (234 + (90 / 2)),
                 (int) (280 + (120 / 2)));
 
         MSlot2Rect = new Rect(
-                (int) (394 - (90 / 2)),
+                (int) (434 - (90 / 2)),
                 (int) (280 - (120 / 2)),
-                (int) (394 + (90 / 2)),
+                (int) (434 + (90 / 2)),
                 (int) (280 + (120 / 2)));
 
         MSlot3Rect = new Rect(
-                (int) (594 - (90 / 2)),
+                (int) (634 - (90 / 2)),
                 (int) (280 - (120 / 2)),
-                (int) (594 + (90 / 2)),
+                (int) (634 + (90 / 2)),
                 (int) (280 + (120 / 2)));
 
 
@@ -931,16 +1007,19 @@ public class GameLoop implements Runnable
 
         // graveyard and deck rects
         graveYardRect = new Rect(
-                (int) (754 - (90 / 2)),
+                (int) (800 - (90 / 2)),
                 (int) (280 - (120 / 2)),
-                (int) (754 + (90 / 2)),
+                (int) (800 + (90 / 2)),
                 (int) (280 + (120 / 2)));
 
         deckRect = new Rect(
-                (int) (754 - (90 / 2)),
+                (int) (800 - (90 / 2)),
                 (int) (410 - (120 / 2)),
-                (int) (754 + (90 / 2)),
+                (int) (800 + (90 / 2)),
                 (int) (410 + (120 / 2)));
+
+        // Initialize the mana zone here
+
 
         // move all rect initialization here
         gameBoard.initializeRects();
@@ -954,7 +1033,13 @@ public class GameLoop implements Runnable
         // playerArea
         playerMovementRect = new Rect((int) 0, (int) (GameLoop.height / 2), (int) GameLoop.width, (int) GameLoop.height);
 
-    }
+        // mana stuff
+        manaRect = new Rect(
+                (int) (100 - (140 / 2)),
+                (int) (340 - (240 / 2)),
+                (int) (100 + (140 / 2)),
+                (int) (340 + (240 / 2)));
+        }
 
 
     private void doThingy ()
@@ -1008,8 +1093,25 @@ public class GameLoop implements Runnable
         }
 
 
+    }
+
+    /*
+
+    private void updateMana ()
+
+    {
+      engineering.update();
+      artsAndHumanities.update();
+      builtEnvironment.update();
+      // eeecs.update();
+      Medic.update();
+
+        manaTest.update();
+
 
     }
+
+    */
 
     // This method should be altered.
 
@@ -1025,6 +1127,8 @@ public class GameLoop implements Runnable
         graveYard.update();
         deck.update();
 
+        manaZone.update();
+
         // opponent card
         opponentCard1.update();
         opponentCard2.update();
@@ -1032,6 +1136,8 @@ public class GameLoop implements Runnable
 
 
     }
+
+    // MATTHEW - MOVE THIS TO THE CARD LIBRARY CLASS
 
     private void loadAssets ()
 
@@ -1049,6 +1155,22 @@ public class GameLoop implements Runnable
 
         // load cardback sprite
         cardBackSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Cardback.png");
+
+        // ManaSprites
+
+        socialScienceSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Mana/SocialSciencesMana.png");
+        medicalManaSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Mana/MedicalMana.png");
+        artsManaSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Mana/ArtsMana.png");
+        eeecsManaSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Mana/EEECSMana.png");
+        engineeringManaSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Mana/EEECSMana.png");
+        builtEnvironmentManaSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Mana/BuiltMana.png");
+
+        // load mana cards here
+
+        manaZoneSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Mana/ManaZoner.png");
+
+        // load manazone sprite
+
 
 
         // load SFX in here
@@ -1205,25 +1327,32 @@ public class GameLoop implements Runnable
         {
             case 0:
                 handCard1.sprite = cardList[dex].sprite;
+                handCard1.setCardSchool(cardList[dex].getCardSchool());
+                handCard1.id = cardList[dex].id;
                 break;
             case 1:
                 handCard2.sprite = cardList[dex].sprite;
+                handCard2.setCardSchool(cardList[dex].getCardSchool());
+                handCard2.id = cardList[dex].id;
                 break;
             case 2:
                 handCard3.sprite = cardList[dex].sprite;
+                handCard3.setCardSchool(cardList[dex].getCardSchool());
+                handCard3.id = cardList[dex].id;
                 break;
             case 3:
                 handCard4.sprite = cardList[dex].sprite;
+                handCard4.setCardSchool(cardList[dex].getCardSchool());
+                handCard4.id = cardList[dex].id;
                 break;
             case 4:
                 handCard5.sprite = cardList[dex].sprite;
+                handCard5.setCardSchool(cardList[dex].getCardSchool());
+                handCard5.id = cardList[dex].id;
                 break;
         }
 
-
-
-        System.out.println("Finished this method");
-
+        // System.out.println("Finished this method");
 
     }
 

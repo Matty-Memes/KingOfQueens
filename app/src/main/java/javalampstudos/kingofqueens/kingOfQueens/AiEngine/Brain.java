@@ -29,23 +29,20 @@ public class Brain {
     // 40111707 brians
     // this method will find the highest attack card that can be played.
     // use for putting level 1 cards in play
-    public void PlayCardWithHighestAtt(Hand hand, MonsterCard enemeyCard, ManaCounter unusedMana,CardZone[] cardZones) {
+    public void PlayCardWithHighestAtt(Hand hand, ManaCounter unusedMana,CardZone[] cardZones) {
 
         int bestCardIndex = 0;
 
         // for loop begins at one so that first card can be compared to the second.
-        for (int i = 1; i < hand.getHand().length; i++) {// within here i need to make sure only monster cards will be accepted.
-            // this if statement checks 3 things.
-            //1. the card is higher attack than enemeys defence
+        for (int i = 1; i < hand.getHand().length; i++) {
             // 2.the card is also higher than the best card so far
             // 3.the cards mana also allows it to be played.
 
             if (hand.getCardFromHand(i) instanceof MonsterCard) {
 
-                if (((MonsterCard) hand.getCardFromHand(i)).getAttackValue() > enemeyCard.getDefence()
-                        && ((MonsterCard) hand.getCardFromHand(i)).getLevel() == CardLevel.UNDERGRAD
+                if (((MonsterCard) hand.getCardFromHand(i)).getLevel() == CardLevel.UNDERGRAD
                         && ((MonsterCard) hand.getCardFromHand(i)).getAttackValue() > ((MonsterCard) hand.getCardFromHand(bestCardIndex)).getAttackValue() // there needs to be a method to convert from card school to card mana type.
-                        && compareManaRequirementWithManaCounter(((MonsterCard)hand.getCardFromHand(i)).getAttackManaRequirement(),unusedMana.getUnusedManaHashMap()))
+                        /*&& compareManaRequirementWithManaCounter(((MonsterCard)hand.getCardFromHand(i)).getAttackManaRequirement(),unusedMana.getUnusedManaHashMap())*/)
 
                 {
 
@@ -60,6 +57,34 @@ public class Brain {
 //test
 
 
+// 40111707
+    // brians method
+    // this method checks to see if the Ai can evolve a card currently in play to the next level.
+    public void canIEvolve(CardZone [] aiCardZone, Hand hand){
+       int nextLevelMonsterIndex = -1;
+        int previousLevelMonsterIndex =-1;
+        boolean upgradeableCard =false;
+        for(int i=0; i < hand.getHand().length && !upgradeableCard;i++)
+        {
+            for(int j=0; j<aiCardZone.length; j++)
+            {
+                if(hand.getCardFromHand(i) instanceof  MonsterCard)
+                {
+                    // put in matthews method here !!!
+                    if(((MonsterCard) hand.getCardFromHand(i)).evolutionCheck(aiCardZone[j].getCurrentCard(),((MonsterCard) hand.getCardFromHand(i))) )
+                    {
+                        nextLevelMonsterIndex = i;
+                        previousLevelMonsterIndex =j;
+                        upgradeableCard = true;
+                    }
+                }
+            }
+        }
+
+        // this is where you need to evolve the cards when the method is avaialble, if both indexs > -1.
+
+
+    }
 
     // brians method,
     // this method will choose which zone to play the card on then drag it to that zone.
@@ -73,7 +98,7 @@ public class Brain {
             {
                 if(!cardZones[i].isActive())
                 {
-                    cardZones[i].setCurrentCard(card);
+                    cardZones[i].setCurrentCard((MonsterCard)card);
                     found =true;
                 }
             }
@@ -89,15 +114,15 @@ public class Brain {
     //40111707
     // to be fixed to work with array.
     public boolean checkAllZonesAreActive(CardZone[] cardZones){
-        boolean allZonesActive =false;
+        boolean allZonesActive = false;
         for(int i=0; i < cardZones.length || allZonesActive; i++)
         {
             if(!cardZones[i].isActive())
             {
-                allZonesActive = false;
+                allZonesActive= false;
             }
             else {
-                allZonesActive = true;
+               return true;
             }
         }
         return allZonesActive;
@@ -128,16 +153,15 @@ public class Brain {
         while( manaCardFound = false){
             if(hand.getCardFromHand(i) instanceof ManaCard)
             {
-                if(whichManaDoINeedTheMost(hand,manaCounter).toString().startsWith( hand.getCardFromHand(i).getCardSchool().toString()))
+                /*
+
+                if(whichManaDoINeedTheMost(hand,manaCounter).equals(((ManaCard) hand.getCardFromHand(i)).getManaType()))
                 {
                     manaCardFound =true;
                     manaCounter.addMana(((ManaCard) hand.getCardFromHand(i)).getManaType());
                 }
-                else if(whichManaDoINeedTheMost(hand,manaCounter).toString().startsWith("GENERIC"))
-                {
-                    manaCardFound =true;
-                    manaCounter.addMana(((ManaCard) hand.getCardFromHand(i)).getManaType());
-                }
+
+                */
 
             }
             i++;
@@ -174,12 +198,6 @@ public class Brain {
                 highestNeedMana = temp.get(key);
 
             }
-        }
-
-
-        // this loop is for finding the key of the manaType that has the highest need.
-        for (ManaTypes key:temp.keySet())
-        {
             if(temp.get(key) == highestNeedMana)
             {
                 key1 = key;
@@ -187,7 +205,60 @@ public class Brain {
         }
 
 
+        // this loop is for finding the key of the manaType that has the highest need.
+        for (ManaTypes key:temp.keySet())
+        {
+
+        }
+
+
         // finally reutnring the key for the mana type that has the highest need.
         return key1;
+    }
+
+
+// 40111707
+// brians method
+    // this method is for choosing which card has the lowest defence of the enemey in order for it to be attacked.
+    // this method also finds the best card within the Ais cardzone to attack that card.
+    public void whichCardShouldIAttack(CardZone[] enemyCardZone,CardZone[] aiCardZone, ManaCounter aiUnusedMana)
+    {
+        final int LOWEST_HEALTH_SCORE =10;
+        // this section of the method finds the enemeys card with the lowest defence, then stores its index
+        int indexForCardWithLowestDef =-1;
+        if(checkAllZonesAreActive(enemyCardZone)) // a mthod to see if there is any cards on the baord?
+        {
+            for(int i=0; i < enemyCardZone.length; i++)
+            {
+                if(enemyCardZone[i].getCurrentCard().getDefence() < enemyCardZone[i+1].getCurrentCard().getDefence())
+                {
+                    indexForCardWithLowestDef =i;
+                }
+            }
+        }
+
+        // this section of the method finds the card that has a higher attack than the player, then it attacks it.
+        int indexForCardToAttackWith =-1;
+        if(checkAllZonesAreActive(aiCardZone))
+        {
+            for(int i=0; i < aiCardZone.length; i++)
+            {
+                if(aiCardZone[i].getCurrentCard().getAttackValue() > enemyCardZone[indexForCardWithLowestDef].getCurrentCard().getDefence())
+                {
+                    if(compareManaRequirementWithManaCounter(aiCardZone[i].getCurrentCard().getAttackManaRequirement(),aiUnusedMana.getUnusedManaHashMap()))
+                    {
+                        indexForCardToAttackWith = i;
+                    }
+                }
+                // BRIAN : NOTE THINK OF A WAY TO FIND THE CARD THAT WILL DO THE MOST DAMAGE, NOT JUST KILL A CARD.
+            }
+        }
+
+        // calling the ais monster to attack the enemey card if they have found suitbanle targets.
+        if(indexForCardToAttackWith > -1 && indexForCardWithLowestDef >-1) {
+            aiCardZone[indexForCardToAttackWith].getCurrentCard().attack(enemyCardZone[indexForCardWithLowestDef].getCurrentCard());
+        }else{
+            // do nothing.
+        }
     }
 }

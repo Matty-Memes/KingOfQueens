@@ -1,6 +1,8 @@
 package javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard;
 
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BasicCard;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.MonsterCard;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.SupportCard;
 
 import android.graphics.Rect;
 /**
@@ -10,12 +12,14 @@ import android.graphics.Rect;
 
 public class CardZone {
     private boolean active;
-    private BasicCard currentCard;
+    private MonsterCard currentCard;
+    private SupportCard currentSupportCard;
     private Rect Zone;
 
-    public CardZone(boolean active, BasicCard currentCard, Rect zone) {
+    public CardZone(boolean active, MonsterCard currentCard, SupportCard currentSupportCard, Rect zone) {
         this.active = active;
         this.currentCard = currentCard;
+        this.currentSupportCard = currentSupportCard;
         Zone = zone;
     }
 
@@ -27,11 +31,11 @@ public class CardZone {
         this.active = active;
     }
 
-    public BasicCard getCurrentCard() {
+    public MonsterCard getCurrentCard() {
         return currentCard;
     }
 
-    public void setCurrentCard(BasicCard currentCard) {
+    public void setCurrentCard(MonsterCard currentCard) {
         this.currentCard = currentCard;
     }
 
