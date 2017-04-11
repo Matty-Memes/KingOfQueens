@@ -1332,8 +1332,26 @@ public class GameLoop implements Runnable
         {
             case 0:
                 handCard1.sprite = cardList[dex].sprite;
-                handCard1.setCardSchool(cardList[dex].getCardSchool());
                 handCard1.id = cardList[dex].id;
+
+                /*
+
+                if (handCard1.id == 1)
+
+                {
+                    ((ManaCard)handCard1).setManaType(((ManaCard)cardList[dex]).getManaType());
+                }
+
+                else if (handCard1.id != 1)
+
+                {
+
+                    handCard1.setCardSchool(cardList[dex].getCardSchool());
+
+                }
+
+                */
+                handCard1.setCardSchool(cardList[dex].getCardSchool());
                 break;
             case 1:
                 handCard2.sprite = cardList[dex].sprite;
