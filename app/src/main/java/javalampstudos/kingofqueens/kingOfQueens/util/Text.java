@@ -19,7 +19,7 @@ import javalampstudos.kingofqueens.kingOfQueens.engine.graphics.CanvasFragment;
 
 
 
-public abstract class Text
+public class Text
 
 {
     // x and y co-ordinates

@@ -109,17 +109,17 @@ public class ManaCounter
         // 40083349
         //brian + andrews method
         // this method returns an arrray of converted objects so that i can print them.
-    public andyManaCounter[] manaCounterToDrawObject() {
-        andyManaCounter eeecs = new andyManaCounter(X_CO_ORDINATES, EEECS_Y_VALUE, manaValueToString(ManaTypes.EEECS_MANA));
-        andyManaCounter generic = new andyManaCounter(X_CO_ORDINATES, GENERIC_Y_VALUE, manaValueToString(ManaTypes.GENERIC_MANA));
-        andyManaCounter builtEnvironment = new andyManaCounter(X_CO_ORDINATES, BUILTENCIRONMENT_Y_VALUE,manaValueToString(ManaTypes.BUILT_ENVIRONMENT_MANA));
-        andyManaCounter enginerring = new andyManaCounter(X_CO_ORDINATES, ENGINERRING_Y_VALUE, manaValueToString(ManaTypes.ENGINEERING_MANA));
-        andyManaCounter medics = new andyManaCounter(X_CO_ORDINATES, MEDICS_Y_VALUE, manaValueToString(ManaTypes.MEDICS_MANA));
-        andyManaCounter socailScience = new andyManaCounter(X_CO_ORDINATES, SOCAILSCIENCE_Y_VALUE, manaValueToString(ManaTypes.SOCIAL_SCIENCES_MANA));
-        andyManaCounter artsAndHumanities = new andyManaCounter(X_CO_ORDINATES, ARTSANDHUMANITIES_Y_VALUE, manaValueToString(ManaTypes.ARTS_HUMANITIES_MANA));
+    public Text[] manaCounterToDrawObject() {
+        Text eeecs = new Text(X_CO_ORDINATES, EEECS_Y_VALUE, manaValueToString(ManaTypes.EEECS_MANA));
+        Text generic = new Text(X_CO_ORDINATES, GENERIC_Y_VALUE, manaValueToString(ManaTypes.GENERIC_MANA));
+        Text builtEnvironment = new Text(X_CO_ORDINATES, BUILTENCIRONMENT_Y_VALUE,manaValueToString(ManaTypes.BUILT_ENVIRONMENT_MANA));
+        Text enginerring = new Text(X_CO_ORDINATES, ENGINERRING_Y_VALUE, manaValueToString(ManaTypes.ENGINEERING_MANA));
+        Text medics = new Text(X_CO_ORDINATES, MEDICS_Y_VALUE, manaValueToString(ManaTypes.MEDICS_MANA));
+        Text socailScience = new Text(X_CO_ORDINATES, SOCAILSCIENCE_Y_VALUE, manaValueToString(ManaTypes.SOCIAL_SCIENCES_MANA));
+        Text artsAndHumanities = new Text(X_CO_ORDINATES, ARTSANDHUMANITIES_Y_VALUE, manaValueToString(ManaTypes.ARTS_HUMANITIES_MANA));
 
 
-        andyManaCounter manaArray[] = {eeecs,generic,builtEnvironment,enginerring,medics,socailScience,artsAndHumanities};
+        Text manaArray[] = {eeecs,generic,builtEnvironment,enginerring,medics,socailScience,artsAndHumanities};
 
 
         return manaArray;
@@ -128,7 +128,7 @@ public class ManaCounter
     // 40111707
     // brians method
     // this method preforms draw on all of the objects in the manacounter.
-    public void drawValues (andyManaCounter[] values, Canvas canvas)
+    public void drawValues (Text[] values, Canvas canvas)
     {
 
         for(int i=0; i < values.length; i++)

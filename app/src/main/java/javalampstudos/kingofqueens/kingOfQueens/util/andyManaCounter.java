@@ -16,7 +16,7 @@ public class andyManaCounter extends Text
 {
 
     // Counter variable
-    public int counter;
+    private int counter;
 
     // Constructor
     public andyManaCounter(float x, float y, String text)
@@ -32,7 +32,7 @@ public class andyManaCounter extends Text
     public void incrementCounter()
 
     {
-      counter++;
+     // counter++;
       text = counter + "";
 
     }

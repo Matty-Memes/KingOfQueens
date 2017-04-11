@@ -328,11 +328,11 @@ public class GameLoop implements Runnable
     public MonsterCard opponent3;
 
     // Mana Counters for each type
-    andyManaCounter engineering;
+    /*andyManaCounter engineering;
     andyManaCounter artsAndHumanities;
     andyManaCounter builtEnvironment;
     andyManaCounter eeecs;
-    andyManaCounter Medic;
+    andyManaCounter Medic;*/
 
     // brians test for mc
     ManaCounter manaTest;
@@ -402,12 +402,12 @@ public class GameLoop implements Runnable
         Sociologist = new MonsterCard(0, 0, 0, 0, SociologistSprite, true, 0, CardSchools.MEDICS, false, 49,CardLevel.DOCTRATE, 140, 0, 3,4, requiredMana);
 
         // Make 5 mana cards for testing
-        EEECS = new ManaCard(0, 0, 90, 120, eeecsManaSprite, true, 1, CardSchools.EEECS, false, 49);
-        BuiltEnvironment = new ManaCard(0, 0, 90, 120, builtEnvironmentManaSprite, true, 1, CardSchools.BUILT_ENVIORNMENT, false, 49);
-        MedicalScience = new ManaCard(0, 0, 90, 120, medicalManaSprite, true, 1, CardSchools.MEDICS, false, 49);
-        SocialSciences = new ManaCard(0, 0, 90, 120, socialScienceSprite, true, 1, CardSchools.SOCIAL_SCIENCES, false, 49);
-        ArtsandHumanities = new ManaCard(0, 0, 90, 120, artsManaSprite, true, 1, CardSchools.ARTS_HUMANITIES, false, 49);
-        Engineering = new ManaCard(0, 0, 90, 120, engineeringManaSprite, true, 1, CardSchools.ENGINEERING, false, 49);
+        EEECS = new ManaCard(0, 0, 90, 120, eeecsManaSprite, true, 1, CardSchools.EEECS,ManaTypes.EEECS_MANA, false, 49);
+        BuiltEnvironment = new ManaCard(0, 0, 90, 120, builtEnvironmentManaSprite, true, 1, CardSchools.BUILT_ENVIORNMENT, ManaTypes.BUILT_ENVIRONMENT_MANA, false, 49);
+        MedicalScience = new ManaCard(0, 0, 90, 120, medicalManaSprite, true, 1, CardSchools.MEDICS,ManaTypes.MEDICS_MANA, false, 49);
+        SocialSciences = new ManaCard(0, 0, 90, 120, socialScienceSprite, true, 1, CardSchools.SOCIAL_SCIENCES,ManaTypes.SOCIAL_SCIENCES_MANA, false, 49);
+        ArtsandHumanities = new ManaCard(0, 0, 90, 120, artsManaSprite, true, 1, CardSchools.ARTS_HUMANITIES,ManaTypes.ARTS_HUMANITIES_MANA,false, 49);
+        Engineering = new ManaCard(0, 0, 90, 120, engineeringManaSprite, true, 1, CardSchools.ENGINEERING,ManaTypes.ENGINEERING_MANA, false, 49);
 
         // Load the created cards into the cardList array
         // cardList[0] = Geologist;
@@ -498,11 +498,11 @@ public class GameLoop implements Runnable
 
         rand = new randomGenerator();
 
-        engineering = new andyManaCounter(100, 250, "0");
+      /*  engineering = new andyManaCounter(100, 250, "0");
         artsAndHumanities = new andyManaCounter(100, 290 , "0");
         builtEnvironment = new andyManaCounter(100, 335, "0");
         eeecs = new andyManaCounter(100, 380, "0");
-        Medic = new andyManaCounter(100, 430, "0");
+        Medic = new andyManaCounter(100, 430, "0");*/
 
 
         // brians manaTest made
@@ -831,24 +831,34 @@ public class GameLoop implements Runnable
                     {
 
                             // Work out which manaCounter object to update
-                            switch (handCards.get(handIndex).getCardSchool())
+                            switch (((ManaCard)handCards.get(handIndex)).getManaType())
 
                             {
-                                case ARTS_HUMANITIES:
-                                    artsAndHumanities.incrementCounter();
+                                case ARTS_HUMANITIES_MANA:
+                                   // artsAndHumanities.incrementCounter();
+                                    manaTest.addMana(ManaTypes.ARTS_HUMANITIES_MANA);
                                     break;
-                                case ENGINEERING:
-                                    engineering.incrementCounter();
+                                case ENGINEERING_MANA:
+                                //    engineering.incrementCounter();
+                                    manaTest.addMana(ManaTypes.ENGINEERING_MANA);
                                     break;
-                                case BUILT_ENVIORNMENT:
-                                    builtEnvironment.incrementCounter();
+                                case BUILT_ENVIRONMENT_MANA:
+                                //    builtEnvironment.incrementCounter();
+                                    manaTest.addMana(ManaTypes.BUILT_ENVIRONMENT_MANA);
                                     break;
-                                case EEECS:
-                                    eeecs.incrementCounter();
+                                case EEECS_MANA:
+                                    manaTest.addMana(ManaTypes.EEECS_MANA);
+                                 //   eeecs.incrementCounter();
                                     break;
-                                case MEDICS:
-                                    Medic.incrementCounter();
+                                case MEDICS_MANA:
+                                //    Medic.incrementCounter();
+                                    manaTest.addMana(ManaTypes.MEDICS_MANA);
                                     break;
+                                case GENERIC_MANA:
+                                    manaTest.addMana(ManaTypes.GENERIC_MANA);
+                                    break;
+                                case SOCIAL_SCIENCES_MANA:
+                                    manaTest.addMana(ManaTypes.SOCIAL_SCIENCES_MANA);
 
                             }
 

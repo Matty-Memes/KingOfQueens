@@ -197,16 +197,17 @@ public class Brain {
                 highestNeedMana = temp.get(key);
 
             }
+            if(temp.get(key) == highestNeedMana)
+            {
+                key1 = key;
+            }
         }
 
 
         // this loop is for finding the key of the manaType that has the highest need.
         for (ManaTypes key:temp.keySet())
         {
-            if(temp.get(key) == highestNeedMana)
-            {
-                key1 = key;
-            }
+
         }
 
 
