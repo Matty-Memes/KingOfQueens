@@ -162,7 +162,7 @@ public class GameViewFragment extends CanvasFragment {
 
         drawCard(canvas);
 
-        // drawMonsterCards(canvas);
+        drawMonsterCards(canvas);
 
         drawHand(canvas);
 
@@ -192,20 +192,6 @@ public class GameViewFragment extends CanvasFragment {
     private void drawCard (Canvas canvas)
 
     {
-        if (loop.Geologist.destroyed == false)
-
-        {
-            loop.Geologist.draw(canvas);
-
-        }
-
-        else
-
-        {
-            System.out.println("Geologist was destroyed");
-
-        }
-
         // draw temp cards for positioning
 
         // hands
@@ -216,9 +202,11 @@ public class GameViewFragment extends CanvasFragment {
         loop.handCard5.draw(canvas);
 
         // monsters
+        /*
         loop.monsterCard1.draw(canvas);
         loop.monsterCard2.draw(canvas);
         loop.monsterCard3.draw(canvas);
+        */
 
         // draw opponent card
         loop.opponentCard1.draw(canvas);
@@ -262,6 +250,33 @@ public class GameViewFragment extends CanvasFragment {
 
     }
 
+    private void drawMonsterCards(Canvas canvas)
+
+    {
+        loop.monsterCard1.draw(canvas);
+        loop.monsterCard2.draw(canvas);
+        loop.monsterCard3.draw(canvas);
+
+
+    }
+
+
+
+    /*
+
+    private void drawOpponentMonsters(Canvas canvas)
+
+    {
+     // draw opponent card
+        loop.opponentCard1.draw(canvas);
+        loop.opponentCard2.draw(canvas);
+        loop.opponentCard3.draw(canvas);
+
+
+    }
+
+
+    // draw the monster cards using a loop
     private void drawMonsterCards (Canvas canvas)
 
     {
@@ -274,5 +289,7 @@ public class GameViewFragment extends CanvasFragment {
         }
 
     }
+
+    */
 
 }
