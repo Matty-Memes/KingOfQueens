@@ -503,6 +503,8 @@ public class GameLoop implements Runnable
 
         rand = new randomGenerator();
 
+
+
       /*  engineering = new andyManaCounter(100, 250, "0");
         artsAndHumanities = new andyManaCounter(100, 290 , "0");
         builtEnvironment = new andyManaCounter(100, 335, "0");

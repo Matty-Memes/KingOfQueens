@@ -11,6 +11,7 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.MonsterCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.CardZone;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Deck;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Hand;
+import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.HandChange;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.ManaCounter;
 import javalampstudos.kingofqueens.kingOfQueens.objects.graveYard;
 
@@ -29,30 +30,29 @@ public class Brain {
     // 40111707 brians
     // this method will find the highest attack card that can be played.
     // use for putting level 1 cards in play
-    public void PlayCardWithHighestAtt(Hand hand, ManaCounter unusedMana,CardZone[] cardZones) {
+    public void PlayCardWithHighestAtt(HandChange hand, ManaCounter unusedMana, CardZone[] cardZones) {
 
         int bestCardIndex = 0;
-
-        // for loop begins at one so that first card can be compared to the second.
-        for (int i = 1; i < hand.getHand().length; i++) {
-            // 2.the card is also higher than the best card so far
-            // 3.the cards mana also allows it to be played.
-
-            if (hand.getCardFromHand(i) instanceof MonsterCard) {
-
-                if (((MonsterCard) hand.getCardFromHand(i)).getLevel() == CardLevel.UNDERGRAD
-                        && ((MonsterCard) hand.getCardFromHand(i)).getAttackValue() > ((MonsterCard) hand.getCardFromHand(bestCardIndex)).getAttackValue() // there needs to be a method to convert from card school to card mana type.
-                        /*&& compareManaRequirementWithManaCounter(((MonsterCard)hand.getCardFromHand(i)).getAttackManaRequirement(),unusedMana.getUnusedManaHashMap())*/)
-
+      // check all of the onsters in the hand, find the best one, then play it.
+        if(!hand.checkIfSpaceForMonster())
+        {
+            for(int i=0; i < hand.getMonsertCards().length;i++)
+            {
+                if(!cardZones[i].isActive())
                 {
+                    if(hand.getMonsertCards()[i].getLevel() == CardLevel.UNDERGRAD
+                            && hand.getMonsertCards()[i].getAttackValue() > hand.getMonsertCards()[bestCardIndex].getAttackValue())
+                    {
+                        bestCardIndex = i;
+                    }
 
-                    bestCardIndex =  i;
+
                 }
-
-
             }
         }
-        playCard(hand.getCardFromHand(bestCardIndex),cardZones);
+
+
+        playCard(hand.getMonsertCards()[bestCardIndex],cardZones);
     }
 //test
 
@@ -89,7 +89,7 @@ public class Brain {
     // brians method,
     // this method will choose which zone to play the card on then drag it to that zone.
     //40111707
-    public void playCard(BasicCard card,CardZone [] cardZones) {
+    public void playCard(MonsterCard card,CardZone [] cardZones) {
         boolean found = false;
         // you need to allocate a zone for the card to be sent to
         // requires a seek method, it should send the card to the correct zone, then also give the card zone that card as its current card.
@@ -147,23 +147,22 @@ public class Brain {
     //40111707
     // this method allows the Ai to check if it is holding mana within its hand, if it is it should be played.
     // at the minute it is only playing the first mana type that it comes across.
-    public void playMana(Hand hand, ManaCounter manaCounter){
+    public void playMana(HandChange hand, ManaCounter manaCounter){
         int i =0;
         boolean manaCardFound =false;
-        while( manaCardFound = false){
-            if(hand.getCardFromHand(i) instanceof ManaCard)
-            {
-                /*
+        while( manaCardFound = false && i < hand.getManaCards().length){
 
-                if(whichManaDoINeedTheMost(hand,manaCounter).equals(((ManaCard) hand.getCardFromHand(i)).getManaType()))
+/*              YOU NEED TO REVERT THE CARDS BACK TO THEIR ORIGINAL VARIABLES
+
+                if(whichManaDoINeedTheMost(hand,manaCounter).equals( hand.getManaCards()[i].getManaType()))
                 {
                     manaCardFound =true;
-                    manaCounter.addMana(((ManaCard) hand.getCardFromHand(i)).getManaType());
+                    manaCounter.addMana( hand.getManaCards()[i].getManaType());
                 }
 
-                */
+*/
 
-            }
+
             i++;
         }
     }
@@ -172,22 +171,21 @@ public class Brain {
     // 40111707
     // this method finds the manatype that the Ai will need the most depeneing on the cards that are
     // currently in its hand
-    public ManaTypes whichManaDoINeedTheMost(Hand hand,ManaCounter manaCounter){
+    public ManaTypes whichManaDoINeedTheMost(HandChange hand,ManaCounter manaCounter){
         HashMap<ManaTypes,Integer> temp = new HashMap<ManaTypes,Integer>();
         int highestNeedMana=0;
         ManaTypes key1 = null;
 
         // this loop is used to count all of the mana requirements of the monstercards within the hand.
-        for(int i=0; i < hand.getHand().length;i++ )
+        for(int i=0; i < hand.getMonsertCards().length;i++ )
         {
-            if(hand.getCardFromHand(i) instanceof  MonsterCard)
-            {
+
                 for (ManaTypes key:manaCounter.getManaCounterHashMap().keySet())
                 {
-                    temp.put(key,temp.get(key)+((MonsterCard)hand.getCardFromHand(i)).getAttackManaRequirement().get(key) ) ;
+                    temp.put(key,temp.get(key)+(hand.getMonsertCards()[i]).getAttackManaRequirement().get(key) ) ;
                 }
 
-            }
+
 
         }
         // this loop is used to find the mana type that will have the highest need.

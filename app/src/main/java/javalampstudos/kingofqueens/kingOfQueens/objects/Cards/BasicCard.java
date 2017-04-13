@@ -13,7 +13,7 @@ public class BasicCard extends GameObject
 
 {
 
-        private ManaTypes cardSchool;
+        private CardSchools cardSchool;
 
         // monitors whether or not a card is destroyed
         public boolean destroyed;
@@ -30,7 +30,7 @@ public class BasicCard extends GameObject
 
         // Modified by Andrew - 27/03/17
         public BasicCard(int x, int y, int width, int height, Bitmap Sprite, boolean player, int id,
-                         ManaTypes cardSchool, boolean destroyed, int pointerID)
+                         CardSchools cardSchool, boolean destroyed, int pointerID)
         {
             super(x, y, width, height, Sprite, player);
             this.id = id;
@@ -42,13 +42,15 @@ public class BasicCard extends GameObject
 
         // getters and setters
 
-        public ManaTypes getCardSchool() {return cardSchool;}
+    public void setCardSchool(CardSchools cardSchool) {
+        this.cardSchool = cardSchool;
+    }
 
-        public void setCardSchool(ManaTypes cardSchool) { this.cardSchool = cardSchool;}
+    public CardSchools getCardSchool() {
+        return cardSchool;
+    }
 
-
-
-        public boolean isDestroyed() {
+    public boolean isDestroyed() {
             return destroyed;
         }
 

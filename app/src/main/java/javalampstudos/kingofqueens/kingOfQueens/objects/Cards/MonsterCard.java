@@ -16,6 +16,7 @@ public class MonsterCard extends BasicCard
         private final double attackBonus = 0.3;
         private CardLevel level; // ENUM
         private int health,defence,attackValue,evolutionID;
+        private ManaTypes manaType;
         // holds a list of the mana types required
          private HashMap<ManaTypes, Integer> attackManaRequirement;
 
@@ -24,18 +25,20 @@ public class MonsterCard extends BasicCard
         // Modified by Andrew - 27/03/17
         // constructor
 
-    public MonsterCard(int x, int y, int width, int height, Bitmap Sprite, boolean player, int id, ManaTypes cardSchool,
-                       boolean destroyed, int pointerID,CardLevel level, int health, int defence,
-                       int attackValue,int evolutionID, HashMap<ManaTypes, Integer> attackManaRequirement) {
+    public MonsterCard(int x, int y, int width, int height, Bitmap Sprite, boolean player, int id,
+                       CardSchools cardSchool, boolean destroyed, int pointerID, CardLevel level,
+                       int health, int defence, int attackValue, int evolutionID, ManaTypes manaType,
+                       HashMap<ManaTypes, Integer> attackManaRequirement) {
         super(x, y, width, height, Sprite, player, id, cardSchool, destroyed, pointerID);
-        this.id = id;
         this.level = level;
         this.health = health;
         this.defence = defence;
         this.attackValue = attackValue;
         this.evolutionID = evolutionID;
+        this.manaType = manaType;
         this.attackManaRequirement = attackManaRequirement;
     }
+
 
     // Set the source and destination rects
 
@@ -135,18 +138,18 @@ public class MonsterCard extends BasicCard
     // if the combination fits then it returns true, this then allows for the 1.5X multiplier to be added to the attack.
     // 40111707
     // brian
-    public boolean compareCardAttackBonus(ManaTypes attackingCard, ManaTypes defendingCard) {
-        if (attackingCard == ManaTypes.MEDICS_MANA && defendingCard == ManaTypes.EEECS_MANA) {
+    public boolean compareCardAttackBonus(CardSchools attackingCard, CardSchools defendingCard) {
+        if (attackingCard == CardSchools.MEDICS && defendingCard == CardSchools.EEECS) {
             return true;
-        } else if (attackingCard == ManaTypes.EEECS_MANA && defendingCard == ManaTypes.ARTS_HUMANITIES_MANA) {
+        } else if (attackingCard == CardSchools.EEECS && defendingCard == CardSchools.ARTS_HUMANITIES) {
             return true;
-        } else if (attackingCard == ManaTypes.ARTS_HUMANITIES_MANA && defendingCard == ManaTypes.MEDICS_MANA) {
+        } else if (attackingCard == CardSchools.ARTS_HUMANITIES && defendingCard == CardSchools.MEDICS) {
             return true;
-        } else if (attackingCard == ManaTypes.ENGINEERING_MANA && defendingCard == ManaTypes.SOCIAL_SCIENCES_MANA) {
+        } else if (attackingCard == CardSchools.ENGINEERING && defendingCard == CardSchools.SOCIAL_SCIENCES) {
             return true;
-        } else if (attackingCard == ManaTypes.BUILT_ENVIRONMENT_MANA && defendingCard == ManaTypes.ENGINEERING_MANA) {
+        } else if (attackingCard == CardSchools.BUILT_ENVIORNMENT&& defendingCard == CardSchools.ENGINEERING) {
             return true;
-        } else if (attackingCard == ManaTypes.SOCIAL_SCIENCES_MANA && defendingCard == ManaTypes.BUILT_ENVIRONMENT_MANA) {
+        } else if (attackingCard == CardSchools.SOCIAL_SCIENCES && defendingCard == CardSchools.BUILT_ENVIORNMENT) {
             return true;
         } else {
             return false;

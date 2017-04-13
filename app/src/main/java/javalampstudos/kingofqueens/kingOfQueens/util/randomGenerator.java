@@ -20,6 +20,7 @@ public class randomGenerator
     // Move the arguments here
     int [] playerHasAppeared;
     int counter;
+    // used to determine which cardType your talking about.
 
     Random rand;
 
@@ -29,6 +30,7 @@ public class randomGenerator
 
     {
         // Instantiate
+
         playerHasAppeared = new int [40];
 
 
