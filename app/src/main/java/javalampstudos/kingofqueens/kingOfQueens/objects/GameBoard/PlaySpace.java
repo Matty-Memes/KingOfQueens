@@ -16,14 +16,14 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.ManaCounter;
 public class PlaySpace extends GameObject {
     private final int maxLifeValue = 6;
     private Deck deck;
-    private Hand hand;
+    private HandChange hand;
     private int life;
     private graveYard GraveYard;
     private ManaCounter manaCounter;
     private CardZone [] cardZones;
 
     public PlaySpace(float x, float y, int width, int height,
-                     Bitmap sprite, boolean player, Deck deck, Hand hand, int life,
+                     Bitmap sprite, boolean player, Deck deck, HandChange hand, int life,
                      graveYard graveYard, ManaCounter manaCounter, CardZone[] cardZones,
                      int currentCard, int deckSize) {
         super(x, y, width, height, sprite, player);
@@ -45,11 +45,11 @@ public class PlaySpace extends GameObject {
         this.deck = deck;
     }
 
-    public Hand getHand() {
+    public HandChange getHand() {
         return hand;
     }
 
-    public void setHand(Hand hand) {
+    public void setHandChange(HandChange hand) {
         this.hand = hand;
     }
 
@@ -138,7 +138,7 @@ public class PlaySpace extends GameObject {
 
     int currentCard =0;
     int deckSize = 30;
-    public void addToHand(BasicCard card)
+   /* public void addToHand(BasicCard card)
     {
         //checks if there is room in the hand
         if (currentCard< 9)
@@ -152,7 +152,7 @@ public class PlaySpace extends GameObject {
         else;
             //move card to the graveyard
 
-    }
+    }*/
 
     //MATT:takes the information of the card currently held by the player/AI and the card placed in the CardZone and swaps the cards if the criteria is met
 //    public void evolve(MonsterCard heldCard)

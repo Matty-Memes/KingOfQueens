@@ -60,24 +60,23 @@ public class Brain {
 // 40111707
     // brians method
     // this method checks to see if the Ai can evolve a card currently in play to the next level.
-    public void canIEvolve(CardZone [] aiCardZone, Hand hand){
+    public void canIEvolve(CardZone [] aiCardZone, HandChange hand){
        int nextLevelMonsterIndex = -1;
         int previousLevelMonsterIndex =-1;
         boolean upgradeableCard =false;
-        for(int i=0; i < hand.getHand().length && !upgradeableCard;i++)
+        for(int i=0; i < hand.getMonsertCards().length && !upgradeableCard;i++)
         {
             for(int j=0; j<aiCardZone.length; j++)
             {
-                if(hand.getCardFromHand(i) instanceof  MonsterCard)
-                {
+
                     // put in matthews method here !!!
-                    if(((MonsterCard) hand.getCardFromHand(i)).evolutionCheck(aiCardZone[j].getCurrentCard(),((MonsterCard) hand.getCardFromHand(i))) )
+                    if(hand.getMonsertCards()[i].evolutionCheck(aiCardZone[j].getCurrentCard(),hand.getMonsertCards()[i]) )
                     {
                         nextLevelMonsterIndex = i;
                         previousLevelMonsterIndex =j;
                         upgradeableCard = true;
                     }
-                }
+
             }
         }
 

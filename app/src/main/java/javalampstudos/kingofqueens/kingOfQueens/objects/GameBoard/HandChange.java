@@ -36,6 +36,8 @@ public class HandChange extends GameObject {
         manaCards = new ManaCard[MANA_AMOUNT];
        flags = new boolean[6];
 
+
+        // all of the cards need to be set up in here to the correct positions
     }
 
 
