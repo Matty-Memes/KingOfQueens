@@ -152,15 +152,14 @@ public class Brain {
         boolean manaCardFound =false;
         while( manaCardFound = false && i < hand.getManaCards().length){
 
-/*              YOU NEED TO REVERT THE CARDS BACK TO THEIR ORIGINAL VARIABLES
-
+//              YOU NEED TO REVERT THE CARDS BACK TO THEIR ORIGINAL VARIABLES
                 if(whichManaDoINeedTheMost(hand,manaCounter).equals( hand.getManaCards()[i].getManaType()))
                 {
-                    manaCardFound =true;
+
                     manaCounter.addMana( hand.getManaCards()[i].getManaType());
+                    manaCardFound =true;
                 }
 
-*/
 
 
             i++;
@@ -196,17 +195,17 @@ public class Brain {
                 highestNeedMana = temp.get(key);
 
             }
-            if(temp.get(key) == highestNeedMana)
-            {
-                key1 = key;
-            }
+
         }
 
 
         // this loop is for finding the key of the manaType that has the highest need.
         for (ManaTypes key:temp.keySet())
         {
-
+            if(temp.get(key) == highestNeedMana)
+            {
+                key1 = key;
+            }
         }
 
 
@@ -223,12 +222,12 @@ public class Brain {
     {
         final int LOWEST_HEALTH_SCORE =10;
         // this section of the method finds the enemeys card with the lowest defence, then stores its index
-        int indexForCardWithLowestDef =-1;
+        int indexForCardWithLowestDef =0;
         if(checkAllZonesAreActive(enemyCardZone)) // a mthod to see if there is any cards on the baord?
         {
-            for(int i=0; i < enemyCardZone.length; i++)
+            for(int i=1; i < enemyCardZone.length; i++)
             {
-                if(enemyCardZone[i].getCurrentCard().getDefence() < enemyCardZone[i+1].getCurrentCard().getDefence())
+                if(enemyCardZone[i].getCurrentCard().getDefence() > enemyCardZone[indexForCardWithLowestDef].getCurrentCard().getDefence())
                 {
                     indexForCardWithLowestDef =i;
                 }
@@ -253,7 +252,7 @@ public class Brain {
         }
 
         // calling the ais monster to attack the enemey card if they have found suitbanle targets.
-        if(indexForCardToAttackWith > -1 && indexForCardWithLowestDef >-1) {
+        if(indexForCardToAttackWith > -1 && indexForCardWithLowestDef >=0) {
             aiCardZone[indexForCardToAttackWith].getCurrentCard().attack(enemyCardZone[indexForCardWithLowestDef].getCurrentCard());
         }else{
             // do nothing.
