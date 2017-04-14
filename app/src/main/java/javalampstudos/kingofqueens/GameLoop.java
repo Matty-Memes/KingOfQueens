@@ -619,8 +619,8 @@ public class GameLoop implements Runnable
                 if(attackRect.contains((int) x, (int) y) && attack && dragActive)
 
                 {
-                  monstersInPlay.get(monsterIndex).x = x;
-                  monstersInPlay.get(monsterIndex).y = y;
+                    playerPlaySpace.getCardZones()[monsterIndex].getCurrentCard().x = x;
+                    playerPlaySpace.getCardZones()[monsterIndex].getCurrentCard().y = y;
 
                 }
 
@@ -734,8 +734,8 @@ public class GameLoop implements Runnable
 
 
 
-                    if (MSlot1Rect.contains((int)handCards.get(handIndex).x, (int)handCards.get(handIndex).y) && placement
-                          && handCards.get(handIndex).id == 0)
+                    if (MSlot1Rect.contains((int)playerPlaySpace.getHand().getMonsertCards()[handIndex].x, (int)playerPlaySpace.getHand().getMonsertCards()[handIndex].y) && placement
+                          && playerPlaySpace.getHand().getMonsertCards()[handIndex].id == 0)
 
                 {
 
@@ -743,8 +743,8 @@ public class GameLoop implements Runnable
                     dragActive = false;
 
                    // get rid of the hand card
-                   handCards.get(handIndex).destroyed = true;
 
+                    playerPlaySpace.getHand().getMonsertCards()[handIndex].destroyed = true;
                    // update the bitmap of the monster card and lock it at the right slot
                   /* monsterCard1.sprite = handCards.get(handIndex).sprite;
                    monsterCard1.x = 234;
@@ -760,8 +760,8 @@ public class GameLoop implements Runnable
                 }
 
 
-                    if (MSlot2Rect.contains((int)handCards.get(handIndex).x, (int)handCards.get(handIndex).y) && placement
-                        && handCards.get(handIndex).id == 0)
+                    if (MSlot2Rect.contains((int)playerPlaySpace.getHand().getMonsertCards()[handIndex].x, (int)playerPlaySpace.getHand().getMonsertCards()[handIndex].y) && placement
+                        && playerPlaySpace.getHand().getMonsertCards()[handIndex].id == 0)
 
                     {
 
@@ -769,7 +769,7 @@ public class GameLoop implements Runnable
                         dragActive = false;
 
                         // get rid of the hand card
-                        handCards.get(handIndex).destroyed = true;
+                        playerPlaySpace.getHand().getMonsertCards()[handIndex].destroyed = true;
 
                         // update the bitmap of the monster card and lock it at the right slot
                      /*   monsterCard2.sprite = handCards.get(handIndex).sprite;      CARDZONE LOGIC
@@ -784,15 +784,15 @@ public class GameLoop implements Runnable
 
                     }
 
-                    if (MSlot3Rect.contains((int)handCards.get(handIndex).x, (int)handCards.get(handIndex).y) && placement
-                            && handCards.get(handIndex).id == 0)
+                    if (MSlot3Rect.contains((int)playerPlaySpace.getHand().getMonsertCards()[handIndex].x, (int)playerPlaySpace.getHand().getMonsertCards()[handIndex].y) && placement
+                            && playerPlaySpace.getHand().getMonsertCards()[handIndex].id == 0)
 
                     {
                         // no more card movement
                         dragActive = false;
 
                         // get rid of the hand card
-                        handCards.get(handIndex).destroyed = true;
+                        playerPlaySpace.getHand().getMonsertCards()[handIndex].destroyed = true;
 
                         // update the bitmap of the monster card and lock it at the right slot
                         /*monsterCard3.sprite = handCards.get(handIndex).sprite;
@@ -844,11 +844,11 @@ public class GameLoop implements Runnable
 
                     // Mana Handling
 
-                    // && handCards.get(handIndex) instanceof ManaCard
+
 
                     // Only accept mana cards
-                    if (manaRect.contains((int)handCards.get(handIndex).x, (int)handCards.get(handIndex).y)
-                            && handCards.get(handIndex).id == 1 && manaflag)
+                    if (manaRect.contains((int)playerPlaySpace.getHand().getManaCards()[handIndex].x, (int)playerPlaySpace.getHand().getManaCards()[handIndex].y)
+                            && playerPlaySpace.getHand().getManaCards()[handIndex].id == 1 && manaflag)
 
                     {
                             // no more dragging now the mana has been placed
@@ -1111,7 +1111,8 @@ public class GameLoop implements Runnable
         for (int i = 0; i < handCards.size(); i++)
 
         {
-            handCards.get(i).update();
+            playerPlaySpace.getHand().getManaCards()[i].update();
+            playerPlaySpace.getHand().getMonsertCards()[i].update();
 
         }
 
