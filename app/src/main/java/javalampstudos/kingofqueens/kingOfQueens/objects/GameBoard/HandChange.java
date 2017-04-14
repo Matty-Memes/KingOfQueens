@@ -20,14 +20,14 @@ import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 
 public class HandChange extends GameObject {
 
-    private final int MONSTER_AMOUNT =3;
+    private final int MONSTER_AMOUNT =2;
     private final int MANA_AMOUNT =2;
     private final int SUPPORT_AMOUNT =1;
 
-    MonsterCard monsertCards [];
+    private MonsterCard monsertCards [];
     boolean flags [];
-    ManaCard manaCards [];
-    SupportCard supportcardOne;
+    private ManaCard manaCards [];
+    private SupportCard supportcardOne;
 
     public HandChange(float x, float y, int width, int height, Bitmap sprite, boolean player) {
         super(x, y, width, height, sprite, player);

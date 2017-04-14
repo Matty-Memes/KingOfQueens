@@ -13,7 +13,7 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.ManaCounter;
  * Created by Matt on 06/02/2017.
  */
 
-public class PlaySpace extends GameObject {
+public class PlaySpace  {
     private final int maxLifeValue = 6;
     private Deck deck;
     private HandChange hand;
@@ -22,14 +22,13 @@ public class PlaySpace extends GameObject {
     private ManaCounter manaCounter;
     private CardZone [] cardZones;
 
-    public PlaySpace(float x, float y, int width, int height,
-                     Bitmap sprite, boolean player, Deck deck, HandChange hand, int life,
+    public PlaySpace( Deck deck, HandChange hand,
                      graveYard graveYard, ManaCounter manaCounter, CardZone[] cardZones,
                      int currentCard, int deckSize) {
-        super(x, y, width, height, sprite, player);
+
         this.deck = deck;
         this.hand = hand;
-        this.life = life;
+        this.life = maxLifeValue;
         GraveYard = graveYard;
         this.manaCounter = manaCounter;
         this.cardZones = new CardZone[3];

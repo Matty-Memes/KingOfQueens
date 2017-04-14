@@ -1,19 +1,21 @@
 package javalampstudos.kingofqueens.kingOfQueens.objects;
 
+import android.graphics.Bitmap;
+
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.MonsterCard;
 
 /**
  * Created by brian on 14/02/2017.
  */
 
-public class graveYard {
+public class graveYard extends GameObject {
     public  final int maxGraveYardSize = 5;
     private int graveCounter;
     private MonsterCard graveYard [] = new MonsterCard[maxGraveYardSize];
-    public graveYard( )
-    { // NOTE not to sure about the intialising of the array to contain graveyard - in here or where it is ?
 
-        setGraveCounter(0);
+    public graveYard(float x, float y, int width, int height, Bitmap sprite, boolean player) {
+        super(x, y, width, height, sprite, player);
+        this.graveCounter = 0;
     }
 
     public int getGraveCounter() {

@@ -20,6 +20,7 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.*;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 import javalampstudos.kingofqueens.kingOfQueens.engine.SFX.SoundFX;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.ManaCounter;
+import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.PlaySpace;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.boardLayout;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
 import javalampstudos.kingofqueens.kingOfQueens.util.randomGenerator;
@@ -50,6 +51,10 @@ public class GameLoop implements Runnable
 
     // delcaring Brians AiBrain
    public Brain aiBrain;
+    // delcaring the playspace objects
+    // brian
+    public PlaySpace playerPlaySpace;
+    public PlaySpace aiPlaySpace;
 
     // instantiate CanvasFragment
     public CanvasFragment fragment;
@@ -263,24 +268,9 @@ public class GameLoop implements Runnable
 
     // Declare card backs here
 
-    public BasicCard graveYard;
-    public BasicCard deck;
 
     // These are temporary cards for checking positions
 
-    // hand Cards
-
-    public BasicCard handCard1;
-    public BasicCard handCard2;
-    public BasicCard handCard3;
-    public BasicCard handCard4;
-    public BasicCard handCard5;
-
-    // Monster Cards
-
-    public MonsterCard monsterCard1;
-    public MonsterCard monsterCard2;
-    public MonsterCard monsterCard3;
 
     // booleans
     public boolean addToHand;
@@ -323,27 +313,13 @@ public class GameLoop implements Runnable
     // ARRAY LISTS OF CARDS
     public ArrayList<BasicCard> monsterCards = new ArrayList<BasicCard>();
     public ArrayList<ManaCard> manaCards = new ArrayList<ManaCard>();
-    public ArrayList<SupportCard> supportCards = new ArrayList<SupportCard>();
+
 
     // These keep track of and draw the actual cards
 
     public ArrayList<BasicCard> handCards = new ArrayList<>();
     public ArrayList<MonsterCard> monstersInPlay = new ArrayList<>();
 
-    // Opponent card variables
-    public MonsterCard opponent1;
-    public MonsterCard opponent2;
-    public MonsterCard opponent3;
-
-    // Mana Counters for each type
-    /*andyManaCounter engineering;
-    andyManaCounter artsAndHumanities;
-    andyManaCounter builtEnvironment;
-    andyManaCounter eeecs;
-    andyManaCounter Medic;*/
-
-    // brians test for mc
-    ManaCounter manaTest;
 
     // GameLoop Constructor
     public GameLoop (CanvasFragment fragment, int width, int height)
@@ -383,78 +359,18 @@ public class GameLoop implements Runnable
         // load assets - sprite now exists
         loadAssets ();
 
-        // EXAMPLE CARDS TO TEST
-
-        // 90,120 - standard card width and height - this should be set in BasicCard
-
-        // Use these for the touch rects as well
-
-
-        // Draw monster cards in each of the 3 slots
-
-        // Slot 1
-
-
-        // ANDREW: the code below was causing an erro because of monstercards constructor. it needs to be given a hashman with the right values.
-        HashMap<ManaTypes,Integer> requiredMana = new HashMap<ManaTypes,Integer>();
-        requiredMana.put(ManaTypes.BUILT_ENVIRONMENT_MANA,5);
-        // Geologist = new MonsterCard(20, 350, 90, 120, GeoSprite, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3,requiredMana);
-
-        Geologist = new MonsterCard(0, 0, 0, 0, GeoSprite, true, 0, CardSchools.MEDICS, false, 49,CardLevel.DOCTRATE, 140, 0, 3,10, requiredMana);
-        DataAdmin = new MonsterCard(0, 0, 0, 0, DataAdminSprite, true, 0, CardSchools.MEDICS, false, 49, CardLevel.GRAD, 140, 0, 2,16, requiredMana);
-        HackerMan = new MonsterCard(0, 0, 0, 0, HackerManSprite, true, 0, CardSchools.MEDICS, false, 49, CardLevel.DOCTRATE, 140, 0, 3,16, requiredMana);
-        Psychologist = new MonsterCard(0, 0, 0, 0, PsychologistSprite, true, 0, CardSchools.MEDICS, false, 49, CardLevel.DOCTRATE, 140, 0, 3,12, requiredMana);
-        Sociologist = new MonsterCard(0, 0, 0, 0, SociologistSprite, true, 0, CardSchools.MEDICS, false, 49,CardLevel.DOCTRATE, 140, 0, 3,4, requiredMana);
-
-        // Make 5 mana cards for testing
-        EEECS = new ManaCard(0, 0, 90, 120, eeecsManaSprite, true, 1, ManaTypes.EEECS_MANA,CardSchools.MEDICS, false, 49);
-        BuiltEnvironment = new ManaCard(0, 0, 90, 120, builtEnvironmentManaSprite, true, 1,  ManaTypes.BUILT_ENVIRONMENT_MANA,CardSchools.MEDICS, false, 49);
-        MedicalScience = new ManaCard(0, 0, 90, 120, medicalManaSprite, true, 1,ManaTypes.MEDICS_MANA,CardSchools.MEDICS, false, 49);
-        SocialSciences = new ManaCard(0, 0, 90, 120, socialScienceSprite, true, 1, ManaTypes.SOCIAL_SCIENCES_MANA,CardSchools.MEDICS, false, 49);
-        ArtsandHumanities = new ManaCard(0, 0, 90, 120, artsManaSprite, true, 1, ManaTypes.ARTS_HUMANITIES_MANA,CardSchools.MEDICS,false, 49);
-        Engineering = new ManaCard(0, 0, 90, 120, engineeringManaSprite, true, 1, ManaTypes.ENGINEERING_MANA, CardSchools.MEDICS, false, 49);
-
-        // Load the created cards into the cardList array
-
-        cardList[0] = DataAdmin;
-        cardList[1] = HackerMan;
-        cardList[2] = Psychologist;
-        cardList[3] = Sociologist;
-        cardList[4] = Geologist;
-
-        // Mana Cards
-        cardList[5] = EEECS;
-        cardList[6] = BuiltEnvironment;
-        cardList[7] = MedicalScience;
-        cardList[8] = ArtsandHumanities;
-        cardList[9] = Engineering;
-
-
-
-        // Opponent card
-        opponentCard1 = new MonsterCard(234, 100, 90, 120, cardBackSprite, false, 0, CardSchools.MEDICS, false, 49, CardLevel.DOCTRATE, 140, 0, 3,1, requiredMana);
-        opponentCard2 = new MonsterCard(434, 100, 90, 120, cardBackSprite, false, 0, CardSchools.MEDICS, false, 49, CardLevel.DOCTRATE, 140, 0, 3,4, requiredMana);
-        opponentCard3 = new MonsterCard(634, 100, 90, 120, cardBackSprite, false, 0, CardSchools.MEDICS, false, 49, CardLevel.DOCTRATE, 140, 0, 3,8, requiredMana);
 
 
 
 
-      /*
 
-            NOTE:DREWBIE THE  IMPLEMENTATION BELOW IS CORRECT
-        MonsterCard geol = new MonsterCard(20,350,90,120,GeoSprite,false,49,
-                CardLevel.UNDERGRAD,140,70,CardSchools.EEECS,20,attack2ManaRequiredHM);
-        // Slot 2
 
-        // Slot 3
-
-       */
 
         // POSITIONING THE HAND
 
         // The first gap is slightly larger to make it obvious the deck is seperate
 
-        handCard1 = new BasicCard(234, 410, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
+        /*handCard1 = new BasicCard(234, 410, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
                 49);
 
         // The rest of the gaps should be either 10 or 20
@@ -466,76 +382,56 @@ public class GameLoop implements Runnable
         handCard4 = new BasicCard(534, 410, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
                 49);
         handCard5 = new BasicCard(634, 410, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
-                49);
+                49);*/
 
         // Put the hand cards in the array
 
-        handCards.add(handCard1);
-        handCards.add(handCard2);
-        handCards.add(handCard3);
-        handCards.add(handCard4);
-        handCards.add(handCard5);
 
         // Positioning the monsters
 
-        monsterCard1 = new MonsterCard(234, 280, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
+       /* monsterCard1 = new MonsterCard(234, 280, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
                 49, CardLevel.DOCTRATE, 140, 0, 3, 1, requiredMana);
         monsterCard2 = new MonsterCard(434, 280, 90, 120, cardBackSprite, true, 3,CardSchools.MEDICS, false,
                 49, CardLevel.DOCTRATE, 140, 0, 3,1, requiredMana);
         monsterCard3 = new MonsterCard(634, 280, 90, 120, cardBackSprite, true, 3,CardSchools.MEDICS, false,
                 49, CardLevel.DOCTRATE, 140, 0, 3, 1, requiredMana);
-
+*/
         // Put the monster cards in the array
 
-        monstersInPlay.add(monsterCard1);
-        monstersInPlay.add(monsterCard2);
-        monstersInPlay.add(monsterCard3);
 
         // hand
 
         // Draw the graveyard pile
-        graveYard = new BasicCard(800, 280, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
-            49);
+        /*graveYard = new BasicCard(800, 280, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
+            49);*/
 
         // y co-ordinate is a gap of 50 plus half the card size
 
         // x is half the height less than the total card size
-        deck = new BasicCard(800, 410, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
-                49);
+        /*deck = new BasicCard(800, 410, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
+                49);*/
 
         // Declare and use the mana zone
         // There should be a proper non-abstract class for this kind of object
-        manaZone = new BasicCard(100, 340, 140, 240, manaZoneSprite, true, 3, CardSchools.MEDICS, false, 49);
-
+       /* manaZone = new BasicCard(100, 340, 140, 240, manaZoneSprite, true, 3, CardSchools.MEDICS, false, 49);
+*/
         rand = new randomGenerator();
 
-      /*  engineering = new andyManaCounter(100, 250, "0");
-        artsAndHumanities = new andyManaCounter(100, 290 , "0");
-        builtEnvironment = new andyManaCounter(100, 335, "0");
-        eeecs = new andyManaCounter(100, 380, "0");
-        Medic = new andyManaCounter(100, 430, "0");*/
 
 
-        // brians manaTest made
-        manaTest = new ManaCounter();
 
+
+        // iniatlising the Playspaces
+        // brian
+       // aiPlaySpace = new PlaySpace();
+       // playerPlaySpace = new PlaySpace();
         // initialzing AiBrain.
         aiBrain = new Brain();
-        // Initialize hand stuff
-        hand = new BasicCard[5];
-        handPos = 0;
-
-    }
-
-
-    // calculates rects based on the fields of the cards
-    public void calculateRect (int x, int y, int w, int h)
-
-    {
 
 
 
     }
+
 
 
     public void run ()
@@ -701,8 +597,8 @@ public class GameLoop implements Runnable
                 {
                    // how do you know which card this effects
                    // set the index of the array to talk to
-                   handCards.get(handIndex).x = x;
-                   handCards.get(handIndex).y = y;
+                   playerPlaySpace.getHand().getMonsertCards()[handIndex].x = x;
+                    playerPlaySpace.getHand().getMonsertCards()[handIndex].y = y;
 
                 }
 
@@ -712,8 +608,8 @@ public class GameLoop implements Runnable
                     {
                         // how do you know which card this effects
                         // set the index of the array to talk to
-                        handCards.get(handIndex).x = x;
-                        handCards.get(handIndex).y = y;
+                        playerPlaySpace.getHand().getMonsertCards()[handIndex].x = x;
+                        playerPlaySpace.getHand().getMonsertCards()[handIndex].y = y;
 
                     }
 
@@ -850,9 +746,9 @@ public class GameLoop implements Runnable
                    handCards.get(handIndex).destroyed = true;
 
                    // update the bitmap of the monster card and lock it at the right slot
-                   monsterCard1.sprite = handCards.get(handIndex).sprite;
+                  /* monsterCard1.sprite = handCards.get(handIndex).sprite;
                    monsterCard1.x = 234;
-                   monsterCard1.y = 280;
+                   monsterCard1.y = 280;*/
 
                    // the card has been placed
                    placement = false;
@@ -876,9 +772,9 @@ public class GameLoop implements Runnable
                         handCards.get(handIndex).destroyed = true;
 
                         // update the bitmap of the monster card and lock it at the right slot
-                        monsterCard2.sprite = handCards.get(handIndex).sprite;
+                     /*   monsterCard2.sprite = handCards.get(handIndex).sprite;      CARDZONE LOGIC
                         monsterCard2.x = 434;
-                        monsterCard2.y = 280;
+                        monsterCard2.y = 280;*/
 
                         // the card has been placed
                         placement = false;
@@ -899,9 +795,9 @@ public class GameLoop implements Runnable
                         handCards.get(handIndex).destroyed = true;
 
                         // update the bitmap of the monster card and lock it at the right slot
-                        monsterCard3.sprite = handCards.get(handIndex).sprite;
+                        /*monsterCard3.sprite = handCards.get(handIndex).sprite;
                         monsterCard3.x = 634;
-                        monsterCard3.y = 280;
+                        monsterCard3.y = 280;*/
 
                         // the card has been placed
                         placement = false;
@@ -961,50 +857,43 @@ public class GameLoop implements Runnable
                             // Work out which manaCounter object to update
                         // only to get rid of error.
 
-                            switch (manaCards.get(handIndex).getManaType()) // THIS WILL NOT WORK - YOU NEED THE CORRECT OBJECT
+                            switch (playerPlaySpace.getHand().getManaCards()[handIndex].getManaType()) // THIS WILL NOT WORK - YOU NEED THE CORRECT OBJECT
 
                             {
                                 case ARTS_HUMANITIES_MANA:
                                    // artsAndHumanities.incrementCounter();
-                                    manaTest.addMana(ManaTypes.ARTS_HUMANITIES_MANA);
+                                    playerPlaySpace.getManaCounter().addMana(ManaTypes.ARTS_HUMANITIES_MANA);
                                     break;
                                 case ENGINEERING_MANA:
                                 //    engineering.incrementCounter();
-                                    manaTest.addMana(ManaTypes.ENGINEERING_MANA);
+                                    playerPlaySpace.getManaCounter().addMana(ManaTypes.ENGINEERING_MANA);
                                     break;
                                 case BUILT_ENVIRONMENT_MANA:
                                 //    builtEnvironment.incrementCounter();
-                                    manaTest.addMana(ManaTypes.BUILT_ENVIRONMENT_MANA);
+                                    playerPlaySpace.getManaCounter().addMana(ManaTypes.BUILT_ENVIRONMENT_MANA);
                                     break;
                                 case EEECS_MANA:
-                                    manaTest.addMana(ManaTypes.EEECS_MANA);
+                                    playerPlaySpace.getManaCounter().addMana(ManaTypes.EEECS_MANA);
                                  //   eeecs.incrementCounter();
                                     break;
                                 case MEDICS_MANA:
                                 //    Medic.incrementCounter();
-                                    manaTest.addMana(ManaTypes.MEDICS_MANA);
+                                    playerPlaySpace.getManaCounter().addMana(ManaTypes.MEDICS_MANA);
                                     break;
                                 case GENERIC_MANA:
-                                    manaTest.addMana(ManaTypes.GENERIC_MANA);
+                                    playerPlaySpace.getManaCounter().addMana(ManaTypes.GENERIC_MANA);
                                     break;
                                 case SOCIAL_SCIENCES_MANA:
-                                    manaTest.addMana(ManaTypes.SOCIAL_SCIENCES_MANA);
+                                    playerPlaySpace.getManaCounter().addMana(ManaTypes.SOCIAL_SCIENCES_MANA);
 
                             }
 
                         // get the current card off the screen
-                        handCards.get(handIndex).destroyed = true;
+                        playerPlaySpace.getHand().getManaCards()[handIndex].destroyed = true;
 
 
 
-                            // gives a value of 3
 
-                    /* //curently not working
-                      //  here is how to add mana for your arraylist andrew
-                        if(handCards.get(handIndex) instanceof ManaCard) {
-                            manaTest.addMana((ManaCard) handCards.get(handIndex).getManaType());
-                            // manaTest.addMana(ManaTypes.EEECS_MANA);
-                        }*/
 
 
                       // addToMana
@@ -1252,21 +1141,32 @@ public class GameLoop implements Runnable
     private void updateCard ()
 
     {
-        monsterCard1.update();
-        monsterCard2.update();
-        monsterCard3.update();
+        //updating cardZones
+        for(int i=0; i <3; i++)
+        {
+            if(playerPlaySpace.getCardZones()[i].getCurrentCard().destroyed == false)
+            {
+                playerPlaySpace.getCardZones()[i].getCurrentCard().update();
+            }
+
+        }
 
         // Graveyard and deck updates
 
-        graveYard.update();
-        deck.update();
+        playerPlaySpace.getGraveYard().update();
+        playerPlaySpace.getDeck().update();
 
         manaZone.update();
 
         // opponent card
-        opponentCard1.update();
-        opponentCard2.update();
-        opponentCard3.update();
+        for(int j=0; j < 3; j++)
+        {
+            if(aiPlaySpace.getCardZones()[j].getCurrentCard().destroyed == false)
+            {
+                aiPlaySpace.getCardZones()[j].getCurrentCard().update();
+            }
+
+        }
 
 
     }
@@ -1377,12 +1277,12 @@ public class GameLoop implements Runnable
     {
 
       // this fills the hand array
-      for (int i = 0; i < 5; i++)
+      /*for (int i = 0; i < 5; i++)
 
       {
           drawFromDeck(i);
 
-      }
+      }*/
 
 
         // You can't re-run the draw method
@@ -1440,7 +1340,7 @@ public class GameLoop implements Runnable
 
     // modify so the player and opponent can share this
 
-    private void drawFromDeck (int index)
+   /* private void drawFromDeck (int index)
 
     {
         randomIndex = rand.generateRandomNumber();
@@ -1465,7 +1365,7 @@ public class GameLoop implements Runnable
                 handCard1.sprite = cardList[dex].sprite;
                 handCard1.id = cardList[dex].id;
 
-                /*
+                *//*
 
                 if (handCard1.id == 1)
 
@@ -1481,7 +1381,7 @@ public class GameLoop implements Runnable
 
                 }
 
-                */
+                *//*
                 handCard1.setCardSchool(cardList[dex].getCardSchool());
                 break;
             case 1:
@@ -1509,7 +1409,7 @@ public class GameLoop implements Runnable
         // System.out.println("Finished this method");
 
     }
-
+*/
     // keep this for testing
 
     /*

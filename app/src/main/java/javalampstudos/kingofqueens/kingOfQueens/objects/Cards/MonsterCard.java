@@ -110,7 +110,10 @@ public class MonsterCard extends BasicCard
 
         }
 
-
+    public void update()
+    {
+        super.update();
+    }
 
     // Brian's + Matts Method
     public void attack(MonsterCard defendingCard) {
