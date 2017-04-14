@@ -155,12 +155,14 @@ public class PlaySpace extends GameObject {
     }*/
 
     //MATT:takes the information of the card currently held by the player/AI and the card placed in the CardZone and swaps the cards if the criteria is met
-//    public void evolve(MonsterCard heldCard)
-//    {
-//        if(cardZones[1].getCurrentCard().)
-//            cardZones[1].setCurrentCard(heldCard);
-//        //We could throw in some fun animation here if we have the time
-//    }
+    public void evolve(MonsterCard heldCard)
+    {
+        if(cardZones[1].getCurrentCard().evolutionCheck(heldCard))
+            cardZones[1].setCurrentCard(heldCard);
+        //We could throw in some fun animation here if we have the time
+        else;
+            //return heldcard to hand
+    }
 
 
 

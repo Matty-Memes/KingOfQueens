@@ -158,10 +158,10 @@ public class MonsterCard extends BasicCard
     }
 
     //MATT:
-    public boolean evolutionCheck(MonsterCard currentCard, MonsterCard evolutionCandidateCard)
+    public boolean evolutionCheck(MonsterCard evolutionCandidateCard)
     {
-        if((currentCard.evolutionID == evolutionCandidateCard.evolutionID)&& ((currentCard.level == CardLevel.UNDERGRAD) && (evolutionCandidateCard.level == CardLevel.GRAD))
-                ||((currentCard.level==CardLevel.GRAD)&&(evolutionCandidateCard.level==CardLevel.DOCTRATE)))
+        if((evolutionID == evolutionCandidateCard.evolutionID)&& ((level == CardLevel.UNDERGRAD) && (evolutionCandidateCard.level == CardLevel.GRAD))
+                ||((level==CardLevel.GRAD)&&(evolutionCandidateCard.level==CardLevel.DOCTRATE)))
             return true;
         else
             return false;

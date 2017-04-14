@@ -39,12 +39,8 @@ public class ManaCard extends BasicCard
     }
 
     public void draw(Canvas canvas)
-
     {
-
       super.draw(canvas);
-
-
     }
 
 
