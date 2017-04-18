@@ -81,41 +81,26 @@ public class JSONcardLibrary
         while(reader.hasNext())
         {
             String name = reader.nextName();
-            if (name.equals("name"))
+            switch(name)
             {
-                cardName = reader.nextString();
-            }
-            else if(name.equals("cardSchool"))
-            {
-                cardSchool = (CardSchools.valueOf(reader.nextString()));
-            }
-            else if(name.equals("level"))
-            {
-                level = (CardLevel.valueOf(reader.nextString()));
-            }
-            else if(name.equals("health"))
-            {
-                health = reader.nextInt();
-            }
-            else if(name.equals("defence"))
-            {
-                defence = reader.nextInt();
-            }
-            else if(name.equals("attackValue"))
-            {
-                attackValue = reader.nextInt();
-            }
-            else if(name.equals("evolutionID"))
-            {
-                evolutionID = reader.nextInt();
-            }
-            else if(name.equals("attackManaRequirement"))
-            {
-                attackManaRequirements = readManaRequirements(reader);
-            }
-            else
-            {
-                reader.skipValue();
+                case "name":cardName = reader.nextString();
+                    break;
+                case "cardSchool":cardSchool = (CardSchools.valueOf(reader.nextString()));
+                    break;
+                case "level":level = (CardLevel.valueOf(reader.nextString()));
+                    break;
+                case "health":health = reader.nextInt();
+                    break;
+                case "defence":defence = reader.nextInt();
+                    break;
+                case "attackValue":attackValue = reader.nextInt();
+                    break;
+                case "evolutionID":evolutionID = reader.nextInt();
+                    break;
+                case "attackManaRequirement":attackManaRequirements = readManaRequirements(reader);
+                    break;
+                default: reader.skipValue();
+                    break;
             }
         }
         reader.endObject();
@@ -201,11 +186,16 @@ public class JSONcardLibrary
     private Bitmap Turret1 = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Engineering/Turret-1.png");
     private Bitmap Turret2 = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Engineering/Turret-2.png");
     private Bitmap Turret3 = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Engineering/Turret-3.png");
+    private Bitmap AeroSpaceEngineer1 = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Engineering/AeroSpaceEngineer-1");
+    private Bitmap AeroSpaceEngineer2 = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Engineering/AeroSpaceEngineer-2");
 
     //EEECS Monsters
     private Bitmap CodeMonkey = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/EEECS/CodeMonkey.png");
     private Bitmap BananaEngineer = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/EEECS/BananaEngineer.png");
     private Bitmap SeniorBananaEngineer = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/EEECS/SeniorBananaEngineer.png");
+    private Bitmap SQLSeal = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/EEECS/SQLSeal.png");
+    private Bitmap DataAnalyst = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/EEECS/DataAnalyst.png");
+    private Bitmap DataAdmin = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/EEECS/DataAdmin.png");
 
     //Medic Monsters
 
@@ -232,6 +222,23 @@ public class JSONcardLibrary
             case "Turret1": return Turret1;
             case "Turret2": return Turret2;
             case "Turret3": return Turret3;
+            case "AeroSpaceEngineer1":return AeroSpaceEngineer1;
+            case "AeroSpaceEngineer2":return AeroSpaceEngineer2;
+            case "CodeMonkey": return CodeMonkey;
+            case "BananaEngineer": return BananaEngineer;
+            case "SeniorBananaEngineer":return SeniorBananaEngineer;
+            case "SQLSeal":return SQLSeal;
+            case "DataAnalyst":return DataAnalyst;
+            case "DataAdmin":return DataAdmin;
+            case "Nurse":return Nurse;
+            case "Doctor":return Doctor;
+            case "Surgeon":return Surgeon;
+            case "EEECS":return eeecsManaSprite;
+            case "MEDICS":return medicalManaSprite;
+            case "ARTS_HUMANITIES": return artsManaSprite;
+            case "ENGINEERING": return engineeringManaSprite;
+            case "SOCIAL_SCIENCES": return socialScienceSprite;
+            case "BUILT_ENVIROMENT": return builtEnvironmentManaSprite;
             default: return cardBackSprite;
 
         }
