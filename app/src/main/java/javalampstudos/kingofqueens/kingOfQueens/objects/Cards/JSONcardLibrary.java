@@ -1,5 +1,4 @@
 package javalampstudos.kingofqueens.kingOfQueens.objects.Cards;
-import android.content.SyncStatusObserver;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.util.JsonReader;
@@ -12,9 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.MonsterCard;
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaCard;
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.SupportCard;
 
 /*
  * Created by Matt on 13/04/2017.
@@ -196,12 +192,34 @@ public class JSONcardLibrary
     private Bitmap SQLSeal = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/EEECS/SQLSeal.png");
     private Bitmap DataAnalyst = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/EEECS/DataAnalyst.png");
     private Bitmap DataAdmin = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/EEECS/DataAdmin.png");
+    private Bitmap ScriptKiddie = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/EEECS/ScriptKiddie.png");
+    private Bitmap HackerMan = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/EEECS/HackerMan.png");
 
     //Medic Monsters
-
-    private Bitmap Nurse = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Medical/Nurse-1.png");
+    private Bitmap Nurse = AssetLoader.loadBitmap(assetManager, "img/Cards/Monster/Medical/Nurse.png");
     private Bitmap Doctor = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Medical/Doctor.png");
     private Bitmap Surgeon = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Medical/Surgeon.png");
+    private Bitmap Medic = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Medical/Medic.png");
+    private Bitmap FieldMedic = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Medical/FieldMedic.png");
+    private Bitmap ParaMedic = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Medical/ParaMedic.png");
+    private Bitmap Chemist = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Medical/Chemist.png");
+    private Bitmap Pharmacist = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Medical/Pharmacist.png");
+
+    //Social Science Monsters
+    private Bitmap JuniorHistorian = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Arts/JuniorHistorian.png");
+    private Bitmap LegitHistorian = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Arts/LegitHistorian.png");
+    private Bitmap TimeTraveler = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Arts/TimeTraveler.png");
+    private Bitmap Doodler = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Arts/Doodler.png");
+    private Bitmap Sketcher = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Arts/Sketcher.png");
+    private Bitmap Artiste = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Arts/Artiste.png");
+    private Bitmap Tinkerer = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Arts/Tinkerer.png");
+    private Bitmap Craftsman = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Arts/Craftsman.png");
+
+    //Built Enviroment Monsters
+    private Bitmap RockHunter = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/BuildEnvi/RockHunter.png");
+    private Bitmap Geologist = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/BuildEnvi/Geologist.png");
+    private Bitmap GraveDigger = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/BuildEnvi/GraveDigger.png");
+    private Bitmap Archeologist = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/BuildEnvi/Archeologist.png");
 
 
     // ManaSprites
@@ -230,15 +248,34 @@ public class JSONcardLibrary
             case "SQLSeal":return SQLSeal;
             case "DataAnalyst":return DataAnalyst;
             case "DataAdmin":return DataAdmin;
+            case "ScriptKiddie":return ScriptKiddie;
+            case "HackerMan":return HackerMan;
             case "Nurse":return Nurse;
             case "Doctor":return Doctor;
             case "Surgeon":return Surgeon;
+            case "Medic": return Medic;
+            case "FieldMedic":return FieldMedic;
+            case "ParaMedic": return ParaMedic;
+            case "Chemist" : return Chemist;
+            case "Pharmacist" : return Pharmacist;
+            case "JuniorHistorian":return JuniorHistorian;
+            case "LegitHistorian":return LegitHistorian;
+            case "TimeTraveler":return TimeTraveler;
+            case "Doodler":return Doodler;
+            case "Sketcher":return Sketcher;
+            case "Artiste":return Artiste;
+            case "Tinkerer":return Tinkerer;
+            case "Craftsman":return Craftsman;
+            case "RockHunter":return RockHunter;
+            case "Geologist":return Geologist;
+            case "GraveDigger":return GraveDigger;
+            case "Archeologist":return Archeologist;
             case "EEECS":return eeecsManaSprite;
             case "MEDICS":return medicalManaSprite;
             case "ARTS_HUMANITIES": return artsManaSprite;
             case "ENGINEERING": return engineeringManaSprite;
             case "SOCIAL_SCIENCES": return socialScienceSprite;
-            case "BUILT_ENVIROMENT": return builtEnvironmentManaSprite;
+            case "BUILT_ENVIORNMENT": return builtEnvironmentManaSprite;
             default: return cardBackSprite;
 
         }
