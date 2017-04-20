@@ -1,6 +1,7 @@
 package javalampstudos.kingofqueens.kingOfQueens.objects.Cards;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapRegionDecoder;
 import android.util.JsonReader;
 
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javalampstudos.kingofqueens.kingOfQueens.Menu.PauseFragment;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 
 /*
@@ -220,7 +222,19 @@ public class JSONcardLibrary
     private Bitmap Geologist = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/BuildEnvi/Geologist.png");
     private Bitmap GraveDigger = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/BuildEnvi/GraveDigger.png");
     private Bitmap Archeologist = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/BuildEnvi/Archeologist.png");
+    private Bitmap Architect1 = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/BuildEnvi/Architect-1.png");
+    private Bitmap Architect2 = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/BuildEnvi/Architect-2.png");
+    private Bitmap Architect3 = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/BuildEnvi/Architect-3.png");
 
+    //Social Science Monsters
+    private Bitmap Pyschologist1 = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/Pyschologist-1.png");
+    private Bitmap Pyschologist2 = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/Pyschologist-2.png");
+    private Bitmap Pyschologist3 = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/Pyschologist-3.png");
+    private Bitmap Sociologist1 = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/Sociologist-1.png");
+    private Bitmap Sociologist2 = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/Sociologist-2.png");
+    private Bitmap SocialWorker1 = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/SocialWorker-1.png");
+    private Bitmap SocialWorker2 = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/SocialWorker-2.png");
+    private Bitmap SocialWorker3 = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/SocialWorker-3.png");
 
     // ManaSprites
     private Bitmap socialScienceSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Mana/SocialSciencesMana.png");
@@ -270,6 +284,17 @@ public class JSONcardLibrary
             case "Geologist":return Geologist;
             case "GraveDigger":return GraveDigger;
             case "Archeologist":return Archeologist;
+            case "Architect1":return Architect1;
+            case "Architect2":return Architect2;
+            case "Architect3":return Architect3;
+            case "Pyschologist1":return Pyschologist1;
+            case "Pyschologist2":return Pyschologist2;
+            case "Pyschologist3":return Pyschologist3;
+            case "Sociologist1":return Sociologist1;
+            case "Sociologist2":return Sociologist2;
+            case "SocialWorker1":return SocialWorker1;
+            case "SocialWorker2":return SocialWorker2;
+            case "SocialWorker3":return SocialWorker3;
             case "EEECS":return eeecsManaSprite;
             case "MEDICS":return medicalManaSprite;
             case "ARTS_HUMANITIES": return artsManaSprite;
