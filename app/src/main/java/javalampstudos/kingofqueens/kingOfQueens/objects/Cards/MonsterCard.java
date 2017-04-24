@@ -15,7 +15,7 @@ public class MonsterCard extends BasicCard
 {
         private final double attackBonus = 0.3;
         private CardLevel level; // ENUM
-        private int health,defence,attackValue,evolutionID;
+        private int health,defence,attackValue,evolutionID,maxHealth;
 
         // holds a list of the mana types required
          private HashMap<ManaTypes, Integer> attackManaRequirement;
@@ -24,6 +24,8 @@ public class MonsterCard extends BasicCard
         // Brian + Matt
         // Modified by Andrew - 27/03/17
         // constructor
+    //Matt 22/04/17: Added in a maxHealth variable. realised that there would be a bug if we tried to
+    //heal a monster and it didn't have a health limit
 
     public MonsterCard(int x, int y, int width, int height, Bitmap Sprite, boolean player, int id,
                        CardSchools cardSchool, boolean destroyed, int pointerID, CardLevel level,
@@ -32,6 +34,7 @@ public class MonsterCard extends BasicCard
         super(x, y, width, height, Sprite, player, id, cardSchool, destroyed, pointerID);
         this.level = level;
         this.health = health;
+        this.maxHealth = health;
         this.defence = defence;
         this.attackValue = attackValue;
         this.evolutionID = evolutionID;
@@ -64,6 +67,8 @@ public class MonsterCard extends BasicCard
         public void setHealth(int health) {
             this.health = health;
         }
+
+        public int getMaxHealth() {return maxHealth;}
 
         public int getDefence() {
             return defence;
@@ -161,10 +166,10 @@ public class MonsterCard extends BasicCard
     }
 
     //MATT:
-    public boolean evolutionCheck(MonsterCard currentCard, MonsterCard evolutionCandidateCard)
+    public boolean evolutionCheck(MonsterCard evolutionCandidateCard)
     {
-        if((currentCard.evolutionID == evolutionCandidateCard.evolutionID)&& ((currentCard.level == CardLevel.UNDERGRAD) && (evolutionCandidateCard.level == CardLevel.GRAD))
-                ||((currentCard.level==CardLevel.GRAD)&&(evolutionCandidateCard.level==CardLevel.DOCTRATE)))
+        if((evolutionID == evolutionCandidateCard.evolutionID)&& ((level == CardLevel.UNDERGRAD) && (evolutionCandidateCard.level == CardLevel.GRAD))
+                ||((level==CardLevel.GRAD)&&(evolutionCandidateCard.level==CardLevel.DOCTRATE)))
             return true;
         else
             return false;

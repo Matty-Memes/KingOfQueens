@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 
 /**
  * Created by Andrew on 29/03/2017.
+ * Modified by Matt on 22/04/2017
  */
 
 public class SupportCard extends BasicCard
@@ -40,40 +41,39 @@ public class SupportCard extends BasicCard
 
         }
 
-        public void attackBuff(int turns,int attack)
+        public void attackBuff(int turns,int attack,MonsterCard buffedCard)
         {
             active=true;
+            buffedCard.setAttackValue(cardAttack += attack);
             while(active=true)
             {
-
-
-                cardAttack += attack;
                 // TODO: 01/02/2017 When turn structure is implemented, work out how to increment a counter after a turn
                 if(turns==0)
                     active=false;
-            }
-            if (!active)
-            {
                 cardAttack -= attack;
+                buffedCard.setAttackValue(cardAttack);
             }
         }
 
-        public void defenceBuff(int turns, int defence)
+        public void defenceBuff(int turns, int defence,MonsterCard buffedCard)
         {
             active = true;
+            buffedCard.setDefence(cardDefence += defence);
+
             while (active = true)
             {
-                cardDefence += defence;
                 if(turns==0)
                     active=false;
-            }
-            if(!active)
-            {
                 cardDefence -= defence;
+                buffedCard.setDefence(cardDefence);
             }
         }
 
-
-
-
+        public void healBuff(int health,MonsterCard healedCard)
+        {
+            int newHealth = healedCard.getHealth()+ health;
+            if (newHealth> healedCard.getMaxHealth())
+                newHealth=healedCard.getMaxHealth();
+            healedCard.setHealth(newHealth);
+        }
 }
