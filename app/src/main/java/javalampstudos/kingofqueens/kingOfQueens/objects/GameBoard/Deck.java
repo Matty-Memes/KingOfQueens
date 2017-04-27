@@ -41,24 +41,20 @@ public class Deck extends GameObject {
         return deckSize;
     }
 
-    boolean deckSizeCheck(boolean deckMaximum)
-    {
-        if (deckSize>MAXDECKSIZE)
-            return true;
-        else return false;
-    }
 
     /*Deck assembly*/
 
     private ArrayList<MonsterCard> monsterArray = new ArrayList<>(noOfMonsterCards);
     public void addMonstersCards(MonsterCard monsterCard)
     {
-        monsterArray.add(noOfMonsterCards,monsterCard);
+        for(int i = 0; i<noOfMonsterCards;i++)
+        monsterArray.add(monsterCard);
     }
     private ArrayList<ManaCard> manaArray= new ArrayList<>(noOfManaCards);
     public void addManaCards(ManaCard manaCard)
     {
-        manaArray.add(noOfManaCards,manaCard);
+        for(int i = 0; i<noOfManaCards;i++)
+        manaArray.add(manaCard);
 
     }
 
@@ -67,6 +63,12 @@ public class Deck extends GameObject {
     {
         supportArray.add(noOfSupportCards,supportCard);
 
+    }
+    private boolean deckSizeCheck(boolean deckMaximum)
+    {
+        if (deckSize>MAXDECKSIZE)
+            return true;
+        else return false;
     }
 
 
