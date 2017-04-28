@@ -1,6 +1,5 @@
 package javalampstudos.kingofqueens;
 
-
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
@@ -90,7 +89,7 @@ public class GameViewFragment extends CanvasFragment {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
             display.getRealSize(point);
         else
-          //  display.getSize(point);
+            display.getSize(point);
 
         width = point.x;
 
@@ -195,31 +194,27 @@ public class GameViewFragment extends CanvasFragment {
         // draw temp cards for positioning
 
         // hands
-       /* loop.handCard1.draw(canvas);
+        loop.handCard1.draw(canvas);
         loop.handCard2.draw(canvas);
         loop.handCard3.draw(canvas);
         loop.handCard4.draw(canvas);
-        loop.handCard5.draw(canvas);*/
+        loop.handCard5.draw(canvas);
 
-        // monsters
-        /*
         loop.monsterCard1.draw(canvas);
         loop.monsterCard2.draw(canvas);
         loop.monsterCard3.draw(canvas);
-        */
 
         // draw opponent card
-        loop.opponentCard1.draw(canvas);
-        loop.opponentCard2.draw(canvas);
-        loop.opponentCard3.draw(canvas);
-
-        loop.manaZone.draw(canvas);
+        loop.opponent1.draw(canvas);
+        loop.opponent2.draw(canvas);
+        loop.opponent3.draw(canvas);
 
         // deck and graveyard
-        /*loop.graveYard.draw(canvas);
-        loop.deck.draw(canvas);*/
+        loop.graveYard.draw(canvas);
+        loop.deck.draw(canvas);
     }
 
+    // This needs changed anyway
     private void drawMana(Canvas canvas)
 
     {
@@ -229,9 +224,9 @@ public class GameViewFragment extends CanvasFragment {
       loop.eeecs.draw(canvas);
       loop.builtEnvironment.draw(canvas);*/
 
-        // brians method call for the ManaCounter to print its values
+        // brians testing. This is the method that should give all of the values. needs to be uncommented
         // this should be able to draw all of the values for each of the mana types. see Manacounter Class to see positions.
-       loop.playerPlaySpace.getManaCounter().drawValues(loop.playerPlaySpace.getManaCounter().manaCounterToDrawObject(),canvas);
+        loop.manaTest.drawValues(loop.manaTest.manaCounterToDrawObject(),canvas);
 
     }
 
@@ -253,10 +248,10 @@ public class GameViewFragment extends CanvasFragment {
     private void drawMonsterCards(Canvas canvas)
 
     {
-        /*loop.monsterCard1.draw(canvas);
+        loop.monsterCard1.draw(canvas);
         loop.monsterCard2.draw(canvas);
         loop.monsterCard3.draw(canvas);
-*/
+
 
     }
 

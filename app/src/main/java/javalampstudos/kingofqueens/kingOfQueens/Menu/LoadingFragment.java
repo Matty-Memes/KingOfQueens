@@ -76,7 +76,6 @@ public class LoadingFragment extends MenuFragment {
 //                }
 
 
-
             }
         }
 

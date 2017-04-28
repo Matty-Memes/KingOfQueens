@@ -12,31 +12,115 @@ import android.graphics.Rect;
 public class boardLayout
 
 {
-    // Monster Slots
-    Rect monsterSlot1;
-
-
-    // Deck
-
-    // Graveyard
-
-    // Mana Slots
-
-
+    public static Rect movementRect;
+    // hand rects
+    public static Rect handRect1, handRect2, handRect3, handRect4, handRect5;
+    // monster slots
+    public static Rect MSlot1Rect, MSlot2Rect, MSlot3Rect;
+    // graveyard rect
+    public static Rect graveYardRect;
+    // movement rect
+    public static Rect attackRect, playerMovementRect;
+    // mana
+    public static Rect manaRect;
+    // deck rect
+    public static Rect deckRect;
 
     // constructor
-    public boardLayout()
+    public boardLayout(float width, float height)
 
     {
-
+        initializeRects(width, height);
     }
 
 
     // call this during gameSetup
-    public void initializeRects ()
+    public void initializeRects (float width, float height)
 
     {
-      monsterSlot1 = new Rect();
+        // Instantiate new rects here
+
+        movementRect = new Rect ( 0, 0, (int)width, (int)height);
+
+        // hand Rects
+
+        handRect1 = new Rect(
+                (int) (234 - (90 / 2)),
+                (int) (410 - (120 / 2)),
+                (int) (234 + (90 / 2)),
+                (int) (410 + (120 / 2)));
+
+        handRect2 = new Rect(
+                (int) (334 - (90 / 2)),
+                (int) (410 - (120 / 2)),
+                (int) (334 + (90 / 2)),
+                (int) (410 + (120 / 2)));
+
+        handRect3 = new Rect(
+                (int) (434 - (90 / 2)),
+                (int) (410 - (120 / 2)),
+                (int) (434 + (90 / 2)),
+                (int) (410 + (120 / 2)));
+
+        handRect4 = new Rect(
+                (int) (534 - (90 / 2)),
+                (int) (410 - (120 / 2)),
+                (int) (534 + (90 / 2)),
+                (int) (410 + (120 / 2)));
+
+        handRect5 = new Rect(
+                (int) (634 - (90 / 2)),
+                (int) (410 - (120 / 2)),
+                (int) (634 + (90 / 2)),
+                (int) (410 + (120 / 2)));
+
+
+        // Monster Slot Rects
+
+        MSlot1Rect = new Rect(
+                (int) (234 - (90 / 2)),
+                (int) (280 - (120 / 2)),
+                (int) (234 + (90 / 2)),
+                (int) (280 + (120 / 2)));
+
+        MSlot2Rect = new Rect(
+                (int) (434 - (90 / 2)),
+                (int) (280 - (120 / 2)),
+                (int) (434 + (90 / 2)),
+                (int) (280 + (120 / 2)));
+
+        MSlot3Rect = new Rect(
+                (int) (634 - (90 / 2)),
+                (int) (280 - (120 / 2)),
+                (int) (634 + (90 / 2)),
+                (int) (280 + (120 / 2)));
+
+
+        // graveyard and deck rects
+        graveYardRect = new Rect(
+                (int) (800 - (90 / 2)),
+                (int) (280 - (120 / 2)),
+                (int) (800 + (90 / 2)),
+                (int) (280 + (120 / 2)));
+
+        deckRect = new Rect(
+                (int) (800 - (90 / 2)),
+                (int) (410 - (120 / 2)),
+                (int) (800 + (90 / 2)),
+                (int) (410 + (120 / 2)));
+
+        // playerArea
+        playerMovementRect = new Rect((int) 0, (int) (height / 2), (int) width, (int) height);
+
+        // mana stuff
+        manaRect = new Rect(
+                (int) (100 - (140 / 2)),
+                (int) (340 - (240 / 2)),
+                (int) (100 + (140 / 2)),
+                (int) (340 + (240 / 2)));
+
+        // no movement any lower than the bottom of the monster cards
+        attackRect = new Rect(0, 0, 480, 340);
 
 
     }
