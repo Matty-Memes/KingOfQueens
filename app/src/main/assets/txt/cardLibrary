@@ -560,6 +560,11 @@
 
 	],
 	"supportCards":[
+		{
+			"name":"Ointment",
+			"buffType":""
+		}
+
 		
 	]
 

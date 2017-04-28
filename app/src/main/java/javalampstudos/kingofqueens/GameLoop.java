@@ -25,6 +25,7 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.boardLayout;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
 import javalampstudos.kingofqueens.kingOfQueens.util.randomGenerator;
 import javalampstudos.kingofqueens.kingOfQueens.util.andyManaCounter;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.JSONcardLibrary;
 
 
 // Android Imports
@@ -427,6 +428,11 @@ public class GameLoop implements Runnable
        // playerPlaySpace = new PlaySpace();
         // initialzing AiBrain.
         aiBrain = new Brain();
+
+        // attempt to run the parser
+        JSONcardLibrary lib = new JSONcardLibrary(this);
+        // Take a monster card out of the array once it's initialized
+        // lib.monsterCards.get(1);
 
 
 
