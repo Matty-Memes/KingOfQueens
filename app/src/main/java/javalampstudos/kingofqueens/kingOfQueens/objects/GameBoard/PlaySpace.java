@@ -113,7 +113,6 @@ public class PlaySpace  {
 
      // brian method
     //40111707
-    // to be fixed to work with array.
     public boolean checkAllZonesAreActive(){
         boolean allZonesActive =false;
        for(int i=0; i < getCardZones().length || allZonesActive; i++)

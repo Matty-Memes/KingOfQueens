@@ -14,13 +14,13 @@ public class CardZone {
     private boolean active;
     private MonsterCard currentCard;
     private SupportCard currentSupportCard;
-    private Rect Zone;
 
-    public CardZone(boolean active, MonsterCard currentCard, SupportCard currentSupportCard, Rect zone) {
+
+    public CardZone(boolean active, MonsterCard currentCard, SupportCard currentSupportCard) {
         this.active = active;
         this.currentCard = currentCard;
         this.currentSupportCard = currentSupportCard;
-        Zone = zone;
+
     }
 
     public boolean isActive() {
