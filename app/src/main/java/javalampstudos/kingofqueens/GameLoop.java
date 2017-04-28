@@ -207,7 +207,6 @@ public class GameLoop implements Runnable
     // brians test for mc
     ManaCounter manaTest;
 
-
     // AI
 
     // delcaring Brians AiBrain
@@ -258,9 +257,8 @@ public class GameLoop implements Runnable
     public BasicCard graveYard;
     public BasicCard deck;
 
-    // Declare the cardlibrary
-    JSONcardLibrary lib;
-
+    // JSON STUFF
+    JSONcardLibrary lib = new JSONcardLibrary();
 
     // Created by Andrew - 40083349
     public GameLoop (CanvasFragment fragment, int width, int height)
@@ -362,6 +360,9 @@ public class GameLoop implements Runnable
         // Assign cards to this later
         hand = new BasicCard[5];
         handPos = 0;
+
+        // load the library assets
+        lib.loadAssets(this);
 
     }
 
@@ -943,9 +944,6 @@ public class GameLoop implements Runnable
     private void drawFromDeck (int index)
 
     {
-        // attempt to run the JSON parser
-        JSONcardLibrary lib = new JSONcardLibrary(this);
-        System.out.println("Health is " + lib.monsterCards.get(5).getHealth());
 
         randomIndex = rand.generateRandomNumber();
         System.out.println("Random is" + randomIndex);
