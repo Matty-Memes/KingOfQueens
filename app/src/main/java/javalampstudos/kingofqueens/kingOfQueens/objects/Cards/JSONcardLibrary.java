@@ -196,22 +196,21 @@ public class JSONcardLibrary
         HashMap<ManaTypes,Integer> requiredMana = new HashMap<ManaTypes,Integer>();
         requiredMana.put(ManaTypes.BUILT_ENVIRONMENT_MANA,5);
 
-
         Engineer1 = new MonsterCard(0, 0, 90, 120, Engineer1Sprite, true, 0, CardSchools.ENGINEERING,
                 false, 49, CardLevel.UNDERGRAD, 80, 0, 30, 1, requiredMana);
-        Engineer2 = new MonsterCard(0, 0, 90, 120, Engineer1Sprite, true, 0, CardSchools.ENGINEERING,
+        Engineer2 = new MonsterCard(0, 0, 90, 120, Engineer2Sprite, true, 0, CardSchools.ENGINEERING,
                 false, 49, CardLevel.GRAD, 120, 0, 50, 1, requiredMana);
-        Engineer3 = new MonsterCard(0, 0, 90, 120, Engineer1Sprite, true, 0, CardSchools.ENGINEERING,
+        Engineer3 = new MonsterCard(0, 0, 90, 120, Engineer3Sprite, true, 0, CardSchools.ENGINEERING,
                 false, 49, CardLevel.DOCTRATE, 200, 0, 70, 1, requiredMana);
-        Turret1 = new MonsterCard(0, 0, 90, 120, Engineer1Sprite, true, 0, CardSchools.ENGINEERING,
+        Turret1 = new MonsterCard(0, 0, 90, 120, Turret1Sprite, true, 0, CardSchools.ENGINEERING,
                 false, 49, CardLevel.UNDERGRAD, 50, 10, 30, 2, requiredMana);
-        Turret2 = new MonsterCard(0, 0, 90, 120, Engineer1Sprite, true, 0, CardSchools.ENGINEERING,
+        Turret2 = new MonsterCard(0, 0, 90, 120, Turret2Sprite, true, 0, CardSchools.ENGINEERING,
                 false, 49, CardLevel.GRAD, 70, 15, 50, 2, requiredMana);
-        Turret3 = new MonsterCard(0, 0, 90, 120, Engineer1Sprite, true, 0, CardSchools.ENGINEERING,
+        Turret3 = new MonsterCard(0, 0, 90, 120, Turret3Sprite, true, 0, CardSchools.ENGINEERING,
                 false, 49, CardLevel.DOCTRATE, 100, 25, 70, 2, requiredMana);
-        AeroSpaceEngineer1 = new MonsterCard(0, 0, 90, 120, Engineer1Sprite, true, 0, CardSchools.ENGINEERING,
+        AeroSpaceEngineer1 = new MonsterCard(0, 0, 90, 120, AeroSpaceEngineer1Sprite, true, 0, CardSchools.ENGINEERING,
                 false, 49, CardLevel.UNDERGRAD, 70, 0, 40, 3, requiredMana);
-        AeroSpaceEngineer2 = new MonsterCard(0, 0, 90, 120, Engineer1Sprite, true, 0, CardSchools.ENGINEERING,
+        AeroSpaceEngineer2 = new MonsterCard(0, 0, 90, 120, AeroSpaceEngineer2Sprite, true, 0, CardSchools.ENGINEERING,
                 false, 49, CardLevel.GRAD, 100, 15, 70, 3, requiredMana);
 
         monsterCards.add(Engineer1);

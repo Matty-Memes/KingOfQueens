@@ -106,7 +106,6 @@ public class PlaySpace  {
 
      }
 
-
      // brian method
     //40111707
     // to be fixed to work with array.
