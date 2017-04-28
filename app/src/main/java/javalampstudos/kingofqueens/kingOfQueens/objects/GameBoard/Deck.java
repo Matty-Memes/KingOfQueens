@@ -3,10 +3,13 @@ package javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard;
 import android.graphics.Bitmap;
 
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BasicCard;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.JSONcardLibrary;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.MonsterCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.SupportCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -19,92 +22,108 @@ public class Deck extends GameObject {
     private int deckSize=0;
     final private int MAXDECKSIZE=40;
 
-    private BasicCard[] deck = new BasicCard[MAXDECKSIZE];
+    private ArrayList<MonsterCard> monsterArray = new ArrayList<>(noOfMonsterCards);
+    private ArrayList<ManaCard> manaArray= new ArrayList<>(noOfManaCards);
+    private ArrayList<SupportCard> supportArray = new ArrayList<>(noOfSupportCards);
+
+
 
     public Deck(float x, float y, int width, int height,
-    Bitmap sprite, boolean player)
+    Bitmap sprite, boolean player, ArrayList<MonsterCard> monsterArray,ArrayList<ManaCard> manaArray,ArrayList<SupportCard> supportArray)
     {
         super(x, y, width, height, sprite, player);
-
+        monsterArray = this.monsterArray;
+        manaArray = this.manaArray;
+        supportArray = this.supportArray;
     }
-
-    public BasicCard[] getDeck() {
-        return deck;
-    }
-
-    public void setDeck(BasicCard[] deck) {
-        this.deck = deck;
-    }
-
     public int getDeckSize()
     {
         return deckSize;
     }
 
+    public int getNoOfMonsterCards()
+    {
+        return noOfMonsterCards;
+    }
+
+    public int getNoOfManaCards()
+    {
+        return noOfManaCards;
+    }
+
+    public int getNoOfSupportCards()
+    {
+        return noOfSupportCards;
+    }
+
+    public int getMAXDECKSIZE()
+    {
+        return MAXDECKSIZE;
+    }
+
 
     /*Deck assembly*/
-
-    private ArrayList<MonsterCard> monsterArray = new ArrayList<>(noOfMonsterCards);
-    public void addMonstersCards(MonsterCard monsterCard)
+    //generates a starting deck
+    private void generateDeck(ArrayList<MonsterCard> libraryMonster,ArrayList<ManaCard> libraryMana,ArrayList<SupportCard> librarySupport)
     {
-        for(int i = 0; i<noOfMonsterCards;i++)
-        monsterArray.add(monsterCard);
-    }
-    private ArrayList<ManaCard> manaArray= new ArrayList<>(noOfManaCards);
-    public void addManaCards(ManaCard manaCard)
-    {
-        for(int i = 0; i<noOfManaCards;i++)
-        manaArray.add(manaCard);
-
-    }
-
-    private ArrayList<SupportCard> supportArray = new ArrayList<>(noOfSupportCards);
-    public void addSupportCards(SupportCard supportCard)
-    {
-        supportArray.add(noOfSupportCards,supportCard);
-
-    }
-    private boolean deckSizeCheck(boolean deckMaximum)
-    {
-        if (deckSize>MAXDECKSIZE)
-            return true;
-        else return false;
-    }
-
-
-    public void generateDeck()
-    {
-        boolean deckMaximum =false;
-        while(!deckMaximum)
+        for (int i = 0; i < 17; i++)
         {
-            for (int i = 0; i < noOfMonsterCards; i++) {
-                deckSize++;
-                deckSizeCheck(deckMaximum);
-                deck[i] = monsterArray.get(i);
-            }
-            for (int i = 0; i < noOfManaCards; i++) {
-                deckSize++;
-                deckSizeCheck(deckMaximum);
-                deck[deckSize] = manaArray.get(i);
-            }
-            for (int i = 0; i < noOfSupportCards; i++) {
-                deckSize++;
-                deckSizeCheck(deckMaximum);
-                deck[deckSize] = supportArray.get(i);
-
-            }
+            monsterArray.add(i, libraryMonster.get(i));
+            noOfMonsterCards++;
         }
-
+        //add six mana cards for Engineer and Medic
+        for(int i = 0;i<5;i++)
+        {
+            manaArray.add(i, libraryMana.get(1)); //Medic mana
+            noOfManaCards++;
+        }
+        for(int i = 6;i<11;i++)
+        {
+            manaArray.add(i, libraryMana.get(3)); //Engineer mana
+            noOfManaCards++;
+        }
+        //add support cards to library
+        for(int i = 0;i<librarySupport.size();i++)
+        {
+            supportArray.add(i, librarySupport.get(i));
+            noOfSupportCards++;
+        }
     }
 
-    public BasicCard draw()
+    //These methods will be used in the deck assembler fragment
+    private void addMonstersCards(MonsterCard monsterCard)
     {
-        BasicCard drawnCard=deck[0];
-        for (int i=0;i<deckSize;i++) {
-            deck[i] = deck[i + 1];
+        if(!isDeckFull())
+        {
+            monsterArray.add(monsterCard);
+            noOfMonsterCards++;
         }
-        return drawnCard;
+        else
+            System.out.print("The deck is full");
     }
+    private void addManaCards(ManaCard manaCard)
+    {
+        if(!isDeckFull())
+        {
+            manaArray.add(manaCard);
+            noOfManaCards++;
+        }
+        else
+            System.out.print("The deck is full");
+    }
+    private void addSupportCards(SupportCard supportCard)
+    {
+        if(!isDeckFull())
+        {
+            supportArray.add(supportCard);
+            noOfSupportCards++;
+        }
+        else
+            System.out.print("The deck is full");
 
-
+    }
+    private boolean isDeckFull()
+    {
+        return (deckSize>MAXDECKSIZE);
+    }
 }
