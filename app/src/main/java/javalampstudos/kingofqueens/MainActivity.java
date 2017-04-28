@@ -14,6 +14,7 @@ import android.view.WindowManager;
 // Local Imports
 
 import javalampstudos.kingofqueens.GameViewFragment;
+import javalampstudos.kingofqueens.kingOfQueens.Menu.LoadingFragment;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 import javalampstudos.kingofqueens.kingOfQueens.Menu.MainMenuFragment;
 
@@ -38,7 +39,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         if(savedInstanceState==null) {
-            getFragmentManager().beginTransaction().add(R.id.container, new MainMenuFragment()).commit();
+            getFragmentManager().beginTransaction().add(R.id.container, new LoadingFragment()).commit();
         }
 
         hideNav();
