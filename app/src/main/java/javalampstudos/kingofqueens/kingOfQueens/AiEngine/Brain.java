@@ -70,7 +70,7 @@ public class Brain {
             {
 
                     // put in matthews method here !!!
-                    if(hand.getMonsertCards()[i].evolutionCheck(aiCardZone[j].getCurrentCard(),hand.getMonsertCards()[i]) )
+                    if(hand.getMonsertCards()[i].evolutionCheck(aiCardZone[j].getCurrentCard()) )
                     {
                         nextLevelMonsterIndex = i;
                         previousLevelMonsterIndex =j;
@@ -97,7 +97,7 @@ public class Brain {
             {
                 if(!cardZones[i].isActive())
                 {
-                    cardZones[i].setCurrentCard((MonsterCard)card);
+                    cardZones[i].setCurrentCard(card);
                     found =true;
                 }
             }
@@ -152,6 +152,7 @@ public class Brain {
         while( manaCardFound = false && i < hand.getManaCards().length){
 
 //              YOU NEED TO REVERT THE CARDS BACK TO THEIR ORIGINAL VARIABLES
+
                 if(whichManaDoINeedTheMost(hand,manaCounter).equals( hand.getManaCards()[i].getManaType()))
                 {
 
@@ -226,7 +227,7 @@ public class Brain {
         {
             for(int i=1; i < enemyCardZone.length; i++)
             {
-                if(enemyCardZone[i].getCurrentCard().getDefence() > enemyCardZone[indexForCardWithLowestDef].getCurrentCard().getDefence())
+                if(enemyCardZone[i].getCurrentCard().getDefence() >= enemyCardZone[indexForCardWithLowestDef].getCurrentCard().getDefence())
                 {
                     indexForCardWithLowestDef =i;
                 }
@@ -246,7 +247,8 @@ public class Brain {
                         indexForCardToAttackWith = i;
                     }
                 }
-                // BRIAN : NOTE THINK OF A WAY TO FIND THE CARD THAT WILL DO THE MOST DAMAGE, NOT JUST KILL A CARD.
+
+
             }
         }
 
@@ -256,5 +258,13 @@ public class Brain {
         }else{
             // do nothing.
         }
+    }
+
+    // 40111707
+    // Brians method
+    // this method will find out if the ai has a card that has a higher attack than al of the enemeys cards.
+    public void doIhaveAnyCardsWithGreaterAttack(CardZone [] aiCardZone,CardZone [] enemeyCardZone)
+    {
+
     }
 }

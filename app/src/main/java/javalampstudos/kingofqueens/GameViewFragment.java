@@ -90,7 +90,7 @@ public class GameViewFragment extends CanvasFragment {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
             display.getRealSize(point);
         else
-            display.getSize(point);
+          //  display.getSize(point);
 
         width = point.x;
 
@@ -195,11 +195,11 @@ public class GameViewFragment extends CanvasFragment {
         // draw temp cards for positioning
 
         // hands
-        loop.handCard1.draw(canvas);
+       /* loop.handCard1.draw(canvas);
         loop.handCard2.draw(canvas);
         loop.handCard3.draw(canvas);
         loop.handCard4.draw(canvas);
-        loop.handCard5.draw(canvas);
+        loop.handCard5.draw(canvas);*/
 
         // monsters
         /*
@@ -216,8 +216,8 @@ public class GameViewFragment extends CanvasFragment {
         loop.manaZone.draw(canvas);
 
         // deck and graveyard
-        loop.graveYard.draw(canvas);
-        loop.deck.draw(canvas);
+        /*loop.graveYard.draw(canvas);
+        loop.deck.draw(canvas);*/
     }
 
     private void drawMana(Canvas canvas)
@@ -253,10 +253,10 @@ public class GameViewFragment extends CanvasFragment {
     private void drawMonsterCards(Canvas canvas)
 
     {
-        loop.monsterCard1.draw(canvas);
+        /*loop.monsterCard1.draw(canvas);
         loop.monsterCard2.draw(canvas);
         loop.monsterCard3.draw(canvas);
-
+*/
 
     }
 
