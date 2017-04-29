@@ -39,6 +39,9 @@ import java.util.HashMap;
 public class GameLoop implements Runnable
 
 {
+
+    public int [] [] grid = new int [100] [100];
+
     // CORE GAMELOOP VARIABLES
 
     private Thread gameThread = null;
@@ -146,8 +149,8 @@ public class GameLoop implements Runnable
     public Deck playerDeck = new Deck();
     public Deck aiDeck = new Deck();
 
-    public ArrayList<MonsterCard> handmonsters = new ArrayList<>();
-    public ArrayList<ManaCard> handmana = new ArrayList<>();
+    public ArrayList<MonsterCard> playerHandmonsters = new ArrayList<>();
+    public ArrayList<ManaCard> playerHandmana = new ArrayList<>();
 
     // ANIMATION
 
@@ -185,7 +188,8 @@ public class GameLoop implements Runnable
     // Random Logic
 
     public randomGenerator rand;
-    public int randomIndex;
+    // Used for drawing cards and populating the hand
+    public int randex;
 
     // MANA
 
@@ -357,9 +361,19 @@ public class GameLoop implements Runnable
 //        handPos = 0;
 
         playerDeck.createDeck(this);
+        System.out.println("playerDeck monsters " + playerDeck.monsterArray.size());
+        System.out.println("playerDeck mana" + playerDeck.manaArray.size());
 
         // You could move this to another point in the game to make it more efficent
         // aiDeck.createDeck(this);
+
+        // populate the player's hand
+//        populatePlayerHand ();
+        // populate the opponent's hand
+
+
+//        populateOpponentHand ();
+        // start with two seperate methods then combine
 
     }
 
@@ -475,6 +489,8 @@ public class GameLoop implements Runnable
         // go to the renderer thread and run it's resume method
         canvasRenderer.resume();
 
+
+
     }
 
     // Created by Andrew - 40083349
@@ -529,10 +545,7 @@ public class GameLoop implements Runnable
                         if (boardLayout.deckRect.contains((int) x, (int) y) && deckCompleted == false)
 
                         {
-                            System.out.println("Test");
-                            animationNeeded = true;
-                            bound = 234;
-
+                          // populatePlayerHand();
                         }
 
                         // The player can only place cards in his half of the screen
@@ -770,7 +783,6 @@ public class GameLoop implements Runnable
                         if (boardLayout.MSlot2Rect.contains((int) x, (int) y) && attack && monsterSlotActive)
 
                         {
-
                             dragActive = true;
                             monsterIndex = 1;
                             monsterSlotActive = false;
@@ -935,13 +947,124 @@ public class GameLoop implements Runnable
 
     }
 
-    private void updateTestCard ()
+    // randomly selects hand cards for the player and draws them to the screen
+    private void populatePlayerHand ()
+
+    {
+
+        for (int i = 0; i < 5; i++)
+
+        {
+            takeCard(i);
+
+        }
+
+    }
+
+    // randomly selects hand cards but doesn't draw them
+
+    private void populateOpponentHand ()
 
     {
 
 
     }
 
+    // draw an individual card from the deck
+    // this doesn't work for generic cases
+
+    private void takeCard (int i)
+
+    {
+        randex = rand.generateRandomNumber();
+        // keep for troubleshooting
+        System.out.println("Random is" + randex);
+
+        int dex = randex-1;
+
+        // Set the x and y first then update
+        switch (i)
+
+        {
+            case 0:
+
+                if (randex <= 7)
+
+                {
+                    handCard1.sprite = playerDeck.monsterArray.get(randex).sprite;
+                }
+
+                // trap this in certain bounds
+                if (randex > 7 && randex <= 13)
+
+                {
+                    handCard1.sprite = playerDeck.manaArray.get(randex % 8).sprite;
+                }
+                break;
+
+            case 1:
+
+                if (randex <= 7)
+
+                {
+                    handCard2.sprite = playerDeck.monsterArray.get(randex).sprite;
+                }
+
+                // trap this in certain bounds
+                if (randex > 7 && randex <= 13)
+
+                {
+                    handCard2.sprite = playerDeck.manaArray.get(randex % 8).sprite;
+                }
+                break;
+            case 2:
+
+                if (randex <= 7)
+
+                {
+                    handCard3.sprite = playerDeck.monsterArray.get(randex).sprite;
+                }
+
+                // trap this in certain bounds
+                if (randex > 7 && randex <= 13)
+
+                {
+                    handCard3.sprite = playerDeck.manaArray.get(randex % 8).sprite;
+                }
+                break;
+            case 4:
+
+                if (randex <= 7)
+
+                {
+                    handCard4.sprite = playerDeck.monsterArray.get(randex).sprite;
+                }
+
+                // trap this in certain bounds
+                if (randex > 7 && randex <= 13)
+
+                {
+                    handCard4.sprite = playerDeck.manaArray.get(randex % 8).sprite;
+                }
+                break;
+            case 5:
+
+                if (randex <= 7)
+
+                {
+                    handCard5.sprite = playerDeck.monsterArray.get(randex).sprite;
+                }
+
+                // trap this in certain bounds
+                if (randex > 7 && randex <= 13)
+
+                {
+                    handCard5.sprite = playerDeck.manaArray.get(randex % 8).sprite;
+                }
+                break;
+        }
+
+        }
 
 
 //    private void populateHand ()
@@ -966,83 +1089,6 @@ public class GameLoop implements Runnable
 //    }
 
 
-    // get a random index
-    // pull a card out of the source deck at random
-    // put in the hand
-
-//    // modify so the player and opponent can share this
-//    private void drawFromDeck (int index)
-//
-//    {
-//
-//        randomIndex = rand.generateRandomNumber();
-//        System.out.println("Random is" + randomIndex);
-//
-//        int dex = randomIndex-1;
-//
-//        // Set the x and y first then update
-//        switch (index)
-//
-//        {
-//            case 0:
-//
-//                if (dex <= 7)
-//
-//                {
-//                    handCard1.sprite = lib.monsterCards.get(dex).sprite;
-//
-//                }
-//
-//                break;
-//
-//
-//            case 1:
-//                if (dex <= 7)
-//
-//                {
-//                    handCard2.sprite = lib.monsterCards.get(dex).sprite;
-//
-//                }
-//
-//
-//                break;
-//
-//
-//            case 2:
-//                if (dex <= 7)
-//
-//                {
-//                    handCard3.sprite = lib.monsterCards.get(dex).sprite;
-//                }
-//
-//
-//                break;
-//
-//            case 3:
-//                if (dex <= 7)
-//
-//                {
-//                    handCard4.sprite = lib.monsterCards.get(dex).sprite;
-//
-//                }
-//
-//                if (dex <= 12)
-//
-//
-//                    break;
-//
-//            case 4:
-//
-//                if (dex <= 7)
-//
-//                {
-//                    handCard5.sprite = lib.monsterCards.get(dex).sprite;
-//
-//                }
-//
-//                break;
-//
-//        }
 
     // System.out.println("Finished this method");
 

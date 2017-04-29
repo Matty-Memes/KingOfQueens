@@ -86,13 +86,13 @@ public class Deck {
         lib = new JSONcardLibrary();
         lib.loadAssets(loop);
 
-        // add random logic - generate a random index
-
-        int randex = rand.generateRandomNumber();
-
         for (int i = 0; i < MAXDECKSIZE; i++)
 
         {
+            int randex = rand.generateRandomNumber();
+            randex = randex-1;
+            System.out.println(randex);
+
             // Interaction with each array list
             // mirrored in JSONcardLibrary
             if (randex <= 7)
@@ -112,6 +112,9 @@ public class Deck {
             }
 
         }
+
+        System.out.println("The size of the monster array is" + monsterArray.size());
+        System.out.println("The size of the mana array is" + manaArray.size());
 
     }
 
