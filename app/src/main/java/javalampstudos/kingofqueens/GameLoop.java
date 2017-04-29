@@ -16,16 +16,13 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaCard;
 import javalampstudos.kingofqueens.kingOfQueens.engine.graphics.CanvasRenderer;
 import javalampstudos.kingofqueens.kingOfQueens.engine.graphics.CanvasFragment;
 import javalampstudos.kingofqueens.kingOfQueens.engine.input.MultitouchListener;
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.*;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.MonsterCard;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BasicCard;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardLevel;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaTypes;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
-import javalampstudos.kingofqueens.kingOfQueens.engine.SFX.SoundFX;
-import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.GameBoard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.ManaCounter;
-import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.boardLayout;
-import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
 import javalampstudos.kingofqueens.kingOfQueens.util.randomGenerator;
-import javalampstudos.kingofqueens.kingOfQueens.util.andyManaCounter;
-import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.JSONcardLibrary;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.boardLayout;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Deck;
 
@@ -34,16 +31,10 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Deck;
 import android.graphics.Rect;
 import android.graphics.Bitmap;
 import android.content.res.AssetManager;
-import android.util.Log;
-import android.content.Context;
-import android.graphics.Canvas;
-
-// Java Imports
-
-import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
 
 public class GameLoop implements Runnable
 
@@ -121,6 +112,7 @@ public class GameLoop implements Runnable
 
     // Card Back Sprite
     public Bitmap cardBackSprite;
+    public Bitmap testSprite;
 
     // ACTUAL CARDS TO BE DRAWN
 
@@ -159,14 +151,15 @@ public class GameLoop implements Runnable
 
     // ANIMATION
 
-    // testing movement
-    public BasicCard testCard;
+    // When you want to move a card this should become true
+    public boolean animationNeeded = false;
 
     // boundary conditions for the test card
-    public boolean testDown;
-    // Hard code the boundary conditions??
+    public boolean boundHit;
 
-    public Bitmap testBitmap;
+    public int bound;
+
+    public BasicCard cardToAnimate;
 
     // OTHER CLASSES
     // This will replace individual rect declarations
@@ -219,7 +212,7 @@ public class GameLoop implements Runnable
 
 
     // SFX
-    private SoundFX test;
+    // private SoundFX test;
 
     // REDUNDANT
 
@@ -262,9 +255,6 @@ public class GameLoop implements Runnable
     public BasicCard graveYard;
     public BasicCard deck;
 
-    // JSON STUFF
-    JSONcardLibrary lib = new JSONcardLibrary();
-
     // Created by Andrew - 40083349
 
     // Split this out to proper setup methods
@@ -281,11 +271,7 @@ public class GameLoop implements Runnable
         GameLoop.width = width;
         GameLoop.height = height;
 
-        System.out.println("The width is " + GameLoop.width);
-        System.out.println("The height is " + GameLoop.height);
-
         gameScaling = width / 320.0f;
-        System.out.println("GameScaling is " + gameScaling);
 
         // Getting UI scaling from display metrics
         DisplayMetrics metrics = new DisplayMetrics();
@@ -310,6 +296,7 @@ public class GameLoop implements Runnable
 
         AssetManager assetManager = fragment.getActivity().getAssets();
         cardBackSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Cardback.png");
+        testSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Mana/ArtsMana.png");
 
         // Hand
 
@@ -321,7 +308,7 @@ public class GameLoop implements Runnable
                 49);
         handCard4 = new BasicCard(534, 410, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
                 49);
-        handCard5 = new BasicCard(634, 410, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
+        handCard5 = new BasicCard(634, 410, 90, 120, testSprite, true, 3, CardSchools.MEDICS, false,
                 49);
 
         handCards.add(handCard1);
@@ -354,6 +341,8 @@ public class GameLoop implements Runnable
         opponent2 = new MonsterCard(434, 100, 90, 120, cardBackSprite, false, 0, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3,4, requiredMana);
         opponent3 = new MonsterCard(634, 100, 90, 120, cardBackSprite, false, 0, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3,8, requiredMana);
 
+        // testCard = new BasicCard(800, 200, 90, 120, cardBackSprite, true, 3, CardSchools.SOCIAL_SCIENCES, false, 49);
+
         rand = new randomGenerator();
 
         // Test Brian's mana counter
@@ -364,15 +353,13 @@ public class GameLoop implements Runnable
 
         // Make a hand to hold basic card
         // Assign cards to this later
-        hand = new BasicCard[5];
-        handPos = 0;
-
-        // load the library assets
-        lib.loadAssets(this);
-
+//        hand = new BasicCard[5];
+//        handPos = 0;
 
         playerDeck.createDeck(this);
-        aiDeck.createDeck(this);
+
+        // You could move this to another point in the game to make it more efficent
+        // aiDeck.createDeck(this);
 
     }
 
@@ -406,6 +393,9 @@ public class GameLoop implements Runnable
                         newGame();
                         // always do this first
                         updateCard();
+                        // updateTestCard();
+                        // if animation needs to be done do it
+                        updateAnimation();
                         updateTouch();
                         break;
                     case CARDGAME:
@@ -494,6 +484,27 @@ public class GameLoop implements Runnable
         gameBoard = new boardLayout(width, height);
     }
 
+    private void updateAnimation ()
+
+    {
+        if (animationNeeded)
+
+        {
+            // if the bound hasn't been hit yet keep incrementing the x position once per frame
+            if (!boundHit) {
+                handCard5.x -= 2.0;
+
+                if (handCard5.x <= bound) {
+                    boundHit = true;
+                    animationNeeded = false;
+                }
+
+            }
+
+        }
+
+    }
+
     // Created by Andrew - 40083349
     private void updateTouch ()
 
@@ -518,10 +529,11 @@ public class GameLoop implements Runnable
                         if (boardLayout.deckRect.contains((int) x, (int) y) && deckCompleted == false)
 
                         {
-                          handCard1.sprite = playerDeck.monsterArray.get(4).sprite;
+                            System.out.println("Test");
+                            animationNeeded = true;
+                            bound = 234;
 
                         }
-
 
                         // The player can only place cards in his half of the screen
                         // Turn this on for the monster placement phase
@@ -859,6 +871,8 @@ public class GameLoop implements Runnable
     }
 
 
+
+
     private void testSoundFX ()
 
     {
@@ -921,110 +935,118 @@ public class GameLoop implements Runnable
 
     }
 
-
-    private void populateHand ()
+    private void updateTestCard ()
 
     {
 
-        // this fills the hand array
-        for (int i = 0; i < 5; i++)
-
-        {
-            drawFromDeck(i);
-
-        }
-
-
-        // You can't re-run the draw method
-
-        deckCompleted = true;
-        mplacement = true;
-        manaflag = true;
 
     }
+
+
+
+//    private void populateHand ()
+//
+//    {
+//
+//        // this fills the hand array
+//        for (int i = 0; i < 5; i++)
+//
+//        {
+//            drawFromDeck(i);
+//
+//        }
+//
+//
+//        // You can't re-run the draw method
+//
+//        deckCompleted = true;
+//        mplacement = true;
+//        manaflag = true;
+//
+//    }
 
 
     // get a random index
     // pull a card out of the source deck at random
     // put in the hand
 
-    // modify so the player and opponent can share this
-    private void drawFromDeck (int index)
+//    // modify so the player and opponent can share this
+//    private void drawFromDeck (int index)
+//
+//    {
+//
+//        randomIndex = rand.generateRandomNumber();
+//        System.out.println("Random is" + randomIndex);
+//
+//        int dex = randomIndex-1;
+//
+//        // Set the x and y first then update
+//        switch (index)
+//
+//        {
+//            case 0:
+//
+//                if (dex <= 7)
+//
+//                {
+//                    handCard1.sprite = lib.monsterCards.get(dex).sprite;
+//
+//                }
+//
+//                break;
+//
+//
+//            case 1:
+//                if (dex <= 7)
+//
+//                {
+//                    handCard2.sprite = lib.monsterCards.get(dex).sprite;
+//
+//                }
+//
+//
+//                break;
+//
+//
+//            case 2:
+//                if (dex <= 7)
+//
+//                {
+//                    handCard3.sprite = lib.monsterCards.get(dex).sprite;
+//                }
+//
+//
+//                break;
+//
+//            case 3:
+//                if (dex <= 7)
+//
+//                {
+//                    handCard4.sprite = lib.monsterCards.get(dex).sprite;
+//
+//                }
+//
+//                if (dex <= 12)
+//
+//
+//                    break;
+//
+//            case 4:
+//
+//                if (dex <= 7)
+//
+//                {
+//                    handCard5.sprite = lib.monsterCards.get(dex).sprite;
+//
+//                }
+//
+//                break;
+//
+//        }
 
-    {
+    // System.out.println("Finished this method");
 
-        randomIndex = rand.generateRandomNumber();
-        System.out.println("Random is" + randomIndex);
-
-        int dex = randomIndex-1;
-
-        // Set the x and y first then update
-        switch (index)
-
-        {
-            case 0:
-
-                if (dex <= 7)
-
-                {
-                    handCard1.sprite = lib.monsterCards.get(dex).sprite;
-
-                }
-
-                break;
-
-
-            case 1:
-                if (dex <= 7)
-
-                {
-                    handCard2.sprite = lib.monsterCards.get(dex).sprite;
-
-                }
-
-
-                break;
-
-
-            case 2:
-                if (dex <= 7)
-
-                {
-                    handCard3.sprite = lib.monsterCards.get(dex).sprite;
-                }
-
-
-                break;
-
-            case 3:
-                if (dex <= 7)
-
-                {
-                    handCard4.sprite = lib.monsterCards.get(dex).sprite;
-
-                }
-
-                if (dex <= 12)
-
-
-                    break;
-
-            case 4:
-
-                if (dex <= 7)
-
-                {
-                    handCard5.sprite = lib.monsterCards.get(dex).sprite;
-
-                }
-
-                break;
-
-        }
-
-        // System.out.println("Finished this method");
-
-    }
+    // }
 
 
     /*

@@ -42,7 +42,7 @@ public class Deck {
     }
 
 
-//    public Deck(float x, float y, int width, int height,
+    //    public Deck(float x, float y, int width, int height,
 //    Bitmap sprite, boolean player, ArrayList<MonsterCard> monsterArray,ArrayList<ManaCard> manaArray,ArrayList<SupportCard> supportArray)
 //    {
 //        super(x, y, width, height, sprite, player);
@@ -86,35 +86,34 @@ public class Deck {
         lib = new JSONcardLibrary();
         lib.loadAssets(loop);
 
-     // add random logic - generate a random index
+        // add random logic - generate a random index
 
-     int randex = rand.generateRandomNumber();
+        int randex = rand.generateRandomNumber();
 
-     for (int i = 0; i < MAXDECKSIZE; i++)
+        for (int i = 0; i < MAXDECKSIZE; i++)
 
-     {
-        // Interaction with each array list
-        // mirrored in JSONcardLibrary
-       if (randex <= 7)
-       {
-         monsterArray.add(lib.monsterCards.get(randex));
+        {
+            // Interaction with each array list
+            // mirrored in JSONcardLibrary
+            if (randex <= 7)
+            {
+                monsterArray.add(lib.monsterCards.get(randex));
 
-       }
+            }
 
-       // this needs to be offset since it's starts in a new array
+            // this needs to be offset since it's starts in a new array
 
-       // trap this in certain bounds
-       if (randex > 7 && randex <= 13)
+            // trap this in certain bounds
+            if (randex > 7 && randex <= 13)
 
-       {
-        manaArray.add(lib.manaCards.get(randex-9));
+            {
+                manaArray.add(lib.manaCards.get(randex % 8));
 
-       }
+            }
 
-     }
+        }
 
     }
-
 
     /*Deck assembly*/
     //generates a starting deck
