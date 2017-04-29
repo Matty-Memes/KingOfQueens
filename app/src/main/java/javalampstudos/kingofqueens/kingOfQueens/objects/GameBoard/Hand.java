@@ -41,7 +41,7 @@ public class Hand
         return MAXHANDSIZE;
     }
 
-    public BasicCard[] getHand() {
+    public BasicCard[] getHandBasicCardArray() {
         return hand;
     }
 
@@ -87,6 +87,7 @@ public class Hand
                 this.hand[index] = null;
             }
         }
+
 
 
 

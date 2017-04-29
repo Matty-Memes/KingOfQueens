@@ -3,7 +3,9 @@ package javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard;
 import android.graphics.Bitmap;
 
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BasicCard;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.MonsterCard;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.SupportCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.graveYard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Hand;
@@ -16,13 +18,13 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.ManaCounter;
 public class PlaySpace  {
     private final int maxLifeValue = 6;
     private Deck deck;
-    private HandChange hand;
+    private Hand hand;
     private int life;
     private graveYard GraveYard;
     private ManaCounter manaCounter;
     private CardZone [] cardZones;
 
-    public PlaySpace( Deck deck, HandChange hand,
+    public PlaySpace( Deck deck, Hand hand,
                      graveYard graveYard, ManaCounter manaCounter, CardZone[] cardZones,
                      int currentCard, int deckSize) {
 
@@ -44,11 +46,11 @@ public class PlaySpace  {
         this.deck = deck;
     }
 
-    public HandChange getHand() {
+    public Hand getHand() {
         return hand;
     }
 
-    public void setHandChange(HandChange hand) {
+    public void setHandChange(Hand hand) {
         this.hand = hand;
     }
 
@@ -86,11 +88,15 @@ public class PlaySpace  {
         this.cardZones = cardZones;
     }
 
-//    public void setupPlay()
-//    {
-//        deck.generateDeck();
-//
-//    }
+    public void setupPlay()
+    {
+       // deck.generateDeck();
+
+    }
+
+
+   
+
 
      // this method just checks if the defending card of the above method has died, then adds it to the graveyard
      // this method needs to be sent in to where the stuff is being played. NOTE:: BRIAN
@@ -105,6 +111,7 @@ public class PlaySpace  {
          }
 
      }
+
 
      // brian method
     //40111707
@@ -122,6 +129,94 @@ public class PlaySpace  {
        }
        return allZonesActive;
     }
+
+
+    //40111707
+    // Brians method
+    // this method will comare the hand card with the correct card within the deck so that logic can be done to it.
+    public int [] findCardInDeck(BasicCard cardToBeFound)
+    {
+        int pos =-1;
+        int arrayType = -1;
+        int[] position = new int [1];
+        switch(cardToBeFound.id)
+        {
+            case 0:
+                for (int i = 0; i <deck.monsterArray.size(); i++) {
+                    if(cardToBeFound.sprite == deck.monsterArray.get(i).sprite)
+                    {
+                        pos = i ;
+                        arrayType = cardToBeFound.id;
+                    }
+                } break;
+            case 1:
+                for (int i = 0; i <deck.manaArray.size(); i++) {
+                    if(cardToBeFound.sprite == deck.manaArray.get(i).sprite)
+                    {
+                        pos = i ;
+                        arrayType = cardToBeFound.id;
+                    }
+                } break;
+            case 2:
+                for (int i = 0; i <deck.supportArray.size(); i++) {
+                    if(cardToBeFound.sprite == deck.supportArray.get(i).sprite)
+                    {
+                        pos = i ;
+                        arrayType = cardToBeFound.id;
+                    }
+                } break;
+
+                default :    break;
+        }
+        position [0] = pos;
+        position[1] = arrayType;
+        return position;
+
+    }
+
+
+    //40111707
+    // brians method
+    // this method will find the correct monstercard within the correct array and correct index.
+    public MonsterCard callCorrectMonsterCard(BasicCard card)
+    {
+        int [] index = findCardInDeck(card);
+        if(index[0] == 0)
+        {
+           return deck.monsterArray.get(index[1]);
+        }
+        return null;
+    }
+
+
+    //40111707
+    // brians method
+    // this method will find the correct ManaCard within the correct array and correct index.
+    public ManaCard callCorrectManaCard(BasicCard card)
+    {
+        int [] index = findCardInDeck(card);
+        if(index[0] == 1)
+        {
+           return deck.manaArray.get(index[1]);
+        }
+        return null;
+    }
+
+
+    //40111707
+    // brians method
+    // this method will find the correct SupportCard within the correct array and correct index.
+    public SupportCard callCorrectSupportCard(BasicCard card)
+    {
+        int [] index = findCardInDeck(card);
+        if(index[0] == 2)
+        {
+            return deck.supportArray.get(index[1]);
+        }
+        return null;
+    }
+
+
     //When a monster is destroyed, call this method
     public void removeLife()
     {

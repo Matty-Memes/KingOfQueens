@@ -13,6 +13,7 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Deck;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Hand;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.HandChange;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.ManaCounter;
+import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.PlaySpace;
 import javalampstudos.kingofqueens.kingOfQueens.objects.graveYard;
 
 /**
@@ -30,18 +31,20 @@ public class Brain {
     // 40111707 brians
     // this method will find the highest attack card that can be played.
     // use for putting level 1 cards in play
-    public void PlayCardWithHighestAtt(HandChange hand, ManaCounter unusedMana, CardZone[] cardZones) {
+    public void PlayCardWithHighestAtt(PlaySpace aiPlayer) {
 
         int bestCardIndex = 0;
       // check all of the onsters in the hand, find the best one, then play it.
-        if(!hand.checkIfSpaceForMonster())
+        if(checkAllZonesAreActive(aiPlayer.getCardZones()))
         {
-            for(int i=0; i < hand.getMonsertCards().length;i++)
+
+            for(int i=0; i < aiPlayer.getHand().getHandBasicCardArray().length;i++)
             {
-                if(!cardZones[i].isActive())
+
+                if(!aiPlayer.getCardZones()[i].isActive())
                 {
-                    if(hand.getMonsertCards()[i].getLevel() == CardLevel.UNDERGRAD
-                            && hand.getMonsertCards()[i].getAttackValue() > hand.getMonsertCards()[bestCardIndex].getAttackValue())
+                    if(aiPlayer.callCorrectMonsterCard(aiPlayer.getHand().getHandBasicCardArray()[i]).getLevel() == CardLevel.UNDERGRAD
+                            && aiPlayer.callCorrectMonsterCard(aiPlayer.getHand().getHandBasicCardArray()[i]).getAttackValue() > aiPlayer.callCorrectMonsterCard(aiPlayer.getHand().getHandBasicCardArray()[bestCardIndex]).getAttackValue())
                     {
                         bestCardIndex = i;
                     }
@@ -52,25 +55,26 @@ public class Brain {
         }
 
 
-        playCard(hand.getMonsertCards()[bestCardIndex],cardZones);
+        playCard(aiPlayer.callCorrectMonsterCard(aiPlayer.getHand().getHandBasicCardArray()[bestCardIndex]),aiPlayer.getCardZones());
     }
-//test
+
+
 
 
 // 40111707
     // brians method
     // this method checks to see if the Ai can evolve a card currently in play to the next level.
-    public void canIEvolve(CardZone [] aiCardZone, HandChange hand){
+    public void canIEvolve(PlaySpace aiPlayer){
        int nextLevelMonsterIndex = -1;
         int previousLevelMonsterIndex =-1;
         boolean upgradeableCard =false;
-        for(int i=0; i < hand.getMonsertCards().length && !upgradeableCard;i++)
+        for(int i=0; i < aiPlayer.getHand().getHandBasicCardArray().length && !upgradeableCard;i++)
         {
-            for(int j=0; j<aiCardZone.length; j++)
+            for(int j=0; j<aiPlayer.getCardZones().length; j++)
             {
 
                     // put in matthews method here !!!
-                    if(hand.getMonsertCards()[i].evolutionCheck(aiCardZone[j].getCurrentCard()) )
+                    if(aiPlayer.callCorrectMonsterCard(aiPlayer.getHand().getHandBasicCardArray()[i]).evolutionCheck(aiPlayer.getCardZones()[j].getCurrentCard()) )
                     {
                         nextLevelMonsterIndex = i;
                         previousLevelMonsterIndex =j;
@@ -146,42 +150,44 @@ public class Brain {
     //40111707
     // this method allows the Ai to check if it is holding mana within its hand, if it is it should be played.
     // at the minute it is only playing the first mana type that it comes across.
-    public void playMana(HandChange hand, ManaCounter manaCounter){
-        int i =0;
+    public void playMana(PlaySpace aiPlayer){
+
         boolean manaCardFound =false;
-        while( manaCardFound = false && i < hand.getManaCards().length){
+        ManaTypes key = whichManaDoINeedTheMost(aiPlayer);
+
 
 //              YOU NEED TO REVERT THE CARDS BACK TO THEIR ORIGINAL VARIABLES
-
-                if(whichManaDoINeedTheMost(hand,manaCounter).equals( hand.getManaCards()[i].getManaType()))
+                for(int i =0; i< aiPlayer.getHand().getHandBasicCardArray().length && !manaCardFound; i++)
                 {
+                    if(aiPlayer.getHand().getHandBasicCardArray()[i].id == 1)
+                    {
+                        if(aiPlayer.callCorrectManaCard(aiPlayer.getHand().getHandBasicCardArray()[i]).getManaType() == key)
+                        {
 
-                    manaCounter.addMana( hand.getManaCards()[i].getManaType());
-                    manaCardFound =true;
+                            aiPlayer.getManaCounter().addMana(aiPlayer.callCorrectManaCard(aiPlayer.getHand().getHandBasicCardArray()[i]).getManaType());
+                            manaCardFound =true;
+                        }
+                    }
+
                 }
-
-
-
-            i++;
-        }
     }
 
     // brians method
     // 40111707
     // this method finds the manatype that the Ai will need the most depeneing on the cards that are
     // currently in its hand
-    public ManaTypes whichManaDoINeedTheMost(HandChange hand,ManaCounter manaCounter){
+    public ManaTypes whichManaDoINeedTheMost(PlaySpace aiPlayer){
         HashMap<ManaTypes,Integer> temp = new HashMap<ManaTypes,Integer>();
         int highestNeedMana=0;
         ManaTypes key1 = null;
 
         // this loop is used to count all of the mana requirements of the monstercards within the hand.
-        for(int i=0; i < hand.getMonsertCards().length;i++ )
+        for(int i=0; i < aiPlayer.getHand().getHandBasicCardArray().length;i++ )
         {
 
-                for (ManaTypes key:manaCounter.getManaCounterHashMap().keySet())
+                for (ManaTypes key:aiPlayer.getManaCounter().getManaCounterHashMap().keySet())
                 {
-                    temp.put(key,temp.get(key)+(hand.getMonsertCards()[i]).getAttackManaRequirement().get(key) ) ;
+                    temp.put(key,temp.get(key)+(aiPlayer.callCorrectMonsterCard(aiPlayer.getHand().getHandBasicCardArray()[i])).getAttackManaRequirement().get(key) ) ;
                 }
 
 
