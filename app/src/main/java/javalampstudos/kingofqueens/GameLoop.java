@@ -40,8 +40,6 @@ public class GameLoop implements Runnable
 
 {
 
-    public int [] [] grid = new int [100] [100];
-
     // CORE GAMELOOP VARIABLES
 
     private Thread gameThread = null;
@@ -149,8 +147,13 @@ public class GameLoop implements Runnable
     public Deck playerDeck = new Deck();
     public Deck aiDeck = new Deck();
 
+    // players logic arrays
     public ArrayList<MonsterCard> playerHandmonsters = new ArrayList<>();
     public ArrayList<ManaCard> playerHandmana = new ArrayList<>();
+
+    // AI logic arrays
+    public ArrayList<MonsterCard> aiHandmonsters = new ArrayList<>();
+    public ArrayList<ManaCard> aiHandmana = new ArrayList<>();
 
     // ANIMATION
 
@@ -364,6 +367,7 @@ public class GameLoop implements Runnable
         System.out.println("playerDeck monsters " + playerDeck.monsterArray.size());
         System.out.println("playerDeck mana" + playerDeck.manaArray.size());
 
+        // this only affects basic card at the moment
         populatePlayerHand ();
 
         rand.flushRandomLogic();
@@ -371,6 +375,11 @@ public class GameLoop implements Runnable
         aiDeck.createDeck(this);
         System.out.println("playerDeck monsters " + playerDeck.monsterArray.size());
         System.out.println("playerDeck mana" + playerDeck.manaArray.size());
+
+        rand.flushRandomLogic();
+
+        populateOpponentHand();
+
 
     }
 
@@ -948,14 +957,11 @@ public class GameLoop implements Runnable
     private void populatePlayerHand ()
 
     {
-
         for (int i = 0; i < 5; i++)
 
         {
-            takeCard(i);
-
+         takeCard(i);
         }
-
 
 
     }
@@ -965,14 +971,38 @@ public class GameLoop implements Runnable
     private void populateOpponentHand ()
 
     {
+        for (int i = 0; i < 5; i++)
 
+        {
+
+            randex = rand.generateRandomNumber();
+            // keep for troubleshooting
+            System.out.println("Random is" + randex);
+
+            if (randex <= 7)
+
+            {
+                aiHandmonsters.add(aiDeck.monsterArray.get(randex));
+            }
+
+            // trap this in certain bounds
+            if (randex > 7 && randex <= 13)
+
+            {
+                aiHandmana.add(playerDeck.manaArray.get(randex % 8));
+            }
+
+        }
+
+      // Error Checking
+      System.out.println("Completed");
 
     }
 
     // draw an individual card from the deck
     // this doesn't work for generic cases
 
-    private void takeCard (int i)
+    private void takeCard(int i)
 
     {
         randex = rand.generateRandomNumber();
@@ -982,6 +1012,7 @@ public class GameLoop implements Runnable
         int dex = randex-1;
 
         // Set the x and y first then update
+        // Put the hand cards in an array and loop through them
         switch (i)
 
         {
