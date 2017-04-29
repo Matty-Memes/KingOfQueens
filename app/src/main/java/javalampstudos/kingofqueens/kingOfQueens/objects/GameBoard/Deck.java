@@ -2,12 +2,14 @@ package javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard;
 
 import android.graphics.Bitmap;
 
+import javalampstudos.kingofqueens.GameLoop;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BasicCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.JSONcardLibrary;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.MonsterCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.SupportCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
+import javalampstudos.kingofqueens.kingOfQueens.util.randomGenerator;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -16,26 +18,38 @@ import java.util.ArrayList;
  * Created by Matt on 06/02/2017.
  */
 
-public class Deck extends GameObject {
+// This doesn't need to extend GameObject
+// Seperate the drawing of the deck image from the actual deck logic
+public class Deck {
 
     private int noOfMonsterCards,noOfManaCards,noOfSupportCards;
     private int deckSize=0;
-    final private int MAXDECKSIZE=40;
+    // For test purposes
+    final private int MAXDECKSIZE = 14;
+    // Might need to move this
+    private JSONcardLibrary lib = new JSONcardLibrary();
+    private randomGenerator rand = new randomGenerator();
 
-    private ArrayList<MonsterCard> monsterArray = new ArrayList<>(noOfMonsterCards);
-    private ArrayList<ManaCard> manaArray= new ArrayList<>(noOfManaCards);
-    private ArrayList<SupportCard> supportArray = new ArrayList<>(noOfSupportCards);
+    // Could be re-used
+    public ArrayList<MonsterCard> monsterArray = new ArrayList<>(noOfMonsterCards);
+    public ArrayList<ManaCard> manaArray= new ArrayList<>(noOfManaCards);
+    public ArrayList<SupportCard> supportArray = new ArrayList<>(noOfSupportCards);
 
+    public Deck ()
 
-
-    public Deck(float x, float y, int width, int height,
-    Bitmap sprite, boolean player, ArrayList<MonsterCard> monsterArray,ArrayList<ManaCard> manaArray,ArrayList<SupportCard> supportArray)
     {
-        super(x, y, width, height, sprite, player);
-        monsterArray = this.monsterArray;
-        manaArray = this.manaArray;
-        supportArray = this.supportArray;
+
     }
+
+
+//    public Deck(float x, float y, int width, int height,
+//    Bitmap sprite, boolean player, ArrayList<MonsterCard> monsterArray,ArrayList<ManaCard> manaArray,ArrayList<SupportCard> supportArray)
+//    {
+//        super(x, y, width, height, sprite, player);
+//        monsterArray = this.monsterArray;
+//        manaArray = this.manaArray;
+//        supportArray = this.supportArray;
+//    }
     public int getDeckSize()
     {
         return deckSize;
@@ -59,6 +73,46 @@ public class Deck extends GameObject {
     public int getMAXDECKSIZE()
     {
         return MAXDECKSIZE;
+    }
+
+    // first parse the JSON for all the cards
+    // then allocate the cards
+
+    // create deck would be run in GameLoop
+    // Created by Andrew - 40083349
+    public void createDeck (GameLoop loop)
+
+    {
+        lib = new JSONcardLibrary();
+        lib.loadAssets(loop);
+
+     // add random logic - generate a random index
+
+     int randex = rand.generateRandomNumber();
+
+     for (int i = 0; i < MAXDECKSIZE; i++)
+
+     {
+        // Interaction with each array list
+        // mirrored in JSONcardLibrary
+       if (randex <= 7)
+       {
+         monsterArray.add(lib.monsterCards.get(randex));
+
+       }
+
+       // this needs to be offset since it's starts in a new array
+
+       // trap this in certain bounds
+       if (randex > 7 && randex <= 13)
+
+       {
+        manaArray.add(lib.manaCards.get(randex-9));
+
+       }
+
+     }
+
     }
 
 

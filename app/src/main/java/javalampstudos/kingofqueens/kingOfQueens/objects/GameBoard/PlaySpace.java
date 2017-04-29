@@ -86,15 +86,11 @@ public class PlaySpace  {
         this.cardZones = cardZones;
     }
 
-    public void setupPlay()
-    {
-        deck.generateDeck();
-
-    }
-
-
-
-
+//    public void setupPlay()
+//    {
+//        deck.generateDeck();
+//
+//    }
 
      // this method just checks if the defending card of the above method has died, then adds it to the graveyard
      // this method needs to be sent in to where the stuff is being played. NOTE:: BRIAN
@@ -109,7 +105,6 @@ public class PlaySpace  {
          }
 
      }
-
 
      // brian method
     //40111707

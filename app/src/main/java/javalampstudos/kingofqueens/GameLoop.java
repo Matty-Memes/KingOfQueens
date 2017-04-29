@@ -27,6 +27,7 @@ import javalampstudos.kingofqueens.kingOfQueens.util.randomGenerator;
 import javalampstudos.kingofqueens.kingOfQueens.util.andyManaCounter;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.JSONcardLibrary;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.boardLayout;
+import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Deck;
 
 // Android Imports
 
@@ -149,6 +150,10 @@ public class GameLoop implements Runnable
     public MonsterCard opponent3;
 
     // BEHIND THE SCENES CARD ARRAYS FOR CARD LOGIC
+
+    public Deck playerDeck = new Deck();
+    public Deck aiDeck = new Deck();
+
     public ArrayList<MonsterCard> handmonsters = new ArrayList<>();
     public ArrayList<ManaCard> handmana = new ArrayList<>();
 
@@ -207,7 +212,6 @@ public class GameLoop implements Runnable
     // brians test for mc
     ManaCounter manaTest;
 
-
     // AI
 
     // delcaring Brians AiBrain
@@ -258,11 +262,12 @@ public class GameLoop implements Runnable
     public BasicCard graveYard;
     public BasicCard deck;
 
-    // Declare the cardlibrary
-    JSONcardLibrary lib;
-
+    // JSON STUFF
+    JSONcardLibrary lib = new JSONcardLibrary();
 
     // Created by Andrew - 40083349
+
+    // Split this out to proper setup methods
     public GameLoop (CanvasFragment fragment, int width, int height)
 
     {
@@ -298,9 +303,8 @@ public class GameLoop implements Runnable
         touchListener = new MultitouchListener();
         canvasRenderer.setOnTouchListener(touchListener);
 
-        // Create two deck objects which can be drawn from
 
-        // POSITIONING THE ACTUAL CARDS TO BE DRAWN
+        // THESE CARDS ARE PLACEHOLDERS FOR BITMAPS - THIS SHOULD BE IN ANOTHER METHOD
 
         // Load the cardBackSprite
 
@@ -362,6 +366,13 @@ public class GameLoop implements Runnable
         // Assign cards to this later
         hand = new BasicCard[5];
         handPos = 0;
+
+        // load the library assets
+        lib.loadAssets(this);
+
+
+        playerDeck.createDeck(this);
+        aiDeck.createDeck(this);
 
     }
 
@@ -507,12 +518,10 @@ public class GameLoop implements Runnable
                         if (boardLayout.deckRect.contains((int) x, (int) y) && deckCompleted == false)
 
                         {
-
-                            populateHand();
-                            // Allow mana placement
-                            mplacement = true;
+                          handCard1.sprite = playerDeck.monsterArray.get(4).sprite;
 
                         }
+
 
                         // The player can only place cards in his half of the screen
                         // Turn this on for the monster placement phase
@@ -943,9 +952,6 @@ public class GameLoop implements Runnable
     private void drawFromDeck (int index)
 
     {
-        // attempt to run the JSON parser
-        JSONcardLibrary lib = new JSONcardLibrary(this);
-        System.out.println("Health is " + lib.monsterCards.get(5).getHealth());
 
         randomIndex = rand.generateRandomNumber();
         System.out.println("Random is" + randomIndex);
