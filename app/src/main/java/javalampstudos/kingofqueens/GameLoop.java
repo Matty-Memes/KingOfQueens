@@ -300,7 +300,7 @@ public class GameLoop implements Runnable
 
         AssetManager assetManager = fragment.getActivity().getAssets();
         cardBackSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Cardback.png");
-        testSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Mana/ArtsMana.png");
+        // testSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Mana/ArtsMana.png");
 
         // Hand
 
@@ -312,7 +312,7 @@ public class GameLoop implements Runnable
                 49);
         handCard4 = new BasicCard(534, 410, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
                 49);
-        handCard5 = new BasicCard(634, 410, 90, 120, testSprite, true, 3, CardSchools.MEDICS, false,
+        handCard5 = new BasicCard(634, 410, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
                 49);
 
         handCards.add(handCard1);
@@ -367,10 +367,8 @@ public class GameLoop implements Runnable
         // You could move this to another point in the game to make it more efficent
         // aiDeck.createDeck(this);
 
-        // populate the player's hand
-//        populatePlayerHand ();
-        // populate the opponent's hand
 
+        populatePlayerHand ();
 
 //        populateOpponentHand ();
         // start with two seperate methods then combine
@@ -1032,7 +1030,7 @@ public class GameLoop implements Runnable
                     handCard3.sprite = playerDeck.manaArray.get(randex % 8).sprite;
                 }
                 break;
-            case 4:
+            case 3:
 
                 if (randex <= 7)
 
@@ -1047,7 +1045,7 @@ public class GameLoop implements Runnable
                     handCard4.sprite = playerDeck.manaArray.get(randex % 8).sprite;
                 }
                 break;
-            case 5:
+            case 4:
 
                 if (randex <= 7)
 

@@ -230,15 +230,15 @@ public class JSONcardLibrary
         // Syntax is wrong here
         socialScienceMana = new ManaCard(0, 0, 90, 120, socialScienceManaSprite, true, 2,
                 ManaTypes.SOCIAL_SCIENCES_MANA, javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardSchools.SOCIAL_SCIENCES, false, 49 );
-        medicalMana = new ManaCard(0, 0, 90, 120, socialScienceManaSprite, true, 2,
+        medicalMana = new ManaCard(0, 0, 90, 120, medicalManaSprite, true, 2,
                 ManaTypes.MEDICS_MANA, javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardSchools.SOCIAL_SCIENCES, false, 49 );
-        artsMana = new ManaCard(0, 0, 90, 120, socialScienceManaSprite, true, 2,
+        artsMana = new ManaCard(0, 0, 90, 120, artsManaSprite, true, 2,
                 ManaTypes.ARTS_HUMANITIES_MANA, javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardSchools.SOCIAL_SCIENCES, false, 49 );;
-        eeecsMana = new ManaCard(0, 0, 90, 120, socialScienceManaSprite, true, 2,
+        eeecsMana = new ManaCard(0, 0, 90, 120, eeecsManaSprite, true, 2,
                 ManaTypes.EEECS_MANA, javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardSchools.SOCIAL_SCIENCES, false, 49 );;
-        engineeringMana = new ManaCard(0, 0, 90, 120, socialScienceManaSprite, true, 2,
+        engineeringMana = new ManaCard(0, 0, 90, 120, engineeringManaSprite, true, 2,
                 ManaTypes.ENGINEERING_MANA, javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardSchools.SOCIAL_SCIENCES, false, 49 );;
-        builtEnvironmentMana = new ManaCard(0, 0, 90, 120, socialScienceManaSprite, true, 2,
+        builtEnvironmentMana = new ManaCard(0, 0, 90, 120, builtEnvironmentManaSprite, true, 2,
                 ManaTypes.BUILT_ENVIRONMENT_MANA, javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardSchools.SOCIAL_SCIENCES, false, 49 );;
 
         manaCards.add(socialScienceMana);
