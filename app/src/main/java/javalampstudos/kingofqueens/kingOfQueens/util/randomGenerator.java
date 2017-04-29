@@ -40,6 +40,7 @@ public class randomGenerator
 
         {
 
+            // Weird
             playerHasAppeared[0] = 41;
 
         }
@@ -96,7 +97,7 @@ public class randomGenerator
         playerHasAppeared[counter] = randomNumber;
         counter++;
 
-        // keep this
+        // sets up for the next pass
         active = true;
         innerSearchActive = true;
 
@@ -104,6 +105,37 @@ public class randomGenerator
         return randomNumber;
 
     }
+
+    // call this after the player deck is drawn
+
+    public void flushRandomLogic ()
+
+    {
+      // can't be null
+      randomNumber = 0;
+      counter = 0;
+
+      for (int i = 0; i < 40; i++)
+
+      {
+          if (i == 0) {
+              playerHasAppeared[i] = 41;
+
+          } else
+
+          // as per normal intialiazation
+          {
+              playerHasAppeared[i] = 0;
+          }
+      }
+
+      // Successful
+      System.out.println("Random logic flushed");
+
+    }
+
+
+
 
     // Make getters
 

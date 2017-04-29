@@ -364,14 +364,13 @@ public class GameLoop implements Runnable
         System.out.println("playerDeck monsters " + playerDeck.monsterArray.size());
         System.out.println("playerDeck mana" + playerDeck.manaArray.size());
 
-        // You could move this to another point in the game to make it more efficent
-        // aiDeck.createDeck(this);
-
-
         populatePlayerHand ();
 
-//        populateOpponentHand ();
-        // start with two seperate methods then combine
+        rand.flushRandomLogic();
+
+        aiDeck.createDeck(this);
+        System.out.println("playerDeck monsters " + playerDeck.monsterArray.size());
+        System.out.println("playerDeck mana" + playerDeck.manaArray.size());
 
     }
 
@@ -957,6 +956,8 @@ public class GameLoop implements Runnable
 
         }
 
+
+
     }
 
     // randomly selects hand cards but doesn't draw them
@@ -1030,6 +1031,7 @@ public class GameLoop implements Runnable
                     handCard3.sprite = playerDeck.manaArray.get(randex % 8).sprite;
                 }
                 break;
+
             case 3:
 
                 if (randex <= 7)
@@ -1065,19 +1067,7 @@ public class GameLoop implements Runnable
         }
 
 
-//    private void populateHand ()
-//
-//    {
-//
-//        // this fills the hand array
-//        for (int i = 0; i < 5; i++)
-//
-//        {
-//            drawFromDeck(i);
-//
-//        }
-//
-//
+
 //        // You can't re-run the draw method
 //
 //        deckCompleted = true;
@@ -1085,58 +1075,6 @@ public class GameLoop implements Runnable
 //        manaflag = true;
 //
 //    }
-
-
-
-    // System.out.println("Finished this method");
-
-    // }
-
-
-    /*
-
-    private void populateHand ()
-
-    {
-
-        if (playerTurn)
-
-        {
-
-            for (int i = 0; i < 3; i++)
-
-            {
-
-                int rand = random.generateRandomNumber(playerHasAppeared, playerhCounter);
-                playerHand[i] = cardList[rand];
-
-            }
-
-        } // end playerturn logic
-
-        if (!playerTurn)
-
-        {
-            for (int i = 0; i < 3; i++)
-
-            {
-                // System.out.println("We're here");
-
-                int rand = random.generateRandomNumber(opponentHasAppeared, opponenthCounter);
-
-
-                System.out.println("The number generated was " + rand);
-                // No need to actually draw anything here since you don't see the oppoennts hand
-                opponentHand[i] = cardList[rand];
-
-            }
-
-        }
-
-    }
-
-
-    */
 
 
 }
