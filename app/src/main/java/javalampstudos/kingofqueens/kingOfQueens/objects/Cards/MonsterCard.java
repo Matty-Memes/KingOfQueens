@@ -15,7 +15,7 @@ public class MonsterCard extends BasicCard
 {
         private final double attackBonus = 0.3;
         private CardLevel level; // ENUM
-        private int health,defence,attackValue,evolutionID,maxHealth;
+        public int health,defence,attackValue,evolutionID,maxHealth;
 
         // holds a list of the mana types required
          private HashMap<ManaTypes, Integer> attackManaRequirement;

@@ -70,7 +70,7 @@ public class GameLoop implements Runnable
 
     // TOUCH INPUT/DRAW LOGIC
 
-    // Access the two main arrays - hand and monstersinplay
+    // Access the two main arrays - handCards and monstersinplay
     // Use proper names
     public int handIndex;
     public int monsterIndex;
@@ -93,6 +93,7 @@ public class GameLoop implements Runnable
     // These booleans enforce the turn structure
     // Only draw should be true
 
+    // this is for monster placement
     public boolean placement = false;
     // used for mana placement
     public boolean mplacement = false;
@@ -152,8 +153,8 @@ public class GameLoop implements Runnable
     public ArrayList<ManaCard> playerHandmana = new ArrayList<>();
 
     // AI logic arrays
-    public ArrayList<MonsterCard> aiHandmonsters = new ArrayList<>();
-    public ArrayList<ManaCard> aiHandmana = new ArrayList<>();
+    public ArrayList<MonsterCard> aiHandMonsters = new ArrayList<>();
+    public ArrayList<ManaCard> aiHandMana = new ArrayList<>();
 
     // ANIMATION
 
@@ -264,7 +265,8 @@ public class GameLoop implements Runnable
 
     // Created by Andrew - 40083349
 
-    // Split this out to proper setup methods
+    // SPLIT THIS OUT
+
     public GameLoop (CanvasFragment fragment, int width, int height)
 
     {
@@ -380,6 +382,10 @@ public class GameLoop implements Runnable
 
         populateOpponentHand();
 
+        // All the loading is finished so start the prep phase
+        placement = true;
+        // The hand isn't active till everything is loaded
+        handActive = true;
 
     }
 
@@ -554,8 +560,10 @@ public class GameLoop implements Runnable
                           // populatePlayerHand();
                         }
 
+
+                        // MONSTER PLACEMENT
+
                         // The player can only place cards in his half of the screen
-                        // Turn this on for the monster placement phase
                         // You must be allowed to drag before this is activated
                         if(boardLayout.playerMovementRect.contains((int) x, (int) y) && placement && dragActive)
 
@@ -567,7 +575,8 @@ public class GameLoop implements Runnable
 
                         }
 
-                        // This is for mana movement only
+                        // MANA PLACEMENT
+
                         if(boardLayout.playerMovementRect.contains((int) x, (int) y) && mplacement && dragActive)
 
                         {
@@ -578,6 +587,8 @@ public class GameLoop implements Runnable
 
 
                         }
+
+                        // ATTACK LOGIC
 
                         // Set up movement for attack logic
                         if(boardLayout.attackRect.contains((int) x, (int) y) && attack && dragActive)
@@ -639,8 +650,6 @@ public class GameLoop implements Runnable
 
                         }
 
-
-                        // hand detection during placement phase
 
 
                         if (boardLayout.handRect1.contains((int) x, (int) y) && handActive && placement)
@@ -716,10 +725,16 @@ public class GameLoop implements Runnable
 
                             // the card has been placed
                             placement = false;
-                            attack = true;
+//                            attack = true;
 
+                            // Turn this block into a new method??
 
-                            monsterSlotActive = true;
+                            int index = aiBrain.playHighestAttack(aiHandMonsters);
+                            System.out.println(index);
+
+                            // THis is for monster placement
+                            // monsterSlotActive = true;
+                            opponent1.sprite = aiHandMonsters.get(index).sprite;
 
                         }
 
@@ -741,10 +756,14 @@ public class GameLoop implements Runnable
 
                             // the card has been placed
                             placement = false;
-                            attack = true;
+//                            attack = true;
 
-                            monsterSlotActive = true;
+                            int index = aiBrain.playHighestAttack(aiHandMonsters);
+                            System.out.println(index);
 
+                            // THis is for monster placement
+                            // monsterSlotActive = true;
+                            opponent1.sprite = aiHandMonsters.get(index).sprite;
                         }
 
                         if (boardLayout.MSlot3Rect.contains((int)handCards.get(handIndex).x, (int)handCards.get(handIndex).y) && placement
@@ -762,12 +781,16 @@ public class GameLoop implements Runnable
                             monsterCard3.x = 634;
                             monsterCard3.y = 280;
 
-
                             // the card has been placed
                             placement = false;
-                            attack = true;
+//                            attack = true;
 
-                            monsterSlotActive = true;
+                            int index = aiBrain.playHighestAttack(aiHandMonsters);
+                            System.out.println(index);
+
+                            // THis is for monster placement
+                            // monsterSlotActive = true;
+                            opponent1.sprite = aiHandMonsters.get(index).sprite;
 
                         }
 
@@ -963,7 +986,6 @@ public class GameLoop implements Runnable
          takeCard(i);
         }
 
-
     }
 
     // randomly selects hand cards but doesn't draw them
@@ -982,14 +1004,14 @@ public class GameLoop implements Runnable
             if (randex <= 7)
 
             {
-                aiHandmonsters.add(aiDeck.monsterArray.get(randex));
+                aiHandMonsters.add(aiDeck.monsterArray.get(randex));
             }
 
             // trap this in certain bounds
             if (randex > 7 && randex <= 13)
 
             {
-                aiHandmana.add(playerDeck.manaArray.get(randex % 8));
+                aiHandMana.add(playerDeck.manaArray.get(randex % 8));
             }
 
         }
@@ -1022,6 +1044,9 @@ public class GameLoop implements Runnable
 
                 {
                     handCard1.sprite = playerDeck.monsterArray.get(randex).sprite;
+                    handCard1.id = 0;
+                    handCard1.cardSchool = playerDeck.monsterArray.get(randex).cardSchool;
+
                 }
 
                 // trap this in certain bounds
@@ -1029,15 +1054,19 @@ public class GameLoop implements Runnable
 
                 {
                     handCard1.sprite = playerDeck.manaArray.get(randex % 8).sprite;
+                    handCard1.id = 1;
+                    handCard1.cardSchool = playerDeck.manaArray.get(randex % 8).cardSchool;
+
                 }
                 break;
-
             case 1:
-
                 if (randex <= 7)
 
                 {
                     handCard2.sprite = playerDeck.monsterArray.get(randex).sprite;
+                    handCard2.id = 0;
+                    handCard2.cardSchool = playerDeck.monsterArray.get(randex).cardSchool;
+
                 }
 
                 // trap this in certain bounds
@@ -1045,14 +1074,22 @@ public class GameLoop implements Runnable
 
                 {
                     handCard2.sprite = playerDeck.manaArray.get(randex % 8).sprite;
+                    handCard2.id = 1;
+                    handCard2.cardSchool = playerDeck.manaArray.get(randex % 8).cardSchool;
+
                 }
                 break;
+
+
             case 2:
 
                 if (randex <= 7)
 
                 {
                     handCard3.sprite = playerDeck.monsterArray.get(randex).sprite;
+                    handCard3.id = 0;
+                    handCard3.cardSchool = playerDeck.monsterArray.get(randex).cardSchool;
+
                 }
 
                 // trap this in certain bounds
@@ -1060,6 +1097,9 @@ public class GameLoop implements Runnable
 
                 {
                     handCard3.sprite = playerDeck.manaArray.get(randex % 8).sprite;
+                    handCard3.id = 1;
+                    handCard3.cardSchool = playerDeck.manaArray.get(randex % 8).cardSchool;
+
                 }
                 break;
 
@@ -1069,6 +1109,9 @@ public class GameLoop implements Runnable
 
                 {
                     handCard4.sprite = playerDeck.monsterArray.get(randex).sprite;
+                    handCard4.id = 0;
+                    handCard4.cardSchool = playerDeck.monsterArray.get(randex).cardSchool;
+
                 }
 
                 // trap this in certain bounds
@@ -1076,14 +1119,20 @@ public class GameLoop implements Runnable
 
                 {
                     handCard4.sprite = playerDeck.manaArray.get(randex % 8).sprite;
+                    handCard4.id = 1;
+                    handCard4.cardSchool = playerDeck.manaArray.get(randex % 8).cardSchool;
+
+
                 }
                 break;
             case 4:
-
                 if (randex <= 7)
 
                 {
                     handCard5.sprite = playerDeck.monsterArray.get(randex).sprite;
+                    handCard5.id = 0;
+                    handCard5.cardSchool = playerDeck.monsterArray.get(randex).cardSchool;
+
                 }
 
                 // trap this in certain bounds
@@ -1091,8 +1140,13 @@ public class GameLoop implements Runnable
 
                 {
                     handCard5.sprite = playerDeck.manaArray.get(randex % 8).sprite;
+                    handCard5.id = 1;
+                    handCard5.cardSchool = playerDeck.manaArray.get(randex % 8).cardSchool;
+
+
                 }
                 break;
+
         }
 
         }

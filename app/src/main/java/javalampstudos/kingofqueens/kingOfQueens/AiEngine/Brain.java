@@ -1,5 +1,7 @@
 package javalampstudos.kingofqueens.kingOfQueens.AiEngine;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BasicCard;
@@ -26,6 +28,26 @@ public class Brain {
 
     }
 
+    // loop through and find the index of the monster with the highest attack
+    public int playHighestAttack (ArrayList<MonsterCard> monster)
+
+    {
+       int max = 0;
+       int index = 0;
+
+       System.out.println("The size of monster is" + monster.size());
+
+       for (int i = 0; i < monster.size(); i++)
+       {
+         if (monster.get(i).attackValue >= max)
+         {
+          index = i;
+          max = monster.get(i).attackValue;
+         }
+       }
+      return index;
+
+    }
 
     // 40111707 brians
     // this method will find the highest attack card that can be played.

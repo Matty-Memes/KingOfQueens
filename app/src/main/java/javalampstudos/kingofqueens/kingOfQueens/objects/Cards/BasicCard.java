@@ -13,7 +13,7 @@ public class BasicCard extends GameObject
 
 {
 
-        private CardSchools cardSchool;
+        public CardSchools cardSchool;
 
         // monitors whether or not a card is destroyed
         public boolean destroyed;
@@ -22,8 +22,6 @@ public class BasicCard extends GameObject
         public int pointerID;
 
         public int id;
-
-
 
         // need all the fields from the superclass
 
