@@ -11,7 +11,6 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.MonsterCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.CardZone;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Deck;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Hand;
-import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.HandChange;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.ManaCounter;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.PlaySpace;
 import javalampstudos.kingofqueens.kingOfQueens.objects.graveYard;
@@ -161,7 +160,7 @@ public class Brain {
                 {
                     if(aiPlayer.getHand().getHandBasicCardArray()[i].id == 1)
                     {
-                        if(aiPlayer.callCorrectManaCard(aiPlayer.getHand().getHandBasicCardArray()[i]).getManaType() == key)
+                        if(aiPlayer.callCorrectManaCard(aiPlayer.getHand().getHandBasicCardArray()[i]).getManaType().equals(key))
                         {
 
                             aiPlayer.getManaCounter().addMana(aiPlayer.callCorrectManaCard(aiPlayer.getHand().getHandBasicCardArray()[i]).getManaType());

@@ -23,7 +23,8 @@ public class VariationOfHand {
     private ManaCard manaCards [];
     private SupportCard supportcardOne;
 
-    public HandChange() {
+   public VariationOfHand()
+   {
 
 
         monsertCards = new MonsterCard[MONSTER_AMOUNT];
