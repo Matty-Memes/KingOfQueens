@@ -130,11 +130,27 @@ public class PlaySpace  {
        return allZonesActive;
     }
 
+// 040111707
+    // brians method
+    // this method puts the card into the hand, and also correct copies of it into their arraylist holders for logic reasons.
+
+    public void addToHand(BasicCard card, int index) {
+
+        this.hand.getHand()[index] = card;
+        int [] cardTypePos = findRealCard(card);
+        switch(cardTypePos[0])
+        {
+            case 0: hand.getMonsterCardArrayList().add(deck.monsterArray.get(cardTypePos[1])); break;
+            case 1 : hand.getManaCardArrayList().add(deck.manaArray.get(cardTypePos[1])); break;
+            case 2: hand.getSupportCardArrayList().add(deck.supportArray.get(cardTypePos[1])); break;
+        }
+
+    }
 
     //40111707
     // Brians method
     // this method will comare the hand card with the correct card within the deck so that logic can be done to it.
-    public int [] findCardInDeck(BasicCard cardToBeFound)
+    public int [] findRealCard(BasicCard cardToBeFound)
     {
         int pos =-1;
         int arrayType = -1;
@@ -142,7 +158,7 @@ public class PlaySpace  {
         switch(cardToBeFound.id)
         {
             case 0:
-                for (int i = 0; i <deck.monsterArray.size(); i++) {
+                for (int i = 0; i < deck.monsterArray.size(); i++) {
                     if(cardToBeFound.sprite == deck.monsterArray.get(i).sprite)
                     {
                         pos = i ;
@@ -166,57 +182,13 @@ public class PlaySpace  {
                     }
                 } break;
 
-                default :    break;
+            default :    break;
         }
         position [0] = pos;
         position[1] = arrayType;
         return position;
 
     }
-
-
-    //40111707
-    // brians method
-    // this method will find the correct monstercard within the correct array and correct index.
-    public MonsterCard callCorrectMonsterCard(BasicCard card)
-    {
-        int [] index = findCardInDeck(card);
-        if(index[0] == 0)
-        {
-           return deck.monsterArray.get(index[1]);
-        }
-        return null;
-    }
-
-
-    //40111707
-    // brians method
-    // this method will find the correct ManaCard within the correct array and correct index.
-    public ManaCard callCorrectManaCard(BasicCard card)
-    {
-        int [] index = findCardInDeck(card);
-        if(index[0] == 1)
-        {
-           return deck.manaArray.get(index[1]);
-        }
-        return null;
-    }
-
-
-    //40111707
-    // brians method
-    // this method will find the correct SupportCard within the correct array and correct index.
-    public SupportCard callCorrectSupportCard(BasicCard card)
-    {
-        int [] index = findCardInDeck(card);
-        if(index[0] == 2)
-        {
-            return deck.supportArray.get(index[1]);
-        }
-        return null;
-    }
-
-
     //When a monster is destroyed, call this method
     public void removeLife()
     {
