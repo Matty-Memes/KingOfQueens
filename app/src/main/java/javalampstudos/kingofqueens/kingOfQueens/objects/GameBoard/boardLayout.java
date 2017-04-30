@@ -26,8 +26,13 @@ public class boardLayout
     // deck rect
     public static Rect deckRect;
 
+    // MOVE TO SEPERATE CLASSES SINCE THEY DON'T RELATE TO THE BOARD
+
     // Menu Rect/Rects
     public static Rect pauseRect, resumeRect, restartRect, mainMenuRect;
+
+    // User Prompts/Messages
+    public static Rect aiRect;
 
 
     // constructor
@@ -140,6 +145,9 @@ public class boardLayout
                 (int) (height / 2 + 54 * uiScaling),
                 (int) (width / 2 + 128 * uiScaling),
                 (int) (height / 2 + 102 * uiScaling));
+
+        // For the aithinking message
+        aiRect = new Rect(107, 120, 747, 360);
 
 
 

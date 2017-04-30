@@ -13,32 +13,32 @@ public class BasicCard extends GameObject
 
 {
 
-        public CardSchools cardSchool;
+    public CardSchools cardSchool;
 
-        // monitors whether or not a card is destroyed
-        public boolean destroyed;
+    // monitors whether or not a card is destroyed
+    public boolean destroyed;
 
-        // pointer id for keeping track of touch input
-        public int pointerID;
+    // pointer id for keeping track of touch input
+    public int pointerID;
 
-        public int id;
+    public int id;
 
-        // need all the fields from the superclass
+    // need all the fields from the superclass
 
 
-        // Modified by Andrew - 27/03/17
-        public BasicCard(int x, int y, int width, int height, Bitmap Sprite, boolean player, int id,
-                         CardSchools cardSchool, boolean destroyed, int pointerID)
-        {
-            super(x, y, width, height, Sprite, player);
-            this.id = id;
-            this.cardSchool = cardSchool;
-            this.destroyed = destroyed;
-            this.pointerID = pointerID;
+    // Modified by Andrew - 27/03/17
+    public BasicCard(int x, int y, int width, int height, Bitmap Sprite, boolean player, int id,
+                     CardSchools cardSchool, boolean destroyed, int pointerID)
+    {
+        super(x, y, width, height, Sprite, player);
+        this.id = id;
+        this.cardSchool = cardSchool;
+        this.destroyed = destroyed;
+        this.pointerID = pointerID;
 
-        }
+    }
 
-        // getters and setters
+    // getters and setters
 
     public void setCardSchool(CardSchools cardSchool) {
         this.cardSchool = cardSchool;
@@ -49,16 +49,16 @@ public class BasicCard extends GameObject
     }
 
     public boolean isDestroyed() {
-            return destroyed;
-        }
+        return destroyed;
+    }
 
-        public void setDestroyed(boolean destroyed) {
-            this.destroyed = destroyed;
-        }
+    public void setDestroyed(boolean destroyed) {
+        this.destroyed = destroyed;
+    }
 
-        public int getPointerID() {
-            return pointerID;
-        }
+    public int getPointerID() {
+        return pointerID;
+    }
 
     public int getId() {
         return id;
@@ -69,27 +69,30 @@ public class BasicCard extends GameObject
     }
 // set the pointer ID
 
-        public void setPointerID (int pID)
-        {
-            this.pointerID = pID;
+    public void setPointerID (int pID)
+    {
+        this.pointerID = pID;
 
+    }
+
+//    public void update()
+//    {
+//        super.update();
+//    }
+
+    public void draw (Canvas canvas)
+
+    {
+        if (destroyed == false)
+
+        {
+
+            super.draw(canvas);
         }
 
-        public void draw (Canvas canvas)
-        {
+    }
 
-
-            if (destroyed == false)
-
-            {
-
-                super.draw(canvas);
-
-            }
-
-        }
-
-        //Matt:This metod will be used in creating the card graphic. It checks the card School and sets the graphic
+    //Matt:This metod will be used in creating the card graphic. It checks the card School and sets the graphic
 
      /*   public void setCardSchoolGraphic()
         {

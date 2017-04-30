@@ -26,6 +26,7 @@ import javalampstudos.kingofqueens.kingOfQueens.util.randomGenerator;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.boardLayout;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Deck;
 import javalampstudos.kingofqueens.kingOfQueens.Menu.MainMenuFragment;
+import javalampstudos.kingofqueens.kingOfQueens.AiEngine.Window;
 
 // Android Imports
 
@@ -39,7 +40,6 @@ import java.util.HashMap;
 public class GameLoop implements Runnable
 
 {
-
     // CORE GAMELOOP VARIABLES
 
     private Thread gameThread = null;
@@ -59,9 +59,12 @@ public class GameLoop implements Runnable
 
     // Use enum for game states as a basis
     // Default is for normal gameplay i.e the card game itself
+
+
+    // All AI logic happens within ai turn
     public enum GameState {
 
-        NEW, CARDGAME, OPENWORLD, PAUSED, MENU;
+        NEW, CARDGAME, OPENWORLD, PROMPT, AITURN, PAUSED, MENU;
 
     }
 
@@ -218,6 +221,11 @@ public class GameLoop implements Runnable
     // delcaring Brians AiBrain
     public Brain aiBrain;
 
+    public Bitmap aiThinking;
+    public Window window;
+
+    // true when the window is moving down
+    public boolean windowDown = true;
 
     // SFX
     // private SoundFX test;
@@ -288,7 +296,8 @@ public class GameLoop implements Runnable
                 .getMetrics(metrics);
         uiScaling = metrics.density;
 
-        // set the gamestate to new intially - in the finished version will depend on the presence of a save file
+        // set the game state to new initially
+        // Once the board is set up you can move to the default game state
         gameState = GameState.NEW;
 
         // Now all the rects exist
@@ -304,6 +313,12 @@ public class GameLoop implements Runnable
         // Load the cardBackSprite
 
         AssetManager assetManager = fragment.getActivity().getAssets();
+
+        aiThinking = AssetLoader.loadBitmap(assetManager, "img/AiThinking3.png");
+
+        // This is the ai message
+        window = new Window(477, 240, 740, 240, aiThinking, true);
+
         cardBackSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Cardback.png");
         // testSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Mana/ArtsMana.png");
 
@@ -349,6 +364,7 @@ public class GameLoop implements Runnable
         opponent1 = new MonsterCard(234, 100, 90, 120, cardBackSprite, false, 0, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3,1, requiredMana);
         opponent2 = new MonsterCard(434, 100, 90, 120, cardBackSprite, false, 0, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3,4, requiredMana);
         opponent3 = new MonsterCard(634, 100, 90, 120, cardBackSprite, false, 0, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3,8, requiredMana);
+
 
         // testCard = new BasicCard(800, 200, 90, 120, cardBackSprite, true, 3, CardSchools.SOCIAL_SCIENCES, false, 49);
 
@@ -418,23 +434,36 @@ public class GameLoop implements Runnable
                     case NEW:
 
                         newGame();
+
+                    case CARDGAME:
+
                         // always do this first
                         updateCard();
                         // updateTestCard();
                         // if animation needs to be done do it
                         updateAnimation();
                         updateTouch();
-                        break;
-                    case CARDGAME:
-
                         // updateTouch ();
                         break;
                     case OPENWORLD:
 
                         break;
+
+                    // this state is for displaying messages
+                    // prevent the user from interacting at this point
+                    case PROMPT:
+
+                        updateCard();
+                        updateWindow();
+                        updatePrompt();
+
+                        break;
                     case PAUSED:
                         updateTouch ();
                         break;
+                    case AITURN:
+                        updateCard();
+                        updateAICards();
 
                     case MENU:
                         // call updateMenu here
@@ -514,11 +543,48 @@ public class GameLoop implements Runnable
 
     {
         gameBoard = new boardLayout(width, height, uiScaling);
+        // begin the normal flow of the game
+        gameState = GameState.CARDGAME;
     }
 
+    // display the ai window briefly then move back to normal gameplay
+    // tracking variables
+
+    private void updatePrompt ()
+
+    {
+        // move the prompt up and down
+        // set bounds for the prompt
+        // speed = 0.1
+        if(windowDown) {
+
+            window.y += 0.5;
+            if(window.y >= 270)
+                windowDown = false;
+
+            // start moving the window up
+        } else {
+            window.y -= 0.5;
+            if(window.y <= 210)
+                // animation completed return to the card game
+                gameState = GameState.AITURN;
+        }
+
+    }
+
+
+    private void updateWindow ()
+
+    {
+        window.update();
+
+    }
+
+    // Could apply similar logic here
     private void updateAnimation ()
 
     {
+        // could get rid of this
         if (animationNeeded)
 
         {
@@ -547,7 +613,7 @@ public class GameLoop implements Runnable
         // thumbstick stuff??
 
         {
-            case NEW:
+            case CARDGAME:
 
                 for (int i = 0; i < touchListener.MAX_TOUCH_POINTS; i++)
 
@@ -659,8 +725,6 @@ public class GameLoop implements Runnable
 
                         }
 
-
-
                         if (boardLayout.handRect1.contains((int) x, (int) y) && handActive && placement)
 
                         {
@@ -738,12 +802,8 @@ public class GameLoop implements Runnable
 
                             // Turn this block into a new method??
 
-                            int index = aiBrain.playHighestAttack(aiHandMonsters);
-                            System.out.println(index);
-
-                            // THis is for monster placement
-                            // monsterSlotActive = true;
-                            opponent1.sprite = aiHandMonsters.get(index).sprite;
+                            // This should be the last thing executed
+                            thinkAboutIt();
 
                         }
 
@@ -767,12 +827,9 @@ public class GameLoop implements Runnable
                             placement = false;
 //                            attack = true;
 
-                            int index = aiBrain.playHighestAttack(aiHandMonsters);
-                            System.out.println(index);
+                            // This should be the last thing executed
+                            thinkAboutIt();
 
-                            // THis is for monster placement
-                            // monsterSlotActive = true;
-                            opponent1.sprite = aiHandMonsters.get(index).sprite;
                         }
 
                         if (boardLayout.MSlot3Rect.contains((int)handCards.get(handIndex).x, (int)handCards.get(handIndex).y) && placement
@@ -794,12 +851,8 @@ public class GameLoop implements Runnable
                             placement = false;
 //                            attack = true;
 
-                            int index = aiBrain.playHighestAttack(aiHandMonsters);
-                            System.out.println(index);
-
-                            // THis is for monster placement
-                            // monsterSlotActive = true;
-                            opponent1.sprite = aiHandMonsters.get(index).sprite;
+                            // This should be the last thing executed
+                            thinkAboutIt();
 
                         }
 
@@ -886,9 +939,7 @@ public class GameLoop implements Runnable
                             // get the current card off the screen
                             handCards.get(handIndex).destroyed = true;
 
-
                             // need to pass information from the mana card in question
-
 
                             manaflag = false;
                             // allow movement of hand cards again
@@ -917,6 +968,12 @@ public class GameLoop implements Runnable
                 // end for loop
 
                 break; // end NEW case
+
+            case PROMPT:
+
+
+
+                break;
 
             case PAUSED:
 
@@ -955,12 +1012,34 @@ public class GameLoop implements Runnable
         }
     }
 
-    // change the game state to paused
+
+    // show that the ai is thinking about it's choice
+
+    public void thinkAboutIt ()
+
+    {
+        // Show that the AI is thinking
+        gameState = GameState.PROMPT;
+    }
 
     public void pauseGame ()
 
     {
         gameState = GameState.PAUSED;
+
+    }
+
+    public void updateAICards ()
+
+    {
+        // This needs to happen seperately.
+        int index = aiBrain.playHighestAttack(aiHandMonsters);
+        System.out.println(index);
+
+        // THis is for monster placement
+        // monsterSlotActive = true;
+        opponent1.sprite = aiHandMonsters.get(index).sprite;
+
 
     }
 

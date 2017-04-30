@@ -143,17 +143,6 @@ public class GameViewFragment extends CanvasFragment {
         {
             case NEW:
 
-                drawCard(canvas);
-
-                drawMonsterCards(canvas);
-
-                drawHand(canvas);
-
-                // draw the text for the mana counter
-                drawMana(canvas);
-
-                drawUI(canvas);
-
                 break;
 
             case PAUSED:
@@ -183,6 +172,47 @@ public class GameViewFragment extends CanvasFragment {
                         * loop.uiScaling, paint);
 
                 break;
+            case CARDGAME:
+                drawCard(canvas);
+
+                drawMonsterCards(canvas);
+
+                drawHand(canvas);
+
+                // draw the text for the mana counter
+                drawMana(canvas);
+
+                drawUI(canvas);
+
+                break;
+            case PROMPT:
+
+                drawCard(canvas);
+
+                drawMonsterCards(canvas);
+
+                drawHand(canvas);
+
+                // draw the text for the mana counter
+                drawMana(canvas);
+
+                // dim the screen - make it obvious that the player can't interact
+                canvas.drawARGB(127, 0, 0, 0);
+
+                drawPrompt(canvas);
+                break;
+            case AITURN:
+
+                drawCard(canvas);
+
+                drawMonsterCards(canvas);
+
+                drawHand(canvas);
+
+                // draw the text for the mana counter
+                drawMana(canvas);
+
+                drawUI(canvas);
 
         }
 
@@ -237,6 +267,14 @@ public class GameViewFragment extends CanvasFragment {
     {
         canvas.drawBitmap(pauseBitmap, null, boardLayout.pauseRect, paint);
 
+
+    }
+
+    // draw the prompt during the prompt phase
+    private void drawPrompt (Canvas canvas)
+
+    {
+        loop.window.draw(canvas);
 
     }
 
