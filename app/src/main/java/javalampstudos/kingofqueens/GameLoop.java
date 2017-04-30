@@ -366,8 +366,6 @@ public class GameLoop implements Runnable
 //        handPos = 0;
 
         playerDeck.createDeck(this);
-        System.out.println("playerDeck monsters " + playerDeck.monsterArray.size());
-        System.out.println("playerDeck mana" + playerDeck.manaArray.size());
 
         // this only affects basic card at the moment
         populatePlayerHand ();
@@ -375,8 +373,6 @@ public class GameLoop implements Runnable
         rand.flushRandomLogic();
 
         aiDeck.createDeck(this);
-        System.out.println("playerDeck monsters " + playerDeck.monsterArray.size());
-        System.out.println("playerDeck mana" + playerDeck.manaArray.size());
 
         rand.flushRandomLogic();
 
@@ -730,7 +726,6 @@ public class GameLoop implements Runnable
                             // Turn this block into a new method??
 
                             int index = aiBrain.playHighestAttack(aiHandMonsters);
-                            System.out.println(index);
 
                             // THis is for monster placement
                             // monsterSlotActive = true;
@@ -759,7 +754,6 @@ public class GameLoop implements Runnable
 //                            attack = true;
 
                             int index = aiBrain.playHighestAttack(aiHandMonsters);
-                            System.out.println(index);
 
                             // THis is for monster placement
                             // monsterSlotActive = true;
@@ -786,7 +780,6 @@ public class GameLoop implements Runnable
 //                            attack = true;
 
                             int index = aiBrain.playHighestAttack(aiHandMonsters);
-                            System.out.println(index);
 
                             // THis is for monster placement
                             // monsterSlotActive = true;
