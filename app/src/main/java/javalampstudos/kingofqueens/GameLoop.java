@@ -25,6 +25,7 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.ManaCounter;
 import javalampstudos.kingofqueens.kingOfQueens.util.randomGenerator;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.boardLayout;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Deck;
+import javalampstudos.kingofqueens.kingOfQueens.Menu.MainMenuFragment;
 
 // Android Imports
 
@@ -34,7 +35,6 @@ import android.content.res.AssetManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
 
 public class GameLoop implements Runnable
 
@@ -61,7 +61,7 @@ public class GameLoop implements Runnable
     // Default is for normal gameplay i.e the card game itself
     public enum GameState {
 
-        NEW, CARDGAME, OPENWORLD, PAUSE, MENU;
+        NEW, CARDGAME, OPENWORLD, PAUSED, MENU;
 
     }
 
@@ -292,7 +292,7 @@ public class GameLoop implements Runnable
         gameState = GameState.NEW;
 
         // Now all the rects exist
-        gameBoard = new boardLayout(width, height);
+        gameBoard = new boardLayout(width, height, uiScaling);
 
         // input stuff
         touchListener = new MultitouchListener();
@@ -411,6 +411,7 @@ public class GameLoop implements Runnable
 
                 // switch and case to decide which update behaviour to choose
 
+                // Split this into smaller game states to simplify touch input logic
                 switch (gameState)
 
                 {
@@ -431,8 +432,8 @@ public class GameLoop implements Runnable
                     case OPENWORLD:
 
                         break;
-                    case PAUSE:
-
+                    case PAUSED:
+                        updateTouch ();
                         break;
 
                     case MENU:
@@ -470,7 +471,11 @@ public class GameLoop implements Runnable
 
     // Created by Andrew - 40083349
     public void pause() {
+
         // stop running
+        if(gameState != GameState.PAUSED) {
+            pauseGame();
+        }
 
         canvasRenderer.pause();
 
@@ -502,14 +507,13 @@ public class GameLoop implements Runnable
         canvasRenderer.resume();
 
 
-
     }
 
     // Created by Andrew - 40083349
     private void newGame ()
 
     {
-        gameBoard = new boardLayout(width, height);
+        gameBoard = new boardLayout(width, height, uiScaling);
     }
 
     private void updateAnimation ()
@@ -533,6 +537,7 @@ public class GameLoop implements Runnable
 
     }
 
+
     // Created by Andrew - 40083349
     private void updateTouch ()
 
@@ -553,11 +558,15 @@ public class GameLoop implements Runnable
 
                         float x = touchListener.getTouchX(i), y = touchListener.getTouchY(i);
 
+                        if(boardLayout.pauseRect.contains((int) x, (int) y)) {
+                            pauseGame();
+                        }
+
 
                         if (boardLayout.deckRect.contains((int) x, (int) y) && deckCompleted == false)
 
                         {
-                          // populatePlayerHand();
+                            // populatePlayerHand();
                         }
 
 
@@ -908,10 +917,52 @@ public class GameLoop implements Runnable
                 // end for loop
 
                 break; // end NEW case
+
+            case PAUSED:
+
+                for(int i = 0; i < touchListener.MAX_TOUCH_POINTS; i++) {
+                    if(touchListener.isTouchDown(i)) {
+                        int x = (int) touchListener.getTouchX(i), y = (int) touchListener
+                                .getTouchY(i);
+
+                        // This should be the default case
+                        if(boardLayout.resumeRect.contains(x, y)) {
+                            gameState = GameState.NEW;
+
+                        }
+
+                        if(boardLayout.restartRect.contains(x, y)) {
+
+                            fragment.getFragmentManager()
+                                    .beginTransaction()
+                                    .replace(R.id.container, new GameViewFragment(),
+                                            "game_fragment").commit();
+                        }
+
+                        if(boardLayout.mainMenuRect.contains(x, y)) {
+                            fragment.getFragmentManager()
+                                    .beginTransaction()
+                                    .replace(R.id.container,
+                                            new MainMenuFragment(),
+                                            "main_menu_fragment").commit();
+                        }
+                    }
+                }
+
+                break;
+
+
         }
     }
 
+    // change the game state to paused
 
+    public void pauseGame ()
+
+    {
+        gameState = GameState.PAUSED;
+
+    }
 
 
     private void testSoundFX ()
@@ -983,7 +1034,7 @@ public class GameLoop implements Runnable
         for (int i = 0; i < 5; i++)
 
         {
-         takeCard(i);
+            takeCard(i);
         }
 
     }
@@ -1016,8 +1067,8 @@ public class GameLoop implements Runnable
 
         }
 
-      // Error Checking
-      System.out.println("Completed");
+        // Error Checking
+        System.out.println("Completed");
 
     }
 
@@ -1149,7 +1200,7 @@ public class GameLoop implements Runnable
 
         }
 
-        }
+    }
 
 
 

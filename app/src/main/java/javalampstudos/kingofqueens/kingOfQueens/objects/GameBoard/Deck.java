@@ -91,7 +91,6 @@ public class Deck {
         {
             int randex = rand.generateRandomNumber();
             randex = randex-1;
-            System.out.println(randex);
 
             // Interaction with each array list
             // mirrored in JSONcardLibrary
@@ -113,8 +112,6 @@ public class Deck {
 
         }
 
-        System.out.println("The size of the monster array is" + monsterArray.size());
-        System.out.println("The size of the mana array is" + manaArray.size());
 
     }
 

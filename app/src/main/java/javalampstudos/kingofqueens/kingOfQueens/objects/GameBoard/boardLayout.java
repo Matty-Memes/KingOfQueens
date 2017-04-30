@@ -26,16 +26,20 @@ public class boardLayout
     // deck rect
     public static Rect deckRect;
 
+    // Menu Rect/Rects
+    public static Rect pauseRect, resumeRect, restartRect, mainMenuRect;
+
+
     // constructor
-    public boardLayout(float width, float height)
+    public boardLayout(float width, float height, float uiScaling)
 
     {
-        initializeRects(width, height);
+        initializeRects(width, height, uiScaling);
     }
 
 
     // call this during gameSetup
-    public void initializeRects (float width, float height)
+    public void initializeRects (float width, float height, float uiScaling)
 
     {
         // Instantiate new rects here
@@ -121,6 +125,22 @@ public class boardLayout
 
         // no movement any lower than the bottom of the monster cards
         attackRect = new Rect(0, 0, 480, 340);
+
+        pauseRect = new Rect(755, 50, 805, 100);
+
+        resumeRect = new Rect((int) (width / 2 - 128 * uiScaling),
+                (int) (height / 2 - 58 * uiScaling),
+                (int) (width / 2 + 128 * uiScaling),
+                (int) (height / 2 - 10 * uiScaling));
+        restartRect = new Rect((int) (width / 2 - 128 * uiScaling),
+                (int) (height / 2 - 2 * uiScaling),
+                (int) (width / 2 + 128 * uiScaling),
+                (int) (height / 2 + 46 * uiScaling));
+        mainMenuRect = new Rect((int) (width / 2 - 128 * uiScaling),
+                (int) (height / 2 + 54 * uiScaling),
+                (int) (width / 2 + 128 * uiScaling),
+                (int) (height / 2 + 102 * uiScaling));
+
 
 
     }
