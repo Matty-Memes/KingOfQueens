@@ -51,7 +51,7 @@ public class MainMenuFragment extends MenuFragment
       // Load bitmaps for menu buttons
       newBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/new.png");
       continueBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/continue.png");
-      settingsBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/Settings.png");
+      settingsBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/SettingsButton.png");
         quitBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/quit.png");
 
       // Set up values for each menu rect

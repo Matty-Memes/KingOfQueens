@@ -67,10 +67,9 @@ public class SettingsFragment extends MenuFragment
                 (int) (height / 2 + 104 * uiScaling),
                 (int) (width - 8 * gameScaling),
                 (int) (height / 2 + 148 * uiScaling));
-        backRect = new Rect((int) (width - 96 * uiScaling - 3 * gameScaling),
-                (int) (height / 2 + 56 * uiScaling),
-                (int) (width - 8 * gameScaling),
-                (int) (height / 2 + 98 * uiScaling));
+        backRect = new Rect((int) (8 * uiScaling), (int) (8 * uiScaling),
+                (int) (24 * 2 * uiScaling + 8 * uiScaling),
+                (int) (24 * 2 * uiScaling + 8 * uiScaling));
     }
 
     public void doDraw(Canvas canvas)
