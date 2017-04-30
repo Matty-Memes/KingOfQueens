@@ -55,29 +55,30 @@ public class LoadingFragment extends MenuFragment {
         canvas.drawBitmap(bground, null, bgroundRect, null);
 
 
-
-           try{
-
-            Thread.sleep(3000);
-        }catch(InterruptedException ex){
-
-        }
-
-        getFragmentManager().beginTransaction().add(R.id.container, new MainMenuFragment()).commit();
+//           try{
 //
-//        for (int i = 0; i < input.MAX_TOUCH_POINTS; i++) {
-//            if (input.isTouchDown(i)) {
-//                int x = (int) input.getTouchX(i), y = (int) input.getTouchY(i);
+//            Thread.sleep(3000);
+//        }catch(InterruptedException ex){
 //
-//                if(bgroundRect.contains(x, y)) {
-//                    getFragmentManager()
-//                            .beginTransaction()
-//                            .replace(R.id.container, new MainMenuFragment(), "main_menu_fragment").commit();
-//                }
+//        }
+//
+//        getFragmentManager().beginTransaction().add(R.id.container, new MainMenuFragment()).commit();
+//
+        for (int i = 0; i < input.MAX_TOUCH_POINTS; i++) {
+            if (input.isTouchDown(i)) {
+                int x = (int) input.getTouchX(i), y = (int) input.getTouchY(i);
+
+                if (bgroundRect.contains(x, y)) {
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.container, new MainMenuFragment(), "main_menu_fragment").commit();
+                }
 
 
             }
         }
+    }
+}
 
 
 

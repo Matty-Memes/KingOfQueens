@@ -118,6 +118,13 @@ public class MainMenuFragment extends MenuFragment
                             .replace(R.id.container, new SettingsFragment(),
                                     "settings_fragment").commit();
                 }
+
+                if(quitRect.contains(x, y)) {
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.container, new QuitFragment(),
+                                    "quit_fragment").commit();
+                }
                /* // The How To Play Button loads the HowToPlayFragment
                 if(quitRect.contains(x, y)) {
                     getFragmentManager()

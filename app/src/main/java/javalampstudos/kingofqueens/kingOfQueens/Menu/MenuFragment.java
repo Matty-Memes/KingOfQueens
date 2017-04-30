@@ -106,7 +106,7 @@ public abstract class MenuFragment extends CanvasFragment
         // Set up the basic background
         backgroundRect = new Rect();
         backgroundSprite = AssetLoader.loadBitmap(assetManager,
-                "img/Marc/Menu.png");
+                "img/Marc/KOFQMenu.PNG");
 
         // Experimenting with paint
 
