@@ -287,6 +287,7 @@ public class Brain {
             }
         }
         return indexForCardWithLowestDef;
+
     }
 
 }
