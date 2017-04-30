@@ -27,7 +27,7 @@ public class Brain {
     public Brain(){
 
     }
-
+    // writen by andrew
     // loop through and find the index of the monster with the highest attack
     public int playHighestAttack (ArrayList<MonsterCard> monster)
 
