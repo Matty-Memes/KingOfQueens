@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,17 +22,10 @@ import android.view.WindowManager;
 
 // Local imports
 
-import javalampstudos.kingofqueens.kingOfQueens.Menu.MainMenuFragment;
-import javalampstudos.kingofqueens.kingOfQueens.Menu.PauseFragment;
-import javalampstudos.kingofqueens.kingOfQueens.engine.SFX.SoundFX;
 import javalampstudos.kingofqueens.kingOfQueens.engine.graphics.CanvasFragment;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
-import javalampstudos.kingofqueens.kingOfQueens.engine.SFX.SoundFX;
+import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.boardLayout;
 
-import android.graphics.Matrix;
-import android.view.WindowManager;
-
-import java.io.IOException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,33 +35,20 @@ public class GameViewFragment extends CanvasFragment {
     // instantiate a loop
     protected GameLoop loop;
 
-    private SoundFX SFX;
+    // paint objects/s
+    private Paint paint;
 
-    // image stuff that the whole class can see
-    private Paint mPaint;
-    // these are the bitmaps themselves which map to the stuff below
-    private Bitmap mImage;
-    private Bitmap mImage2;
-    private Bitmap mImage3;
+    // BITMAPS
+    private Bitmap backgroundImage, pauseBitmap;
+    // RECTS
+    private Rect backgroundImageRect;
+    // STRINGS - For the pause menu and the win and lose cases
+    private String pauseString, mainMenuString, resumeString, restartString;
 
-    private Bitmap image;
-
-
+    // Width and heihgt for creating the view
     private int width, height;
 
-    // Needs these for collision detection
-    private Rect mLittleManBound;
-    private Rect cloudyBackgroundBound;
-    private Rect KofQBound;
-    private Rect mLittleManBound2;
-
-    private Rect dataAdminBound;
-
-    // what's this for??
-    private Matrix matrix = new Matrix();
-
     // Empty GameViewFragment constructor
-
     public GameViewFragment ()
 
     {
@@ -96,13 +78,6 @@ public class GameViewFragment extends CanvasFragment {
 
         height = point.y;
 
-        /*
-
-        System.out.println("The width is " + width);
-        System.out.println("The height is " + height);
-
-        */
-
         // instantiate the loop and start things running
         loop = new GameLoop(this, width, height);
         return loop.canvasRenderer;
@@ -116,24 +91,26 @@ public class GameViewFragment extends CanvasFragment {
 
     // The render thread calls this - see Canvas Renderer
 
+    // Load in all the pause stuff
     public void doSetup() {
 
-
-        mPaint = new Paint();
+        paint = new Paint();
+        paint.setColor(Color.WHITE);
+        paint.setTypeface(Typeface.createFromAsset(getActivity().getAssets(),
+                "minecraftia.ttf"));
 
         // create an AssetManager
         AssetManager assetManager = getActivity().getAssets();
+        // draw the background
+        backgroundImage = AssetLoader.loadBitmap(assetManager, "img/Nathan/cloudyBackground.png");
+        pauseBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/Pause.png");
+        // create a rect for the background
+        backgroundImageRect = new Rect(0, 0, width, height);
 
-        // mImage = AssetLoader.loadBitmap(assetManager, "img/Nathan/trimLittleMan.png");
-        mImage2 = AssetLoader.loadBitmap(assetManager, "img/Nathan/cloudyBackground.png");
-        // mImage3 = AssetLoader.loadBitmap(assetManager, "img/Nathan/KofQ.png");
-
-
-        // deal with just the background
-        // instantiate a rectangle that relates to the background
-        cloudyBackgroundBound = new Rect(0, 0, width, height);
-
-        // Mess around with bounds
+        pauseString = "Pause";
+        mainMenuString = "Main Menu";
+        resumeString = "Resume";
+        restartString = "Restart";
 
     }
 
@@ -157,16 +134,57 @@ public class GameViewFragment extends CanvasFragment {
 
     public void doDraw(Canvas canvas) {
 
-        canvas.drawBitmap(mImage2, null, cloudyBackgroundBound, null);
+        canvas.drawBitmap(backgroundImage, null, backgroundImageRect, null);
 
-        drawCard(canvas);
+        // change the draw behaviour depending on the game state
 
-        drawMonsterCards(canvas);
+        switch (loop.gameState)
 
-        drawHand(canvas);
+        {
+            case NEW:
 
-        // draw the text for the mana counter
-        drawMana(canvas);
+                drawCard(canvas);
+
+                drawMonsterCards(canvas);
+
+                drawHand(canvas);
+
+                // draw the text for the mana counter
+                drawMana(canvas);
+
+                drawUI(canvas);
+
+                break;
+
+            case PAUSED:
+
+                drawCard(canvas);
+
+                drawMonsterCards(canvas);
+
+                drawHand(canvas);
+
+                // draw the text for the mana counter
+                drawMana(canvas);
+
+                drawUI(canvas);
+
+                canvas.drawARGB(127, 0, 0, 0);
+
+                paint.setTextAlign(Paint.Align.CENTER);
+                paint.setTextSize(32 * loop.uiScaling);
+                canvas.drawText(pauseString, width / 2, 66 * loop.uiScaling, paint);
+
+                canvas.drawText(resumeString, width / 2, height / 2 - 8
+                        * loop.uiScaling, paint);
+                canvas.drawText(restartString, width / 2, height / 2 + 48
+                        * loop.uiScaling, paint);
+                canvas.drawText(mainMenuString, width / 2, height / 2 + 104
+                        * loop.uiScaling, paint);
+
+                break;
+
+        }
 
     }
 
@@ -213,6 +231,16 @@ public class GameViewFragment extends CanvasFragment {
         loop.graveYard.draw(canvas);
         loop.deck.draw(canvas);
     }
+
+    private void drawUI (Canvas canvas)
+
+    {
+        canvas.drawBitmap(pauseBitmap, null, boardLayout.pauseRect, paint);
+
+
+    }
+
+
 
     // This needs changed anyway
     private void drawMana(Canvas canvas)
