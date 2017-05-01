@@ -92,6 +92,16 @@ public class BasicCard extends GameObject
 
     }
 
+    // this would use the index to work out the original position of the card
+
+    public void resetPosition ()
+
+    {
+      this.x = 434;
+      this.y = 410;
+
+    }
+
     //Matt:This metod will be used in creating the card graphic. It checks the card School and sets the graphic
 
      /*   public void setCardSchoolGraphic()

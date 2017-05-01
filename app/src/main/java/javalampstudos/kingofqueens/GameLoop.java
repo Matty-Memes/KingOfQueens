@@ -55,13 +55,7 @@ public class GameLoop implements Runnable
     // instantiate CanvasFragment
     public CanvasFragment fragment;
 
-    // GAME STATE
-
-    // Use enum for game states as a basis
-    // Default is for normal gameplay i.e the card game itself
-
-
-    // All AI logic happens within ai turn
+    // Define the possible game states
     public enum GameState {
 
         NEW, CARDGAME, PROMPT, AITURN, PAUSED,
@@ -84,7 +78,6 @@ public class GameLoop implements Runnable
 
     // Don't allow dragging till permitted
     public boolean dragActive = false;
-    public boolean deckCompleted = false;
 
     // Turn the manaZone off
     public boolean manaflag = false;
@@ -785,6 +778,9 @@ public class GameLoop implements Runnable
                             monsterCard1.x = 234;
                             monsterCard1.y = 280;
 
+                            // puts the card back in it's proper position
+                            handCards.get(handIndex).resetPosition();
+
 //                          attack = true;
 
                             // Turn this block into a new method??
@@ -804,10 +800,13 @@ public class GameLoop implements Runnable
 
                             // get rid of the hand card
                             handCards.get(handIndex).destroyed = true;
+
                             // update the bitmap of the monster card and lock it at the right slot
                             monsterCard2.sprite = handCards.get(handIndex).sprite;
                             monsterCard2.x = 434;
                             monsterCard2.y = 280;
+
+                            handCards.get(handIndex).resetPosition();
 //                            attack = true;
 
                             // This should be the last thing executed
@@ -1150,8 +1149,6 @@ public class GameLoop implements Runnable
         }
 
     }
-
-
 
 //        // You can't re-run the draw method
 //
