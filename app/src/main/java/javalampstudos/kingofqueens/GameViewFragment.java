@@ -132,11 +132,12 @@ public class GameViewFragment extends CanvasFragment {
     */
 
 
+    // tidy this up
     public void doDraw(Canvas canvas) {
 
         canvas.drawBitmap(backgroundImage, null, backgroundImageRect, null);
 
-        // change the draw behaviour depending on the game state
+        // list all cases so it's in sync with game loop
 
         switch (loop.gameState)
 
@@ -200,6 +201,7 @@ public class GameViewFragment extends CanvasFragment {
                 canvas.drawARGB(127, 0, 0, 0);
 
                 drawPrompt(canvas);
+
                 break;
             case AITURN:
 
@@ -214,7 +216,66 @@ public class GameViewFragment extends CanvasFragment {
 
                 drawUI(canvas);
 
+                break;
+            case DRAW:
+                drawCard(canvas);
+
+                drawMonsterCards(canvas);
+
+                drawHand(canvas);
+
+                // draw the text for the mana counter
+                drawMana(canvas);
+
+                drawUI(canvas);
+
+                break;
+
+            case MANAPLACEMENT:
+
+                drawCard(canvas);
+
+                drawMonsterCards(canvas);
+
+                drawHand(canvas);
+
+                // draw the text for the mana counter
+                drawMana(canvas);
+
+                drawUI(canvas);
+
+                break;
+            case MONSTERPLACEMENT:
+
+                drawCard(canvas);
+
+                drawMonsterCards(canvas);
+
+                drawHand(canvas);
+
+                // draw the text for the mana counter
+                drawMana(canvas);
+
+                drawUI(canvas);
+
+                break;
+
+            case ATTACK:
+
+                drawCard(canvas);
+
+                drawMonsterCards(canvas);
+
+                drawHand(canvas);
+
+                // draw the text for the mana counter
+                drawMana(canvas);
+
+                drawUI(canvas);
+
+                break;
         }
+
 
     }
 
@@ -290,6 +351,8 @@ public class GameViewFragment extends CanvasFragment {
       loop.eeecs.draw(canvas);
       loop.builtEnvironment.draw(canvas);*/
 
+        // draw the background image of the mana zone
+        loop.manaZone.draw(canvas);
         // brians testing. This is the method that should give all of the values. needs to be uncommented
         // this should be able to draw all of the values for each of the mana types. see Manacounter Class to see positions.
         loop.manaTest.drawValues(loop.manaTest.manaCounterToDrawObject(),canvas);

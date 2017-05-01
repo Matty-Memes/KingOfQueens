@@ -64,7 +64,9 @@ public class GameLoop implements Runnable
     // All AI logic happens within ai turn
     public enum GameState {
 
-        NEW, CARDGAME, OPENWORLD, PROMPT, AITURN, PAUSED, MENU;
+        NEW, CARDGAME, PROMPT, AITURN, PAUSED,
+        // Turn Structure
+        DRAW, MANAPLACEMENT, MONSTERPLACEMENT, ATTACK
 
     }
 
@@ -73,18 +75,9 @@ public class GameLoop implements Runnable
 
     // TOUCH INPUT/DRAW LOGIC
 
-    // Access the two main arrays - handCards and monstersinplay
-    // Use proper names
+    // These remember the index of the last touch for the two zones - monster and hand
     public int handIndex;
     public int monsterIndex;
-
-    private Rect playerMovementRect;
-
-    // seperate rect for moving monster cards during the attack phase
-    private Rect attackRect;
-
-    // makea mana rect
-    private Rect manaRect;
 
     // Declare an instance of multi-touch listener
     protected MultitouchListener touchListener;
@@ -92,16 +85,6 @@ public class GameLoop implements Runnable
     // Don't allow dragging till permitted
     public boolean dragActive = false;
     public boolean deckCompleted = false;
-
-    // These booleans enforce the turn structure
-    // Only draw should be true
-
-    // this is for monster placement
-    public boolean placement = false;
-    // used for mana placement
-    public boolean mplacement = false;
-    public boolean strat = false;
-    public boolean attack = false;
 
     // Turn the manaZone off
     public boolean manaflag = false;
@@ -117,7 +100,6 @@ public class GameLoop implements Runnable
 
     // Card Back Sprite
     public Bitmap cardBackSprite;
-    public Bitmap testSprite;
 
     // ACTUAL CARDS TO BE DRAWN
 
@@ -175,23 +157,6 @@ public class GameLoop implements Runnable
     // This will replace individual rect declarations
     public boardLayout gameBoard;
 
-    // hand Slots - Must instantiate these
-    public Rect handRect1;
-    public Rect handRect2;
-    public Rect handRect3;
-    public Rect handRect4;
-    public Rect handRect5;
-
-    // Monster Slots
-
-    public Rect MSlot1Rect;
-    public Rect MSlot2Rect;
-    public Rect MSlot3Rect;
-
-    // graveyard and deck rects
-    private Rect graveYardRect;
-    private Rect deckRect;
-
     // Random Logic
 
     public randomGenerator rand;
@@ -241,30 +206,6 @@ public class GameLoop implements Runnable
     // MISC
 
     public BasicCard[] hand;
-    public int handPos;
-
-    // Variables relating to the players hand
-
-    public int handCounter = 0;
-    // keeps track of the current hand array position
-    public int handPosition = 0;
-
-    // booleans
-    public boolean addToHand;
-
-    // replaced with deckClicked
-    public boolean resetDeck = false;
-
-    public boolean deckInitialized = false;
-
-    // counters
-    // public int monstersInPlay = 0;
-
-    // deck booleans
-    public boolean deckClicked = false;
-
-    // the player has chosen a card from their hand
-    public boolean handCardSelected = false;
 
     // Declare card backs here - Possibly move to the JSON parser
 
@@ -322,7 +263,7 @@ public class GameLoop implements Runnable
         cardBackSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Cardback.png");
         // testSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Mana/ArtsMana.png");
 
-        // Hand
+        // Hand - Accessible individually and in their array positions
 
         handCard1 = new BasicCard(234, 410, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
                 49);
@@ -399,8 +340,9 @@ public class GameLoop implements Runnable
         populateOpponentHand();
 
         // All the loading is finished so start the prep phase
-        placement = true;
-        // The hand isn't active till everything is loaded
+        // Turn the prep phase on and off here
+
+        // The user can't interact till everything is loaded
         handActive = true;
 
     }
@@ -434,7 +376,9 @@ public class GameLoop implements Runnable
                     case NEW:
 
                         newGame();
+                        break;
 
+                    // delet this
                     case CARDGAME:
 
                         // always do this first
@@ -445,10 +389,6 @@ public class GameLoop implements Runnable
                         updateTouch();
                         // updateTouch ();
                         break;
-                    case OPENWORLD:
-
-                        break;
-
                     // this state is for displaying messages
                     // prevent the user from interacting at this point
                     case PROMPT:
@@ -464,9 +404,23 @@ public class GameLoop implements Runnable
                     case AITURN:
                         updateCard();
                         updateAICards();
-
-                    case MENU:
-                        // call updateMenu here
+                        break;
+                    // automated so no updateTouch
+                    case DRAW:
+                        updateCard();
+                        updateDraw();
+                        break;
+                    case MANAPLACEMENT:
+                        updateCard();
+                        updateTouch();
+                        break;
+                    case MONSTERPLACEMENT:
+                        updateCard();
+                        updateTouch();
+                        break;
+                    case ATTACK:
+                        updateCard();
+                        updateTouch();
                         break;
                 }
 
@@ -572,7 +526,6 @@ public class GameLoop implements Runnable
 
     }
 
-
     private void updateWindow ()
 
     {
@@ -610,37 +563,19 @@ public class GameLoop implements Runnable
     {
         switch (gameState)
 
-        // thumbstick stuff??
-
         {
-            case CARDGAME:
+            case MANAPLACEMENT:
 
-                for (int i = 0; i < touchListener.MAX_TOUCH_POINTS; i++)
-
-                {
-
-                    if (touchListener.isTouchContinuous(i))
-                    {
-
-                        float x = touchListener.getTouchX(i), y = touchListener.getTouchY(i);
+                for(int i = 0; i < touchListener.MAX_TOUCH_POINTS; i++) {
+                    if (touchListener.isTouchDown(i)) {
+                        int x = (int) touchListener.getTouchX(i), y = (int) touchListener
+                                .getTouchY(i);
 
                         if(boardLayout.pauseRect.contains((int) x, (int) y)) {
                             pauseGame();
                         }
 
-
-                        if (boardLayout.deckRect.contains((int) x, (int) y) && deckCompleted == false)
-
-                        {
-                            // populatePlayerHand();
-                        }
-
-
-                        // MONSTER PLACEMENT
-
-                        // The player can only place cards in his half of the screen
-                        // You must be allowed to drag before this is activated
-                        if(boardLayout.playerMovementRect.contains((int) x, (int) y) && placement && dragActive)
+                        if(boardLayout.playerMovementRect.contains((int) x, (int) y) && dragActive)
 
                         {
                             // how do you know which card this effects
@@ -650,33 +585,7 @@ public class GameLoop implements Runnable
 
                         }
 
-                        // MANA PLACEMENT
-
-                        if(boardLayout.playerMovementRect.contains((int) x, (int) y) && mplacement && dragActive)
-
-                        {
-                            // how do you know which card this effects
-                            // set the index of the array to talk to
-                            handCards.get(handIndex).x = x;
-                            handCards.get(handIndex).y = y;
-
-
-                        }
-
-                        // ATTACK LOGIC
-
-                        // Set up movement for attack logic
-                        if(boardLayout.attackRect.contains((int) x, (int) y) && attack && dragActive)
-
-                        {
-                            monstersInPlay.get(monsterIndex).x = x;
-                            monstersInPlay.get(monsterIndex).y = y;
-
-                        }
-
-                        // hand detection for mana
-
-                        if (boardLayout.handRect1.contains((int) x, (int) y) && handActive && mplacement)
+                        if (boardLayout.handRect1.contains((int) x, (int) y) && handActive)
 
                         {
                             // Allow the card chosen to be dragged
@@ -689,7 +598,7 @@ public class GameLoop implements Runnable
                         }
 
 
-                        if (boardLayout.handRect2.contains((int) x, (int) y) && handActive && mplacement)
+                        if (boardLayout.handRect2.contains((int) x, (int) y) && handActive )
 
                         {
                             dragActive = true;
@@ -698,7 +607,7 @@ public class GameLoop implements Runnable
 
                         }
 
-                        if (boardLayout.handRect3.contains((int) x, (int) y) && handActive && mplacement)
+                        if (boardLayout.handRect3.contains((int) x, (int) y) && handActive)
 
                         {
                             dragActive = true;
@@ -707,7 +616,7 @@ public class GameLoop implements Runnable
 
                         }
 
-                        if (boardLayout.handRect4.contains((int) x, (int) y) && handActive && mplacement)
+                        if (boardLayout.handRect4.contains((int) x, (int) y) && handActive)
 
                         {
                             dragActive = true;
@@ -716,176 +625,12 @@ public class GameLoop implements Runnable
 
                         }
 
-                        if (boardLayout.handRect5.contains((int) x, (int) y) && handActive && mplacement)
+                        if (boardLayout.handRect5.contains((int) x, (int) y) && handActive)
 
                         {
                             dragActive = true;
                             handIndex = 4;
                             handActive = false;
-
-                        }
-
-                        if (boardLayout.handRect1.contains((int) x, (int) y) && handActive && placement)
-
-                        {
-                            // Allow the card chosen to be dragged
-                            dragActive = true;
-                            // The first card becomes the current card
-                            handIndex = 0;
-                            // No more hand cards can be picked up
-                            handActive = false;
-
-                        }
-
-
-                        if (boardLayout.handRect2.contains((int) x, (int) y) && handActive && placement)
-
-                        {
-                            dragActive = true;
-                            handIndex = 1;
-                            handActive = false;
-
-                        }
-
-                        if (boardLayout.handRect3.contains((int) x, (int) y) && handActive && placement)
-
-                        {
-                            dragActive = true;
-                            handIndex = 2;
-                            handActive = false;
-
-                        }
-
-                        if (boardLayout.handRect4.contains((int) x, (int) y) && handActive && placement)
-
-                        {
-                            dragActive = true;
-                            handIndex = 3;
-                            handActive = false;
-
-                        }
-
-                        if (boardLayout.handRect5.contains((int) x, (int) y) && handActive && placement)
-
-                        {
-                            dragActive = true;
-                            handIndex = 4;
-                            handActive = false;
-
-                        }
-
-                        // Monster Slot Detection - placement phase
-                        // Should be detecting card co-ordinates rather than finger position
-                        // Block mana cards from being placed
-
-
-
-                        if (boardLayout.MSlot1Rect.contains((int)handCards.get(handIndex).x, (int)handCards.get(handIndex).y) && placement
-                                && handCards.get(handIndex).id == 0)
-
-                        {
-
-                            // no more card movement
-                            dragActive = false;
-
-                            // get rid of the hand card
-                            handCards.get(handIndex).destroyed = true;
-
-                            // update the bitmap of the monster card and lock it at the right slot
-                            monsterCard1.sprite = handCards.get(handIndex).sprite;
-                            monsterCard1.x = 234;
-                            monsterCard1.y = 280;
-
-                            // the card has been placed
-                            placement = false;
-//                            attack = true;
-
-                            // Turn this block into a new method??
-
-                            // This should be the last thing executed
-                            thinkAboutIt();
-
-                        }
-
-
-                        if (boardLayout.MSlot2Rect.contains((int)handCards.get(handIndex).x, (int)handCards.get(handIndex).y) && placement
-                                && handCards.get(handIndex).id == 0)
-
-                        {
-
-                            // no more card movement
-                            dragActive = false;
-
-                            // get rid of the hand card
-                            handCards.get(handIndex).destroyed = true;
-                            // update the bitmap of the monster card and lock it at the right slot
-                            monsterCard2.sprite = handCards.get(handIndex).sprite;
-                            monsterCard2.x = 434;
-                            monsterCard2.y = 280;
-
-                            // the card has been placed
-                            placement = false;
-//                            attack = true;
-
-                            // This should be the last thing executed
-                            thinkAboutIt();
-
-                        }
-
-                        if (boardLayout.MSlot3Rect.contains((int)handCards.get(handIndex).x, (int)handCards.get(handIndex).y) && placement
-                                && handCards.get(handIndex).id == 0)
-
-                        {
-                            // no more card movement
-                            dragActive = false;
-
-                            // get rid of the hand card
-                            handCards.get(handIndex).destroyed = true;
-
-                            // update the bitmap of the monster card and lock it at the right slot
-                            monsterCard3.sprite = handCards.get(handIndex).sprite;
-                            monsterCard3.x = 634;
-                            monsterCard3.y = 280;
-
-                            // the card has been placed
-                            placement = false;
-//                            attack = true;
-
-                            // This should be the last thing executed
-                            thinkAboutIt();
-
-                        }
-
-                        // ATTACK PHASE LOGIC
-
-
-                        // Allow dragging during the attack phase
-
-                        if (boardLayout.MSlot1Rect.contains((int) x, (int) y) && attack && monsterSlotActive)
-
-                        {
-
-                            dragActive = true;
-                            monsterIndex = 0;
-                            monsterSlotActive = false;
-
-                        }
-
-                        if (boardLayout.MSlot2Rect.contains((int) x, (int) y) && attack && monsterSlotActive)
-
-                        {
-                            dragActive = true;
-                            monsterIndex = 1;
-                            monsterSlotActive = false;
-
-                        }
-
-                        if (boardLayout.MSlot3Rect.contains((int) x, (int) y) && attack && monsterSlotActive)
-
-                        {
-                            dragActive = true;
-                            monsterIndex = 2;
-                            monsterSlotActive = false;
 
                         }
 
@@ -894,7 +639,7 @@ public class GameLoop implements Runnable
                         // && handCards.get(handIndex) instanceof ManaCard
 
                         // Only accept mana cards
-                        if (boardLayout.manaRect.contains((int)handCards.get(handIndex).x, (int)handCards.get(handIndex).y)
+                        if (boardLayout.manaRect.contains((int) handCards.get(handIndex).x, (int) handCards.get(handIndex).y)
                                 && handCards.get(handIndex).id == 1 && manaflag)
 
                         {
@@ -944,34 +689,211 @@ public class GameLoop implements Runnable
                             manaflag = false;
                             // allow movement of hand cards again
                             handActive = true;
-                            // being the placement phase
-                            placement = true;
+                        }
+                    }
+                }
+
+            case MONSTERPLACEMENT:
+
+                for(int i = 0; i < touchListener.MAX_TOUCH_POINTS; i++) {
+                    if(touchListener.isTouchDown(i)) {
+                        int x = (int) touchListener.getTouchX(i), y = (int) touchListener
+                                .getTouchY(i);
+
+                        if(boardLayout.pauseRect.contains((int) x, (int) y)) {
+                            pauseGame();
+                        }
+
+                        if(boardLayout.playerMovementRect.contains((int) x, (int) y) && dragActive)
+
+                        {
+                            // how do you know which card this effects
+                            // set the index of the array to talk to
+                            handCards.get(handIndex).x = x;
+                            handCards.get(handIndex).y = y;
+
+                        }
+
+                        if (boardLayout.handRect1.contains((int) x, (int) y) && handActive)
+
+                        {
+                            // Allow the card chosen to be dragged
+                            dragActive = true;
+                            // The first card becomes the current card
+                            handIndex = 0;
+                            // No more hand cards can be picked up
+                            handActive = false;
+
+                        }
+
+
+                        if (boardLayout.handRect2.contains((int) x, (int) y) && handActive)
+
+                        {
+                            dragActive = true;
+                            handIndex = 1;
+                            handActive = false;
+
+                        }
+
+                        if (boardLayout.handRect3.contains((int) x, (int) y) && handActive)
+
+                        {
+                            dragActive = true;
+                            handIndex = 2;
+                            handActive = false;
+
+                        }
+
+                        if (boardLayout.handRect4.contains((int) x, (int) y) && handActive)
+
+                        {
+                            dragActive = true;
+                            handIndex = 3;
+                            handActive = false;
+
+                        }
+
+                        if (boardLayout.handRect5.contains((int) x, (int) y) && handActive)
+
+                        {
+                            dragActive = true;
+                            handIndex = 4;
+                            handActive = false;
+
+                        }
+
+                        // Monster Slot Detection - placement phase
+                        // Should be detecting card co-ordinates rather than finger position
+                        // Block mana cards from being placed
+
+
+                        // Hand Index
+                        if (boardLayout.MSlot1Rect.contains((int)handCards.get(handIndex).x, (int)handCards.get(handIndex).y)
+                                && handCards.get(handIndex).id == 0)
+
+                        {
+
+                            // no more card movement
+                            dragActive = false;
+
+                            // get rid of the hand card
+                            handCards.get(handIndex).destroyed = true;
+
+                            // update the bitmap of the monster card and lock it at the right slot
+                            monsterCard1.sprite = handCards.get(handIndex).sprite;
+                            monsterCard1.x = 234;
+                            monsterCard1.y = 280;
+
+//                          attack = true;
+
+                            // Turn this block into a new method??
+
+                            // This should be the last thing executed
+                            think();
+
+                        }
+
+                        if (boardLayout.MSlot2Rect.contains((int)handCards.get(handIndex).x, (int)handCards.get(handIndex).y)
+                                && handCards.get(handIndex).id == 0)
+
+                        {
+
+                            // no more card movement
+                            dragActive = false;
+
+                            // get rid of the hand card
+                            handCards.get(handIndex).destroyed = true;
+                            // update the bitmap of the monster card and lock it at the right slot
+                            monsterCard2.sprite = handCards.get(handIndex).sprite;
+                            monsterCard2.x = 434;
+                            monsterCard2.y = 280;
+//                            attack = true;
+
+                            // This should be the last thing executed
+                            think();
+
+                        }
+
+                        if (boardLayout.MSlot3Rect.contains((int)handCards.get(handIndex).x, (int)handCards.get(handIndex).y)
+                                && handCards.get(handIndex).id == 0)
+
+                        {
+                            // no more card movement
+                            dragActive = false;
+
+                            // get rid of the hand card
+                            handCards.get(handIndex).destroyed = true;
+
+                            // update the bitmap of the monster card and lock it at the right slot
+                            monsterCard3.sprite = handCards.get(handIndex).sprite;
+                            monsterCard3.x = 634;
+                            monsterCard3.y = 280;
+
+//                            attack = true;
+
+                            // This should be the last thing executed
+                            think();
 
                         }
 
                     }
-
-                    // set handActive back here
-
-                    // Touch Input logic goes here
-                    else
-
-                    {
-
-
-                    }
-
-                    // Put any single touch logic here
-
                 }
 
-                // end for loop
+                break;
 
-                break; // end NEW case
+            case ATTACK:
 
-            case PROMPT:
+                for(int i = 0; i < touchListener.MAX_TOUCH_POINTS; i++) {
+                    if(touchListener.isTouchDown(i)) {
+                        int x = (int) touchListener.getTouchX(i), y = (int) touchListener
+                                .getTouchY(i);
 
+                        if(boardLayout.pauseRect.contains((int) x, (int) y)) {
+                            pauseGame();
+                        }
 
+                        // Allow dragging during the attack phase
+
+                        if (boardLayout.MSlot1Rect.contains((int) x, (int) y) && monsterSlotActive)
+
+                        {
+
+                            dragActive = true;
+                            monsterIndex = 0;
+                            monsterSlotActive = false;
+
+                        }
+
+                        if (boardLayout.MSlot2Rect.contains((int) x, (int) y) && monsterSlotActive)
+
+                        {
+                            dragActive = true;
+                            monsterIndex = 1;
+                            monsterSlotActive = false;
+
+                        }
+
+                        if (boardLayout.MSlot3Rect.contains((int) x, (int) y) && monsterSlotActive)
+
+                        {
+                            dragActive = true;
+                            monsterIndex = 2;
+                            monsterSlotActive = false;
+
+                        }
+
+                        // Set up movement for attack logic
+                        if(boardLayout.attackRect.contains((int) x, (int) y) && dragActive)
+
+                        {
+                            monstersInPlay.get(monsterIndex).x = x;
+                            monstersInPlay.get(monsterIndex).y = y;
+
+                        }
+
+                    }
+                }
 
                 break;
 
@@ -1008,14 +930,13 @@ public class GameLoop implements Runnable
 
                 break;
 
-
         }
     }
 
 
     // show that the ai is thinking about it's choice
 
-    public void thinkAboutIt ()
+    public void think ()
 
     {
         // Show that the AI is thinking
@@ -1040,6 +961,18 @@ public class GameLoop implements Runnable
         // monsterSlotActive = true;
         opponent1.sprite = aiHandMonsters.get(index).sprite;
 
+        // begin the player draw phase
+        gameState = GameState.DRAW;
+    }
+
+    private void updateDraw ()
+
+    {
+        // draw a new card
+        takeCard();
+
+        // begin the mana placement phase
+        gameState = GameState.MANAPLACEMENT;
 
     }
 
@@ -1106,15 +1039,47 @@ public class GameLoop implements Runnable
 
     }
 
+    // ALL THE LOGIC RELATED TO DRAWING CARDS
+
     // randomly selects hand cards for the player and draws them to the screen
+    // the hand cards objects need to increment
     private void populatePlayerHand ()
 
     {
         for (int i = 0; i < 5; i++)
 
         {
-            takeCard(i);
+
+            randex = rand.generateRandomNumber();
+            // keep for troubleshooting
+            System.out.println("Random is" + randex);
+
+            if (randex <= 7)
+
+            {
+                // visual stuff is updated
+                handCards.get(i).sprite = playerDeck.monsterArray.get(randex).sprite;
+                handCards.get(i).id = 0;
+                handCards.get(i).cardSchool = playerDeck.monsterArray.get(randex).cardSchool;
+
+                playerHandmonsters.add(aiDeck.monsterArray.get(randex));
+            }
+
+            // trap this in certain bounds
+            if (randex > 7 && randex <= 13)
+
+            {
+                handCards.get(i).sprite = playerDeck.manaArray.get(randex % 8).sprite;
+                handCards.get(i).id = 1;
+                handCards.get(i).cardSchool = playerDeck.manaArray.get(randex % 8).cardSchool;
+                playerHandmana.add(playerDeck.manaArray.get(randex % 8));
+            }
+
         }
+
+        // Error Checking
+        System.out.println("Completed");
+
 
     }
 
@@ -1151,132 +1116,37 @@ public class GameLoop implements Runnable
 
     }
 
-    // draw an individual card from the deck
-    // this doesn't work for generic cases
-
-    private void takeCard(int i)
+    // Take an individual card from the deck - this takes place once the prep phase is over
+    private void takeCard()
 
     {
         randex = rand.generateRandomNumber();
         // keep for troubleshooting
         System.out.println("Random is" + randex);
 
-        int dex = randex-1;
-
-        // Set the x and y first then update
-        // Put the hand cards in an array and loop through them
-        switch (i)
+        // The thing that's updated depends on what was previously removed
+        if (randex <= 7)
 
         {
-            case 0:
+            // visual stuff is updated
+            handCards.get(handIndex).sprite = playerDeck.monsterArray.get(randex).sprite;
+            handCards.get(handIndex).id = 0;
+            handCards.get(handIndex).cardSchool = playerDeck.monsterArray.get(randex).cardSchool;
 
-                if (randex <= 7)
+            // add to the logical arrays
+            playerHandmonsters.add(aiDeck.monsterArray.get(randex));
+        }
 
-                {
-                    handCard1.sprite = playerDeck.monsterArray.get(randex).sprite;
-                    handCard1.id = 0;
-                    handCard1.cardSchool = playerDeck.monsterArray.get(randex).cardSchool;
+        // trap this in certain bounds
+        if (randex > 7 && randex <= 13)
 
-                }
+        {
+            handCards.get(handIndex).sprite = playerDeck.manaArray.get(randex).sprite;
+            handCards.get(handIndex).id = 1;
+            handCards.get(handIndex).cardSchool = playerDeck.manaArray.get(randex).cardSchool;
 
-                // trap this in certain bounds
-                if (randex > 7 && randex <= 13)
-
-                {
-                    handCard1.sprite = playerDeck.manaArray.get(randex % 8).sprite;
-                    handCard1.id = 1;
-                    handCard1.cardSchool = playerDeck.manaArray.get(randex % 8).cardSchool;
-
-                }
-                break;
-            case 1:
-                if (randex <= 7)
-
-                {
-                    handCard2.sprite = playerDeck.monsterArray.get(randex).sprite;
-                    handCard2.id = 0;
-                    handCard2.cardSchool = playerDeck.monsterArray.get(randex).cardSchool;
-
-                }
-
-                // trap this in certain bounds
-                if (randex > 7 && randex <= 13)
-
-                {
-                    handCard2.sprite = playerDeck.manaArray.get(randex % 8).sprite;
-                    handCard2.id = 1;
-                    handCard2.cardSchool = playerDeck.manaArray.get(randex % 8).cardSchool;
-
-                }
-                break;
-
-
-            case 2:
-
-                if (randex <= 7)
-
-                {
-                    handCard3.sprite = playerDeck.monsterArray.get(randex).sprite;
-                    handCard3.id = 0;
-                    handCard3.cardSchool = playerDeck.monsterArray.get(randex).cardSchool;
-
-                }
-
-                // trap this in certain bounds
-                if (randex > 7 && randex <= 13)
-
-                {
-                    handCard3.sprite = playerDeck.manaArray.get(randex % 8).sprite;
-                    handCard3.id = 1;
-                    handCard3.cardSchool = playerDeck.manaArray.get(randex % 8).cardSchool;
-
-                }
-                break;
-
-            case 3:
-
-                if (randex <= 7)
-
-                {
-                    handCard4.sprite = playerDeck.monsterArray.get(randex).sprite;
-                    handCard4.id = 0;
-                    handCard4.cardSchool = playerDeck.monsterArray.get(randex).cardSchool;
-
-                }
-
-                // trap this in certain bounds
-                if (randex > 7 && randex <= 13)
-
-                {
-                    handCard4.sprite = playerDeck.manaArray.get(randex % 8).sprite;
-                    handCard4.id = 1;
-                    handCard4.cardSchool = playerDeck.manaArray.get(randex % 8).cardSchool;
-
-
-                }
-                break;
-            case 4:
-                if (randex <= 7)
-
-                {
-                    handCard5.sprite = playerDeck.monsterArray.get(randex).sprite;
-                    handCard5.id = 0;
-                    handCard5.cardSchool = playerDeck.monsterArray.get(randex).cardSchool;
-
-                }
-
-                // trap this in certain bounds
-                if (randex > 7 && randex <= 13)
-
-                {
-                    handCard5.sprite = playerDeck.manaArray.get(randex % 8).sprite;
-                    handCard5.id = 1;
-                    handCard5.cardSchool = playerDeck.manaArray.get(randex % 8).cardSchool;
-
-
-                }
-                break;
-
+            // add to the logical arrays
+            aiHandMana.add(playerDeck.manaArray.get(randex % 8));
         }
 
     }
