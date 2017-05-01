@@ -8,13 +8,13 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.MonsterCard;
  * Created by brian on 14/02/2017.
  */
 
-public class graveYard extends GameObject {
+public class graveYard {
     public  final int maxGraveYardSize = 5;
     private int graveCounter;
     private MonsterCard graveYard [] = new MonsterCard[maxGraveYardSize];
 
-    public graveYard(float x, float y, int width, int height, Bitmap sprite, boolean player) {
-        super(x, y, width, height, sprite, player);
+    public graveYard() {
+
         this.graveCounter = 0;
     }
 

@@ -59,16 +59,17 @@ public class Brain {
         if(checkAllZonesAreActive(cardZones))
         {
 
-            for(int i=0; i < hand.getHand().length;i++)
+            for(int i=0; i < hand.getScreenHand().length;i++)
             {
-                if( hand.callCorrectMonsterCard(hand.getHand()[i]).getLevel() == CardLevel.UNDERGRAD
-                            && hand.callCorrectMonsterCard(hand.getHand()[i]).getAttackValue() > hand.callCorrectMonsterCard(hand.getHand()[bestCardIndex]).getAttackValue())
+                if( hand.callCorrectMonsterCard(hand.getScreenHand()[i]).getLevel() == CardLevel.UNDERGRAD
+                            && hand.callCorrectMonsterCard(hand.getScreenHand()[i]).getAttackValue() > hand.callCorrectMonsterCard(hand.getScreenHand()[bestCardIndex]).getAttackValue())
                     {
                         bestCardIndex = i;
                     }
             }
         }
-        playMonsterCard(hand.callCorrectMonsterCard(hand.getHand()[bestCardIndex]),cardZones);
+        playMonsterCard(hand.callCorrectMonsterCard(hand.getScreenHand()[bestCardIndex]),cardZones);
+
     }
 
 
@@ -81,13 +82,13 @@ public class Brain {
        int nextLevelMonsterIndex = -1;
         int previousLevelMonsterIndex =-1;
         boolean upgradeableCard =false;
-        for(int i=0; i < hand.getHand().length && !upgradeableCard;i++)
+        for(int i=0; i < hand.getScreenHand().length && !upgradeableCard;i++)
         {
             for(int j=0; j<cardZones.length; j++)
             {
 
                     // put in matthews method here !!!
-                    if(hand.callCorrectMonsterCard(hand.getHand()[i]).evolutionCheck(cardZones[j].getCurrentCard()) )
+                    if(hand.callCorrectMonsterCard(hand.getScreenHand()[i]).evolutionCheck(cardZones[j].getCurrentCard()) )
                     {
                         nextLevelMonsterIndex = i;
                         previousLevelMonsterIndex =j;
@@ -170,11 +171,11 @@ public class Brain {
 
 
 //              YOU NEED TO REVERT THE CARDS BACK TO THEIR ORIGINAL VARIABLES
-                for(int i =0; i< hand.getHand().length && !manaCardFound; i++)
+                for(int i =0; i< hand.getScreenHand().length && !manaCardFound; i++)
                 {
-                    if(hand.callCorrectManaCard(hand.getHand()[i]).id == 1)
+                    if(hand.callCorrectManaCard(hand.getScreenHand()[i]).id == 1)
                     {
-                        ManaCard temp = hand.callCorrectManaCard(hand.getHand()[i]);
+                        ManaCard temp = hand.callCorrectManaCard(hand.getScreenHand()[i]);
                         if(temp.getManaType().equals(key))
                         {
 
@@ -196,11 +197,11 @@ public class Brain {
         ManaTypes key1 = null;
 
         // this loop is used to count all of the mana requirements of the monstercards within the hand.
-        for(int i=0; i < hand.getHand().length;i++ )
+        for(int i=0; i < hand.getScreenHand().length;i++ )
         {
                 for (ManaTypes key:manaCounter.getManaCounterHashMap().keySet())
                 {
-                    temp.put(key,temp.get(key)+(hand.callCorrectMonsterCard(hand.getHand()[i])).getAttackManaRequirement().get(key) ) ;
+                    temp.put(key,temp.get(key)+(hand.callCorrectMonsterCard(hand.getScreenHand()[i])).getAttackManaRequirement().get(key) ) ;
                 }
         }
         // this loop is used to find the mana type that will have the highest need.
