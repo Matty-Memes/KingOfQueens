@@ -319,7 +319,7 @@ public class GameViewFragment extends CanvasFragment {
         loop.opponent3.draw(canvas);
 
         // deck and graveyard
-        loop.graveYard.draw(canvas);
+        loop.grveYard.draw(canvas);
         loop.deck.draw(canvas);
     }
 
@@ -355,7 +355,7 @@ public class GameViewFragment extends CanvasFragment {
         loop.manaZone.draw(canvas);
         // brians testing. This is the method that should give all of the values. needs to be uncommented
         // this should be able to draw all of the values for each of the mana types. see Manacounter Class to see positions.
-        loop.manaTest.drawValues(loop.manaTest.manaCounterToDrawObject(),canvas);
+        loop.player.getManaCounter().drawValues(loop.player.getManaCounter().manaCounterToDrawObject(),canvas);
 
     }
 

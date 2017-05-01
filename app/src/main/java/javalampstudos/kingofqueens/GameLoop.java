@@ -99,8 +99,8 @@ public class GameLoop implements Runnable
     // Card Back Sprite
     public Bitmap cardBackSprite;
 
-    private PlaySpace player;
-    private PlaySpace aiPlayer;
+     PlaySpace player;
+     PlaySpace aiPlayer;
     Hand playerHand;
     graveYard playerGraveYard;
     // ACTUAL CARDS TO BE DRAWN
