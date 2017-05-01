@@ -164,7 +164,7 @@ public class JSONcardLibrary
     {
         try
         {
-            InputStream fileIn = new FileInputStream("\\txt\\cardLibrary.txt");
+            InputStream fileIn = new FileInputStream("txt/cardLibrary.txt");
             readJsonStream(fileIn);
 
             fileIn.close();
