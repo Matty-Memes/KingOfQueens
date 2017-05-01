@@ -1057,7 +1057,7 @@ public class GameLoop implements Runnable
     private void populatePlayerHand ()
 
     {
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < player.getHand().getScreenHand().length; i++)
 
         {
 
@@ -1105,7 +1105,7 @@ public class GameLoop implements Runnable
     private void populateOpponentHand ()
 
     {
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < aiPlayer.getHand().getScreenHand().length; i++)
 
         {
 
