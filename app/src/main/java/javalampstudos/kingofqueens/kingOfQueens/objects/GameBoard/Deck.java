@@ -31,9 +31,10 @@ public class Deck {
     private randomGenerator rand = new randomGenerator();
 
     // Could be re-used
-    public ArrayList<MonsterCard> monsterArray = new ArrayList<>(noOfMonsterCards);
-    public ArrayList<ManaCard> manaArray= new ArrayList<>(noOfManaCards);
-    public ArrayList<SupportCard> supportArray = new ArrayList<>(noOfSupportCards);
+    private ArrayList<MonsterCard> monsterArray = new ArrayList<>(noOfMonsterCards);
+    private ArrayList<ManaCard> manaArray= new ArrayList<>(noOfManaCards);
+    private ArrayList<SupportCard> supportArray = new ArrayList<>(noOfSupportCards);
+    private ArrayList<BasicCard> basicArray = new ArrayList<>(MAXDECKSIZE);
 
     public Deck ()
 
@@ -50,6 +51,8 @@ public class Deck {
 //        manaArray = this.manaArray;
 //        supportArray = this.supportArray;
 //    }
+
+    //getters and setters
     public int getDeckSize()
     {
         return deckSize;
@@ -74,6 +77,48 @@ public class Deck {
     {
         return MAXDECKSIZE;
     }
+
+    public ArrayList<MonsterCard> getMonsterArray()
+    {
+        return monsterArray;
+    }
+
+    public void setMonsterArray(ArrayList<MonsterCard> monsterArray)
+    {
+        this.monsterArray = monsterArray;
+    }
+
+    public ArrayList<ManaCard> getManaArray()
+    {
+        return manaArray;
+    }
+
+    public void setManaArray(ArrayList<ManaCard> manaArray)
+    {
+        this.manaArray = manaArray;
+    }
+
+    public ArrayList<SupportCard> getSupportArray()
+    {
+        return supportArray;
+    }
+
+    public void setSupportArray(ArrayList<SupportCard> supportArray)
+    {
+        this.supportArray = supportArray;
+    }
+
+    public ArrayList<BasicCard> getBasicArray()
+    {
+        return basicArray;
+    }
+
+    public void setBasicArray(ArrayList<BasicCard> basicArray)
+    {
+        this.basicArray = basicArray;
+    }
+
+
 
     // first parse the JSON for all the cards
     // then allocate the cards
@@ -119,29 +164,40 @@ public class Deck {
     //generates a starting deck
     private void generateDeck(ArrayList<MonsterCard> libraryMonster,ArrayList<ManaCard> libraryMana,ArrayList<SupportCard> librarySupport)
     {
+        int basicArrayMarker = 0;
         for (int i = 0; i < 17; i++)
         {
             monsterArray.add(i, libraryMonster.get(i));
+            basicArray.add(basicArrayMarker,libraryMonster.get(i));
             noOfMonsterCards++;
+            basicArrayMarker++;
+
         }
         //add six mana cards for Engineer and Medic
         for(int i = 0;i<5;i++)
         {
             manaArray.add(i, libraryMana.get(1)); //Medic mana
+            basicArray.add(basicArrayMarker,libraryMonster.get(i));
             noOfManaCards++;
+            basicArrayMarker++;
         }
         for(int i = 6;i<11;i++)
         {
             manaArray.add(i, libraryMana.get(3)); //Engineer mana
+            basicArray.add(basicArrayMarker,libraryMonster.get(i));
             noOfManaCards++;
+            basicArrayMarker++;
         }
         //add support cards to library
         for(int i = 0;i<librarySupport.size();i++)
         {
             supportArray.add(i, librarySupport.get(i));
+            basicArray.add(basicArrayMarker,libraryMonster.get(i));
             noOfSupportCards++;
+            basicArrayMarker++;
         }
     }
+
 
     //These methods will be used in the deck assembler fragment
     private void addMonstersCards(MonsterCard monsterCard)

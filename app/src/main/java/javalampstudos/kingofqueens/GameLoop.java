@@ -21,7 +21,10 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BasicCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardLevel;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaTypes;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
+import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Hand;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.ManaCounter;
+import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.PlaySpace;
+import javalampstudos.kingofqueens.kingOfQueens.objects.graveYard;
 import javalampstudos.kingofqueens.kingOfQueens.util.randomGenerator;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.boardLayout;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Deck;
@@ -36,6 +39,8 @@ import android.content.res.AssetManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardSchools.ARTS_HUMANITIES;
 
 public class GameLoop implements Runnable
 
@@ -55,13 +60,7 @@ public class GameLoop implements Runnable
     // instantiate CanvasFragment
     public CanvasFragment fragment;
 
-    // GAME STATE
-
-    // Use enum for game states as a basis
-    // Default is for normal gameplay i.e the card game itself
-
-
-    // All AI logic happens within ai turn
+    // Define the possible game states
     public enum GameState {
 
         NEW, CARDGAME, PROMPT, AITURN, PAUSED,
@@ -84,7 +83,6 @@ public class GameLoop implements Runnable
 
     // Don't allow dragging till permitted
     public boolean dragActive = false;
-    public boolean deckCompleted = false;
 
     // Turn the manaZone off
     public boolean manaflag = false;
@@ -101,6 +99,10 @@ public class GameLoop implements Runnable
     // Card Back Sprite
     public Bitmap cardBackSprite;
 
+     PlaySpace player;
+     PlaySpace aiPlayer;
+    Hand playerHand;
+    graveYard playerGraveYard;
     // ACTUAL CARDS TO BE DRAWN
 
     // Arrays to be drawn
@@ -178,8 +180,7 @@ public class GameLoop implements Runnable
     andyManaCounter eeecs;
     andyManaCounter Medic;*/
 
-    // brians test for mc
-    ManaCounter manaTest;
+
 
     // AI
 
@@ -209,7 +210,7 @@ public class GameLoop implements Runnable
 
     // Declare card backs here - Possibly move to the JSON parser
 
-    public BasicCard graveYard;
+    public BasicCard grveYard;
     public BasicCard deck;
 
     // Created by Andrew - 40083349
@@ -294,7 +295,7 @@ public class GameLoop implements Runnable
         monsterCard3 = new MonsterCard(634, 280, 90, 120, cardBackSprite, true, 3,CardSchools.MEDICS, false,
                 49, CardLevel.DOCTRATE, 140, 0, 3, 1, requiredMana);
 
-        graveYard = new BasicCard(800, 280, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
+        grveYard = new BasicCard(800, 280, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
                 49);
 
         deck = new BasicCard(800, 410, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
@@ -311,8 +312,6 @@ public class GameLoop implements Runnable
 
         rand = new randomGenerator();
 
-        // Test Brian's mana counter
-        manaTest = new ManaCounter();
 
         // initialzing AiBrain.
         aiBrain = new Brain();
@@ -323,8 +322,8 @@ public class GameLoop implements Runnable
 //        handPos = 0;
 
         playerDeck.createDeck(this);
-        System.out.println("playerDeck monsters " + playerDeck.monsterArray.size());
-        System.out.println("playerDeck mana" + playerDeck.manaArray.size());
+        /*System.out.println("playerDeck monsters " + playerDeck.monsterArray.size());
+        System.out.println("playerDeck mana" + playerDeck.manaArray.size());*/
 
         // this only affects basic card at the moment
         populatePlayerHand ();
@@ -332,8 +331,8 @@ public class GameLoop implements Runnable
         rand.flushRandomLogic();
 
         aiDeck.createDeck(this);
-        System.out.println("playerDeck monsters " + playerDeck.monsterArray.size());
-        System.out.println("playerDeck mana" + playerDeck.manaArray.size());
+       /* System.out.println("playerDeck monsters " + playerDeck.monsterArray.size());
+        System.out.println("playerDeck mana" + playerDeck.manaArray.size());*/
 
         rand.flushRandomLogic();
 
@@ -344,6 +343,9 @@ public class GameLoop implements Runnable
 
         // The user can't interact till everything is loaded
         handActive = true;
+        playerHand = new Hand();
+        playerGraveYard = new graveYard();
+        player = new PlaySpace(playerDeck,playerHand,playerGraveYard);
 
     }
 
@@ -580,8 +582,8 @@ public class GameLoop implements Runnable
                         {
                             // how do you know which card this effects
                             // set the index of the array to talk to
-                            handCards.get(handIndex).x = x;
-                            handCards.get(handIndex).y = y;
+                            player.getHand().getScreenHand()[handIndex].x = x;
+                            player.getHand().getScreenHand()[handIndex].y = y;
 
                         }
 
@@ -639,50 +641,47 @@ public class GameLoop implements Runnable
                         // && handCards.get(handIndex) instanceof ManaCard
 
                         // Only accept mana cards
-                        if (boardLayout.manaRect.contains((int) handCards.get(handIndex).x, (int) handCards.get(handIndex).y)
-                                && handCards.get(handIndex).id == 1 && manaflag)
+                        if (boardLayout.manaRect.contains((int) player.getHand().getScreenHand()[handIndex].x, (int)player.getHand().getScreenHand()[handIndex].y)
+                                && player.getHand().getScreenHand()[handIndex].id == 1 && manaflag)
 
                         {
                             // no more dragging now the mana has been placed
                             dragActive = false;
 
                             // Work out which manaCounter object to update
-                            switch (handCards.get(handIndex).getCardSchool())
 
+                            switch (player.getHand().callCorrectManaCard(player.getHand().getScreenHand()[handIndex]).getManaType())
                             {
-                                case ARTS_HUMANITIES:
+                                case ARTS_HUMANITIES_MANA:
                                     // artsAndHumanities.incrementCounter();
-                                    manaTest.addMana(ManaTypes.ARTS_HUMANITIES_MANA);
+                                    player.getManaCounter().addMana(ManaTypes.ARTS_HUMANITIES_MANA);
                                     break;
-                                case ENGINEERING:
+                                case ENGINEERING_MANA:
                                     //    engineering.incrementCounter();
-                                    manaTest.addMana(ManaTypes.ENGINEERING_MANA);
+                                    player.getManaCounter().addMana(ManaTypes.ENGINEERING_MANA);
                                     break;
-                                case BUILT_ENVIORNMENT:
+                                case BUILT_ENVIRONMENT_MANA:
                                     //    builtEnvironment.incrementCounter();
-                                    manaTest.addMana(ManaTypes.BUILT_ENVIRONMENT_MANA);
+                                    player.getManaCounter().addMana(ManaTypes.BUILT_ENVIRONMENT_MANA);
                                     break;
-                                case EEECS:
-                                    manaTest.addMana(ManaTypes.EEECS_MANA);
+                                case EEECS_MANA:
+                                    player.getManaCounter().addMana(ManaTypes.EEECS_MANA);
                                     //   eeecs.incrementCounter();
                                     break;
-                                case MEDICS:
+                                case MEDICS_MANA:
                                     //    Medic.incrementCounter();
-                                    manaTest.addMana(ManaTypes.MEDICS_MANA);
+                                    player.getManaCounter().addMana(ManaTypes.MEDICS_MANA);
                                     break;
-                                // Deal with generic mana
-                                /*
-                                case
-                                    manaTest.addMana(ManaTypes.GENERIC_MANA);
+                                case GENERIC_MANA:
+                                        player.getManaCounter().addMana(ManaTypes.GENERIC_MANA);
                                     break;
-                                */
-                                case SOCIAL_SCIENCES:
-                                    manaTest.addMana(ManaTypes.SOCIAL_SCIENCES_MANA);
+                                case SOCIAL_SCIENCES_MANA:
+                                    player.getManaCounter().addMana(ManaTypes.SOCIAL_SCIENCES_MANA);
 
                             }
 
                             // get the current card off the screen
-                            handCards.get(handIndex).destroyed = true;
+                            player.getHand().getScreenHand()[handIndex].destroyed = true;
 
                             // need to pass information from the mana card in question
 
@@ -709,8 +708,8 @@ public class GameLoop implements Runnable
                         {
                             // how do you know which card this effects
                             // set the index of the array to talk to
-                            handCards.get(handIndex).x = x;
-                            handCards.get(handIndex).y = y;
+                            player.getHand().getScreenHand()[handIndex].x = x;
+                            player.getHand().getScreenHand()[handIndex].y = y;
 
                         }
 
@@ -769,8 +768,8 @@ public class GameLoop implements Runnable
 
 
                         // Hand Index
-                        if (boardLayout.MSlot1Rect.contains((int)handCards.get(handIndex).x, (int)handCards.get(handIndex).y)
-                                && handCards.get(handIndex).id == 0)
+                        if (boardLayout.MSlot1Rect.contains((int)player.getHand().getScreenHand()[handIndex].x, (int)player.getHand().getScreenHand()[handIndex].y)
+                                && player.getHand().getScreenHand()[handIndex].id == 0)
 
                         {
 
@@ -778,12 +777,15 @@ public class GameLoop implements Runnable
                             dragActive = false;
 
                             // get rid of the hand card
-                            handCards.get(handIndex).destroyed = true;
+                            player.getHand().getScreenHand()[handIndex].destroyed = true;
 
                             // update the bitmap of the monster card and lock it at the right slot
-                            monsterCard1.sprite = handCards.get(handIndex).sprite;
+                            monsterCard1.sprite = player.getHand().getScreenHand()[handIndex].sprite;
                             monsterCard1.x = 234;
                             monsterCard1.y = 280;
+
+                            // puts the card back in it's proper position
+                            player.getHand().getScreenHand()[handIndex].resetPosition();
 
 //                          attack = true;
 
@@ -794,8 +796,8 @@ public class GameLoop implements Runnable
 
                         }
 
-                        if (boardLayout.MSlot2Rect.contains((int)handCards.get(handIndex).x, (int)handCards.get(handIndex).y)
-                                && handCards.get(handIndex).id == 0)
+                        if (boardLayout.MSlot2Rect.contains((int)player.getHand().getScreenHand()[handIndex].x, (int)player.getHand().getScreenHand()[handIndex].y)
+                                && player.getHand().getScreenHand()[handIndex].id == 0)
 
                         {
 
@@ -803,11 +805,14 @@ public class GameLoop implements Runnable
                             dragActive = false;
 
                             // get rid of the hand card
-                            handCards.get(handIndex).destroyed = true;
+                            player.getHand().getScreenHand()[handIndex].destroyed = true;
+
                             // update the bitmap of the monster card and lock it at the right slot
-                            monsterCard2.sprite = handCards.get(handIndex).sprite;
+                            monsterCard2.sprite = player.getHand().getScreenHand()[handIndex].sprite;
                             monsterCard2.x = 434;
                             monsterCard2.y = 280;
+
+                            player.getHand().getScreenHand()[handIndex].resetPosition();
 //                            attack = true;
 
                             // This should be the last thing executed
@@ -815,18 +820,18 @@ public class GameLoop implements Runnable
 
                         }
 
-                        if (boardLayout.MSlot3Rect.contains((int)handCards.get(handIndex).x, (int)handCards.get(handIndex).y)
-                                && handCards.get(handIndex).id == 0)
+                        if (boardLayout.MSlot3Rect.contains((int)player.getHand().getScreenHand()[handIndex].x, (int)player.getHand().getScreenHand()[handIndex].y)
+                                && player.getHand().getScreenHand()[handIndex].id == 0)
 
                         {
                             // no more card movement
                             dragActive = false;
 
                             // get rid of the hand card
-                            handCards.get(handIndex).destroyed = true;
+                            player.getHand().getScreenHand()[handIndex].destroyed = true;
 
                             // update the bitmap of the monster card and lock it at the right slot
-                            monsterCard3.sprite = handCards.get(handIndex).sprite;
+                            monsterCard3.sprite = player.getHand().getScreenHand()[handIndex].sprite;
                             monsterCard3.x = 634;
                             monsterCard3.y = 280;
 
@@ -954,12 +959,14 @@ public class GameLoop implements Runnable
 
     {
         // This needs to happen seperately.
-        int index = aiBrain.playHighestAttack(aiHandMonsters);
-        System.out.println(index);
-
+       /* int index = aiBrain.playHighestAttack(aiHandMonsters);
+        System.out.println(index);*/
+       aiBrain.PlayCardWithHighestAtt(aiPlayer.getHand(),aiPlayer.getCardZones());
         // THis is for monster placement
         // monsterSlotActive = true;
-        opponent1.sprite = aiHandMonsters.get(index).sprite;
+        opponent1.sprite = aiPlayer.getCardZones()[0].getCurrentCard().sprite;
+        opponent2.sprite = aiPlayer.getCardZones()[1].getCurrentCard().sprite;
+        opponent3.sprite = aiPlayer.getCardZones()[2].getCurrentCard().sprite;
 
         // begin the player draw phase
         gameState = GameState.DRAW;
@@ -1015,19 +1022,23 @@ public class GameLoop implements Runnable
     private void updateCard ()
 
     {
-        handCard1.update();
+       /* handCard1.update();
         handCard2.update();
         handCard3.update();
         handCard4.update();
-        handCard5.update();
+        handCard5.update();*/
 
+        for(int i=0; i < player.getHand().getScreenHand().length;i++)
+        {
+            player.getHand().getScreenHand()[i].update();
+        }
         monsterCard1.update();
         monsterCard2.update();
         monsterCard3.update();
 
         // Graveyard and deck updates
 
-        graveYard.update();
+        grveYard.update();
         deck.update();
 
         manaZone.update();
@@ -1046,34 +1057,40 @@ public class GameLoop implements Runnable
     private void populatePlayerHand ()
 
     {
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < player.getHand().getScreenHand().length; i++)
 
         {
 
             randex = rand.generateRandomNumber();
             // keep for troubleshooting
             System.out.println("Random is" + randex);
-
-            if (randex <= 7)
+            player.addToHand(player.getDeck().getBasicArray().get(randex),i);
+          //  if (randex <= 7)
+/*
 
             {
                 // visual stuff is updated
-                handCards.get(i).sprite = playerDeck.monsterArray.get(randex).sprite;
+               */
+/* handCards.get(i).sprite = playerDeck.monsterArray.get(randex).sprite;
                 handCards.get(i).id = 0;
                 handCards.get(i).cardSchool = playerDeck.monsterArray.get(randex).cardSchool;
 
-                playerHandmonsters.add(aiDeck.monsterArray.get(randex));
+                playerHandmonsters.add(aiDeck.monsterArray.get(randex));*//*
+
+
+
             }
+*/
 
             // trap this in certain bounds
-            if (randex > 7 && randex <= 13)
+           /* if (randex > 7 && randex <= 13)
 
             {
                 handCards.get(i).sprite = playerDeck.manaArray.get(randex % 8).sprite;
                 handCards.get(i).id = 1;
                 handCards.get(i).cardSchool = playerDeck.manaArray.get(randex % 8).cardSchool;
                 playerHandmana.add(playerDeck.manaArray.get(randex % 8));
-            }
+            }*/
 
         }
 
@@ -1088,14 +1105,15 @@ public class GameLoop implements Runnable
     private void populateOpponentHand ()
 
     {
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < aiPlayer.getHand().getScreenHand().length; i++)
 
         {
 
             randex = rand.generateRandomNumber();
             // keep for troubleshooting
             System.out.println("Random is" + randex);
-
+            aiPlayer.addToHand(aiPlayer.getDeck().getBasicArray().get(randex),i);
+/*
             if (randex <= 7)
 
             {
@@ -1107,7 +1125,7 @@ public class GameLoop implements Runnable
 
             {
                 aiHandMana.add(playerDeck.manaArray.get(randex % 8));
-            }
+            }*/
 
         }
 
@@ -1123,9 +1141,9 @@ public class GameLoop implements Runnable
         randex = rand.generateRandomNumber();
         // keep for troubleshooting
         System.out.println("Random is" + randex);
-
+      //  player.addToHand(player.getDeck().getBasicArray().get(randex),);
         // The thing that's updated depends on what was previously removed
-        if (randex <= 7)
+       /* if (randex <= 7)
 
         {
             // visual stuff is updated
@@ -1148,10 +1166,8 @@ public class GameLoop implements Runnable
             // add to the logical arrays
             aiHandMana.add(playerDeck.manaArray.get(randex % 8));
         }
-
+*/
     }
-
-
 
 //        // You can't re-run the draw method
 //

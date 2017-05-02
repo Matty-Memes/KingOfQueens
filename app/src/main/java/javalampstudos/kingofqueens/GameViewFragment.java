@@ -303,11 +303,11 @@ public class GameViewFragment extends CanvasFragment {
         // draw temp cards for positioning
 
         // hands
-        loop.handCard1.draw(canvas);
+        /*loop.handCard1.draw(canvas);
         loop.handCard2.draw(canvas);
         loop.handCard3.draw(canvas);
         loop.handCard4.draw(canvas);
-        loop.handCard5.draw(canvas);
+        loop.handCard5.draw(canvas);*/
 
         loop.monsterCard1.draw(canvas);
         loop.monsterCard2.draw(canvas);
@@ -319,7 +319,7 @@ public class GameViewFragment extends CanvasFragment {
         loop.opponent3.draw(canvas);
 
         // deck and graveyard
-        loop.graveYard.draw(canvas);
+        loop.grveYard.draw(canvas);
         loop.deck.draw(canvas);
     }
 
@@ -355,7 +355,7 @@ public class GameViewFragment extends CanvasFragment {
         loop.manaZone.draw(canvas);
         // brians testing. This is the method that should give all of the values. needs to be uncommented
         // this should be able to draw all of the values for each of the mana types. see Manacounter Class to see positions.
-        loop.manaTest.drawValues(loop.manaTest.manaCounterToDrawObject(),canvas);
+        loop.player.getManaCounter().drawValues(loop.player.getManaCounter().manaCounterToDrawObject(),canvas);
 
     }
 
@@ -364,10 +364,10 @@ public class GameViewFragment extends CanvasFragment {
     private void drawHand (Canvas canvas)
 
     {
-        for (int i = 0; i < loop.handCards.size(); i++)
+        for (int i = 0; i < loop.player.getHand().getScreenHand().length; i++)
 
         {
-            loop.handCards.get(i).draw(canvas);
+            loop.player.getHand().getScreenHand()[i].draw(canvas);
 
         }
 
@@ -381,6 +381,10 @@ public class GameViewFragment extends CanvasFragment {
         loop.monsterCard2.draw(canvas);
         loop.monsterCard3.draw(canvas);
 
+      /*  for(int i =0; i < loop.player.getCardZones().length; i++)
+        {
+            loop.player.getCardZones()[i].getCurrentCard().draw(canvas);
+        }*/
 
     }
 
