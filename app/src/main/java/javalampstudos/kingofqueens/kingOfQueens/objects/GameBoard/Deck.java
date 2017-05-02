@@ -31,10 +31,10 @@ public class Deck {
     private randomGenerator rand = new randomGenerator();
 
     // Could be re-used
-    private ArrayList<MonsterCard> monsterArray = new ArrayList<>(noOfMonsterCards);
-    private ArrayList<ManaCard> manaArray= new ArrayList<>(noOfManaCards);
-    private ArrayList<SupportCard> supportArray = new ArrayList<>(noOfSupportCards);
-    private ArrayList<BasicCard> basicArray = new ArrayList<>(MAXDECKSIZE);
+    public ArrayList<MonsterCard> monsterArray = new ArrayList<>(noOfMonsterCards);
+    public ArrayList<ManaCard> manaArray= new ArrayList<>(noOfManaCards);
+    public ArrayList<SupportCard> supportArray = new ArrayList<>(noOfSupportCards);
+    public ArrayList<BasicCard> basicArray = new ArrayList<>(MAXDECKSIZE);
 
     public Deck ()
 
