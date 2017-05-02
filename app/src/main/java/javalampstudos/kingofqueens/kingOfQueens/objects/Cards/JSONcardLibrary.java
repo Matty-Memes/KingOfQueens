@@ -1,10 +1,7 @@
 package javalampstudos.kingofqueens.kingOfQueens.objects.Cards;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapRegionDecoder;
 import android.util.JsonReader;
-import android.content.res.AssetManager;
-import android.content.Context;
 
 
 import java.io.FileInputStream;
@@ -15,7 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javalampstudos.kingofqueens.kingOfQueens.Menu.PauseFragment;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 import javalampstudos.kingofqueens.GameLoop;
 
@@ -105,23 +101,23 @@ public class JSONcardLibrary
     // Actual Card Objects
 
     // Engineering
-    private MonsterCard Engineer1;
-    private MonsterCard Engineer2;
-    private MonsterCard Engineer3;
-    private MonsterCard Turret1;
-    private MonsterCard Turret2;
-    private MonsterCard Turret3;
-    private MonsterCard AeroSpaceEngineer1;
-    private MonsterCard AeroSpaceEngineer2;
+//    private MonsterCard Engineer1;
+//    private MonsterCard Engineer2;
+//    private MonsterCard Engineer3;
+//    private MonsterCard Turret1;
+//    private MonsterCard Turret2;
+//    private MonsterCard Turret3;
+//    private MonsterCard AeroSpaceEngineer1;
+//    private MonsterCard AeroSpaceEngineer2;
 
     // Mana Card Objects
 
-    private ManaCard socialScienceMana;
-    private ManaCard medicalMana;
-    private ManaCard artsMana;
-    private ManaCard eeecsMana;
-    private ManaCard engineeringMana;
-    private ManaCard builtEnvironmentMana;
+//    private ManaCard socialScienceMana;
+//    private ManaCard medicalMana;
+//    private ManaCard artsMana;
+//    private ManaCard eeecsMana;
+//    private ManaCard engineeringMana;
+//    private ManaCard builtEnvironmentMana;
 
     // Store each card type
     // Need getters and setters
@@ -164,7 +160,7 @@ public class JSONcardLibrary
     {
         try
         {
-            InputStream fileIn = new FileInputStream("txt/cardLibrary.txt");
+            InputStream fileIn = assetManager.open("txt/cardLibrary.json");
             readJsonStream(fileIn);
 
             fileIn.close();
@@ -307,53 +303,53 @@ public class JSONcardLibrary
         // I'm commenting these out for now since it's slowing the game down
         // Feel free to put them back in - highlight the relevant lines and press Ctrl /
         //EEECS Monsters
-//        CodeMonkeySprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/EEECS/CodeMonkey.png");
-//        BananaEngineerSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/EEECS/BananaEngineer.png");
-//        SeniorBananaEngineerSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/EEECS/SeniorBananaEngineer.png");
-//        SQLSealSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/EEECS/SQLSeal.png");
-//        DataAnalystSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/EEECS/DataAnalyst.png");
-//        DataAdminSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/EEECS/DataAdmin.png");
-//        ScriptKiddieSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/EEECS/ScriptKiddie.png");
-//        HackerManSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/EEECS/HackerMan.png");
-//
-//        //Medic Monsters
-//        NurseSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Monster/Medical/Nurse.png");
-//        DoctorSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Medical/Doctor.png");
-//        SurgeonSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Medical/Surgeon.png");
-//        MedicSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Medical/Medic.png");
-//        FieldMedicSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Medical/FieldMedic.png");
-//        ParaMedicSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Medical/ParaMedic.png");
-//        ChemistSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Medical/Chemist.png");
-//        PharmacistSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Medical/Pharmacist.png");
-//
-//        //Social Science Monsters
-//        JuniorHistorianSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Arts/JuniorHistorian.png");
-//        LegitHistorianSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Arts/LegitHistorian.png");
-//        TimeTravelerSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Arts/TimeTraveller.png");
-//        DoodlerSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Arts/Doodler.png");
-//        SketcherSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Arts/Sketcher.png");
-//        ArtisteSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Arts/Artiste.png");
-//        TinkererSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Arts/Tinkerer.png");
-//        CraftsmanSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Arts/Craftsman.png");
-//
-//        //Built Enviroment Monsters
-//        RockHunterSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/BuildEnvi/RockHunter.png");
-//        GeologistSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/BuildEnvi/Geologist.png");
-//        GraveDiggerSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/BuildEnvi/GraveDigger.png");
-//        ArcheologistSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/BuildEnvi/Archeologist.png");
-//        Architect1Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/BuildEnvi/Architect-1.png");
-//        Architect2Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/BuildEnvi/Architect-2.png");
-//        Architect3Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/BuildEnvi/Architect-3.png");
-//
-//        //Social Science Monsters
-//        Pyschologist1Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/Pyschologist-1.png");
-//        Pyschologist2Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/Pyschologist-2.png");
-//        Pyschologist3Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/Pyschologist-3.png");
-//        Sociologist1Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/Sociologist-1.png");
-//        Sociologist2Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/Sociologist-2.png");
-//        SocialWorker1Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/SocialWorker-1.png");
-//        SocialWorker2Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/SocialWorker-2.png");
-//        SocialWorker3Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/SocialWorker-3.png");
+        CodeMonkeySprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/EEECS/CodeMonkey.png");
+        BananaEngineerSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/EEECS/BananaEngineer.png");
+        SeniorBananaEngineerSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/EEECS/SeniorBananaEngineer.png");
+        SQLSealSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/EEECS/SQLSeal.png");
+        DataAnalystSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/EEECS/DataAnalyst.png");
+        DataAdminSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/EEECS/DataAdmin.png");
+        ScriptKiddieSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/EEECS/ScriptKiddie.png");
+        HackerManSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/EEECS/HackerMan.png");
+
+        //Medic Monsters
+        NurseSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Monster/Medical/Nurse.png");
+        DoctorSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Medical/Doctor.png");
+        SurgeonSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Medical/Surgeon.png");
+        MedicSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Medical/Medic.png");
+        FieldMedicSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Medical/FieldMedic.png");
+        ParaMedicSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Medical/ParaMedic.png");
+        ChemistSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Medical/Chemist.png");
+        PharmacistSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Medical/Pharmacist.png");
+
+        //Social Science Monsters
+        JuniorHistorianSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Arts/JuniorHistorian.png");
+        LegitHistorianSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Arts/LegitHistorian.png");
+        TimeTravelerSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Arts/TimeTraveller.png");
+        DoodlerSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Arts/Doodler.png");
+        SketcherSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Arts/Sketcher.png");
+        ArtisteSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Arts/Artiste.png");
+        TinkererSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Arts/Tinkerer.png");
+        CraftsmanSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Arts/Craftsman.png");
+
+        //Built Enviroment Monsters
+        RockHunterSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/BuildEnvi/RockHunter.png");
+        GeologistSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/BuildEnvi/Geologist.png");
+        GraveDiggerSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/BuildEnvi/GraveDigger.png");
+        ArcheologistSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/BuildEnvi/Archeologist.png");
+        Architect1Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/BuildEnvi/Architect-1.png");
+        Architect2Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/BuildEnvi/Architect-2.png");
+        Architect3Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/BuildEnvi/Architect-3.png");
+
+        //Social Science Monsters
+        Pyschologist1Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/Pyschologist-1.png");
+        Pyschologist2Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/Pyschologist-2.png");
+        Pyschologist3Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/Pyschologist-3.png");
+        Sociologist1Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/Sociologist-1.png");
+        Sociologist2Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/Sociologist-2.png");
+        SocialWorker1Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/SocialWorker-1.png");
+        SocialWorker2Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/SocialWorker-2.png");
+        SocialWorker3Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/SocialWorker-3.png");
 
         // ManaSprites
         socialScienceManaSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Mana/SocialSciencesMana.png");
@@ -364,8 +360,8 @@ public class JSONcardLibrary
         builtEnvironmentManaSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Mana/BuiltMana.png");
 
         //support cards
-//        ointmentSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Support/Ointment.png");
-//        superOintmentSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Support/SuperOintment.png");
+        ointmentSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Support/Ointment.png");
+        superOintmentSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Support/SuperOintment.png");
 
     }
 
@@ -379,7 +375,7 @@ public class JSONcardLibrary
         {
             readMonsterCardArray(reader);
             readManaCardArray(reader);
-            readSupportCardArray(reader);
+            //readSupportCardArray(reader);
             reader.close();
         }
         catch(IOException e)
@@ -391,10 +387,12 @@ public class JSONcardLibrary
     private List<MonsterCard> readMonsterCardArray(JsonReader reader) throws IOException
     {
 
-        reader.beginArray();
+        reader.beginObject();
         if (reader.nextName().equals("monsterCards")) {
+            reader.beginArray();
             while (reader.hasNext()) {
                 monsterCards.add(readMonsterCard(reader));
+                System.out.println("MonsterCard added to library successfully");
             }
             reader.endArray();
             return monsterCards;
@@ -452,7 +450,7 @@ public class JSONcardLibrary
     {
         ManaTypes manatype = null;
         int manaAmount = -1;
-        HashMap<ManaTypes,Integer> attackManaRequirements = null;
+        HashMap<ManaTypes,Integer> attackManaRequirements = new HashMap<ManaTypes,Integer>();
 
         reader.beginArray();
         while (reader.hasNext())
@@ -465,8 +463,8 @@ public class JSONcardLibrary
                 } else if (name.equals("value")) {
                     manaAmount = reader.nextInt();
                 }
-                attackManaRequirements.put(manatype, manaAmount);
             }
+            attackManaRequirements.put(manatype, manaAmount);
             reader.endObject();
         }
         reader.endArray();
@@ -475,9 +473,9 @@ public class JSONcardLibrary
 
     private List<ManaCard> readManaCardArray(JsonReader reader) throws IOException
     {
-        reader.beginArray();
         if (reader.nextName().equals("manaCards"))
         {
+            reader.beginArray();
             while (reader.hasNext())
             {
                 manaCards.add(readManaCard(reader));
@@ -486,9 +484,7 @@ public class JSONcardLibrary
             return manaCards;
         }
         else
-        {
             return null;
-        }
     }
     private ManaCard readManaCard(JsonReader reader) throws IOException
     {
@@ -510,21 +506,24 @@ public class JSONcardLibrary
                 default: reader.skipValue();
             }
         }
+        reader.endObject();
         id++;
         Bitmap sprite = assignSprite(cardName);
         return new ManaCard(x,y,width,height,sprite,player,id,manaType,cardSchool,destroyed,pointerID);
     }
     private List<SupportCard> readSupportCardArray(JsonReader reader) throws IOException
     {
+        if (reader.nextName().equals("supportCards")) {
+            reader.beginArray();
+            while (reader.hasNext()) {
+                supportCards.add(readSupportCard(reader));
+            }
 
-        reader.beginArray();
-        if (reader.nextName().equals("supportCards"))
-        while (reader.hasNext())
-        {
-            supportCards.add(readSupportCard(reader));
+            reader.endArray();
+            return supportCards;
         }
-        reader.endArray();
-        return supportCards;
+        else
+            return null;
     }
     private SupportCard readSupportCard(JsonReader reader) throws IOException
     {

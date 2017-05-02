@@ -1,4 +1,3 @@
-//Created by Matt
 {
 	"monsterCards": [
 	  {
@@ -46,7 +45,7 @@
 		"attackValue":30,
 		"evolutionID":2,
 		"attackManaRequirement":[
-			{"manatype":"ENGINERRING_MANA","value":1}
+			{"manatype":"ENGINEERING_MANA","value":1}
 		]
 	  },
 	  {
@@ -58,7 +57,7 @@
 		"attackValue":"50",
 		"evolutionID":2,
 		"attackManaRequirement":[
-			{"manatype":"ENGINERRING_MANA","value":1},
+			{"manatype":"ENGINEERING_MANA","value":1},
 			{"manatype":"GENERIC_MANA","value":1}
 		]
 	  },
@@ -71,7 +70,7 @@
 		"attackValue":70,
 		"evolutionID":2,
 		"attackManaRequirement":[
-		{"manatype":"Engineering","value":2}]
+		{"manatype":"ENGINEERING_MANA","value":2}]
 	  },
 	  {
 		"name":"AeroSpaceEngineer1",
@@ -82,7 +81,7 @@
 		"attackValue":40,
 		"evolutionID":3,
 		"attackManaRequirement":[
-		{"manatype":"ENGINERRING_MANA" ,"value":1}]
+		{"manatype":"ENGINEERING_MANA" ,"value":1}]
 	  },
 	  {
 		"name":"AeroSpaceEngineer2",
@@ -93,7 +92,7 @@
 		"attackValue":70,
 		"evolutionID":3,
 		"attackManaRequirement":[
-		{"manatype":"ENGINERRING_MANA" ,"value":3}]
+		{"manatype":"ENGINEERING_MANA" ,"value":3}]
 	  },
 	  {
 		"name":"Nurse",
@@ -104,7 +103,7 @@
 		"attackValue":10,
 		"evolutionID":4,
 		"attackManaRequirement":[
-		{"manatype":"MEDIC_MANA" ,"value":1}]
+		{"manatype":"MEDICS_MANA" ,"value":1}]
 	  },
 	  {
 		"name":"Doctor",
@@ -115,7 +114,7 @@
 		"attackValue":30,
 		"evolutionID":4,
 		"attackManaRequirement":[
-		{"manatype":"MEDIC_MANA" ,"value":2}]
+		{"manatype":"MEDICS_MANA" ,"value":2}]
 	  },
 	  {
 		"name":"Surgeon",
@@ -126,7 +125,7 @@
 		"attackValue":60,
 		"evolutionID":4,
 		"attackManaRequirement":[
-		{"manatype":"MEDIC_MANA" ,"value":2},
+		{"manatype":"MEDICS_MANA" ,"value":2},
 		{"manatype":"GENERIC_MANA" ,"value":2}]
 	  },
 	  {
@@ -138,7 +137,7 @@
 		"attackValue":25,
 		"evolutionID":5,
 		"attackManaRequirement":[
-		{"manatype":"MEDIC_MANA" ,"value":1}]
+		{"manatype":"MEDICS_MANA" ,"value":1}]
 	  },
 	  {
 		"name":"FieldMedic",
@@ -149,7 +148,7 @@
 		"attackValue":40,
 		"evolutionID":5,
 		"attackManaRequirement":[
-		{"manatype":"MEDIC_MANA" ,"value":1},
+		{"manatype":"MEDICS_MANA" ,"value":1},
 		{"manatype":"GENERIC_MANA","value":1}]
 	  },
 	  {
@@ -161,7 +160,7 @@
 		"attackValue":60,
 		"evolutionID":5,
 		"attackManaRequirement":[
-		{"manatype":"MEDIC_MANA" ,"value":1},
+		{"manatype":"MEDICS_MANA" ,"value":1},
 		{"manatype":"GENERIC_MANA","value":2}]
 	  },
 	  {
@@ -173,7 +172,7 @@
 		"attackValue":20,
 		"evolutionID":6,
 		"attackManaRequirement":[
-		{"manatype":"MEDIC_MANA" ,"value":1}]
+		{"manatype":"MEDICS_MANA" ,"value":1}]
 	  },
 	  {
 		"name":"Pharmacist",
@@ -184,7 +183,7 @@
 		"attackValue":30,
 		"evolutionID":6,
 		"attackManaRequirement":[
-		{"manatype":"MEDIC_MANA" ,"value":2}]
+		{"manatype":"MEDICS_MANA" ,"value":2}]
 	  },
 	  {
 		"name":"CodeMonkey",
@@ -367,7 +366,7 @@
 	  },
 	  {
 		"name":"GraveDigger",
-		"cardSchool":"BUILT_ENVIRONMENT",
+		"cardSchool":"BUILT_ENVIORNMENT",
 		"level":"UNDERGRAD",
 		"health":70,
 		"defence":0,
@@ -378,7 +377,7 @@
 	  },
 	  {
 		"name":"Archeologist",
-		"cardSchool":"BUILT_ENVIRONMENT",
+		"cardSchool":"BUILT_ENVIORNMENT",
 		"level":"GRAD",
 		"health":120,
 		"defence":0,
@@ -389,7 +388,7 @@
 	  },
 	  {
 		"name":"RockHunter",
-		"cardSchool":"BUILT_ENVIRONMENT",
+		"cardSchool":"BUILT_ENVIORNMENT",
 		"level":"UNDERGRAD",
 		"health":80,
 		"defence":0,
@@ -400,7 +399,7 @@
 	  },
 	  {
 		"name":"Geologist",
-		"cardSchool":"BUILT_ENVIRONMENT",
+		"cardSchool":"BUILT_ENVIORNMENT",
 		"level":"GRAD",
 		"health":120,
 		"defence":0,
@@ -411,7 +410,7 @@
 	  },
 	  {
 		"name":"Architect1",
-		"cardSchool":"BUILT_ENVIRONMENT",
+		"cardSchool":"BUILT_ENVIORNMENT",
 		"level":"UNDERGRAD",
 		"health":65,
 		"defence":0,
@@ -422,7 +421,7 @@
 	  },
 	  {
 		"name":"Architect2",
-		"cardSchool":"BUILT_ENVIRONMENT",
+		"cardSchool":"BUILT_ENVIORNMENT",
 		"level":"GRAD",
 		"health":85,
 		"defence":0,
@@ -433,7 +432,7 @@
 	  },
 	  {
 		"name":"Architect3",
-		"cardSchool":"BUILT_ENVIRONMENT",
+		"cardSchool":"BUILT_ENVIORNMENT",
 		"level":"DOCTRATE",
 		"health":105,
 		"defence":0,
@@ -554,7 +553,7 @@
 		"CardSchool":"SOCIAL_SCIENCES"
 	},
 	{
-		"manaType":"BUILT_ENVIROMENT_MANA",
+		"manaType":"BUILT_ENVIRONMENT_MANA",
 		"CardSchool":"BUILT_ENVIORNMENT"
 	}
 
