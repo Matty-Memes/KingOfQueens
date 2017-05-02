@@ -104,7 +104,7 @@ public class GameLoop implements Runnable
     Hand playerHand;
     graveYard playerGraveYard;
     // ACTUAL CARDS TO BE DRAWN
-
+        ManaCounter manaTest;
     // Arrays to be drawn
 
     public ArrayList<BasicCard> handCards = new ArrayList<>();
@@ -346,7 +346,7 @@ public class GameLoop implements Runnable
         /*playerHand = new Hand();
         playerGraveYard = new graveYard();
         player = new PlaySpace(playerDeck,playerHand,playerGraveYard);*/
-
+        manaTest = new ManaCounter();
     }
 
     // Created by Andrew - 40083349
