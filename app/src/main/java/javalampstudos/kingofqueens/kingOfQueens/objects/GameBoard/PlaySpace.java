@@ -24,18 +24,14 @@ public class PlaySpace  {
     private ManaCounter manaCounter;
     private CardZone [] cardZones;
 
-    public PlaySpace( Deck deck, Hand hand,
-                     graveYard graveYard, ManaCounter manaCounter, CardZone[] cardZones,
-                     int currentCard, int deckSize) {
+    public PlaySpace( Deck deck, Hand hand) {
 
         this.deck = deck;
         this.hand = hand;
         this.life = maxLifeValue;
-        GraveYard = graveYard;
-        this.manaCounter = manaCounter;
-        this.cardZones = new CardZone[3];
-        this.currentCard = currentCard;
-        this.deckSize = deckSize;
+        GraveYard = new graveYard();
+        this.manaCounter = new ManaCounter();
+
     }
 
     public Deck getDeck() {

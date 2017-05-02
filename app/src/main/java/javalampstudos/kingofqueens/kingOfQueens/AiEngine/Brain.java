@@ -59,7 +59,7 @@ public class Brain {
         if(checkAllZonesAreActive(cardZones))
         {
 
-            for(int i=0; i < hand.getHand().length;i++)
+            for(int i=0; i < hand.getHand().length-1;i++)
             {
                 if( hand.callCorrectMonsterCard(hand.getHand()[i]).getLevel() == CardLevel.UNDERGRAD
                             && hand.callCorrectMonsterCard(hand.getHand()[i]).getAttackValue() > hand.callCorrectMonsterCard(hand.getHand()[bestCardIndex]).getAttackValue())
@@ -81,9 +81,9 @@ public class Brain {
        int nextLevelMonsterIndex = -1;
         int previousLevelMonsterIndex =-1;
         boolean upgradeableCard =false;
-        for(int i=0; i < hand.getHand().length && !upgradeableCard;i++)
+        for(int i=0; i < hand.getHand().length-1 && !upgradeableCard;i++)
         {
-            for(int j=0; j<cardZones.length; j++)
+            for(int j=0; j<cardZones.length-1; j++)
             {
 
                     // put in matthews method here !!!
@@ -110,7 +110,7 @@ public class Brain {
         // you need to allocate a zone for the card to be sent to
         // requires a seek method, it should send the card to the correct zone, then also give the card zone that card as its current card.
         if(!checkAllZonesAreActive(cardZones)) {
-            for(int i=0; i < cardZones.length && !found;i++)
+            for(int i=0; i < cardZones.length-1 && !found;i++)
             {
                 if(!cardZones[i].isActive())
                 {
@@ -131,7 +131,7 @@ public class Brain {
     // to be fixed to work with array.
     public boolean checkAllZonesAreActive(CardZone[] cardZones){
         boolean allZonesActive = false;
-        for(int i=0; i < cardZones.length || allZonesActive; i++)
+        for(int i=0; i < cardZones.length-1 || allZonesActive; i++)
         {
             if(!cardZones[i].isActive())
             {
@@ -170,7 +170,7 @@ public class Brain {
 
 
 //              YOU NEED TO REVERT THE CARDS BACK TO THEIR ORIGINAL VARIABLES
-                for(int i =0; i< hand.getHand().length && !manaCardFound; i++)
+                for(int i =0; i< hand.getHand().length-1 && !manaCardFound; i++)
                 {
                     if(hand.callCorrectManaCard(hand.getHand()[i]).id == 1)
                     {
@@ -196,7 +196,7 @@ public class Brain {
         ManaTypes key1 = null;
 
         // this loop is used to count all of the mana requirements of the monstercards within the hand.
-        for(int i=0; i < hand.getHand().length;i++ )
+        for(int i=0; i < hand.getHand().length-1;i++ )
         {
                 for (ManaTypes key:manaCounter.getManaCounterHashMap().keySet())
                 {
@@ -255,7 +255,7 @@ public class Brain {
         boolean bestCard = false;
         if(checkAllZonesAreActive(aiCardZone))
         {
-            for(int i=0; i < aiCardZone.length && !bestCard; i++)
+            for(int i=0; i < aiCardZone.length-1 && !bestCard; i++)
             {
                 if(aiCardZone[i].getCurrentCard().getAttackValue() > enemyCardZone[indexForCardWithLowestDef].getCurrentCard().getDefence())
                 {
@@ -278,7 +278,7 @@ public class Brain {
         int indexForCardWithLowestDef =0;
         if(checkAllZonesAreActive(enemyCardZone)) // a mthod to see if there is any cards on the baord?
         {
-            for(int i=1; i < enemyCardZone.length; i++)
+            for(int i=1; i < enemyCardZone.length-1; i++)
             {
                 if(enemyCardZone[i].getCurrentCard().getDefence() >= enemyCardZone[indexForCardWithLowestDef].getCurrentCard().getDefence())
                 {
