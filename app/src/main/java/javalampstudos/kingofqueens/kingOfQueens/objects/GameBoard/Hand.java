@@ -26,7 +26,7 @@ public class Hand
 
 
         private final int MAXHANDSIZE = 4;
-        private BasicCard[] hand;
+        private BasicCard[] screenHand;
         private ArrayList<MonsterCard> monsterCardArrayList;
         private ArrayList<ManaCard> manaCardArrayList;
         private ArrayList<SupportCard> supportCardArrayList;
@@ -36,7 +36,7 @@ public class Hand
         // augmented by brian on 27/03/2017
 
     public Hand() {
-        this.hand = new BasicCard[MAXHANDSIZE];
+        this.screenHand = new BasicCard[MAXHANDSIZE];
         this.monsterCardArrayList = new ArrayList<MonsterCard>(2);
         this.manaCardArrayList = new ArrayList<ManaCard>(2);
         this.supportCardArrayList = new ArrayList<SupportCard>(2);
@@ -50,12 +50,12 @@ public class Hand
         return MAXHANDSIZE;
     }
 
-    public BasicCard[] getHand() {
-        return hand;
+    public BasicCard[] getScreenHand() {
+        return screenHand;
     }
 
-    public void setHand(BasicCard[] hand) {
-        this.hand = hand;
+    public void setScreenHand(BasicCard[] hand) {
+        this.screenHand = hand;
     }
 
     public ArrayList<MonsterCard> getMonsterCardArrayList() {
@@ -103,7 +103,7 @@ public class Hand
     // used to validate an index being searched for is acutaly one within the hand.
     public boolean validateHandIndex(int index)
     {
-        if(index < hand.length && index >= 0)
+        if(index < screenHand.length && index >= 0)
         {
             return true;
         }
@@ -116,7 +116,7 @@ public class Hand
         public void removeFromHandArray(int index) {
             // sets the corresponding index of the hand array to null, thus removing the card.
             if(validateHandIndex(index)) {
-                this.hand[index] = null;
+                this.screenHand[index] = null;
             }
         }
 
