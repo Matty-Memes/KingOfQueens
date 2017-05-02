@@ -241,17 +241,17 @@ public class JSONcardLibrary
     {
 
         ManaCard socialScienceMana = new ManaCard(0, 0, 90, 120,socialScienceManaSprite, true, 2,
-                ManaTypes.SOCIAL_SCIENCES_MANA, javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardSchools.SOCIAL_SCIENCES, false, 49 );
+                ManaTypes.SOCIAL_SCIENCES_MANA, CardSchools.SOCIAL_SCIENCES, false, 49 );
         ManaCard medicalMana = new ManaCard(0, 0, 90, 120, medicalManaSprite, true, 2,
-                ManaTypes.MEDICS_MANA, javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardSchools.SOCIAL_SCIENCES, false, 49 );
+                ManaTypes.MEDICS_MANA, CardSchools.MEDICS, false, 49 );
         ManaCard artsMana = new ManaCard(0, 0, 90, 120, artsManaSprite, true, 2,
-                ManaTypes.ARTS_HUMANITIES_MANA, javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardSchools.SOCIAL_SCIENCES, false, 49 );;
+                ManaTypes.ARTS_HUMANITIES_MANA, CardSchools.ARTS_HUMANITIES, false, 49 );;
         ManaCard eeecsMana = new ManaCard(0, 0, 90, 120, eeecsManaSprite, true, 2,
-                ManaTypes.EEECS_MANA, javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardSchools.SOCIAL_SCIENCES, false, 49 );;
+                ManaTypes.EEECS_MANA, CardSchools.EEECS, false, 49 );;
         ManaCard engineeringMana = new ManaCard(0, 0, 90, 120, engineeringManaSprite, true, 2,
-                ManaTypes.ENGINEERING_MANA, javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardSchools.SOCIAL_SCIENCES, false, 49 );;
+                ManaTypes.ENGINEERING_MANA, CardSchools.ENGINEERING, false, 49 );;
         ManaCard builtEnvironmentMana = new ManaCard(0, 0, 90, 120, builtEnvironmentManaSprite, true, 2,
-                ManaTypes.BUILT_ENVIRONMENT_MANA, javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardSchools.SOCIAL_SCIENCES, false, 49 );;
+                ManaTypes.BUILT_ENVIRONMENT_MANA, CardSchools.BUILT_ENVIORNMENT, false, 49 );;
 
         manaCards.add(socialScienceMana);
         manaCards.add(medicalMana);
@@ -519,10 +519,10 @@ public class JSONcardLibrary
 
         reader.beginArray();
         if (reader.nextName().equals("supportCards"))
-        while (reader.hasNext())
-        {
-            supportCards.add(readSupportCard(reader));
-        }
+            while (reader.hasNext())
+            {
+                supportCards.add(readSupportCard(reader));
+            }
         reader.endArray();
         return supportCards;
     }

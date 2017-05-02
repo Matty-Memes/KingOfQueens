@@ -16,7 +16,7 @@ public class andyManaCounter extends Text
 {
 
     // Counter variable
-    private int counter;
+    public int counter;
 
     // Constructor
     public andyManaCounter(float x, float y, String text)
@@ -32,8 +32,9 @@ public class andyManaCounter extends Text
     public void incrementCounter()
 
     {
-     // counter++;
-      text = counter + "";
+        System.out.println("Here");
+        counter++;
+        text = counter + "";
 
     }
 
@@ -41,8 +42,8 @@ public class andyManaCounter extends Text
     public void draw(Canvas canvas)
 
     {
-       // Call the drawText method in Text
-       super.draw(canvas);
+        // Call the drawText method in Text
+        super.draw(canvas);
 
     }
 

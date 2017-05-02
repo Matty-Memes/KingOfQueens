@@ -32,20 +32,20 @@ public class Brain {
     public int playHighestAttack (ArrayList<MonsterCard> monster)
 
     {
-       int max = 0;
-       int index = 0;
+        int max = 0;
+        int index = 0;
 
-       System.out.println("The size of monster is" + monster.size());
+        System.out.println("The size of monster is" + monster.size());
 
-       for (int i = 0; i < monster.size(); i++)
-       {
-         if (monster.get(i).attackValue >= max)
-         {
-          index = i;
-          max = monster.get(i).attackValue;
-         }
-       }
-      return index;
+        for (int i = 0; i < monster.size(); i++)
+        {
+            if (monster.get(i).attackValue >= max)
+            {
+                index = i;
+                max = monster.get(i).attackValue;
+            }
+        }
+        return index;
 
     }
 
@@ -55,44 +55,45 @@ public class Brain {
     public void PlayCardWithHighestAtt(Hand hand, CardZone[] cardZones) {
 
         int bestCardIndex = 0;
-      // check all of the onsters in the hand, find the best one, then play it.
+        // check all of the onsters in the hand, find the best one, then play it.
         if(checkAllZonesAreActive(cardZones))
         {
 
-            for(int i=0; i < hand.getScreenHand().length-1;i++)
+            for(int i=0; i < hand.getScreenHand().length;i++)
             {
                 if( hand.callCorrectMonsterCard(hand.getScreenHand()[i]).getLevel() == CardLevel.UNDERGRAD
-                            && hand.callCorrectMonsterCard(hand.getScreenHand()[i]).getAttackValue() > hand.callCorrectMonsterCard(hand.getScreenHand()[bestCardIndex]).getAttackValue())
-                    {
-                        bestCardIndex = i;
-                    }
+                        && hand.callCorrectMonsterCard(hand.getScreenHand()[i]).getAttackValue() > hand.callCorrectMonsterCard(hand.getScreenHand()[bestCardIndex]).getAttackValue())
+                {
+                    bestCardIndex = i;
+                }
             }
         }
         playMonsterCard(hand.callCorrectMonsterCard(hand.getScreenHand()[bestCardIndex]),cardZones);
+
     }
 
 
 
 
-// 40111707
+    // 40111707
     // brians method
     // this method checks to see if the Ai can evolve a card currently in play to the next level.
     public void canIEvolve(Hand hand, CardZone[] cardZones){
-       int nextLevelMonsterIndex = -1;
+        int nextLevelMonsterIndex = -1;
         int previousLevelMonsterIndex =-1;
         boolean upgradeableCard =false;
-        for(int i=0; i < hand.getScreenHand().length-1 && !upgradeableCard;i++)
+        for(int i=0; i < hand.getScreenHand().length && !upgradeableCard;i++)
         {
-            for(int j=0; j<cardZones.length-1; j++)
+            for(int j=0; j<cardZones.length; j++)
             {
 
-                    // put in matthews method here !!!
-                    if(hand.callCorrectMonsterCard(hand.getScreenHand()[i]).evolutionCheck(cardZones[j].getCurrentCard()) )
-                    {
-                        nextLevelMonsterIndex = i;
-                        previousLevelMonsterIndex =j;
-                        upgradeableCard = true;
-                    }
+                // put in matthews method here !!!
+                if(hand.callCorrectMonsterCard(hand.getScreenHand()[i]).evolutionCheck(cardZones[j].getCurrentCard()) )
+                {
+                    nextLevelMonsterIndex = i;
+                    previousLevelMonsterIndex =j;
+                    upgradeableCard = true;
+                }
 
             }
         }
@@ -110,7 +111,7 @@ public class Brain {
         // you need to allocate a zone for the card to be sent to
         // requires a seek method, it should send the card to the correct zone, then also give the card zone that card as its current card.
         if(!checkAllZonesAreActive(cardZones)) {
-            for(int i=0; i < cardZones.length-1 && !found;i++)
+            for(int i=0; i < cardZones.length && !found;i++)
             {
                 if(!cardZones[i].isActive())
                 {
@@ -131,14 +132,14 @@ public class Brain {
     // to be fixed to work with array.
     public boolean checkAllZonesAreActive(CardZone[] cardZones){
         boolean allZonesActive = false;
-        for(int i=0; i < cardZones.length-1 || allZonesActive; i++)
+        for(int i=0; i < cardZones.length || allZonesActive; i++)
         {
             if(!cardZones[i].isActive())
             {
                 allZonesActive= false;
             }
             else {
-               return true;
+                return true;
             }
         }
         return allZonesActive;
@@ -170,20 +171,20 @@ public class Brain {
 
 
 //              YOU NEED TO REVERT THE CARDS BACK TO THEIR ORIGINAL VARIABLES
-                for(int i =0; i< hand.getScreenHand().length-1 && !manaCardFound; i++)
+        for(int i =0; i< hand.getScreenHand().length && !manaCardFound; i++)
+        {
+            if(hand.callCorrectManaCard(hand.getScreenHand()[i]).id == 1)
+            {
+                ManaCard temp = hand.callCorrectManaCard(hand.getScreenHand()[i]);
+                if(temp.getManaType().equals(key))
                 {
-                    if(hand.callCorrectManaCard(hand.getScreenHand()[i]).id == 1)
-                    {
-                        ManaCard temp = hand.callCorrectManaCard(hand.getScreenHand()[i]);
-                        if(temp.getManaType().equals(key))
-                        {
 
-                            manaCounter.addMana(temp.getManaType());
-                            manaCardFound =true;
-                        }
-                    }
-
+                    manaCounter.addMana(temp.getManaType());
+                    manaCardFound =true;
                 }
+            }
+
+        }
     }
 
     // brians method
@@ -196,12 +197,12 @@ public class Brain {
         ManaTypes key1 = null;
 
         // this loop is used to count all of the mana requirements of the monstercards within the hand.
-        for(int i=0; i < hand.getScreenHand().length-1;i++ )
+        for(int i=0; i < hand.getScreenHand().length;i++ )
         {
-                for (ManaTypes key:manaCounter.getManaCounterHashMap().keySet())
-                {
-                    temp.put(key,temp.get(key)+(hand.callCorrectMonsterCard(hand.getScreenHand()[i])).getAttackManaRequirement().get(key) ) ;
-                }
+            for (ManaTypes key:manaCounter.getManaCounterHashMap().keySet())
+            {
+                temp.put(key,temp.get(key)+(hand.callCorrectMonsterCard(hand.getScreenHand()[i])).getAttackManaRequirement().get(key) ) ;
+            }
         }
         // this loop is used to find the mana type that will have the highest need.
         for (ManaTypes key:temp.keySet())
@@ -225,7 +226,7 @@ public class Brain {
     }
 
 
-// 40111707
+    // 40111707
 // brians method
     // this method is for choosing which card has the lowest defence of the enemey in order for it to be attacked.
     // this method also finds the best card within the Ais cardzone to attack that card.
@@ -255,7 +256,7 @@ public class Brain {
         boolean bestCard = false;
         if(checkAllZonesAreActive(aiCardZone))
         {
-            for(int i=0; i < aiCardZone.length-1 && !bestCard; i++)
+            for(int i=0; i < aiCardZone.length && !bestCard; i++)
             {
                 if(aiCardZone[i].getCurrentCard().getAttackValue() > enemyCardZone[indexForCardWithLowestDef].getCurrentCard().getDefence())
                 {
@@ -278,7 +279,7 @@ public class Brain {
         int indexForCardWithLowestDef =0;
         if(checkAllZonesAreActive(enemyCardZone)) // a mthod to see if there is any cards on the baord?
         {
-            for(int i=1; i < enemyCardZone.length-1; i++)
+            for(int i=1; i < enemyCardZone.length; i++)
             {
                 if(enemyCardZone[i].getCurrentCard().getDefence() >= enemyCardZone[indexForCardWithLowestDef].getCurrentCard().getDefence())
                 {

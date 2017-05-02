@@ -1,5 +1,8 @@
 package javalampstudos.kingofqueens;
 
+
+import javalampstudos.kingofqueens.GameLoop.GameState;
+
 // Android Imports
 
 import android.app.Activity;
@@ -35,12 +38,13 @@ public class MainActivity extends Activity {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         */
-
         setContentView(R.layout.activity_main);
 
-        if(savedInstanceState==null) {
-            getFragmentManager().beginTransaction().add(R.id.container, new LoadingFragment()).commit();
-        }
+        if(savedInstanceState == null)
+            getFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.container, new MainMenuFragment(),
+                            "main_menu_fragment").commit();
 
         hideNav();
 
@@ -62,11 +66,9 @@ public class MainActivity extends Activity {
 
     public void music() {
 
-        /*
+
         boolean isGame = getFragmentManager().findFragmentById(R.id.container)
                 .getTag().equals("game_fragment");
-
-               */
 
         // load in the correct asset
         // music = AssetLoader.loadMusic(getAssets(), "music/StarShips - Nicki Minaj (Lyrics).mp3");
@@ -76,6 +78,7 @@ public class MainActivity extends Activity {
 
         // need to control what plays in each menu
         // also pause the music
+
 
     }
 
