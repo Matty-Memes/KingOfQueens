@@ -132,13 +132,13 @@ public class PlaySpace  {
 
     public void addToHand(BasicCard card, int index) {
 
-        this.hand.getHand()[index] = card;
+        this.hand.getScreenHand()[index] = card;
         int [] cardTypePos = findRealCard(card);
         switch(cardTypePos[0])
         {
-            case 0: hand.getMonsterCardArrayList().add(deck.monsterArray.get(cardTypePos[1])); break;
-            case 1 : hand.getManaCardArrayList().add(deck.manaArray.get(cardTypePos[1])); break;
-            case 2: hand.getSupportCardArrayList().add(deck.supportArray.get(cardTypePos[1])); break;
+            case 0: hand.getMonsterCardArrayList().add(deck.getMonsterArray().get(cardTypePos[1])); break;
+            case 1 : hand.getManaCardArrayList().add(deck.getManaArray().get(cardTypePos[1])); break;
+            case 2: hand.getSupportCardArrayList().add(deck.getSupportArray().get(cardTypePos[1])); break;
         }
 
     }
@@ -154,24 +154,24 @@ public class PlaySpace  {
         switch(cardToBeFound.id)
         {
             case 0:
-                for (int i = 0; i < deck.monsterArray.size(); i++) {
-                    if(cardToBeFound.sprite == deck.monsterArray.get(i).sprite)
+                for (int i = 0; i < deck.getMonsterArray().size(); i++) {
+                    if(cardToBeFound.sprite == deck.getMonsterArray().get(i).sprite)
                     {
                         pos = i ;
                         arrayType = cardToBeFound.id;
                     }
                 } break;
             case 1:
-                for (int i = 0; i <deck.manaArray.size(); i++) {
-                    if(cardToBeFound.sprite == deck.manaArray.get(i).sprite)
+                for (int i = 0; i <deck.getManaArray().size(); i++) {
+                    if(cardToBeFound.sprite == deck.getManaArray().get(i).sprite)
                     {
                         pos = i ;
                         arrayType = cardToBeFound.id;
                     }
                 } break;
             case 2:
-                for (int i = 0; i <deck.supportArray.size(); i++) {
-                    if(cardToBeFound.sprite == deck.supportArray.get(i).sprite)
+                for (int i = 0; i <deck.getSupportArray().size(); i++) {
+                    if(cardToBeFound.sprite == deck.getSupportArray().get(i).sprite)
                     {
                         pos = i ;
                         arrayType = cardToBeFound.id;
