@@ -17,9 +17,10 @@ import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 public class VolumeFragment extends MenuFragment {
 
     //Settings Bitmap
-    private Bitmap bground, plusBitmap, minusBitmap, backBitmap;
+    private Bitmap bground, plusBitmap, minusBitmap, backBitmap, musicVolBitmap, sfxVolBitmap;
     //Settings Rects
-    private Rect bgroundRect, musicMinusRect, musicPlusRect, sfxMinusRect, sfxPlusRect, backRect;
+    private Rect bgroundRect, musicMinusRect, musicPlusRect, sfxMinusRect, sfxPlusRect, backRect,
+    musicVolRect, sfxVolRect;
 
 
     private int musicVolume, sfxVolume;
@@ -53,10 +54,19 @@ public class VolumeFragment extends MenuFragment {
         plusBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/plus.png");
         minusBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/minus.png");
         backBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/ButtonBack.png");
-
+        musicVolBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/MusicVol.png");
+        sfxVolBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/SFXVol.png");
 
         // Set up values for each menu rect
         // Sets up Rect parameters
+        musicVolRect = new Rect((int) (width / 2 - 200 * uiScaling),
+                (int) (height / 2 - 114 * uiScaling),
+                (int) (width / 2 - 20 * uiScaling),
+                (int) (height / 2 - 66 * uiScaling));
+        sfxVolRect = new Rect((int) (width / 2 - 200 * uiScaling),
+                (int) (height / 2 - 58 * uiScaling),
+                (int) (width / 2 - 20 * uiScaling),
+                (int) (height / 2 - 10 * uiScaling));
         musicMinusRect = new Rect((int) (width / 2 + 16 * uiScaling),
                 (int) (height / 2 - 114 * uiScaling),
                 (int) (width / 2 + 64 * uiScaling),
@@ -77,6 +87,7 @@ public class VolumeFragment extends MenuFragment {
                 (int) (24 * 2 * uiScaling + 8 * uiScaling),
                 (int) (24 * 2 * uiScaling + 8 * uiScaling));
 
+
     }
 
     public void doDraw(Canvas canvas)
@@ -86,7 +97,10 @@ public class VolumeFragment extends MenuFragment {
 
         bgroundRect.set(0, 0, width, height);
         canvas.drawBitmap(bground, null, bgroundRect, null);
+        canvas.drawBitmap(musicVolBitmap, null, musicVolRect, null);
         canvas.drawBitmap(backBitmap, null, backRect, null);
+        canvas.drawBitmap(sfxVolBitmap, null, sfxVolRect, null);
+
 
 
         paint.setTextAlign(Paint.Align.CENTER);
