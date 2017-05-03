@@ -194,14 +194,6 @@ public class GameLoop implements Runnable
     // SFX
     // private SoundFX test;
 
-    // REDUNDANT
-
-    // Not necessary
-    /*
-    public PlaySpace playerPlaySpace;
-    public PlaySpace aiPlaySpace;
-    */
-
     // MISC
 
     public BasicCard[] hand;
@@ -356,7 +348,6 @@ public class GameLoop implements Runnable
         // Starts game timer
         timer.start();
 
-
     }
 
     // Created by Andrew - 40083349
@@ -508,6 +499,7 @@ public class GameLoop implements Runnable
     // display the ai window briefly then move back to normal gameplay
     // tracking variables
 
+    // Andrew - 40083349
     private void updateMana ()
 
     {
@@ -520,6 +512,7 @@ public class GameLoop implements Runnable
 
     // THIS IS TO MAKE SURE THE ARRAY LISTS AREN'T EMPTY
 
+    // Andrew - 40083349
     private void initializeHandMonsters()
 
     {
@@ -536,6 +529,7 @@ public class GameLoop implements Runnable
 
     }
 
+    // Andrew - 40083349
     private void initializeHandMana()
 
     {
@@ -549,6 +543,7 @@ public class GameLoop implements Runnable
 
     }
 
+    // Andrew - 40083349
     private void intializeFieldMonsters ()
 
     {
@@ -575,6 +570,7 @@ public class GameLoop implements Runnable
 
     }
 
+    // Andrew - 40083349
     private void updatePrompt ()
 
     {
@@ -602,6 +598,7 @@ public class GameLoop implements Runnable
 
     }
 
+    // Andrew - 40083349
     private void updateWindow ()
 
     {
@@ -609,7 +606,7 @@ public class GameLoop implements Runnable
 
     }
 
-    // Could apply similar logic here
+    // Andrew - 40083349
     private void updateAnimation ()
 
     {
@@ -720,7 +717,7 @@ public class GameLoop implements Runnable
 
                         }
 
-                        // Mana cards are placed here
+                        // Mana cards are placed here - Reset the position of the card that was placed
                         if (boardLayout.manaRect.contains((int) handCards.get(handIndex).x, (int) handCards.get(handIndex).y)
                                 && handCards.get(handIndex).id == 1 && manaflag)
 
@@ -776,12 +773,12 @@ public class GameLoop implements Runnable
                         if (handCards.get(handIndex).pointerID == i)
 
                         {
-                            // Need to work out the right position from the hand index
-                            handCards.get(handIndex).x = 234;
-                            handCards.get(handIndex).y = 410;
+                            // Put whatever BasicCard was picked up back in it's old position
+                            handCards.get(handIndex).resetPosition(handIndex);
+                            // the player has let go of the card and needs to pick up a new one
+                            handActive = true;
 
                         }
-
 
                     }
                 }
@@ -804,9 +801,10 @@ public class GameLoop implements Runnable
                             dragActive = true;
                             // The first card becomes the current card
                             handIndex = 0;
+                            // Index into the array and set the pointer ID
+                            handCards.get(handIndex).pointerID = i;
                             // No more hand cards can be picked up
                             handActive = false;
-
                         }
 
                         if (boardLayout.handRect2.contains((int) x, (int) y) && handActive)
@@ -814,6 +812,8 @@ public class GameLoop implements Runnable
                         {
                             dragActive = true;
                             handIndex = 1;
+                            // Index into the array and set the pointer ID
+                            handCards.get(handIndex).pointerID = i;
                             handActive = false;
 
                         }
@@ -823,6 +823,8 @@ public class GameLoop implements Runnable
                         {
                             dragActive = true;
                             handIndex = 2;
+                            // Index into the array and set the pointer ID
+                            handCards.get(handIndex).pointerID = i;
                             handActive = false;
 
                         }
@@ -832,6 +834,8 @@ public class GameLoop implements Runnable
                         {
                             dragActive = true;
                             handIndex = 3;
+                            // Index into the array and set the pointer ID
+                            handCards.get(handIndex).pointerID = i;
                             handActive = false;
 
                         }
@@ -841,6 +845,8 @@ public class GameLoop implements Runnable
                         {
                             dragActive = true;
                             handIndex = 4;
+                            // Index into the array and set the pointer ID
+                            handCards.get(handIndex).pointerID = i;
                             handActive = false;
 
                         }
@@ -965,8 +971,6 @@ public class GameLoop implements Runnable
                             // the card should be moved to the player's logical monster array
                             // The touch zones dictate the index
                             playerFieldMonsters.add(3, playerHandMonsters.get(handIndex));
-
-
 //                            attack = true;
 
                             // Could pass in the index to decide the position
@@ -998,8 +1002,10 @@ public class GameLoop implements Runnable
                         if (handCards.get(handIndex).pointerID == i)
 
                         {
-                            handCards.get(handIndex).x = 234;
-                            handCards.get(handIndex).y = 410;
+                            // Put whatever BasicCard was picked up back in it's old position
+                            handCards.get(handIndex).resetPosition(handIndex);
+                            // the player has let go of the card and needs to pick up a new one
+                            handActive = true;
 
                         }
 
@@ -1028,6 +1034,8 @@ public class GameLoop implements Runnable
 
                             dragActive = true;
                             monsterIndex = 0;
+                            // Index into the array and set the pointer ID
+                            handCards.get(monsterIndex).pointerID = i;
                             monsterSlotActive = false;
 
                         }
@@ -1037,6 +1045,8 @@ public class GameLoop implements Runnable
                         {
                             dragActive = true;
                             monsterIndex = 1;
+                            // Index into the array and set the pointer ID
+                            handCards.get(monsterIndex).pointerID = i;
                             monsterSlotActive = false;
 
                         }
@@ -1046,6 +1056,8 @@ public class GameLoop implements Runnable
                         {
                             dragActive = true;
                             monsterIndex = 2;
+                            // Index into the array and set the pointer ID
+                            handCards.get(monsterIndex).pointerID = i;
                             monsterSlotActive = false;
 
                         }
@@ -1132,7 +1144,6 @@ public class GameLoop implements Runnable
                                 // if you kill 2 monsters you've won the game
                                 // monstersKilled++;
                                 // if (monstersKilled == 2) move to win state
-
                             }
 
                         }
@@ -1142,8 +1153,16 @@ public class GameLoop implements Runnable
                     else
 
                     {
+                        // how do you control which one goes where
+                        if (monstersInPlay.get(monsterIndex).pointerID == i)
 
+                        {
+                            // Put whatever BasicCard was picked up back in it's old position
+                            monstersInPlay.get(handIndex).resetPosition(handIndex);
+                            // The player has let go of that monster
+                            handActive = true;
 
+                        }
 
                     }
                 }
@@ -1162,8 +1181,6 @@ public class GameLoop implements Runnable
                             gameState = GameState.NEW;
 
                             timer.start();
-
-
 
                         }
 
@@ -1244,22 +1261,6 @@ public class GameLoop implements Runnable
         manaflag = true;
         // make the hand cards active
         handActive = true;
-
-    }
-
-
-    private void testSoundFX ()
-
-    {
-        // arguments: Sound ID, left volume, right volume, priority, loop, rate
-        // There are known problems with this
-        // test.play(0, 0.5f, 0.5f, 1, 0, 1.0f);
-
-        // int x = generateRandomNumber();
-        // System.out.println(x);
-
-        // testing soundfx
-        // test.playSoundFX();
 
     }
 
@@ -1413,15 +1414,6 @@ public class GameLoop implements Runnable
         }
 
     }
-
-//        // You can't re-run the draw method
-//
-//        deckCompleted = true;
-//        mplacement = true;
-//        manaflag = true;
-//
-//    }
-
 
 }
 
