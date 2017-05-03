@@ -490,7 +490,6 @@ public class GameLoop implements Runnable
 
         sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
 
-
     }
 
     // Created by Andrew - 40083349
