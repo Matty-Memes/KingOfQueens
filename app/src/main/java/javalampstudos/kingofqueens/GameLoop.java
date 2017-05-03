@@ -3,6 +3,7 @@ package javalampstudos.kingofqueens;
 import android.content.Intent;
 import android.graphics.Matrix;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.util.DisplayMetrics;
 
 /**
@@ -197,7 +198,8 @@ public class GameLoop implements Runnable
     public boolean windowDown = true;
 
     // SFX
-    // private SoundFX test;
+    private SoundPool startSFX;
+    private float sfxVolume;
 
     // MISC
 
@@ -344,6 +346,8 @@ public class GameLoop implements Runnable
         // Starts game timer
         timer.start();
 
+        startSFX = AssetLoader.loadSoundpool(assetManager, "start.mp3");
+
     }
 
     // Created by Andrew - 40083349
@@ -441,6 +445,8 @@ public class GameLoop implements Runnable
 
         }
 
+
+
     }
 
     // Created by Andrew - 40083349
@@ -482,6 +488,8 @@ public class GameLoop implements Runnable
         // go to the renderer thread and run it's resume method
         canvasRenderer.resume();
 
+        sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
+
 
     }
 
@@ -495,6 +503,9 @@ public class GameLoop implements Runnable
 
         // Hands and deck are set up so the prep phase can begin
         gameState = GameState.MONSTERPLACEMENT;
+
+        sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
+        startSFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
     }
 
     // display the ai window briefly then move back to normal gameplay
@@ -1190,6 +1201,9 @@ public class GameLoop implements Runnable
                                     .beginTransaction()
                                     .replace(R.id.container, new GameViewFragment(),
                                             "game_fragment").commit();
+
+                            sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
+                            startSFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
                         }
 
                         if(boardLayout.mainMenuRect.contains(x, y)) {
