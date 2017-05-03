@@ -612,18 +612,13 @@ public class GameLoop implements Runnable
     private void updateAnimation ()
 
     {
-            System.out.println("Animating");
-
             // move the hand card left till it hits it's target position
             // associate the target position with the card
             if (!boundHit) {
-                handCards.get(emptySlot).x -= 0.1;
-
+                handCards.get(emptySlot).x -= 4.0;
                 // the proper position of any card is tied to that individual card
                 if (handCards.get(emptySlot).x <= handCards.get(emptySlot).targetX) {
                     boundHit = true;
-                    // Allow the game to flow to the mana placement phase
-                    System.out.println("Done");
                 }
 
             }
@@ -886,12 +881,14 @@ public class GameLoop implements Runnable
                             // The last card to be placed is set back to the deck for the drawing phase
                             handCards.get(handIndex).moveToDeck();
 
+                            System.out.println("The x value is now" + handCards.get(handIndex).x);
+
                             if (prepPhase)
 
                             {
-                                think();
                                 prepPhase = false;
                                 emptySlot = handIndex;
+                                think();
                             }
 
                             else
@@ -931,14 +928,14 @@ public class GameLoop implements Runnable
                             // The last card to be placed is set back to the deck for the drawing phase
                             handCards.get(handIndex).moveToDeck();
 
-                            handCards.get(handIndex).resetPosition(handIndex);
+                            System.out.println("The x value is now" + handCards.get(handIndex).x);
 
                             if (prepPhase)
 
                             {
-                                think();
                                 prepPhase = false;
                                 emptySlot = handIndex;
+                                think();
                             }
 
                             else
@@ -976,12 +973,14 @@ public class GameLoop implements Runnable
                             // The last card to be placed is set back to the deck for the drawing phase
                             handCards.get(handIndex).moveToDeck();
 
+                            System.out.println("The x value is now" + handCards.get(handIndex).x);
+
                             if (prepPhase)
 
                             {
-                                think();
                                 prepPhase = false;
                                 emptySlot = handIndex;
+                                think();
                             }
 
                             else
