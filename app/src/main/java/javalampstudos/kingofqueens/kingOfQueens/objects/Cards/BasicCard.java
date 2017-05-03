@@ -92,13 +92,46 @@ public class BasicCard extends GameObject
 
     }
 
-    // this would use the index to work out the original position of the card
+    // this invisibly returns the cards to their original positions before they were dragged
+    // could reference board layout here
 
-    public void resetPosition ()
+    public void resetPosition (int index)
 
     {
-      this.x = 434;
-      this.y = 410;
+     if (index == 0)
+
+     {
+         this.x = 234;
+         this.y = 410;
+     }
+
+        if (index == 1)
+
+        {
+            this.x = 334;
+            this.y = 410;
+        }
+
+        if (index == 2)
+
+        {
+            this.x = 434;
+            this.y = 410;
+        }
+
+        if (index == 3)
+
+        {
+            this.x = 534;
+            this.y = 410;
+        }
+
+        if (index == 4)
+
+        {
+            this.x = 634;
+            this.y = 410;
+        }
 
     }
 

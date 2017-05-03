@@ -670,6 +670,8 @@ public class GameLoop implements Runnable
                         {
                             dragActive = true;
                             handIndex = 1;
+                            // Index into the array and set the pointer ID
+                            handCards.get(handIndex).pointerID = i;
 
                             handActive = false;
 
@@ -680,6 +682,8 @@ public class GameLoop implements Runnable
                         {
                             dragActive = true;
                             handIndex = 2;
+                            // Index into the array and set the pointer ID
+                            handCards.get(handIndex).pointerID = i;
                             handActive = false;
 
                         }
@@ -689,6 +693,8 @@ public class GameLoop implements Runnable
                         {
                             dragActive = true;
                             handIndex = 3;
+                            // Index into the array and set the pointer ID
+                            handCards.get(handIndex).pointerID = i;
                             handActive = false;
 
                         }
@@ -698,6 +704,8 @@ public class GameLoop implements Runnable
                         {
                             dragActive = true;
                             handIndex = 4;
+                            // Index into the array and set the pointer ID
+                            handCards.get(handIndex).pointerID = i;
                             handActive = false;
 
                         }
@@ -712,7 +720,7 @@ public class GameLoop implements Runnable
 
                         }
 
-                        // Only accept mana cards
+                        // Mana cards are placed here
                         if (boardLayout.manaRect.contains((int) handCards.get(handIndex).x, (int) handCards.get(handIndex).y)
                                 && handCards.get(handIndex).id == 1 && manaflag)
 
@@ -748,6 +756,9 @@ public class GameLoop implements Runnable
                             }
                             // get the current card off the screen
                             handCards.get(handIndex).destroyed = true;
+
+                            // put the hand card back in the correct position for the next turn
+                            // depends on the handIndex that was set
 
                             // move to the monster placement phase
                             gameState = GameState.MONSTERPLACEMENT;
@@ -849,7 +860,6 @@ public class GameLoop implements Runnable
                                 && handCards.get(handIndex).id == 0)
 
                         {
-
                             // prevents cards splipping off the edge
                             dragActive = false;
 
@@ -914,7 +924,9 @@ public class GameLoop implements Runnable
                             // Avoid out of bounds exceptions
                             playerFieldMonsters.add(1, playerHandMonsters.get(handIndex));
 
-                            handCards.get(handIndex).resetPosition();
+                            // reset the position of the card once it's played
+                            // once it's drawn again it will be at the correct position
+                            handCards.get(handIndex).resetPosition(handIndex);
 
                             if (prepPhase)
 
