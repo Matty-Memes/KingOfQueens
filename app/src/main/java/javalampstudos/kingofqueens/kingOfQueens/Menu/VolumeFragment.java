@@ -59,7 +59,7 @@ public class VolumeFragment extends MenuFragment {
 
         // Set up values for each menu rect
         // Sets up Rect parameters
-        musicVolRect = new Rect((int) (width / 2 - 200 * uiScaling),
+        musicVolRect = new Rect((int) (width / 2 - 201 * uiScaling),
                 (int) (height / 2 - 114 * uiScaling),
                 (int) (width / 2 - 20 * uiScaling),
                 (int) (height / 2 - 66 * uiScaling));
