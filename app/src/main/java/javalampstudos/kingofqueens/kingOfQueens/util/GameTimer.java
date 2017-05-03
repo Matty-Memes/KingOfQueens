@@ -65,32 +65,32 @@ public class GameTimer  {
         }
     }
 
-    /**
-     * Returns the current second value of the timer.
-     *
-     * @return The current second value.
-     */
-    public int getSeconds() {
-        return seconds;
-    }
-
-    /**
-     * Returns the current minute value of the timer.
-     *
-     * @return The current minute value.
-     */
-    public int getMinutes() {
-        return minutes;
-    }
-
-    /**
-     * Returns a score based on the current time of the timer.
-     *
-     * @return The score based on the current time.
-     */
-    public int getScore() {
-        return (int) (millis / 1000) * 10;
-    }
+//    /**
+//     * Returns the current second value of the timer.
+//     *
+//     * @return The current second value.
+//     */
+//    public int getSeconds() {
+//        return seconds;
+//    }
+//
+//    /**
+//     * Returns the current minute value of the timer.
+//     *
+//     * @return The current minute value.
+//     */
+//    public int getMinutes() {
+//        return minutes;
+//    }
+//
+//    /**
+//     * Returns a score based on the current time of the timer.
+//     *
+//     * @return The score based on the current time.
+//     */
+//    public int getScore() {
+//        return (int) (millis / 1000) * 10;
+//    }
 
 }
 
