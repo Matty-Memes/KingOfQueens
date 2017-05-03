@@ -13,25 +13,25 @@ import javalampstudos.kingofqueens.kingOfQueens.util.randomGenerator;
 public class MonsterCard extends BasicCard
 
 {
-        private final double attackBonus = 0.3;
-        private CardLevel level; // ENUM
-        public int health,defence,attackValue,evolutionID,maxHealth;
+    private final double attackBonus = 0.3;
+    private CardLevel level; // ENUM
+    public int health,defence,attackValue,evolutionID,maxHealth;
 
-        // holds a list of the mana types required
-         private HashMap<ManaTypes, Integer> attackManaRequirement;
+    // holds a list of the mana types required
+    private HashMap<ManaTypes, Integer> attackManaRequirement;
 
 
-        // Brian + Matt
-        // Modified by Andrew - 27/03/17
-        // constructor
+    // Brian + Matt
+    // Modified by Andrew - 27/03/17
+    // constructor
     //Matt 22/04/17: Added in a maxHealth variable. realised that there would be a bug if we tried to
     //heal a monster and it didn't have a health limit
 
     public MonsterCard(int x, int y, int width, int height, Bitmap Sprite, boolean player, int id,
-                       CardSchools cardSchool, boolean destroyed, int pointerID, CardLevel level,
+                       CardSchools cardSchool, boolean destroyed, int pointerID, int targetX, CardLevel level,
                        int health, int defence, int attackValue, int evolutionID,
                        HashMap<ManaTypes, Integer> attackManaRequirement) {
-        super(x, y, width, height, Sprite, player, id, cardSchool, destroyed, pointerID);
+        super(x, y, width, height, Sprite, player, id, cardSchool, destroyed, pointerID, targetX);
         this.level = level;
         this.health = health;
         this.maxHealth = health;
@@ -41,61 +41,54 @@ public class MonsterCard extends BasicCard
         this.attackManaRequirement = attackManaRequirement;
     }
 
-
-    // Set the source and destination rects
-
-
-
     // ADD GETTERS AND SETTERS //
 
-        public double getAttackBonus() {
-            return attackBonus;
-        }
+    public double getAttackBonus() {
+        return attackBonus;
+    }
 
-        public CardLevel getLevel() {
-            return level;
-        }
+    public CardLevel getLevel() {
+        return level;
+    }
 
-        public void setLevel(CardLevel level) {
-            this.level = level;
-        }
+    public void setLevel(CardLevel level) {
+        this.level = level;
+    }
 
-        public int getHealth() {
-            return health;
-        }
+    public int getHealth() {
+        return health;
+    }
 
-        public void setHealth(int health) {
-            this.health = health;
-        }
+    public void setHealth(int health) {
+        this.health = health;
+    }
 
-        public int getMaxHealth() {return maxHealth;}
+    public int getMaxHealth() {return maxHealth;}
 
-        public int getDefence() {
-            return defence;
-        }
+    public int getDefence() {
+        return defence;
+    }
 
-        public void setDefence(int defence) {
-            this.defence = defence;
-        }
+    public void setDefence(int defence) {
+        this.defence = defence;
+    }
 
-        public int getAttackValue() {
-            return attackValue;
-        }
+    public int getAttackValue() {
+        return attackValue;
+    }
 
-        public void setAttackValue(int attackValue) {
-            this.attackValue = attackValue;
-        }
+    public void setAttackValue(int attackValue) {
+        this.attackValue = attackValue;
+    }
 
-
-
-        public HashMap<ManaTypes, Integer> getAttackManaRequirement() {
-            return attackManaRequirement;
-        }
+    public HashMap<ManaTypes, Integer> getAttackManaRequirement() {
+        return attackManaRequirement;
+    }
 
 
-        public void setAttackManaRequirement(HashMap<ManaTypes, Integer> attackManaRequirement) {
-            this.attackManaRequirement = attackManaRequirement;
-        }
+    public void setAttackManaRequirement(HashMap<ManaTypes, Integer> attackManaRequirement) {
+        this.attackManaRequirement = attackManaRequirement;
+    }
 
     public int getEvolutionID() {
         return evolutionID;
@@ -108,12 +101,39 @@ public class MonsterCard extends BasicCard
 
     // draw monster cards to the screen
 
-        public void draw(Canvas canvas)
+    public void draw(Canvas canvas)
+
+    {
+        super.draw(canvas);
+
+    }
+
+    // Andrew - 40083349
+    public void resetPosition (int index)
+
+    {
+        if (index == 0)
 
         {
-            super.draw(canvas);
-
+            this.x = 234;
+            this.y = 280;
         }
+
+        if (index == 1)
+
+        {
+            this.x = 434;
+            this.y = 280;
+        }
+
+        if (index == 2)
+
+        {
+            this.x = 634;
+            this.y = 280;
+        }
+    }
+
 
     public void update()
     {
@@ -138,7 +158,6 @@ public class MonsterCard extends BasicCard
 
 
     }
-
 
 
     // gets both cards school types and then goes through the if statements in order to find if the combination fits

@@ -22,9 +22,9 @@ public class SettingsFragment extends MenuFragment
 
 {
     //Settings Bitmap
-    private Bitmap bground, sfxBitmap, musicBitmap, statsBitmap, backBitmap;
+    private Bitmap bground, volumeBitmap, howToPlayBitmap, statsBitmap, backBitmap, aboutUsBitmap;
     //Settings Rects
-    private Rect bgroundRect, sfxRect, musicRect, statsRect, backRect;
+    private Rect bgroundRect, volumeRect, howToPlayRect, statsRect, backRect, aboutUsRect;
 
 
     // Constructor
@@ -49,27 +49,32 @@ public class SettingsFragment extends MenuFragment
 
         // load in bitmaps here
         bground = AssetLoader.loadBitmap(assetManager, "img/Marc/Screen 1.png");
-        sfxBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/SFXVol.png");
-        musicBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/MusicVol.png");
-        statsBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/Stats.png");
+        volumeBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/volume.png");
+        howToPlayBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/howtoplay.png");
+        statsBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/newstats.png");
         backBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/ButtonBack.png");
+        aboutUsBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/aboutus.png");
 
         // Set up values for each menu rect
-        sfxRect = new Rect((int) (width - 256 * uiScaling - 8 * gameScaling),
-                (int) (height / 2 - 56 * uiScaling),
-                (int) (width - 8 * gameScaling),
-                (int) (height / 2 - 8 * uiScaling));
-        musicRect = new Rect((int) (width - 256 * uiScaling - 8 * gameScaling),
-                (int) (height / 2),
-                (int) (width - 8 * gameScaling),
-                (int) (height / 2 + 48 * uiScaling));
-        statsRect = new Rect((int) (width - 256 * uiScaling - 8 * gameScaling),
-                (int) (height / 2 + 104 * uiScaling),
-                (int) (width - 8 * gameScaling),
-                (int) (height / 2 + 148 * uiScaling));
+        volumeRect =new Rect((int) (width / 2 - 128 * uiScaling),
+                (int) (height / 2 - 58 * uiScaling),
+                (int) (width / 2 + 128 * uiScaling),
+                (int) (height / 2 - 10 * uiScaling));
+        howToPlayRect = new Rect((int) (width / 2 - 128 * uiScaling),
+                (int) (height / 2 + 54 * uiScaling),
+                (int) (width / 2 + 128 * uiScaling),
+                (int) (height / 2 + 102 * uiScaling));
+        statsRect = new Rect((int) (width / 2 - 128 * uiScaling),
+                (int) (height / 2 - 2 * uiScaling),
+                (int) (width / 2 + 128 * uiScaling),
+                (int) (height / 2 + 46 * uiScaling));
         backRect = new Rect((int) (8 * uiScaling), (int) (8 * uiScaling),
                 (int) (24 * 2 * uiScaling + 8 * uiScaling),
                 (int) (24 * 2 * uiScaling + 8 * uiScaling));
+        aboutUsRect = new Rect((int) (width / 2 - 128 * uiScaling),
+                (int) (height / 2 + 110 * uiScaling),
+                (int) (width / 2 + 128 * uiScaling),
+                (int) (height / 2 + 158 * uiScaling));
     }
 
     public void doDraw(Canvas canvas)
@@ -80,10 +85,11 @@ public class SettingsFragment extends MenuFragment
         bgroundRect.set(0, 0, width, height);
 
         canvas.drawBitmap(bground, null, bgroundRect, null);
-        canvas.drawBitmap(sfxBitmap, null, sfxRect, null);
-        canvas.drawBitmap(musicBitmap, null, musicRect, null);
+        canvas.drawBitmap(volumeBitmap, null, volumeRect, null);
+        canvas.drawBitmap(howToPlayBitmap, null, howToPlayRect, null);
         canvas.drawBitmap(statsBitmap, null, statsRect, null);
         canvas.drawBitmap(backBitmap, null, backRect, null);
+        canvas.drawBitmap(aboutUsBitmap, null, aboutUsRect, null);
 
         for (int i = 0; i < input.MAX_TOUCH_POINTS; i++) {
             if (input.isTouchDown(i)) {
@@ -93,6 +99,12 @@ public class SettingsFragment extends MenuFragment
                     getFragmentManager()
                             .beginTransaction()
                             .replace(R.id.container, new MainMenuFragment(), "main_menu_fragment").commit();
+                }
+
+                if(volumeRect.contains(x, y)) {
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.container, new VolumeFragment(), "volume_fragment").commit();
                 }
 
 

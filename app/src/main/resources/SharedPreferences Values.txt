@@ -1,0 +1,23 @@
+Below are what values are labelled as in the SharedPreferences
+
+Label					| Data Type	|
+---------------------------------------------------------
+				VolumeFragment
+---------------------------------------------------------
+sfxValue				| int		| 
+musicValue				| int		| 
+languageString			| String	| 			
+handednessBool			| Boolean	| 
+---------------------------------------------------------
+				GameStatsFragment
+---------------------------------------------------------
+killsValue				| int		| 
+deathsValue				| int		| 
+totalScoreValue			| int		| 
+timesPlayedValue		| int		| 
+totalPlayTimeValue		| int		| 
+longestPlayTimeValue	| int		| 
+---------------------------------------------------------
+				    Timer
+---------------------------------------------------------
+currentTimeValue		| int		| 

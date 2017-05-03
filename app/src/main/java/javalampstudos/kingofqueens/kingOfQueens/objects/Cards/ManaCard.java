@@ -20,11 +20,11 @@ public class ManaCard extends BasicCard
 
 
     public ManaCard(int x, int y, int width, int height, Bitmap Sprite, boolean player, int id,
-                    ManaTypes manaType, CardSchools cardSchool, boolean destroyed, int pointerID)
+                    ManaTypes manaType, CardSchools cardSchool, boolean destroyed, int pointerID, int targetX)
 
     {
        super(x,  y, width, height, Sprite, player, id,
-        cardSchool, destroyed, pointerID);
+        cardSchool, destroyed, pointerID, targetX);
 
          this.manaType = manaType;
 

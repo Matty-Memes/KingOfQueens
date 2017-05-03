@@ -12,6 +12,7 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
 public class BasicCard extends GameObject
 
 {
+    public int targetX;
 
     public CardSchools cardSchool;
 
@@ -28,13 +29,14 @@ public class BasicCard extends GameObject
 
     // Modified by Andrew - 27/03/17
     public BasicCard(int x, int y, int width, int height, Bitmap Sprite, boolean player, int id,
-                     CardSchools cardSchool, boolean destroyed, int pointerID)
+                     CardSchools cardSchool, boolean destroyed, int pointerID, int targetX)
     {
         super(x, y, width, height, Sprite, player);
         this.id = id;
         this.cardSchool = cardSchool;
         this.destroyed = destroyed;
         this.pointerID = pointerID;
+        this.targetX = targetX;
 
     }
 
@@ -92,13 +94,55 @@ public class BasicCard extends GameObject
 
     }
 
-    // this would use the index to work out the original position of the card
-
-    public void resetPosition ()
+    // hand cards that have been placed move back to the deck position
+    public void moveToDeck ()
 
     {
-      this.x = 434;
-      this.y = 410;
+        this.x = 800;
+        this.y = 410;
+
+    }
+
+    // this invisibly returns the cards to their original positions before they were dragged
+    // could reference board layout here
+
+    public void resetPosition (int index)
+
+    {
+     if (index == 0)
+
+     {
+         this.x = 234;
+         this.y = 410;
+     }
+
+        if (index == 1)
+
+        {
+            this.x = 334;
+            this.y = 410;
+        }
+
+        if (index == 2)
+
+        {
+            this.x = 434;
+            this.y = 410;
+        }
+
+        if (index == 3)
+
+        {
+            this.x = 534;
+            this.y = 410;
+        }
+
+        if (index == 4)
+
+        {
+            this.x = 634;
+            this.y = 410;
+        }
 
     }
 

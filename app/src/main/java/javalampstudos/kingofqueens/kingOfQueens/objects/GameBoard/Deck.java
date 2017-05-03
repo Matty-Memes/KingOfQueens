@@ -33,8 +33,8 @@ public class Deck {
     // Could be re-used
     public ArrayList<MonsterCard> monsterArray = new ArrayList<>(noOfMonsterCards);
     public ArrayList<ManaCard> manaArray= new ArrayList<>(noOfManaCards);
-    public ArrayList<SupportCard> supportArray = new ArrayList<>(noOfSupportCards);
-    public ArrayList<BasicCard> basicArray = new ArrayList<>(MAXDECKSIZE);
+    private ArrayList<SupportCard> supportArray = new ArrayList<>(noOfSupportCards);
+    private ArrayList<BasicCard> basicArray = new ArrayList<>(MAXDECKSIZE);
 
     public Deck ()
 

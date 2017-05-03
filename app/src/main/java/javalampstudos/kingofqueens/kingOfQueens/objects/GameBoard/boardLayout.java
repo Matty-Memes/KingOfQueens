@@ -26,6 +26,9 @@ public class boardLayout
     // deck rect
     public static Rect deckRect;
 
+    // Opponent Rects
+    public static Rect opponent1Rect, opponent2Rect, opponent3Rect;
+
     // MOVE TO SEPERATE CLASSES SINCE THEY DON'T RELATE TO THE BOARD
 
     // Menu Rect/Rects
@@ -104,6 +107,24 @@ public class boardLayout
                 (int) (634 + (90 / 2)),
                 (int) (280 + (120 / 2)));
 
+        // Rects for the opponent cards
+        opponent1Rect = new Rect(
+                (int) (234 - (90 / 2)),
+                (int) (100 - (120 / 2)),
+                (int) (234 + (90 / 2)),
+                (int) (100 + (120 / 2)));
+
+        opponent2Rect = new Rect(
+                (int) (234 - (90 / 2)),
+                (int) (100 - (120 / 2)),
+                (int) (234 + (90 / 2)),
+                (int) (100 + (120 / 2)));
+
+        opponent3Rect = new Rect(
+                (int) (234 - (90 / 2)),
+                (int) (100 - (120 / 2)),
+                (int) (234 + (90 / 2)),
+                (int) (100 + (120 / 2)));
 
         // graveyard and deck rects
         graveYardRect = new Rect(
