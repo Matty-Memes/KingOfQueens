@@ -28,10 +28,10 @@ public class MonsterCard extends BasicCard
     //heal a monster and it didn't have a health limit
 
     public MonsterCard(int x, int y, int width, int height, Bitmap Sprite, boolean player, int id,
-                       CardSchools cardSchool, boolean destroyed, int pointerID, CardLevel level,
+                       CardSchools cardSchool, boolean destroyed, int pointerID, int targetX, CardLevel level,
                        int health, int defence, int attackValue, int evolutionID,
                        HashMap<ManaTypes, Integer> attackManaRequirement) {
-        super(x, y, width, height, Sprite, player, id, cardSchool, destroyed, pointerID);
+        super(x, y, width, height, Sprite, player, id, cardSchool, destroyed, pointerID, targetX);
         this.level = level;
         this.health = health;
         this.maxHealth = health;

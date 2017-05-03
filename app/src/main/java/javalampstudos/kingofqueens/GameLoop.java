@@ -63,7 +63,7 @@ public class GameLoop implements Runnable
 
         NEW, PAUSED,
         // Non-player states
-        PROMPT, AITURN,
+        PROMPT, AITURN, ANIMATION,
         // Turn Structure
         DRAW, MANAPLACEMENT, MONSTERPLACEMENT, ATTACK
 
@@ -145,18 +145,23 @@ public class GameLoop implements Runnable
 
     // ANIMATION
 
+    // When a card is placed by the player remember the empty slot.
+    public int emptySlot;
+
     // When you want to move a card this should become true
     public boolean animationNeeded = false;
 
     // boundary conditions for the test card
-    public boolean boundHit;
+    public boolean boundHit = false;
 
+    // Where should it stop?
     public int bound;
+
+    public float animationSpeed;
 
     public BasicCard cardToAnimate;
 
     // OTHER CLASSES
-    // This will replace individual rect declarations
     public boardLayout gameBoard;
 
     // Random Logic
@@ -258,15 +263,15 @@ public class GameLoop implements Runnable
         // Hand - Accessible individually and in their array positions
 
         handCard1 = new BasicCard(234, 410, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
-                49);
+                49, 234);
         handCard2 = new BasicCard(334, 410, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
-                49);
+                49, 334);
         handCard3 = new BasicCard(434, 410, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
-                49);
+                49, 434);
         handCard4 = new BasicCard(534, 410, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
-                49);
+                49, 534);
         handCard5 = new BasicCard(634, 410, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
-                49);
+                49, 634);
 
         handCards.add(handCard1);
         handCards.add(handCard2);
@@ -280,27 +285,27 @@ public class GameLoop implements Runnable
         requiredMana.put(ManaTypes.BUILT_ENVIRONMENT_MANA,5);
 
         monsterCard1 = new MonsterCard(234, 280, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
-                49, CardLevel.DOCTRATE, 140, 0, 3, 1, requiredMana);
+                49, 0, CardLevel.DOCTRATE, 140, 0, 3, 1, requiredMana);
         monsterCard2 = new MonsterCard(434, 280, 90, 120, cardBackSprite, true, 3,CardSchools.MEDICS, false,
-                49, CardLevel.DOCTRATE, 140, 0, 3,1, requiredMana);
+                49, 0, CardLevel.DOCTRATE, 140, 0, 3,1, requiredMana);
         monsterCard3 = new MonsterCard(634, 280, 90, 120, cardBackSprite, true, 3,CardSchools.MEDICS, false,
-                49, CardLevel.DOCTRATE, 140, 0, 3, 1, requiredMana);
+                49, 0, CardLevel.DOCTRATE, 140, 0, 3, 1, requiredMana);
 
         monstersInPlay.add(monsterCard1);
         monstersInPlay.add(monsterCard2);
         monstersInPlay.add(monsterCard3);
 
         graveYard = new BasicCard(800, 280, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
-                49);
+                49, 0);
 
         deck = new BasicCard(800, 410, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
-                49);
-        manaZone = new BasicCard(100, 340, 140, 240, manaZoneSprite, true, 3, CardSchools.MEDICS, false, 49);
+                49, 0);
+        manaZone = new BasicCard(100, 340, 140, 240, manaZoneSprite, true, 3, CardSchools.MEDICS, false, 49, 0);
 
         // Opponent card
-        opponent1 = new MonsterCard(234, 100, 90, 120, cardBackSprite, false, 0, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3,1, requiredMana);
-        opponent2 = new MonsterCard(434, 100, 90, 120, cardBackSprite, false, 0, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3,4, requiredMana);
-        opponent3 = new MonsterCard(634, 100, 90, 120, cardBackSprite, false, 0, CardSchools.EEECS, false, 49, CardLevel.DOCTRATE, 140, 0, 3,8, requiredMana);
+        opponent1 = new MonsterCard(234, 100, 90, 120, cardBackSprite, false, 0, CardSchools.EEECS, false, 49, 0, CardLevel.DOCTRATE, 140, 0, 3,1, requiredMana);
+        opponent2 = new MonsterCard(434, 100, 90, 120, cardBackSprite, false, 0, CardSchools.EEECS, false, 49, 0, CardLevel.DOCTRATE, 140, 0, 3,4, requiredMana);
+        opponent3 = new MonsterCard(634, 100, 90, 120, cardBackSprite, false, 0, CardSchools.EEECS, false, 49, 0, CardLevel.DOCTRATE, 140, 0, 3,8, requiredMana);
 
         rand = new randomGenerator();
 
@@ -312,26 +317,17 @@ public class GameLoop implements Runnable
         initializeHandMana();
         intializeFieldMonsters();
 
-        System.out.println("Hand Monsters is " + playerHandMonsters.size());
-
         playerDeck.createDeck(this);
-        System.out.println("playerDeck monsters " + playerDeck.monsterArray.size());
-        System.out.println("playerDeck mana" + playerDeck.manaArray.size());
-
         // this only affects basic card at the moment
         populatePlayerHand ();
 
         rand.flushRandomLogic();
 
         aiDeck.createDeck(this);
-        System.out.println("playerDeck monsters " + playerDeck.monsterArray.size());
-        System.out.println("playerDeck mana" + playerDeck.manaArray.size());
 
         rand.flushRandomLogic();
 
         populateOpponentHand();
-
-        System.out.println("Opponent hand populated");
 
         engineering = new andyManaCounter(100, 250, "0");
         artsAndHumanities = new andyManaCounter(100, 290 , "0");
@@ -396,6 +392,11 @@ public class GameLoop implements Runnable
                     case DRAW:
                         updateCard();
                         updateDraw();
+                        break;
+                    case ANIMATION:
+                        // don't update touch
+                        updateAnimation();
+                        updateCard();
                         break;
                     case MANAPLACEMENT:
                         updateCard();
@@ -492,7 +493,7 @@ public class GameLoop implements Runnable
 
         gameBoard = new boardLayout(width, height, uiScaling);
 
-        // Hands and deck are set up so begin the prep phase
+        // Hands and deck are set up so the prep phase can begin
         gameState = GameState.MONSTERPLACEMENT;
     }
 
@@ -510,7 +511,7 @@ public class GameLoop implements Runnable
         Medic.update();
     }
 
-    // THIS IS TO MAKE SURE THE ARRAY LISTS AREN'T EMPTY
+    // PUT THIS IN A SINGLE METHOD
 
     // Andrew - 40083349
     private void initializeHandMonsters()
@@ -524,7 +525,7 @@ public class GameLoop implements Runnable
 
         {
             playerHandMonsters.add(new MonsterCard(234, 280, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
-                    49, CardLevel.DOCTRATE, 140, 0, 3, 1, requiredMana));
+                    49, 0, CardLevel.DOCTRATE, 140, 0, 3, 1, requiredMana));
         }
 
     }
@@ -537,7 +538,7 @@ public class GameLoop implements Runnable
 
         {
             playerHandMana.add(new ManaCard(0, 0, 90, 120, cardBackSprite, true, 2,
-                    ManaTypes.SOCIAL_SCIENCES_MANA, CardSchools.SOCIAL_SCIENCES, false, 49 ));
+                    ManaTypes.SOCIAL_SCIENCES_MANA, CardSchools.SOCIAL_SCIENCES, false, 49, 0));
 
         }
 
@@ -555,7 +556,7 @@ public class GameLoop implements Runnable
         {
 
             playerFieldMonsters.add(new MonsterCard(234, 280, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
-                    49, CardLevel.DOCTRATE, 140, 0, 3, 1, requiredMana));
+                    49, 0, CardLevel.DOCTRATE, 140, 0, 3, 1, requiredMana));
 
         }
 
@@ -564,7 +565,7 @@ public class GameLoop implements Runnable
         {
 
             aiFieldMonsters.add(new MonsterCard(234, 280, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
-                    49, CardLevel.DOCTRATE, 140, 0, 3, 1, requiredMana));
+                    49, 0, CardLevel.DOCTRATE, 140, 0, 3, 1, requiredMana));
 
         }
 
@@ -607,25 +608,25 @@ public class GameLoop implements Runnable
     }
 
     // Andrew - 40083349
+    // Currently used for drawing cards
     private void updateAnimation ()
 
     {
-        // could get rid of this
-        if (animationNeeded)
+            System.out.println("Animating");
 
-        {
-            // if the bound hasn't been hit yet keep incrementing the x position once per frame
+            // move the hand card left till it hits it's target position
+            // associate the target position with the card
             if (!boundHit) {
-                handCard5.x -= 2.0;
+                handCards.get(emptySlot).x -= 0.1;
 
-                if (handCard5.x <= bound) {
+                // the proper position of any card is tied to that individual card
+                if (handCards.get(emptySlot).x <= handCards.get(emptySlot).targetX) {
                     boundHit = true;
-                    animationNeeded = false;
+                    // Allow the game to flow to the mana placement phase
+                    System.out.println("Done");
                 }
 
             }
-
-        }
 
     }
 
@@ -754,8 +755,8 @@ public class GameLoop implements Runnable
                             // get the current card off the screen
                             handCards.get(handIndex).destroyed = true;
 
-                            // put the hand card back in the correct position for the next turn
-                            // depends on the handIndex that was set
+                            // The last card to be placed is set back to the deck for the drawing phase
+                            handCards.get(handIndex).moveToDeck();
 
                             // move to the monster placement phase
                             gameState = GameState.MONSTERPLACEMENT;
@@ -882,18 +883,15 @@ public class GameLoop implements Runnable
                             // The touch zones dictate the index
                             playerFieldMonsters.add(0, playerHandMonsters.get(handIndex));
 
-                            // puts the card back in it's proper position
-                            // handCards.get(handIndex).resetPosition();
-
-//                          attack = true;
-
-                            // Turn this block into a new method??
+                            // The last card to be placed is set back to the deck for the drawing phase
+                            handCards.get(handIndex).moveToDeck();
 
                             if (prepPhase)
 
                             {
                                 think();
                                 prepPhase = false;
+                                emptySlot = handIndex;
                             }
 
                             else
@@ -930,8 +928,9 @@ public class GameLoop implements Runnable
                             // Avoid out of bounds exceptions
                             playerFieldMonsters.add(1, playerHandMonsters.get(handIndex));
 
-                            // reset the position of the card once it's played
-                            // once it's drawn again it will be at the correct position
+                            // The last card to be placed is set back to the deck for the drawing phase
+                            handCards.get(handIndex).moveToDeck();
+
                             handCards.get(handIndex).resetPosition(handIndex);
 
                             if (prepPhase)
@@ -939,6 +938,7 @@ public class GameLoop implements Runnable
                             {
                                 think();
                                 prepPhase = false;
+                                emptySlot = handIndex;
                             }
 
                             else
@@ -973,14 +973,15 @@ public class GameLoop implements Runnable
                             playerFieldMonsters.add(3, playerHandMonsters.get(handIndex));
 //                            attack = true;
 
-                            // Could pass in the index to decide the position
-//                            handCards.get(handIndex).resetPosition();
+                            // The last card to be placed is set back to the deck for the drawing phase
+                            handCards.get(handIndex).moveToDeck();
 
                             if (prepPhase)
 
                             {
                                 think();
                                 prepPhase = false;
+                                emptySlot = handIndex;
                             }
 
                             else
@@ -1249,18 +1250,15 @@ public class GameLoop implements Runnable
         // draw a new card
         takeCard();
 
-        // begin the mana placement phase
-        gameState = GameState.MANAPLACEMENT;
-
-        // Set all your variables and then move on
-
-
         // allow dragging
         dragActive = true;
         // allow mana detection
         manaflag = true;
         // make the hand cards active
         handActive = true;
+
+        // run the card movement animation
+        gameState = GameState.ANIMATION;
 
     }
 

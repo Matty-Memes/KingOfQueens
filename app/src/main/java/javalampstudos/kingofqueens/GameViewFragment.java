@@ -214,6 +214,17 @@ public class GameViewFragment extends CanvasFragment {
                 drawUI(canvas);
 
                 break;
+            case ANIMATION:
+
+                drawCard(canvas);
+
+                drawMonsterCards(canvas);
+
+                drawHand(canvas);
+
+                drawMana(canvas);
+
+                drawUI(canvas);
 
             case MANAPLACEMENT:
 

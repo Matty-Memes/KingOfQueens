@@ -12,6 +12,7 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
 public class BasicCard extends GameObject
 
 {
+    public int targetX;
 
     public CardSchools cardSchool;
 
@@ -28,13 +29,14 @@ public class BasicCard extends GameObject
 
     // Modified by Andrew - 27/03/17
     public BasicCard(int x, int y, int width, int height, Bitmap Sprite, boolean player, int id,
-                     CardSchools cardSchool, boolean destroyed, int pointerID)
+                     CardSchools cardSchool, boolean destroyed, int pointerID, int targetX)
     {
         super(x, y, width, height, Sprite, player);
         this.id = id;
         this.cardSchool = cardSchool;
         this.destroyed = destroyed;
         this.pointerID = pointerID;
+        this.targetX = targetX;
 
     }
 
@@ -89,6 +91,15 @@ public class BasicCard extends GameObject
 
             super.draw(canvas);
         }
+
+    }
+
+    // hand cards that have been placed move back to the deck position
+    public void moveToDeck ()
+
+    {
+        this.x = 800;
+        this.y = 410;
 
     }
 

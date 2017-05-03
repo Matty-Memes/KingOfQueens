@@ -208,21 +208,21 @@ public class JSONcardLibrary
 
 
         MonsterCard Engineer1 = new MonsterCard(0, 0, 90, 120, Engineer1Sprite, true, 0, CardSchools.ENGINEERING,
-                false, 49, CardLevel.UNDERGRAD, 80, 0, 30, 1, requiredMana);
+                false, 49, 0, CardLevel.UNDERGRAD, 80, 0, 30, 1, requiredMana);
         MonsterCard Engineer2 = new MonsterCard(0, 0, 90, 120, Engineer2Sprite, true, 0, CardSchools.ENGINEERING,
-                false, 49, CardLevel.GRAD, 120, 0, 50, 1, requiredMana);
+                false, 49, 0, CardLevel.GRAD, 120, 0, 50, 1, requiredMana);
         MonsterCard Engineer3 = new MonsterCard(0, 0, 90, 120, Engineer3Sprite, true, 0, CardSchools.ENGINEERING,
-                false, 49, CardLevel.DOCTRATE, 200, 0, 70, 1, requiredMana);
+                false, 49, 0, CardLevel.DOCTRATE, 200, 0, 70, 1, requiredMana);
         MonsterCard Turret1 = new MonsterCard(0, 0, 90, 120, Turret1Sprite, true, 0, CardSchools.ENGINEERING,
-                false, 49, CardLevel.UNDERGRAD, 50, 10, 30, 2, requiredMana);
+                false, 49, 0, CardLevel.UNDERGRAD, 50, 10, 30, 2, requiredMana);
         MonsterCard Turret2 = new MonsterCard(0, 0, 90, 120, Turret2Sprite, true, 0, CardSchools.ENGINEERING,
-                false, 49, CardLevel.GRAD, 70, 15, 50, 2, requiredMana);
+                false, 49, 0, CardLevel.GRAD, 70, 15, 50, 2, requiredMana);
         MonsterCard Turret3 = new MonsterCard(0, 0, 90, 120, Turret3Sprite, true, 0, CardSchools.ENGINEERING,
-                false, 49, CardLevel.DOCTRATE, 100, 25, 70, 2, requiredMana);
+                false, 49, 0, CardLevel.DOCTRATE, 100, 25, 70, 2, requiredMana);
         MonsterCard AeroSpaceEngineer1 = new MonsterCard(0, 0, 90, 120, AeroSpaceEngineer1Sprite, true, 0, CardSchools.ENGINEERING,
-                false, 49, CardLevel.UNDERGRAD, 70, 0, 40, 3, requiredMana);
+                false, 49, 0, CardLevel.UNDERGRAD, 70, 0, 40, 3, requiredMana);
         MonsterCard AeroSpaceEngineer2 = new MonsterCard(0, 0, 90, 120,AeroSpaceEngineer2Sprite, true, 0, CardSchools.ENGINEERING,
-                false, 49, CardLevel.GRAD, 100, 15, 70, 3, requiredMana);
+                false, 49, 0, CardLevel.GRAD, 100, 15, 70, 3, requiredMana);
 
         monsterCards.add(Engineer1);
         monsterCards.add(Engineer2);
@@ -241,17 +241,17 @@ public class JSONcardLibrary
     {
 
         ManaCard socialScienceMana = new ManaCard(0, 0, 90, 120,socialScienceManaSprite, true, 2,
-                ManaTypes.SOCIAL_SCIENCES_MANA, CardSchools.SOCIAL_SCIENCES, false, 49 );
+                ManaTypes.SOCIAL_SCIENCES_MANA, CardSchools.SOCIAL_SCIENCES, false, 49, 0 );
         ManaCard medicalMana = new ManaCard(0, 0, 90, 120, medicalManaSprite, true, 2,
-                ManaTypes.MEDICS_MANA, CardSchools.MEDICS, false, 49 );
+                ManaTypes.MEDICS_MANA, CardSchools.MEDICS, false, 49, 0 );
         ManaCard artsMana = new ManaCard(0, 0, 90, 120, artsManaSprite, true, 2,
-                ManaTypes.ARTS_HUMANITIES_MANA, CardSchools.ARTS_HUMANITIES, false, 49 );;
+                ManaTypes.ARTS_HUMANITIES_MANA, CardSchools.ARTS_HUMANITIES, false, 49, 0 );
         ManaCard eeecsMana = new ManaCard(0, 0, 90, 120, eeecsManaSprite, true, 2,
-                ManaTypes.EEECS_MANA, CardSchools.EEECS, false, 49 );;
+                ManaTypes.EEECS_MANA, CardSchools.EEECS, false, 49, 0 );;
         ManaCard engineeringMana = new ManaCard(0, 0, 90, 120, engineeringManaSprite, true, 2,
-                ManaTypes.ENGINEERING_MANA, CardSchools.ENGINEERING, false, 49 );;
+                ManaTypes.ENGINEERING_MANA, CardSchools.ENGINEERING, false, 49, 0 );
         ManaCard builtEnvironmentMana = new ManaCard(0, 0, 90, 120, builtEnvironmentManaSprite, true, 2,
-                ManaTypes.BUILT_ENVIRONMENT_MANA, CardSchools.BUILT_ENVIORNMENT, false, 49 );;
+                ManaTypes.BUILT_ENVIRONMENT_MANA, CardSchools.BUILT_ENVIORNMENT, false, 49, 0 );
 
         manaCards.add(socialScienceMana);
         manaCards.add(medicalMana);
@@ -445,7 +445,7 @@ public class JSONcardLibrary
         Bitmap sprite = assignSprite(cardName);
         id++;
 
-        return new MonsterCard(x,y,width,height,sprite,player,id,cardSchool,destroyed,pointerID,level,
+        return new MonsterCard(x,y,width,height,sprite,player,id,cardSchool,destroyed,pointerID, 0, level,
                 health,defence,attackValue,evolutionID,attackManaRequirements);
     }
     private HashMap<ManaTypes,Integer> readManaRequirements(JsonReader reader) throws IOException
@@ -512,7 +512,7 @@ public class JSONcardLibrary
         }
         id++;
         Bitmap sprite = assignSprite(cardName);
-        return new ManaCard(x,y,width,height,sprite,player,id,manaType,cardSchool,destroyed,pointerID);
+        return new ManaCard(x,y,width,height,sprite,player,id,manaType,cardSchool,destroyed,pointerID, 0);
     }
     private List<SupportCard> readSupportCardArray(JsonReader reader) throws IOException
     {
@@ -548,7 +548,7 @@ public class JSONcardLibrary
         }
         id++;
         Bitmap sprite = assignSprite(cardName);
-        return new SupportCard(x,y,width,height,sprite,player,id,cardSchool,destroyed,pointerID,buffType);
+        return new SupportCard(x,y,width,height,sprite,player,id,cardSchool,destroyed,pointerID, 0, buffType);
     }
 
     //This method takes in the name of the card and returns the card bitmap
