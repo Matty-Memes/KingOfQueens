@@ -312,6 +312,15 @@ public class GameViewFragment extends CanvasFragment {
     {
         canvas.drawBitmap(pauseBitmap, null, boardLayout.pauseRect, paint);
 
+        // Paints time at bottom of game screen
+
+        paint.setTextSize(16 * loop.uiScaling);
+
+        paint.setTextAlign(Paint.Align.CENTER);
+
+        canvas.drawText(String.format("%02d:%02d",loop.timer.minutes,
+                loop.timer.seconds), width / 2, height + 2 * loop.uiScaling,
+                paint);
 
     }
 

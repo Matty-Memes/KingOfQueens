@@ -20,11 +20,15 @@ import javalampstudos.kingofqueens.GameViewFragment;
 import javalampstudos.kingofqueens.kingOfQueens.Menu.LoadingFragment;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 import javalampstudos.kingofqueens.kingOfQueens.Menu.MainMenuFragment;
+import javalampstudos.kingofqueens.kingOfQueens.engine.io.Settings;
 
 public class MainActivity extends Activity {
 
     // music variables
     private MediaPlayer music;
+    public static float musicVolume = 0;
+    public static Settings setting;
+    public boolean isPrevMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,8 @@ public class MainActivity extends Activity {
                     .add(R.id.container, new MainMenuFragment(),
                             "main_menu_fragment").commit();
 
+        setting = new Settings(getApplicationContext());
+
         hideNav();
 
     }
@@ -66,9 +72,56 @@ public class MainActivity extends Activity {
 
     public void music() {
 
-
         boolean isGame = getFragmentManager().findFragmentById(R.id.container)
                 .getTag().equals("game_fragment");
+
+        musicVolume = setting.getVolume("musicValue") / 10.0f;
+
+
+        if (musicVolume != 0) {
+            if (music == null) {
+                if (isGame) {
+                    music = AssetLoader
+                            .loadMusic(getAssets(), "LevelMusic.mp3");
+                    isPrevMenu = false;
+                } else {
+
+                    music = AssetLoader.loadMusic(getAssets(), "StarShips - Nicki Minaj (Lyrics).mp3");
+                    isPrevMenu = true;
+                }
+
+                music.start();
+
+            } else {
+                if (isGame) {
+                    if (music.isPlaying())
+                        music.pause();
+                    music = AssetLoader
+                            .loadMusic(getAssets(), "LevelMusic.mp3");
+                    isPrevMenu = false;
+                    music.start();
+                } else if (!isPrevMenu) {
+                    if (music.isPlaying())
+                        music.pause();
+                    music = AssetLoader.loadMusic(getAssets(), "StarShips - Nicki Minaj (Lyrics).mp3");
+                    isPrevMenu = true;
+                    music.start();
+                } else {
+                    music.start();
+                }
+
+            }
+            music.setVolume(musicVolume, musicVolume);
+
+        } else {
+            if (music != null)
+                music.pause();
+        }
+    }
+
+
+//    boolean isGame = getFragmentManager().findFragmentById(R.id.container)
+//                .getTag().equals("game_fragment");
 
         // load in the correct asset
         // music = AssetLoader.loadMusic(getAssets(), "music/StarShips - Nicki Minaj (Lyrics).mp3");
@@ -80,17 +133,21 @@ public class MainActivity extends Activity {
         // also pause the music
 
 
+    public void stopMusic() {
+        if (music != null && music.isPlaying())
+            music.pause();
     }
 
+    @Override
     protected void onResume() {
         super.onResume();
         hideNav();
-        // music();
-
+        music();
     }
 
+    @Override
     protected void onPause() {
-
+        stopMusic();
         super.onPause();
     }
 }

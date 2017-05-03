@@ -95,6 +95,12 @@ public class SettingsFragment extends MenuFragment
                             .replace(R.id.container, new MainMenuFragment(), "main_menu_fragment").commit();
                 }
 
+                if(sfxRect.contains(x, y)) {
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.container, new VolumeFragment(), "volume_fragment").commit();
+                }
+
 
 
             }

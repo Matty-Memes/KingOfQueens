@@ -2,6 +2,7 @@ package javalampstudos.kingofqueens;
 
 import android.content.Intent;
 import android.graphics.Matrix;
+import android.media.MediaPlayer;
 import android.util.DisplayMetrics;
 
 /**
@@ -22,6 +23,7 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardLevel;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaTypes;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.ManaCounter;
+import javalampstudos.kingofqueens.kingOfQueens.util.GameTimer;
 import javalampstudos.kingofqueens.kingOfQueens.util.randomGenerator;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.boardLayout;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Deck;
@@ -213,6 +215,8 @@ public class GameLoop implements Runnable
 
     // SPLIT THIS OUT
 
+    public GameTimer timer = new GameTimer();
+
     public GameLoop (CanvasFragment fragment, int width, int height)
 
     {
@@ -349,6 +353,10 @@ public class GameLoop implements Runnable
         // The prep phase becomes active here
         prepPhase = true;
 
+        // Starts game timer
+        timer.start();
+
+
     }
 
     // Created by Andrew - 40083349
@@ -440,6 +448,7 @@ public class GameLoop implements Runnable
         {
 
         }
+
     }
 
     // Created by Andrew - 40083349
@@ -448,6 +457,8 @@ public class GameLoop implements Runnable
         // stop running
         if(gameState != GameState.PAUSED) {
             pauseGame();
+
+            timer.stop();
         }
 
         canvasRenderer.pause();
@@ -1138,6 +1149,10 @@ public class GameLoop implements Runnable
                         if(boardLayout.resumeRect.contains(x, y)) {
                             gameState = GameState.NEW;
 
+                            timer.start();
+
+
+
                         }
 
                         if(boardLayout.restartRect.contains(x, y)) {
@@ -1176,6 +1191,8 @@ public class GameLoop implements Runnable
 
     {
         gameState = GameState.PAUSED;
+
+        timer.stop();
 
     }
 
