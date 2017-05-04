@@ -4,8 +4,12 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 /**
- * Created by Andrew on 29/03/2017.
+ * Created by brian on 24/11/2016.
+ * 40111707
+ * Modified by Matt on 09/03/2017
+ * Removed mana value as it is now redundant with the manaCounter class. Each mana card is worth 1
  */
+// Modified by Andrew - 27/03/17
 
 // Local Imports
 

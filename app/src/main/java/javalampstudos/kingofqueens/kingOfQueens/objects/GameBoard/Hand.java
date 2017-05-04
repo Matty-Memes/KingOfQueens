@@ -21,7 +21,7 @@ public class Hand
 
 {
     /**
-     * Created by Matt on 13/03/2017.
+     * Created by Matt on 13/03/2017. 04/05/2017 All I really did was create the original constructor
      */
 
 

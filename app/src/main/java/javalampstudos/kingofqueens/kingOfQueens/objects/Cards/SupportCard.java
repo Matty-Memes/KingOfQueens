@@ -4,7 +4,9 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 /**
- * Created by Andrew on 29/03/2017.
+ * Created by brian on 24/11/2016.
+ * 40111707
+ * Modifed by Matt on 09/03/2017
  * Modified by Matt on 22/04/2017 and Refactored on 04/05/2017
  */
 
@@ -41,6 +43,7 @@ public class SupportCard extends BasicCard
         // canvas.drawBitmap();
     }
 
+    //Matt 40149561
     public void attackBuff(int turns,int attack,MonsterCard buffedCard)
     {
         active=true;
@@ -55,6 +58,7 @@ public class SupportCard extends BasicCard
         }
     }
 
+    //Matt 40149561
     public void defenceBuff(int turns, int defence,MonsterCard buffedCard)
     {
         active = true;
@@ -68,6 +72,7 @@ public class SupportCard extends BasicCard
         }
     }
 
+    //Matt 40149561
     public void healBuff(int health,MonsterCard healedCard)
     {
         int newHealth = healedCard.getHealth()+ health;
