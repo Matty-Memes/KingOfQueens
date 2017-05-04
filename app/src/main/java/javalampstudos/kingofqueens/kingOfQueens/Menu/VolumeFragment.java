@@ -17,10 +17,11 @@ import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 public class VolumeFragment extends MenuFragment {
 
     //Settings Bitmap
-    private Bitmap bground, plusBitmap, minusBitmap, backBitmap, musicVolBitmap, sfxVolBitmap;
+    private Bitmap bground, plusBitmap, minusBitmap, backBitmap, musicVolBitmap, sfxVolBitmap,
+            muteBitmap;
     //Settings Rects
     private Rect bgroundRect, musicMinusRect, musicPlusRect, sfxMinusRect, sfxPlusRect, backRect,
-    musicVolRect, sfxVolRect;
+            musicVolRect, sfxVolRect, muteMusicRect, muteSFXRect;
 
 
     private int musicVolume, sfxVolume;
@@ -56,6 +57,7 @@ public class VolumeFragment extends MenuFragment {
         backBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/ButtonBack.png");
         musicVolBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/MusicVol.png");
         sfxVolBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/SFXVol.png");
+        muteBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/mute.png");
 
         // Set up values for each menu rect
         // Sets up Rect parameters
@@ -75,6 +77,10 @@ public class VolumeFragment extends MenuFragment {
                 (int) (height / 2 - 114 * uiScaling),
                 (int) (width / 2 + 176 * uiScaling),
                 (int) (height / 2 - 66 * uiScaling));
+        muteMusicRect = new Rect((int) (width / 2 + 240 * uiScaling),
+                (int) (height / 2 - 114 * uiScaling),
+                (int) (width / 2 + 288 * uiScaling),
+                (int) (height / 2 - 66 * uiScaling));
         sfxMinusRect = new Rect((int) (width / 2 + 16 * uiScaling),
                 (int) (height / 2 - 58 * uiScaling),
                 (int) (width / 2 + 64 * uiScaling),
@@ -82,6 +88,10 @@ public class VolumeFragment extends MenuFragment {
         sfxPlusRect = new Rect((int) (width / 2 + 128 * uiScaling),
                 (int) (height / 2 - 58 * uiScaling),
                 (int) (width / 2 + 176 * uiScaling),
+                (int) (height / 2 - 10 * uiScaling));
+        muteSFXRect = new Rect((int) (width / 2 + 240 * uiScaling),
+                (int) (height / 2 - 58 * uiScaling),
+                (int) (width / 2 + 288 * uiScaling),
                 (int) (height / 2 - 10 * uiScaling));
         backRect = new Rect((int) (8 * uiScaling), (int) (8 * uiScaling),
                 (int) (24 * 2 * uiScaling + 8 * uiScaling),
@@ -100,6 +110,9 @@ public class VolumeFragment extends MenuFragment {
         canvas.drawBitmap(musicVolBitmap, null, musicVolRect, null);
         canvas.drawBitmap(backBitmap, null, backRect, null);
         canvas.drawBitmap(sfxVolBitmap, null, sfxVolRect, null);
+        canvas.drawBitmap(muteBitmap, null, muteMusicRect, null);
+        canvas.drawBitmap(muteBitmap, null, muteSFXRect, null);
+
 
 
 
@@ -188,6 +201,26 @@ public class VolumeFragment extends MenuFragment {
                     ((MainActivity) getActivity()).music();
                 }
 
+                // Mutes Music Volume
+                if(muteMusicRect.contains(x, y)) {
+                    if(musicVolume < 10) {
+                        musicVolume = MainActivity.setting
+                                .muteVolume("musicValue");
+                    }
+
+                    ((MainActivity) getActivity()).music();
+                }
+
+                // Mutes Music Volume
+                if(muteSFXRect.contains(x, y)) {
+                    if(sfxVolume < 10) {
+                        sfxVolume = MainActivity.setting
+                                .muteVolume("sfxValue");
+                    }
+
+                    ((MainActivity) getActivity()).music();
+                }
+
                 // Decreases the value of sfx volume
                 if(sfxMinusRect.contains(x, y)) {
                     if(sfxVolume > 0) {
@@ -201,16 +234,10 @@ public class VolumeFragment extends MenuFragment {
                     if(sfxVolume < 10) {
                         sfxVolume = MainActivity.setting
                                 .increaseVolume("sfxValue");
+
                     }
                 }
             }
         }
     }
 }
-
-
-
-
-
-
-

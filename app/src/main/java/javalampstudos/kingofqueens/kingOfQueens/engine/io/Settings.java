@@ -85,6 +85,13 @@ public class Settings {
         return pref.getInt(string, 5);
     }
 
+    public int muteVolume(String string) {
+        int value = pref.getInt(string, 5);
+        edit.putInt(string, value = value - value);
+        edit.commit();
+        return pref.getInt(string, 5);
+    }
+
 
     /**
      * Returns an Integer value based on the Assigned name of the string passed
