@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
+import javalampstudos.kingofqueens.kingOfQueens.world.LayerViewport;
+import javalampstudos.kingofqueens.kingOfQueens.world.ScreenViewport;
 
 /**
  * Created by Andrew on 29/03/2017.
@@ -92,6 +94,12 @@ public class BasicCard extends GameObject
             super.draw(canvas);
         }
 
+    }
+
+    public void drawOpenWorld (Canvas canvas, LayerViewport layerViewport, ScreenViewport screenViewport)
+
+    {
+        super.drawOpenWorld(canvas, layerViewport, screenViewport);
     }
 
     // hand cards that have been placed move back to the deck position

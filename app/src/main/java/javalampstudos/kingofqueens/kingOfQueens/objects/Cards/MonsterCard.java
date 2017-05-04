@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 import java.util.HashMap;
 
 import javalampstudos.kingofqueens.kingOfQueens.util.randomGenerator;
+import javalampstudos.kingofqueens.kingOfQueens.world.LayerViewport;
+import javalampstudos.kingofqueens.kingOfQueens.world.ScreenViewport;
 
 /**
  * Created by Andrew on 29/03/2017.
@@ -105,6 +107,13 @@ public class MonsterCard extends BasicCard
 
     {
         super.draw(canvas);
+
+    }
+
+    public void drawOpenWorld(Canvas canvas, LayerViewport layerViewport, ScreenViewport screenViewport)
+
+    {
+        super.drawOpenWorld(canvas, layerViewport, screenViewport);
 
     }
 

@@ -1,8 +1,5 @@
 package javalampstudos.kingofqueens;
 
-import android.content.Intent;
-import android.graphics.Matrix;
-import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.util.DisplayMetrics;
 
@@ -23,7 +20,7 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.BasicCard;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardLevel;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaTypes;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
-import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.ManaCounter;
+import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
 import javalampstudos.kingofqueens.kingOfQueens.util.GameTimer;
 import javalampstudos.kingofqueens.kingOfQueens.util.randomGenerator;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.boardLayout;
@@ -38,8 +35,16 @@ import android.graphics.Rect;
 import android.graphics.Bitmap;
 import android.content.res.AssetManager;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
+
+// Nathan Imports
+import android.graphics.Canvas;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Entity;
+import javalampstudos.kingofqueens.kingOfQueens.objects.Entities.littleMan;
+import javalampstudos.kingofqueens.kingOfQueens.world.ScreenViewport;
+import javalampstudos.kingofqueens.kingOfQueens.world.LayerViewport;
 
 public class GameLoop implements Runnable
 
@@ -68,14 +73,12 @@ public class GameLoop implements Runnable
         // Turn Structure
         DRAW, MANAPLACEMENT, MONSTERPLACEMENT, ATTACK,
         // Win / lose
-        VICTORY, DEFEAT
+        VICTORY, DEFEAT,
+        OPENWORLD
     }
 
     // Allow the prep phase to happen
     public boolean prepPhase;
-
-    // Declare a gamestate
-    public GameState gameState;
 
     // TOUCH INPUT/DRAW LOGIC
 
@@ -217,6 +220,121 @@ public class GameLoop implements Runnable
     public Bitmap victoryScreen;
     public int opponentMonstersKilled;
 
+    // Nathan variables
+    public int[][] grid = new int[100][100];
+
+    //NathanMessingAbout
+    public enum MoveDirection {
+
+        LEFT, RIGHT, UP, DOWN;
+
+    }
+
+    //All Nathan's Sprites
+    private Bitmap playerSprite;
+    public Bitmap player2Sprite;
+    private Bitmap backgroundBitmap;
+    private Bitmap mcclayTopBitmap;
+    private Bitmap lanyonTopBitmap;
+    private Bitmap coinBitmap;
+    public Bitmap grassSprite;
+    public Bitmap wallSprite;
+    public Bitmap aButton;
+
+    public littleMan player;
+    public Entity player2;
+    //public Entity cloudyBackground;
+    public Entity mapTest;
+    public Entity mcclayTop;
+    public Entity lanyonTop;
+    public Entity tile;
+
+    public Rect interactButton;
+    public int interactionIndex = -1;
+    public int coinIndex = -1;
+    public int coinCounter;
+    public boolean inDialogue;
+    public int dialoguePoint = 0;
+
+    private Rect moveLeftRect;
+    public Rect moveRightRect;
+    private Rect moveUpRect;
+    private Rect moveDownRect;
+
+    public MoveDirection moveDirection;
+
+
+    //Screen Width and Height dimensions
+    private int mScreenWidth = -1;
+
+    public int getScreenWidth() {
+        return mScreenWidth;
+    }
+
+    private int mScreenHeight = -1;
+
+    public int getScreenHeight() {
+        return mScreenHeight;
+    }
+
+    /**
+     * Width and height of the level
+     */
+    public final float LEVEL_WIDTH = 1500.0f;
+    public final float LEVEL_HEIGHT = 1500.0f;
+
+
+    /*public int[][] grid =
+            {
+                    {1, 0, 0, 0, 0, 2, 2, 0, 0, 1},
+                    {0, 0, 0, 0, 0, 2, 2, 0, 0, 0},
+                    {0, 0, 0, 0, 0, 2, 2, 1, 0, 0},
+                    {0, 0, 0, 1, 0, 2, 2, 0, 0, 0},
+                    {0, 0, 0, 0, 0, 2, 2, 0, 0, 0},
+                    {0, 0, 0, 2, 2, 2, 3, 0, 1, 0},
+                    {0, 1, 0, 2, 2, 2, 2, 0, 0, 0},
+                    {0, 0, 0, 2, 2, 0, 1, 1, 0, 0},
+                    {2, 2, 2, 2, 2, 0, 1, 1, 0, 0},
+                    {2, 2, 1, 1, 1, 1, 1, 1, 1, 0}
+
+    };*/
+
+    ArrayList<GameObject> tileList = new ArrayList<>();
+    ArrayList<GameObject> collisionList = new ArrayList<>();
+    ArrayList<GameObject> objectList = new ArrayList<>();
+    ArrayList<GameObject> coinList = new ArrayList<>();
+    ArrayList<GameObject> interactionList = new ArrayList<>();
+
+
+
+    public LayerViewport mLayerViewport;
+    public ScreenViewport mScreenViewport;
+
+    public int getCoinCounter() {
+        return coinCounter;
+    }
+
+    // Declare a gamestate
+    public GameState gameState;
+
+    // Set up rects for touchinput
+    private Rect movementRect;
+
+    // Card game logic variables - may need to move this
+
+    public boolean playerTurn;
+
+    // Card objects
+    public MonsterCard DataAdmin;
+
+    // Declare all Sprites here - always include "Sprite" after the name of the image
+
+    public Bitmap DataAdminSprite;
+
+    public String[] attack1ManaRequired;
+    public String[] attack2ManaRequired;
+
+
     // Created by Andrew - 40083349
 
     // SPLIT THIS OUT
@@ -244,6 +362,9 @@ public class GameLoop implements Runnable
                 .getMetrics(metrics);
         uiScaling = metrics.density;
 
+        mScreenWidth = metrics.widthPixels;
+        mScreenHeight = metrics.heightPixels;
+
         // set the game state to new initially
         // Once the board is set up you can move to the default game state
         gameState = GameState.NEW;
@@ -251,9 +372,17 @@ public class GameLoop implements Runnable
         // Now all the rects exist
         gameBoard = new boardLayout(width, height, uiScaling);
 
+        // set the gamestate to new intially - in the finished version will depend on the presence of a save file
+        gameState = GameState.OPENWORLD;
+
         // input stuff
         touchListener = new MultitouchListener();
         canvasRenderer.setOnTouchListener(touchListener);
+
+        // load assets
+        loadAssets();
+
+        openWorldSetup();
 
         // THESE CARDS ARE PLACEHOLDERS FOR BITMAPS - THIS SHOULD BE IN ANOTHER METHOD
 
@@ -361,6 +490,80 @@ public class GameLoop implements Runnable
 
     }
 
+
+    //Create the Open World
+    public void openWorldSetup() {
+
+
+        int spacingX = width / 3;
+        int spacingY = height / 2;
+
+        createViewports();
+
+        initialise2DGrid();
+
+        tile = new Entity(0, 0, LEVEL_WIDTH / 100, LEVEL_HEIGHT / 100, null, true);
+        player = new littleMan(tile.width * 10 + tile.width / 2, tile.height * 24 +  tile.height / 2, tile.width, tile.height, playerSprite, true);
+        //interactionList.add(player2 = new Entity(100, 100, 20, 20, player2Sprite));
+        //collisionList.add(player2);
+        //cloudyBackground = new Entity(LEVEL_WIDTH / 2, LEVEL_HEIGHT / 2, LEVEL_WIDTH, LEVEL_HEIGHT, backgroundBitmap);
+        mapTest = new Entity(LEVEL_WIDTH / 2, LEVEL_HEIGHT / 2, LEVEL_WIDTH, LEVEL_HEIGHT, backgroundBitmap, true);
+        mcclayTop = new Entity(tile.width * 33 + tile.width / 2, tile.height * 92, tile.width * 25, tile.height * 14, mcclayTopBitmap, true);
+        lanyonTop = new Entity(tile.width * 33, tile.height * 37 + tile.height / 2, tile.width * 58, tile.height * 17, lanyonTopBitmap, true);
+        //coin =  new Entity(tile.width * 17 + tile.width / 2, tile.height * 24 + tile.height / 2, tile.width, tile.height, coinBitmap);
+
+        //tileList.add(coin);
+
+        interactButton = new Rect(spacingX * 2, spacingY + spacingY / 2, spacingX * 2 + spacingX / 2, spacingY * 2);
+
+        int x = 0;
+        int y;
+
+        while (x < 100) {
+
+            y = 0;
+            while(y < 100) {
+
+                switch (grid[y][x]) {
+
+                    case 1:
+                        collisionList.add(new Entity((tile.width * x) + tile.width / 2,
+                                LEVEL_HEIGHT - ((tile.height * (y)) - tile.height / 2),
+                                tile.width, tile.height, null, true)); break;
+                    //collisionList.add(tileList.get(tileList.size() - 1));
+
+                    case 2:
+                        coinList.add(new Entity((tile.width * x) + tile.width / 2,
+                                LEVEL_HEIGHT - ((tile.height * (y + 1)) - tile.height / 2),
+                                tile.width, tile.height, coinBitmap, true)); break;
+
+                    case 3:
+                        objectList.add(new Entity((tile.width * x) + tile.width / 2,
+                                LEVEL_HEIGHT - ((tile.height * (y + 1)) - tile.height / 2),
+                                tile.width, tile.height, player2Sprite, true));
+                        collisionList.add(objectList.get(objectList.size() - 1));
+                        interactionList.add(objectList.get(objectList.size() - 1)); break;
+
+                }
+                y++;
+            }
+            x++;
+        }
+
+
+
+        //System.out.println("X " + tileArrayList.get(0).x + " Y " + tileArrayList.get(0).y);
+        //System.out.println("X " + tileArrayList.get(1).x + " Y " + tileArrayList.get(1).y);
+        //System.out.println("X " + tileArrayList.get(2).x + " Y " + tileArrayList.get(2).y);
+        //System.out.println("X " + tileArrayList.get(3).x + " Y " + tileArrayList.get(3).y);
+        //System.out.println("X " + tileArrayList.get(4).x + " Y " + tileArrayList.get(4).y);
+
+        moveLeftRect = new Rect(0, 0, spacingX, spacingY * 2);
+        moveRightRect = new Rect(spacingX * 2, 0, spacingX * 3, spacingY * 2);
+        moveUpRect = new Rect(spacingX, 0, spacingX * 2, spacingY);
+        moveDownRect = new Rect(spacingX, spacingY, spacingX * 2, spacingY * 2);
+    }
+
     // Created by Andrew - 40083349
     public void run ()
 
@@ -389,6 +592,10 @@ public class GameLoop implements Runnable
                 {
                     case NEW:
                         newGame();
+                        break;
+                    case OPENWORLD:
+                        updateOWTouch();
+                        updateObjects();
                         break;
                     case PROMPT:
                         updateCard();
@@ -521,6 +728,159 @@ public class GameLoop implements Runnable
         startSFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
     }
 
+    private void loadAssets()
+
+    {
+        AssetManager assetManager = fragment.getActivity().getAssets();
+
+        playerSprite = AssetLoader.loadBitmap(assetManager, "img/Nathan/playerSpriteSheet.png");
+        player2Sprite = AssetLoader.loadBitmap(assetManager, "img/Nathan/trimLittleMan.png");
+        aButton = AssetLoader.loadBitmap(assetManager, "img/Nathan/aButton.png");
+        grassSprite = AssetLoader.loadBitmap(assetManager, "img/Nathan/GrassTile.png");
+        wallSprite = AssetLoader.loadBitmap(assetManager, "img/Nathan/Wall.png");
+        //backgroundBitmap = AssetLoader.loadBitmap(assetManager, "img/Nathan/10x10Grid.png");
+        backgroundBitmap = AssetLoader.loadBitmap(assetManager, "img/Nathan/MapTest.png");
+        mcclayTopBitmap = AssetLoader.loadBitmap(assetManager, "img/Nathan/McClayTop.png");
+        lanyonTopBitmap = AssetLoader.loadBitmap(assetManager, "img/Nathan/LanyonTop.png");
+        coinBitmap = AssetLoader.loadBitmap(assetManager, "img/Nathan/Coin.png");
+
+    }
+
+    private void updateObjects()
+
+    {
+
+        player.update();
+        //player2.update();
+
+
+        // Ensure the player cannot leave the confines of the world
+        if ((player.x - player.width / 2) < 0)
+            player.x -= (player.x - player.width / 2);
+        else if ((player.x + player.width / 2) > LEVEL_WIDTH)
+            player.x -= ((player.x + player.width / 2) - LEVEL_WIDTH);
+
+        if ((player.y - player.height / 2) < 0)
+            player.y -= (player.y - player.height / 2);
+        else if ((player.y + player.height / 2) > LEVEL_HEIGHT)
+            player.y -= ((player.y + player.height / 2) - LEVEL_HEIGHT);
+
+
+        // Focus the layer viewport on the player
+        mLayerViewport.update(mLayerViewport, player);
+
+
+        // Ensure the viewport cannot leave the confines of the world
+        if ((mLayerViewport.x - mLayerViewport.width / 2) < 0)
+            mLayerViewport.x -= (mLayerViewport.x - mLayerViewport.width / 2);
+        else if ((mLayerViewport.x + mLayerViewport.width / 2) > LEVEL_WIDTH)
+            mLayerViewport.x -= ((mLayerViewport.x + mLayerViewport.width / 2) - LEVEL_WIDTH);
+
+        if ((mLayerViewport.y - mLayerViewport.height / 2) < 0)
+            mLayerViewport.y -= (mLayerViewport.y - mLayerViewport.height / 2);
+        else if ((mLayerViewport.y + mLayerViewport.height / 2) > LEVEL_HEIGHT)
+            mLayerViewport.y -= ((mLayerViewport.y + mLayerViewport.height / 2) - LEVEL_HEIGHT);
+
+
+    }
+
+    // continuously checks for new touch input
+    private void updateOWTouch()
+
+    {
+        switch (gameState)
+
+        // thumbstick stuff??
+
+        {
+            case OPENWORLD:
+
+                for (int i = 0; i < 1; i++)
+
+                {
+                    if (touchListener.isTouchContinuous(i) && !inDialogue) {
+
+                        float x = touchListener.getTouchX(i), y = touchListener.getTouchY(i);
+
+                        if (moveLeftRect.contains((int) x, (int) y))
+
+                        {
+                            moveDirection = MoveDirection.LEFT;
+                            movePlayer();
+
+                        }
+
+                        if (moveRightRect.contains((int) x, (int) y))
+
+                        {
+                            moveDirection = MoveDirection.RIGHT;
+                            movePlayer();
+
+                        }
+                        if (moveUpRect.contains((int) x, (int) y))
+
+                        {
+                            moveDirection = MoveDirection.UP;
+                            movePlayer();
+
+                        }
+
+                        if (moveDownRect.contains((int) x, (int) y))
+
+                        {
+                            moveDirection = MoveDirection.DOWN;
+                            movePlayer();
+
+                        }
+
+
+
+                    }
+
+                    float x = touchListener.getTouchX(i), y = touchListener.getTouchY(i);
+
+                    if (touchListener.isTouchDown(i)) {
+
+                        if(interactButton.contains((int) x, (int) y))
+
+                        {
+                            /*if(interactBounds()) {
+                                System.out.println("Interact");
+                            }*/
+                            interactionIndex = littleMan.interactBounds(player, interactionList, tile);
+
+                            if(interactionIndex >= 0) {
+                                dialoguePoint++;
+                                inDialogue = true;
+                            }
+
+                            coinIndex = littleMan.interactBounds(player, coinList, tile);
+
+                            if (coinIndex >= 0) {
+                                coinList.remove(coinIndex);
+                                coinCounter++;
+                                coinIndex = -1;
+                            }
+
+
+
+                            /*else if(interactionIndex >= 0) {
+                                dialoguePoint++;
+                            }*/
+
+                            /*if (interactionIndex >= 0) {
+                                interact(interactionState, interactionIndex);
+                            }*/
+                        }
+                    }
+
+                }
+
+                break; // end OPENWORLD case
+        }
+
+    }
+
     // display the ai window briefly then move back to normal gameplay
     // tracking variables
 
@@ -533,6 +893,244 @@ public class GameLoop implements Runnable
         builtEnvironment.update();
         eeecs.update();
         Medic.update();
+    }
+
+    //movement has temporary restrictions currently based only on pixels
+    public void movePlayer() {
+
+        player.updateCurrentFrame(moveDirection);
+
+        switch (moveDirection) {
+
+            case LEFT:
+                //if ((player.x - 400) - 15 >= 0) {
+                //if(player.collision(player, player2, moveDirection) != littleMan.CollisionSide.LEFT)
+                if(player.collision(player, collisionList, moveDirection) != littleMan.CollisionSide.LEFT)
+                    player.x -= player.width / 10;
+                //}
+                System.out.println(player.x);
+                System.out.println("Moving Left");
+                break;
+            case RIGHT:
+                //if ((player.x + 400) + 15 <= getScreenWidth()) {
+                if(player.collision(player, collisionList, moveDirection) != littleMan.CollisionSide.RIGHT)
+                    player.x += player.width / 10;
+                //}
+                //System.out.println(player.y);
+                break;
+            case UP:
+                //if ((player.y - 400) - 15 >= 0)
+                if(player.collision(player, collisionList, moveDirection) != littleMan.CollisionSide.TOP)
+                    player.y += player.height / 10;
+                break;
+            case DOWN:
+                //if ((player.y + 400) + 15 <= getScreenHeight())
+                if(player.collision(player, collisionList, moveDirection) != littleMan.CollisionSide.BOTTOM)
+                    player.y -= player.height / 10;
+                //System.out.println("Moving Down");
+                break;
+        }
+    }
+
+    private void createViewports() {
+        // Create the screen viewport
+        mScreenViewport = new ScreenViewport(0, 0, getScreenWidth(),
+                getScreenHeight());
+
+        //mLayerViewport = new LayerViewport(player.x, player.y, 600, 600);
+
+        // Create the layer viewport, taking into account the orientation
+        // and aspect ratio of the screen.
+        if (mScreenViewport.width > mScreenViewport.height)
+            mLayerViewport = new LayerViewport(240.0f, 240.0f
+                    * mScreenViewport.height / mScreenViewport.width, 240,
+                    240.0f * mScreenViewport.height / mScreenViewport.width);
+        else
+            mLayerViewport = new LayerViewport(240.0f * mScreenViewport.height
+                    / mScreenViewport.width, 240.0f, 240.0f
+                    * mScreenViewport.height / mScreenViewport.width, 240);
+    }
+
+
+    private void initialise2DGrid() {
+
+
+        //McClay Collision Info
+        grid[18][21] = 1;
+        grid[18][22] = 1;
+        grid[17][21] = 1;
+        grid[17][45] = 1;
+        grid[18][45] = 1;
+
+        for (int col = 21; col <= 45; col++) {
+            grid[16][col] = 1;
+        }
+
+        for (int col = 23; col <= 45; col++) {
+            if(col == 37 || col == 41) {
+                col = col + 2;
+            }
+            grid[19][col] = 1;
+        }
+
+        for (int col = 37; col <= 42; col++) {
+            if(col == 39) {
+                col = col + 2;
+            }
+            grid[20][col] = 1;
+        }
+
+
+        //Lanyon Collision Info
+        for (int col = 4; col <= 61; col++) {
+
+            switch(col) {
+
+                case 32:
+                    col = col + 2; break;
+                case 24:case 39:
+                    col = col + 3; break;
+                case 9:case 50:
+                    col = col + 7; break;
+            }
+            grid[73][col] = 1;
+        }
+
+
+        for (int col = 9; col <= 56; col++) {
+
+            switch(col) {
+
+                case 32:
+                    col = col + 2; break;
+                case 28:case 35:
+                    col = col + 3; break;
+                case 16:case 43:
+                    col = col + 7; break;
+            }
+            grid[74][col] = 1;
+        }
+
+
+        for (int col = 9; col <= 56; col++) {
+
+            if(col == 16) {
+                col = col + 34;
+            }
+            grid[75][col] = 1;
+        }
+
+
+        for (int col = 4; col <= 61; col++) {
+
+            switch(col) {
+
+                case 5:case 35:
+                    col = col + 26; break;
+                case 32:
+                    col = col + 2; break;
+            }
+            grid[72][col] = 1;
+        }
+
+
+        for (int row = 32; row <= 71; row++) {
+
+            grid[row][4] = 1;
+
+        }
+
+
+        for (int col = 5; col <= 61; col++) {
+
+            if (col == 9) {
+                col = col + 11;
+            }
+            grid[32][col] = 1;
+
+        }
+
+        for (int row = 32; row <= 71; row++) {
+
+            grid[row][61] = 1;
+
+        }
+
+        for (int row = 36; row <= 70; row++) {
+
+            grid[row][57] = 1;
+
+        }
+
+        for (int col = 5; col <= 61; col++) {
+
+            if (col == 9) {
+                col = col + 11;
+            }
+            grid[32][col] = 1;
+
+        }
+
+        for (int col = 20; col <= 56; col++) {
+
+            grid[35][col] = 1;
+
+        }
+
+        for (int row = 33; row <= 70; row++) {
+
+            grid[row][8] = 1;
+
+        }
+
+        for (int col = 9; col <= 56; col++) {
+
+            if (col == 32) {
+                col = col + 2;
+            }
+            grid[70][col] = 1;
+
+        }
+
+        grid[33][20] = 1;
+        grid[34][20] = 1;
+
+
+        //Load in coins
+        grid[75][24] = 2;
+        grid[75][27] = 2;
+
+        //Load in NPCs
+        grid[78][10] = 3;
+        grid[78][12] = 3;
+        grid[78][14] = 3;
+    }
+
+
+
+
+    /*public void interact(boolean state, int index) {
+
+        state = true;
+        currentConvo.conversationIndex(index);
+
+    }*/
+
+
+
+
+    private class GameWorld {
+
+        private Rect mLayerViewport;
+
+        public void draw(Canvas canvas, Rect screenViewport) {
+
+            // Determine the x- and y-aspect ratios between the layer and screen viewports
+            float screenXScale =
+                    (float) screenViewport.width() / (float) mLayerViewport.width();
+            float screenYScale =
+                    (float) screenViewport.height() / (float) mLayerViewport.height();
+        }
     }
 
     // PUT THIS IN A SINGLE METHOD

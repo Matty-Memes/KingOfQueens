@@ -25,6 +25,7 @@ import android.view.WindowManager;
 import javalampstudos.kingofqueens.R;
 import javalampstudos.kingofqueens.kingOfQueens.engine.graphics.CanvasFragment;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
+import javalampstudos.kingofqueens.kingOfQueens.engine.io.Dialogue;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.boardLayout;
 
 
@@ -35,6 +36,11 @@ public class GameViewFragment extends CanvasFragment {
 
     // instantiate a loop
     protected GameLoop loop;
+
+    private Point playerPoint;
+
+    // image stuff that the whole class can see
+    private Paint mPaint;
 
     // paint objects/s
     private Paint paint;
@@ -95,6 +101,12 @@ public class GameViewFragment extends CanvasFragment {
     // Load in all the pause stuff
     public void doSetup() {
 
+        int spacingX = width / 6;
+        int spacingY = height / 6;
+
+        mPaint = new Paint();
+        playerPoint = new Point(150, 150);
+
         paint = new Paint();
         paint.setColor(Color.WHITE);
         paint.setTypeface(Typeface.createFromAsset(getActivity().getAssets(),
@@ -144,6 +156,12 @@ public class GameViewFragment extends CanvasFragment {
 
         {
             case NEW:
+
+                break;
+
+            case OPENWORLD:
+
+                drawOpenWorld(canvas);
 
                 break;
 
@@ -289,6 +307,135 @@ public class GameViewFragment extends CanvasFragment {
     {
         super.onResume();
         loop.resume();
+
+    }
+
+    public void drawOpenWorld(Canvas canvas)
+
+    {
+
+        int spacingX = width / 10;
+        int spacingY = height / 10;
+
+        loop.mapTest.draw(canvas, loop.mLayerViewport, loop.mScreenViewport);
+        //loop.coin.draw(canvas, loop.mLayerViewport, loop.mScreenViewport);
+
+        for (int i = 0; i < loop.objectList.size(); i++) {
+            loop.objectList.get(i).drawOpenWorld(canvas, loop.mLayerViewport, loop.mScreenViewport);
+        }
+
+        for (int i = 0; i < loop.coinList.size(); i++) {
+            loop.coinList.get(i).drawOpenWorld(canvas, loop.mLayerViewport, loop.mScreenViewport);
+        }
+
+        loop.player.draw(canvas, loop.mLayerViewport, loop.mScreenViewport);
+        loop.mcclayTop.draw(canvas, loop.mLayerViewport, loop.mScreenViewport);
+        loop.lanyonTop.draw(canvas, loop.mLayerViewport, loop.mScreenViewport);
+        //loop.player2.draw(canvas, loop.mLayerViewport, loop.mScreenViewport);
+
+        /*if(loop.interactionIndex >= 0) {
+            System.out.println(Dialogue.conversationIndex(loop.interactionIndex));
+        }*/
+        if(loop.interactionIndex >= 0) {
+            if(Dialogue.conversationIndex(loop.interactionIndex, loop.dialoguePoint) != "None") {
+                canvas.clipRect(spacingX, spacingY * 5, spacingX * 9, spacingY * 9);
+                canvas.drawColor(-1);
+                mPaint.setTextSize(150.0f);
+                mPaint.setTextAlign(Paint.Align.LEFT);
+                mPaint.setColor(Color.BLACK);
+
+                if(Dialogue.conversationIndex(loop.interactionIndex, loop.dialoguePoint) == "Coin" &&
+                        Dialogue.shopConvo(loop.dialoguePoint, loop.coinCounter) != "None") {
+                    canvas.drawText(Dialogue.shopConvo(loop.dialoguePoint, loop.coinCounter),
+                            canvas.getClipBounds().left + spacingX / 2, canvas.getClipBounds().top + spacingY, mPaint);
+                } else {
+                    if(Dialogue.conversationIndex(loop.interactionIndex, loop.dialoguePoint) != "Coin") {
+                        canvas.drawText(Dialogue.conversationIndex(loop.interactionIndex, loop.dialoguePoint),
+                                canvas.getClipBounds().left + spacingX / 2, canvas.getClipBounds().top + spacingY, mPaint);
+                    } else {
+                        loop.dialoguePoint = 0;
+                        loop.inDialogue = false;
+                        loop.interactionIndex = -1;
+                    }
+                }
+            } else {
+                loop.dialoguePoint = 0;
+                loop.inDialogue = false;
+                loop.interactionIndex = -1;
+            }
+
+        }
+
+        /*if(loop.interactionIndex >= 0) {
+
+            if(Dialogue.conversationIndex(loop.interactionIndex, loop.dialoguePoint) == "Coin" &&
+                    Dialogue.shopConvo(loop.dialoguePoint, loop.coinCounter) != "None") {
+                canvas.drawText(Dialogue.shopConvo(loop.dialoguePoint, loop.coinCounter),
+                        canvas.getClipBounds().left + spacingX / 2, canvas.getClipBounds().top + spacingY, mPaint);
+            }
+
+            else if(Dialogue.conversationIndex(loop.interactionIndex, loop.dialoguePoint) != "None") {
+                canvas.clipRect(spacingX, spacingY * 5, spacingX * 9, spacingY * 9);
+                canvas.drawColor(-1);
+                mPaint.setTextSize(150.0f);
+                mPaint.setTextAlign(Paint.Align.LEFT);
+                mPaint.setColor(Color.BLACK);
+                canvas.drawText(Dialogue.conversationIndex(loop.interactionIndex, loop.dialoguePoint),
+                        canvas.getClipBounds().left + spacingX / 2, canvas.getClipBounds().top + spacingY, mPaint);
+
+            } else {
+                loop.dialoguePoint = 0;
+                loop.inDialogue = false;
+                loop.interactionIndex = -1;
+            }
+
+        }*/
+
+        canvas.drawBitmap(loop.aButton, null, loop.interactButton, null);
+
+
+        /*String mText = "What Up!!";
+        for (int i = 0; i < mText.length(); i++) {
+            canvas.drawText(mText.substring(i, i + 1), canvas.getClipBounds().left + spacingX / 2 + i * 30, canvas.getClipBounds().top + spacingY * 2, mPaint);
+        }*/
+
+        // might be able to add text
+
+        /*
+
+        int width = canvas.getWidth();
+        int height = canvas.getHeight();
+
+        // Draw the loaded bitmap 1,000 times
+        int batchSize = 1000;
+        for (int drawIdx = 0; drawIdx < batchSize; drawIdx++) {
+
+
+            int spacingX = width / 6;
+            int spacingY = height / 6;
+            mLittleManBound  = new Rect(2 * spacingX, spacingY, 4 * spacingX, 5 * spacingY);
+            cloudyBackgroundBound = new Rect (0, 0, 6 * spacingX, 6 * spacingY);
+            KofQBound = new Rect (10, 4* spacingY, 2 * spacingX, 6 * spacingY);
+            //mLittleManBound2 = new Rect(4 * spacingX, spacingY, 5 * spacingX, 2 * spacingY);
+
+            //canvas.drawColor(-1);
+
+            // these lines are replaced with the first line
+            canvas.drawBitmap(mImage2, null, cloudyBackgroundBound, null);
+            canvas.drawBitmap(mImage, null, mLittleManBound, null);
+            canvas.drawBitmap(mImage3, null, KofQBound, null);
+            //canvas.drawBitmap(mImage, null, mLittleManBound2, null);
+        }
+
+        // Display a count of the number of frames that have been displayed
+        mNumCalls++;
+        mPaint.setTextSize(36.0f);
+        mPaint.setTextAlign(Paint.Align.LEFT);
+        mPaint.setColor(Color.WHITE);
+        canvas.drawText("Num=" + mNumCalls, 50.0f, 50.0f, mPaint);
+        */
+
+
 
     }
 
