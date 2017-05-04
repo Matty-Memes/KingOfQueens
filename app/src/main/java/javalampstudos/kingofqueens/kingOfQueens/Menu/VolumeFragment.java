@@ -179,7 +179,7 @@ public class VolumeFragment extends MenuFragment {
                 if (backRect.contains(x, y)) {
                     getFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.container, new MainMenuFragment(), "main_menu_fragment").commit();
+                            .replace(R.id.container, new SettingsFragment(), "settings_fragment").commit();
                 }
 
                 // Decreases the value of music Volume

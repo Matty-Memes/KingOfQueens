@@ -98,13 +98,36 @@ public class SettingsFragment extends MenuFragment
                 if(backRect.contains(x, y)) {
                     getFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.container, new MainMenuFragment(), "main_menu_fragment").commit();
+                            .replace(R.id.container, new MainMenuFragment(),
+                                    "main_menu_fragment").commit();
                 }
 
                 if(volumeRect.contains(x, y)) {
                     getFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.container, new VolumeFragment(), "volume_fragment").commit();
+                            .replace(R.id.container, new VolumeFragment(),
+                                    "volume_fragment").commit();
+                }
+
+                if(statsRect.contains(x, y)) {
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.container, new StatsFragment(),
+                                    "stats_fragment").commit();
+                }
+
+                if(howToPlayRect.contains(x, y)) {
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.container, new HowToPlayFragment(),
+                                    "how_to_play_fragment").commit();
+                }
+
+                if(aboutUsRect.contains(x, y)) {
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.container, new AboutUsFragment(),
+                                    "about_us_fragment").commit();
                 }
 
 
