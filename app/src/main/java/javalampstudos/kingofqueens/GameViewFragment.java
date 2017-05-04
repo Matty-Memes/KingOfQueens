@@ -267,8 +267,12 @@ public class GameViewFragment extends CanvasFragment {
                 drawUI(canvas);
 
                 break;
-        }
+            case VICTORY:
 
+                drawVictory(canvas);
+
+                break;
+        }
 
     }
 
@@ -341,6 +345,12 @@ public class GameViewFragment extends CanvasFragment {
     {
         loop.window.draw(canvas);
 
+    }
+
+    private void drawVictory(Canvas canvas)
+
+    {
+      loop.victory.draw(canvas);
     }
 
     // This needs changed anyway

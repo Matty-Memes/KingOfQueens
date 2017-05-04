@@ -66,8 +66,9 @@ public class GameLoop implements Runnable
         // Non-player states
         PROMPT, AITURN, ANIMATION,
         // Turn Structure
-        DRAW, MANAPLACEMENT, MONSTERPLACEMENT, ATTACK
-
+        DRAW, MANAPLACEMENT, MONSTERPLACEMENT, ATTACK,
+        // Win / lose
+        VICTORY, DEFEAT
     }
 
     // Allow the prep phase to happen
@@ -210,6 +211,12 @@ public class GameLoop implements Runnable
     public BasicCard graveYard;
     public BasicCard deck;
 
+    // Windows
+
+    public Window victory;
+    public Bitmap victoryScreen;
+    public int opponentMonstersKilled;
+
     // Created by Andrew - 40083349
 
     // SPLIT THIS OUT
@@ -255,9 +262,13 @@ public class GameLoop implements Runnable
         AssetManager assetManager = fragment.getActivity().getAssets();
 
         aiThinking = AssetLoader.loadBitmap(assetManager, "img/AiThinking3.png");
+        victoryScreen = AssetLoader.loadBitmap(assetManager, "img/Screens/VictoryScreen.png");
 
         // This is the ai message
         window = new Window(477, 240, 740, 240, aiThinking, true);
+
+        // The victory screen
+        victory = new Window(477, 240, 740, 240, victoryScreen, true);
 
         cardBackSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Cardback.png");
         manaZoneSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Mana/ManaZoner.png");
@@ -377,7 +388,6 @@ public class GameLoop implements Runnable
 
                 {
                     case NEW:
-
                         newGame();
                         break;
                     case PROMPT:
@@ -415,6 +425,10 @@ public class GameLoop implements Runnable
                     case ATTACK:
                         updateCard();
                         updateTouch();
+                        break;
+                    case VICTORY:
+                        updateVictoryScreen();
+                        updateVS();
                         break;
                 }
 
@@ -576,9 +590,36 @@ public class GameLoop implements Runnable
 
             aiFieldMonsters.add(new MonsterCard(234, 280, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
                     49, 0, CardLevel.DOCTRATE, 140, 0, 3, 1, requiredMana));
-
         }
 
+    }
+
+    private void updateVictoryScreen ()
+
+    {
+        // move the prompt up and down
+        // set bounds for the prompt
+        // speed = 0.1
+        if(windowDown) {
+
+            victory.y += 1.0;
+            if(victory.y >= 270)
+                windowDown = false;
+
+            // start moving the window up
+        } else {
+            victory.y -= 1.0;
+            if(victory.y <= 210) {
+
+                // go to the main menu for now
+                // this should go back to the open world
+                fragment.getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.container,
+                                new MainMenuFragment(),
+                                "main_menu_fragment").commit();
+            }
+        }
     }
 
     // Andrew - 40083349
@@ -617,11 +658,20 @@ public class GameLoop implements Runnable
 
     }
 
+    private void updateVS()
+
+    {
+      victory.update();
+
+    }
+
     // Andrew - 40083349
     // Currently used for drawing cards
     private void updateAnimation ()
 
     {
+        System.out.println("Animating");
+
             // move the hand card left till it hits it's target position
             // associate the target position with the card
             if (!boundHit) {
@@ -629,10 +679,11 @@ public class GameLoop implements Runnable
                 // the proper position of any card is tied to that individual card
                 if (handCards.get(emptySlot).x <= handCards.get(emptySlot).targetX) {
                     boundHit = true;
+                    // animation finished start mana placement
+                    gameState = GameState.MANAPLACEMENT;
                 }
 
             }
-
     }
 
     // Created by Andrew - 40083349
@@ -769,6 +820,9 @@ public class GameLoop implements Runnable
                             manaflag = false;
                             // allow movement of hand cards again
                             handActive = true;
+
+                            // reset the logic for taking cards at the start of the player's turn
+                            boundHit = false;
                         }
                     }
 
@@ -1087,6 +1141,7 @@ public class GameLoop implements Runnable
                             System.out.println("We're in the attack phase");
                             aiFieldMonsters.get(0).attackValue = 1000;
 
+                            // Check if a monster has been killed
                             if (aiFieldMonsters.get(0).attackValue > playerFieldMonsters.get(handIndex).health)
 
                             {
@@ -1098,13 +1153,20 @@ public class GameLoop implements Runnable
                                 // stop drawing the monster that was destroyed
                                 opponent1.destroyed = true;
 
-                                // transfer control back to the AI
-                                gameState = GameState.PROMPT;
+                                // Check if the player has won the game
+                                opponentMonstersKilled++;
+                                if (opponentMonstersKilled >= 2)
+                                {
+                                  gameState = GameState.VICTORY;
 
-                                // winning conditions go here
-                                // if you kill 2 monsters you've won the game
-                                // monstersKilled++;
-                                // if (monstersKilled == 2) move to win state
+                                }
+
+                                else
+
+                                {
+                                    // transfer control back to the AI
+                                    gameState = GameState.PROMPT;
+                                }
 
                             }
 
@@ -1121,13 +1183,21 @@ public class GameLoop implements Runnable
                                 // beats the opponent and kills the card
                                 // or does some damage
 
-                                // stop drawing the monster that was destroyed
-                                opponent2.destroyed = true;
+                                // Check if the player has won the game
+                                opponentMonstersKilled++;
+                                if (opponentMonstersKilled >= 2)
+                                {
+                                    gameState = GameState.VICTORY;
 
-                                // winning conditions go here
-                                // if you kill 2 monsters you've won the game
-                                // monstersKilled++;
-                                // if (monstersKilled == 2) move to win state
+                                }
+
+                                else
+
+                                {
+                                    // transfer control back to the AI
+                                    gameState = GameState.PROMPT;
+
+                                }
 
                             }
 
@@ -1147,13 +1217,21 @@ public class GameLoop implements Runnable
                                 // stop drawing the monster that was destroyed
                                 opponent3.destroyed = true;
 
-                                // transfer control back to the AI
-                                gameState = GameState.PROMPT;
+                                // Check if the player has won the game
+                                opponentMonstersKilled++;
+                                if (opponentMonstersKilled >= 2)
+                                {
+                                    gameState = GameState.VICTORY;
 
-                                // winning conditions go here
-                                // if you kill 2 monsters you've won the game
-                                // monstersKilled++;
-                                // if (monstersKilled == 2) move to win state
+                                }
+
+                                else
+
+                                {
+                                    // transfer control back to the AI
+                                    gameState = GameState.PROMPT;
+
+                                }
                             }
 
                         }
