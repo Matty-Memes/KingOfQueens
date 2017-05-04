@@ -459,13 +459,15 @@ public class GameLoop implements Runnable
         initializeHandMana();
         intializeFieldMonsters();
 
-        playerDeck.createDeck(this);
+        int startingDeck1[] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,49,49,49,49,49,49,51,51,51,51,51,51,54,54,55,57,57,58,60,61,63,65,66,67};
+
+        playerDeck.generateDeck(this,startingDeck1);
         // this only affects basic card at the moment
         populatePlayerHand ();
 
         rand.flushRandomLogic();
 
-        aiDeck.createDeck(this);
+        aiDeck.generateDeck(this,startingDeck1);
 
         rand.flushRandomLogic();
 

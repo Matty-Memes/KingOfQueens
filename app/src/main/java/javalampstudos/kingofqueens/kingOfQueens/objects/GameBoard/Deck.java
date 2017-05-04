@@ -25,10 +25,15 @@ public class Deck {
     private int noOfMonsterCards,noOfManaCards,noOfSupportCards;
     private int deckSize=0;
     // For test purposes
-    final private int MAXDECKSIZE = 14;
+    final private int MAXDECKSIZE = 40;
     // Might need to move this
     private JSONcardLibrary lib = new JSONcardLibrary();
     private randomGenerator rand = new randomGenerator();
+
+    //Matthew 40149561
+    //Will use card ID numbers to specify cards to place in deck
+    /*A deck with Engineering and Medic cards*/
+    private int startingDeck1[] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,49,49,49,49,49,49,51,51,51,51,51,51,54,54,55,57,57,58,60,61,63,65,66,67};
 
     // Could be re-used
     public ArrayList<MonsterCard> monsterArray = new ArrayList<>(noOfMonsterCards);
@@ -162,41 +167,91 @@ public class Deck {
 
     /*Deck assembly*/
     //generates a starting deck
-    private void generateDeck(ArrayList<MonsterCard> libraryMonster,ArrayList<ManaCard> libraryMana,ArrayList<SupportCard> librarySupport)
+    public void generateDeck(GameLoop loop,int cardIDs[])
     {
-        int basicArrayMarker = 0;
-        for (int i = 0; i < 17; i++)
+        lib = new JSONcardLibrary();
+        lib.loadAssets(loop);
+        for(int i = 0;i<MAXDECKSIZE;i++)
         {
-            monsterArray.add(i, libraryMonster.get(i));
-            basicArray.add(basicArrayMarker,libraryMonster.get(i));
-            noOfMonsterCards++;
-            basicArrayMarker++;
-
-        }
-        //add six mana cards for Engineer and Medic
-        for(int i = 0;i<5;i++)
-        {
-            manaArray.add(i, libraryMana.get(1)); //Medic mana
-            basicArray.add(basicArrayMarker,libraryMonster.get(i));
-            noOfManaCards++;
-            basicArrayMarker++;
-        }
-        for(int i = 6;i<11;i++)
-        {
-            manaArray.add(i, libraryMana.get(3)); //Engineer mana
-            basicArray.add(basicArrayMarker,libraryMonster.get(i));
-            noOfManaCards++;
-            basicArrayMarker++;
-        }
-        //add support cards to library
-        for(int i = 0;i<librarySupport.size();i++)
-        {
-            supportArray.add(i, librarySupport.get(i));
-            basicArray.add(basicArrayMarker,libraryMonster.get(i));
-            noOfSupportCards++;
-            basicArrayMarker++;
+            if(cardIDs[i]<=47)
+            {
+                monsterArray.add(lib.monsterCards.get((cardIDs[i]-1)));
+                noOfMonsterCards++;
+                deckSize++;
+            }
+            if((cardIDs[i]>47) && (cardIDs[i] <=53))
+            {
+                manaArray.add(lib.manaCards.get(manaIDLookup(cardIDs[i])));
+                noOfManaCards++;
+                deckSize++;
+            }
+            if(cardIDs[i] >53)
+            {
+                supportArray.add(lib.supportCards.get(supportIDLookup(cardIDs[i])));
+                noOfSupportCards++;
+                deckSize++;
+            }
         }
     }
+
+    //Since ID doesn't map as easily to other card types, this looks up the position in the array
+    private int manaIDLookup(int ID)
+    {
+        int pos = 0;
+        switch(ID)
+        {
+            case 48: pos = 0;
+                break;
+            case 49:pos = 1;
+                break;
+            case 50:pos = 2;
+                break;
+            case 51:pos = 3;
+                break;
+            case 52:pos = 4;
+                break;
+            case 53:pos = 5;
+                break;
+        }
+        return pos;
+    }
+    private int supportIDLookup(int ID)
+    {
+        int pos =0;
+        switch(ID)
+        {
+            case 54:pos = 0;
+                break;
+            case 55:pos = 1;
+                break;
+            case 56:pos = 2;
+                break;
+            case 57:pos = 3;
+                break;
+            case 58:pos = 4;
+                break;
+            case 59:pos = 5;
+                break;
+            case 60:pos = 6;
+                break;
+            case 61:pos = 7;
+                break;
+            case 62:pos = 8;
+                break;
+            case 63:pos = 9;
+                break;
+            case 64:pos = 10;
+                break;
+            case 65:pos = 11;
+                break;
+            case 66:pos = 12;
+                break;
+            case 67:pos = 13;
+                break;
+        }
+        return pos;
+    }
+
 
 
     //These methods will be used in the deck assembler fragment

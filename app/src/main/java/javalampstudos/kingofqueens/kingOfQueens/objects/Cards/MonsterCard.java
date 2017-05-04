@@ -3,6 +3,7 @@ package javalampstudos.kingofqueens.kingOfQueens.objects.Cards;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import java.util.HashMap;
+import java.util.Random;
 
 import javalampstudos.kingofqueens.kingOfQueens.util.randomGenerator;
 import javalampstudos.kingofqueens.kingOfQueens.world.LayerViewport;
@@ -18,6 +19,7 @@ public class MonsterCard extends BasicCard
     private final double attackBonus = 0.3;
     private CardLevel level; // ENUM
     public int health,defence,attackValue,evolutionID,maxHealth;
+    private StatusEffect statusEffect;
 
     // holds a list of the mana types required
     private HashMap<ManaTypes, Integer> attackManaRequirement;
@@ -100,6 +102,15 @@ public class MonsterCard extends BasicCard
         this.evolutionID = evolutionID;
     }
 
+    public StatusEffect getStatusEffect()
+    {
+        return statusEffect;
+    }
+
+    public void setStatusEffect(StatusEffect statusEffect)
+    {
+        this.statusEffect = statusEffect;
+    }
 
     // draw monster cards to the screen
 
@@ -204,5 +215,74 @@ public class MonsterCard extends BasicCard
     }
 
 
-
+    //Matt 40149561
+    private void heal(int healing,MonsterCard healedCard)
+    {
+        int newHealth = healedCard.getHealth()+ healing;
+        if (newHealth> healedCard.getMaxHealth())
+            newHealth=healedCard.getMaxHealth();
+        healedCard.setHealth(newHealth);
+    }
+    //Matt 40149561
+    //Certain monsters have a special attack. This method allows the monster to use it
+    private int statBeforeSpecial = -1; //Placeholder int for storing stat values pre-Special
+    private boolean specialEnabled = false; //If a special attack modifies values,this allows the values to be reset
+    private boolean hasRecievedDefence = false; // Stops a card from receiving more than one buff from the Tinkerer/Craftsman
+    private void specialAttack(MonsterCard affectedCard) // @param affectedCard - if a special move doesn't affect any monsters, just pass through the monster itself
+    {
+        switch (this.id)
+        {
+            case 3: specialEnabled = true;
+                Random rand = new Random();
+                int randomNum = rand.nextInt((10-1)+1)+1;
+                if(randomNum >=4) { //60% chance of critical
+                    specialEnabled = true;
+                    statBeforeSpecial = this.attackValue;
+                    this.setAttackValue(this.attackValue + 20);
+                }
+                break;
+            case 6: specialEnabled = true;
+                statBeforeSpecial = this.attackValue;
+                this.setAttackValue(120);
+                break;
+            case 9: heal(30,affectedCard);
+                break;
+            case 10:heal(50,affectedCard);
+                break;
+            case 11:heal(70,affectedCard);
+                break;
+            case 12:heal(10,affectedCard);
+                break;
+            case 13:heal(25,affectedCard);
+                break;
+            case 14:heal(50,affectedCard);
+                break;
+            case 15:specialEnabled = true;
+                statBeforeSpecial = affectedCard.attackValue;
+                affectedCard.setAttackValue(affectedCard.attackValue+20);
+                break;
+            case 16: specialEnabled = true;
+                statBeforeSpecial = affectedCard.attackValue;
+                affectedCard.setAttackValue(affectedCard.attackValue+30);
+                break;
+            case 25: affectedCard.setStatusEffect(StatusEffect.Sleep);
+                break;
+            /*This is a tough one
+            Mana cost for an allied monster goes down by one*/
+            // TODO: 03/05/2017 Come back to this special
+            case 27:
+                break;
+            case 32: if(!affectedCard.hasRecievedDefence)
+                affectedCard.setDefence(affectedCard.defence+10);
+            else
+                System.out.print("Card has already been buffed!");
+                break;
+            case 33:if(!affectedCard.hasRecievedDefence)
+                affectedCard.setDefence(affectedCard.defence+20);
+            else
+                System.out.print("Card has already been buffed!");
+                break;
+            default:System.out.print("Card does not have a special Attack");
+        }
+    }
 }

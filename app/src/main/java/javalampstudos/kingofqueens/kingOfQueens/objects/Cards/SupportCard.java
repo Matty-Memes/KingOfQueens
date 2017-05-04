@@ -5,75 +5,74 @@ import android.graphics.Canvas;
 
 /**
  * Created by Andrew on 29/03/2017.
- * Modified by Matt on 22/04/2017
+ * Modified by Matt on 22/04/2017 and Refactored on 04/05/2017
  */
 
 public class SupportCard extends BasicCard
 
 {
 
-        private BuffType buff;
-        private boolean active;
+    private BuffType buff;
+    private StatusEffect statusEffect;
+    private boolean active;
 
-        private int cardAttack, cardDefence;
+    private int buffValue;
 
-        public SupportCard(int x, int y, int width, int height, Bitmap Sprite, boolean player, int id, CardSchools cardSchool, boolean destroyed, int pointerID, int targetX, BuffType buff)
-        {
-            super(x, y, width, height, Sprite, player, id, cardSchool, destroyed, pointerID, targetX);
+    public SupportCard(int x, int y, int width, int height, Bitmap Sprite, boolean player, int id, CardSchools cardSchool, boolean destroyed, int pointerID, int targetX, BuffType buff,int buffValue,StatusEffect statusEffect)
+    {
+        super(x, y, width, height, Sprite, player, id, cardSchool, destroyed, pointerID, targetX);
+        this.buff = buff;
+        this.buffValue = buffValue;
+        this.statusEffect = statusEffect;
+    }
+
+    public BuffType getBuff()
+    {
+        return buff;
+    }
+
+    public void setBuff(BuffType buff) {
             this.buff = buff;
-
         }
 
-        public BuffType getBuff() {
-            return buff;
-        }
+    public void draw(Canvas canvas)
 
-        public void setBuff(BuffType buff) {
-            this.buff = buff;
-        }
+    {
+        // canvas.drawBitmap();
+    }
 
-        public void draw(Canvas canvas)
-
+    public void attackBuff(int turns,int attack,MonsterCard buffedCard)
+    {
+        active=true;
+        buffedCard.setAttackValue(buffedCard.attackValue += attack);
+        while(active=true)
         {
-
-            // canvas.drawBitmap();
-
-
-        }
-
-        public void attackBuff(int turns,int attack,MonsterCard buffedCard)
-        {
-            active=true;
-            buffedCard.setAttackValue(cardAttack += attack);
-            while(active=true)
-            {
-                // TODO: 01/02/2017 When turn structure is implemented, work out how to increment a counter after a turn
-                if(turns==0)
-                    active=false;
-                cardAttack -= attack;
-                buffedCard.setAttackValue(cardAttack);
+            // TODO: 01/02/2017 When turn structure is implemented, work out how to increment a counter after a turn
+            if(turns==0) {
+                active = false;
+                buffedCard.setAttackValue(buffedCard.attackValue -= attack);
             }
         }
+    }
 
-        public void defenceBuff(int turns, int defence,MonsterCard buffedCard)
-        {
-            active = true;
-            buffedCard.setDefence(cardDefence += defence);
+    public void defenceBuff(int turns, int defence,MonsterCard buffedCard)
+    {
+        active = true;
+        buffedCard.setDefence(buffedCard.defence += defence);
 
-            while (active = true)
-            {
-                if(turns==0)
-                    active=false;
-                cardDefence -= defence;
-                buffedCard.setDefence(cardDefence);
+        while (active = true) {
+            if (turns == 0) {
+                active = false;
+                buffedCard.setDefence(buffedCard.defence -= defence);
             }
         }
+    }
 
-        public void healBuff(int health,MonsterCard healedCard)
-        {
-            int newHealth = healedCard.getHealth()+ health;
-            if (newHealth> healedCard.getMaxHealth())
-                newHealth=healedCard.getMaxHealth();
-            healedCard.setHealth(newHealth);
-        }
+    public void healBuff(int health,MonsterCard healedCard)
+    {
+        int newHealth = healedCard.getHealth()+ health;
+        if (newHealth> healedCard.getMaxHealth())
+            newHealth=healedCard.getMaxHealth();
+        healedCard.setHealth(newHealth);
+    }
 }
