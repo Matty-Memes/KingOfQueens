@@ -211,10 +211,6 @@ public class GameViewFragment extends CanvasFragment {
 
                 drawCard(canvas);
 
-                drawMonsterCards(canvas);
-
-                drawHand(canvas);
-
                 drawMana(canvas);
 
                 drawUI(canvas);
@@ -222,10 +218,6 @@ public class GameViewFragment extends CanvasFragment {
                 break;
             case DRAW:
                 drawCard(canvas);
-
-                drawMonsterCards(canvas);
-
-                drawHand(canvas);
 
                 drawMana(canvas);
 
@@ -236,10 +228,15 @@ public class GameViewFragment extends CanvasFragment {
 
                 drawCard(canvas);
 
-                drawMonsterCards(canvas);
+                drawMana(canvas);
 
-                drawHand(canvas);
+                drawUI(canvas);
 
+            case AIANIMATION:
+
+                drawCard(canvas);
+
+                // draw the text for the mana counter
                 drawMana(canvas);
 
                 drawUI(canvas);
@@ -248,12 +245,7 @@ public class GameViewFragment extends CanvasFragment {
 
                 drawCard(canvas);
 
-                drawMonsterCards(canvas);
-
                 drawHand(canvas);
-
-                // draw the text for the mana counter
-                drawMana(canvas);
 
                 drawUI(canvas);
 
@@ -261,10 +253,6 @@ public class GameViewFragment extends CanvasFragment {
             case MONSTERPLACEMENT:
 
                 drawCard(canvas);
-
-                drawMonsterCards(canvas);
-
-                drawHand(canvas);
 
                 drawMana(canvas);
 
@@ -275,10 +263,6 @@ public class GameViewFragment extends CanvasFragment {
             case ATTACK:
 
                 drawCard(canvas);
-
-                drawMonsterCards(canvas);
-
-                drawHand(canvas);
 
                 drawMana(canvas);
 
@@ -435,8 +419,6 @@ public class GameViewFragment extends CanvasFragment {
         canvas.drawText("Num=" + mNumCalls, 50.0f, 50.0f, mPaint);
         */
 
-
-
     }
 
     // draw the current card
@@ -444,14 +426,12 @@ public class GameViewFragment extends CanvasFragment {
     private void drawCard (Canvas canvas)
 
     {
-        // draw temp cards for positioning
 
-        // hands
-        /*loop.handCard1.draw(canvas);
+        loop.handCard1.draw(canvas);
         loop.handCard2.draw(canvas);
         loop.handCard3.draw(canvas);
         loop.handCard4.draw(canvas);
-        loop.handCard5.draw(canvas);*/
+        loop.handCard5.draw(canvas);
 
         loop.monsterCard1.draw(canvas);
         loop.monsterCard2.draw(canvas);
@@ -461,6 +441,8 @@ public class GameViewFragment extends CanvasFragment {
         loop.opponent1.draw(canvas);
         loop.opponent2.draw(canvas);
         loop.opponent3.draw(canvas);
+
+        loop.opponentDeck.draw(canvas);
 
         loop.manaZone.draw(canvas);
 

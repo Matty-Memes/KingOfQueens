@@ -35,7 +35,6 @@ import android.graphics.Rect;
 import android.graphics.Bitmap;
 import android.content.res.AssetManager;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -69,7 +68,7 @@ public class GameLoop implements Runnable
 
         NEW, PAUSED,
         // Non-player states
-        PROMPT, AITURN, ANIMATION,
+        PROMPT, AITURN, ANIMATION, AIANIMATION,
         // Turn Structure
         DRAW, MANAPLACEMENT, MONSTERPLACEMENT, ATTACK,
         // Win / lose
@@ -127,6 +126,9 @@ public class GameLoop implements Runnable
     public MonsterCard opponent1;
     public MonsterCard opponent2;
     public MonsterCard opponent3;
+
+    // Opponent Deck
+    public BasicCard opponentDeck;
 
     // BEHIND THE SCENES CARD ARRAYS FOR CARD LOGIC
 
@@ -283,29 +285,11 @@ public class GameLoop implements Runnable
     public final float LEVEL_WIDTH = 1500.0f;
     public final float LEVEL_HEIGHT = 1500.0f;
 
-
-    /*public int[][] grid =
-            {
-                    {1, 0, 0, 0, 0, 2, 2, 0, 0, 1},
-                    {0, 0, 0, 0, 0, 2, 2, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 2, 2, 1, 0, 0},
-                    {0, 0, 0, 1, 0, 2, 2, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 2, 2, 0, 0, 0},
-                    {0, 0, 0, 2, 2, 2, 3, 0, 1, 0},
-                    {0, 1, 0, 2, 2, 2, 2, 0, 0, 0},
-                    {0, 0, 0, 2, 2, 0, 1, 1, 0, 0},
-                    {2, 2, 2, 2, 2, 0, 1, 1, 0, 0},
-                    {2, 2, 1, 1, 1, 1, 1, 1, 1, 0}
-
-    };*/
-
     ArrayList<GameObject> tileList = new ArrayList<>();
     ArrayList<GameObject> collisionList = new ArrayList<>();
     ArrayList<GameObject> objectList = new ArrayList<>();
     ArrayList<GameObject> coinList = new ArrayList<>();
     ArrayList<GameObject> interactionList = new ArrayList<>();
-
-
 
     public LayerViewport mLayerViewport;
     public ScreenViewport mScreenViewport;
@@ -316,23 +300,6 @@ public class GameLoop implements Runnable
 
     // Declare a gamestate
     public GameState gameState;
-
-    // Set up rects for touchinput
-    private Rect movementRect;
-
-    // Card game logic variables - may need to move this
-
-    public boolean playerTurn;
-
-    // Card objects
-    public MonsterCard DataAdmin;
-
-    // Declare all Sprites here - always include "Sprite" after the name of the image
-
-    public Bitmap DataAdminSprite;
-
-    public String[] attack1ManaRequired;
-    public String[] attack2ManaRequired;
 
     // Created by Andrew - 40083349
 
@@ -443,9 +410,12 @@ public class GameLoop implements Runnable
         manaZone = new BasicCard(100, 340, 140, 240, manaZoneSprite, true, 3, CardSchools.MEDICS, false, 49, 0);
 
         // Opponent card
-        opponent1 = new MonsterCard(234, 100, 90, 120, cardBackSprite, false, 0, CardSchools.EEECS, false, 49, 0, CardLevel.DOCTRATE, 140, 0, 3,1, requiredMana);
-        opponent2 = new MonsterCard(434, 100, 90, 120, cardBackSprite, false, 0, CardSchools.EEECS, false, 49, 0, CardLevel.DOCTRATE, 140, 0, 3,4, requiredMana);
-        opponent3 = new MonsterCard(634, 100, 90, 120, cardBackSprite, false, 0, CardSchools.EEECS, false, 49, 0, CardLevel.DOCTRATE, 140, 0, 3,8, requiredMana);
+        opponent1 = new MonsterCard(234, 100, 90, 120, cardBackSprite, false, 0, CardSchools.EEECS, false, 49, 234, CardLevel.DOCTRATE, 140, 0, 3,1, requiredMana);
+        opponent2 = new MonsterCard(434, 100, 90, 120, cardBackSprite, false, 0, CardSchools.EEECS, false, 49, 434, CardLevel.DOCTRATE, 140, 0, 3,4, requiredMana);
+        opponent3 = new MonsterCard(634, 100, 90, 120, cardBackSprite, false, 0, CardSchools.EEECS, false, 49, 634, CardLevel.DOCTRATE, 140, 0, 3,8, requiredMana);
+
+        // Opponent cards snap back here
+        opponentDeck = new BasicCard(70, 100, 90, 120, cardBackSprite, false, 0, CardSchools.EEECS, false, 49, 0);
 
         rand = new randomGenerator();
 
@@ -485,13 +455,11 @@ public class GameLoop implements Runnable
         // The prep phase becomes active here
         prepPhase = true;
 
-        // Starts game timer
         timer.start();
 
-        // startSFX = AssetLoader.loadSoundpool(assetManager, "start.mp3");
+        startSFX = AssetLoader.loadSoundpool(assetManager, "start.mp3");
 
     }
-
 
     //Create the Open World
     public void openWorldSetup() {
@@ -604,7 +572,7 @@ public class GameLoop implements Runnable
                     case PROMPT:
                         updateCard();
                         updateWindow();
-                        updatePrompt();
+                        // updatePrompt();
                         break;
                     case PAUSED:
                         updateTouch ();
@@ -614,6 +582,10 @@ public class GameLoop implements Runnable
                         updateAICards();
                         break;
                     // automated so no updateTouch
+                    case AIANIMATION:
+                        updateCard();
+                        updateAIAnimation();
+                        break;
                     case DRAW:
                         updateCard();
                         updateDraw();
@@ -679,7 +651,7 @@ public class GameLoop implements Runnable
         if(gameState != GameState.PAUSED) {
             pauseGame();
 
-            timer.stop();
+            // timer.stop();
         }
 
         canvasRenderer.pause();
@@ -726,8 +698,8 @@ public class GameLoop implements Runnable
         // Hands and deck are set up so the prep phase can begin
         gameState = GameState.MONSTERPLACEMENT;
 
-//        sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
-//        startSFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
+        sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
+        startSFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
     }
 
     private void loadAssets()
@@ -1223,6 +1195,8 @@ public class GameLoop implements Runnable
     }
 
     // Andrew - 40083349
+
+    /*
     private void updatePrompt ()
 
     {
@@ -1249,6 +1223,7 @@ public class GameLoop implements Runnable
         }
 
     }
+    */
 
     // Andrew - 40083349
     private void updateWindow ()
@@ -1270,17 +1245,36 @@ public class GameLoop implements Runnable
     private void updateAnimation ()
 
     {
-        System.out.println("Animating");
+        System.out.println("Animating player");
 
         // move the hand card left till it hits it's target position
         // associate the target position with the card
         if (!boundHit) {
-            handCards.get(emptySlot).x -= 4.0;
+            handCards.get(emptySlot).x -= 2.5;
             // the proper position of any card is tied to that individual card
             if (handCards.get(emptySlot).x <= handCards.get(emptySlot).targetX) {
                 boundHit = true;
                 // animation finished start mana placement
                 gameState = GameState.MANAPLACEMENT;
+            }
+
+        }
+    }
+
+    private void updateAIAnimation ()
+
+    {
+        System.out.println("Animating AI");
+
+        // move the hand card left till it hits it's target position
+        // associate the target position with the card
+        if (!boundHit) {
+            opponent1.x += 2.5;
+            // the proper position of any card is tied to that individual card
+            if (opponent1.x >= opponent1.targetX) {
+                boundHit = true;
+                // The game state moves to the player's draw state
+                gameState = GameState.DRAW;
             }
 
         }
@@ -1552,7 +1546,8 @@ public class GameLoop implements Runnable
                             {
                                 prepPhase = false;
                                 emptySlot = handIndex;
-                                think();
+                                // The AI chooses a card and plays it
+                                gameState = GameState.AITURN;
                             }
 
                             else
@@ -1599,7 +1594,8 @@ public class GameLoop implements Runnable
                             {
                                 prepPhase = false;
                                 emptySlot = handIndex;
-                                think();
+                                gameState = GameState.AITURN;
+
                             }
 
                             else
@@ -1644,7 +1640,7 @@ public class GameLoop implements Runnable
                             {
                                 prepPhase = false;
                                 emptySlot = handIndex;
-                                think();
+                                gameState = GameState.AITURN;
                             }
 
                             else
@@ -1765,7 +1761,7 @@ public class GameLoop implements Runnable
 
                                 {
                                     // transfer control back to the AI
-                                    gameState = GameState.PROMPT;
+                                    gameState = GameState.AITURN;
                                 }
 
                             }
@@ -1795,7 +1791,7 @@ public class GameLoop implements Runnable
 
                                 {
                                     // transfer control back to the AI
-                                    gameState = GameState.PROMPT;
+                                    gameState = GameState.AITURN;
 
                                 }
 
@@ -1829,8 +1825,7 @@ public class GameLoop implements Runnable
 
                                 {
                                     // transfer control back to the AI
-                                    gameState = GameState.PROMPT;
-
+                                    gameState = GameState.AITURN;
                                 }
                             }
 
@@ -1879,10 +1874,10 @@ public class GameLoop implements Runnable
                                     .replace(R.id.container, new GameViewFragment(),
                                             "game_fragment").commit();
 
-                            /*
+
                             sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
                             startSFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
-                            */
+
                         }
 
                         if(boardLayout.mainMenuRect.contains(x, y)) {
@@ -1902,6 +1897,8 @@ public class GameLoop implements Runnable
 
     // show that the ai is thinking about it's choice
 
+
+    // remove this
     public void think ()
 
     {
@@ -1915,9 +1912,11 @@ public class GameLoop implements Runnable
         gameState = GameState.PAUSED;
 
         timer.stop();
-
     }
 
+    // This is like the player's draw method
+
+    // Should work for any ai animation
     public void updateAICards ()
 
     {
@@ -1930,10 +1929,12 @@ public class GameLoop implements Runnable
 
         // THis is for monster placement
         // monsterSlotActive = true;
+        opponent1.x = 70;
+        opponent1.y = 100;
         opponent1.sprite = aiHandMonsters.get(index).sprite;
 
-        // begin the player draw phase
-        gameState = GameState.DRAW;
+        // animate the ai's sprite
+        gameState = GameState.AIANIMATION;
     }
 
     private void updateDraw ()
@@ -1948,6 +1949,8 @@ public class GameLoop implements Runnable
         manaflag = true;
         // make the hand cards active
         handActive = true;
+
+        boundHit = false;
 
         // run the card movement animation
         gameState = GameState.ANIMATION;
@@ -1979,6 +1982,8 @@ public class GameLoop implements Runnable
         opponent1.update();
         opponent2.update();
         opponent3.update();
+
+        opponentDeck.update();
 
     }
 

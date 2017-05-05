@@ -40,10 +40,13 @@ public class GameTimer  {
     /**
      * Stops or pauses the timer.
      */
+
+
     public void stop() {
         currentTime = millis;
         scheduledFuture.cancel(true);
     }
+
 
     private class GTimerTask implements Runnable {
         /**
