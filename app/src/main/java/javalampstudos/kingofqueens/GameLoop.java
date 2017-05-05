@@ -1505,6 +1505,8 @@ public class GameLoop implements Runnable
                                 && handCards.get(handIndex).id == 0)
 
                         {
+                            MainActivity.setting.getInt("totalPlayTimeValue");
+
                             // prevents cards splipping off the edge
                             dragActive = false;
 
@@ -1550,6 +1552,9 @@ public class GameLoop implements Runnable
                                 && handCards.get(handIndex).id == 0)
 
                         {
+
+                            MainActivity.setting.getInt("totalPlayTimeValue");
+
                             // no more card movement
                             dragActive = false;
 
@@ -1598,6 +1603,9 @@ public class GameLoop implements Runnable
                                 && handCards.get(handIndex).id == 0)
 
                         {
+
+                            MainActivity.setting.getInt("mosterCardPlayed");
+
                             // no more card movement
                             dragActive = false;
 

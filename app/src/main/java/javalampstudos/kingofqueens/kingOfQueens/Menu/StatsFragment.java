@@ -22,7 +22,8 @@ public class StatsFragment extends MenuFragment {
     private Rect bgroundRect, backRect, resetRect;
 
     private int totalPlayTimeMins, totalPlayTimeSecs, longestPlayTimeMins, longestPlayTimeSecs,
-            totalCardsPlayed, monsterCardsPlayed, manaCardsPlayed, numberOfCardsDrawn;
+            monsterCardsPlayed;
+    // totalCardsPlayed, manaCardsPlayed, numberOfCardsDrawn;
 
     public StatsFragment() {
     }
@@ -45,6 +46,8 @@ public class StatsFragment extends MenuFragment {
                 (int) (24 * 2 * uiScaling + 8 * uiScaling),
                 (int) (24 * 2 * uiScaling + 8 * uiScaling));
 
+
+        int monsterCardsPlayed = MainActivity.setting.getInt("totalPlayTimeValue");
 
         int totalPlayTime = MainActivity.setting.getInt("totalPlayTimeValue") / 1000;
         totalPlayTimeMins = totalPlayTime / 60;
@@ -78,14 +81,14 @@ public class StatsFragment extends MenuFragment {
         canvas.drawBitmap(backBitmap, null, backRect, null);
         canvas.drawBitmap(resetBitmap, null, resetRect, null);
 
-        canvas.drawText(totalCardsPlayed + "", width / 2 + 208 * uiScaling, height / 2
-                - 64 * uiScaling, paint);
+//        canvas.drawText(totalCardsPlayed + "", width / 2 + 208 * uiScaling, height / 2
+//                - 64 * uiScaling, paint);
         canvas.drawText(monsterCardsPlayed + "", width / 2 + 208 * uiScaling, height
                 / 2 - 24 * uiScaling, paint);
-        canvas.drawText(manaCardsPlayed + "", width / 2 + 208 * uiScaling,
-                height / 2 + 16 * uiScaling, paint);
-        canvas.drawText(numberOfCardsDrawn + "", width / 2 + 208 * uiScaling,
-                height / 2 + 56 * uiScaling, paint);
+//        canvas.drawText(manaCardsPlayed + "", width / 2 + 208 * uiScaling,
+//                height / 2 + 16 * uiScaling, paint);
+//        canvas.drawText(numberOfCardsDrawn + "", width / 2 + 208 * uiScaling,
+//                height / 2 + 56 * uiScaling, paint);
         canvas.drawText(String.format("%d:%02d", totalPlayTimeMins,
                 totalPlayTimeSecs), width / 2 + 208 * uiScaling, height / 2
                 + 96 * uiScaling, paint);
