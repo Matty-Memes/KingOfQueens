@@ -45,23 +45,25 @@ public class SupportCard extends BasicCard
         // canvas.drawBitmap();
     }
     //Matt 40149561
-    // TODO: 05/05/2017 Try and make this a switch statement
+    //This method is called when a supportCard is used. It will pull the method needed for the buff
     public void doBuff(MonsterCard affectedCard)
     {
-        if (this.buff == BuffType.AttackBoost )
-            attackBuff(affectedCard);
-        else if (this.buff ==BuffType.DefenceBoost)
-            defenceBuff(affectedCard);
-        else if (this.buff ==BuffType.Heal)
-            healBuff(affectedCard);
-        else if (this.buff == BuffType.EnvokeStatus)
-            envokeStatus(affectedCard);
-        else if (this.buff == BuffType.CureStatus)
-            cureStatus(affectedCard);
+        switch(this.buff) {
+            case AttackBoost: attackBuff(affectedCard);
+                break;
+            case DefenceBoost:defenceBuff(affectedCard);
+                break;
+            case Heal:healBuff(affectedCard);
+                break;
+            case EnvokeStatus :envokeStatus(affectedCard);
+                break;
+            case CureStatus:cureStatus(affectedCard);
+                break;
+        }
     }
 
     //Matt 40149561
-    public void attackBuff(MonsterCard buffedCard)
+    private void attackBuff(MonsterCard buffedCard)
     {
             buffedCard.setStatBeforeBuff(buffedCard.attackValue);
             buffedCard.setAttackValue(buffedCard.attackValue += this.buffValue);
@@ -79,7 +81,7 @@ public class SupportCard extends BasicCard
     }
 
     //Matt 40149561
-    public void defenceBuff(MonsterCard buffedCard)
+    private void defenceBuff(MonsterCard buffedCard)
     {
             buffedCard.setStatBeforeBuff(buffedCard.defence);
             buffedCard.setDefence(buffedCard.defence += this.buffValue);
@@ -88,7 +90,7 @@ public class SupportCard extends BasicCard
     }
 
     //Matt 40149561
-    public void healBuff(MonsterCard healedCard)
+    private void healBuff(MonsterCard healedCard)
     {
         int newHealth = healedCard.getHealth()+ this.buffValue;
         if (newHealth> healedCard.getMaxHealth())
@@ -97,13 +99,13 @@ public class SupportCard extends BasicCard
     }
 
     //Matt 40149561
-    public void cureStatus(MonsterCard affectedCard)
+    private void cureStatus(MonsterCard affectedCard)
     {
             affectedCard.setStatusEffect(StatusEffect.None);
     }
 
     //Matt 40149561
-    public void envokeStatus(MonsterCard affectedCard)
+    private void envokeStatus(MonsterCard affectedCard)
     {
             affectedCard.setStatusEffect(this.statusEffect);
     }
