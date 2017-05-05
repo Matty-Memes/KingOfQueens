@@ -25,6 +25,9 @@ public class StatsFragment extends MenuFragment {
             gamesPlayed, totalCardsPlayed, monstersPlayed, manaCardsPlayed, buffsPlayed,
             numberOfCardsDrawn, monstersDestroyed, numberOfWins, numberOfLoses;
 
+    private String totalPlayTimeString, longestPlayTimeString, gamesString, cardsPlayedString,
+            monsterString, manaString, buffString, winString;
+
     public StatsFragment() {
     }
 
@@ -45,7 +48,7 @@ public class StatsFragment extends MenuFragment {
         backRect = new Rect((int) (8 * uiScaling), (int) (8 * uiScaling),
                 (int) (24 * 2 * uiScaling + 8 * uiScaling),
                 (int) (24 * 2 * uiScaling + 8 * uiScaling));
-
+        resetRect = new Rect(755, 50, 805, 100);
 
         monstersPlayed = MainActivity.setting.getInt("monstersPlayed");
         manaCardsPlayed = MainActivity.setting.getInt("manaCardsPlayed");
@@ -67,11 +70,15 @@ public class StatsFragment extends MenuFragment {
         longestPlayTimeMins = longestPlayTime / 60;
         longestPlayTimeSecs = longestPlayTime % 60;
 
-        // Sets up Rect values
-        backRect = new Rect((int) (8 * uiScaling), (int) (8 * uiScaling),
-                (int) (24 * 2 * uiScaling + 8 * uiScaling),
-                (int) (24 * 2 * uiScaling + 8 * uiScaling));
-        resetRect =  new Rect(755, 50, 805, 100);
+
+        totalPlayTimeString = "Total Play Time";
+        longestPlayTimeString = "Longest Play Time";
+        gamesString = "Games Played";
+        winString = "Number of Wins";
+        manaString = "Mana Cards Played";
+        monsterString = "Monster Cards Played";
+        cardsPlayedString = "Total Cards Played";
+        buffString = "Buff Cards Played";
     }
 
     /**
@@ -90,20 +97,34 @@ public class StatsFragment extends MenuFragment {
         canvas.drawBitmap(backBitmap, null, backRect, null);
         canvas.drawBitmap(resetBitmap, null, resetRect, null);
 
+        canvas.drawText(cardsPlayedString, width / 2 -125 * uiScaling, height / 2
+                - 66 * uiScaling, paint);
         canvas.drawText(totalCardsPlayed + "", width / 2 + 208 * uiScaling, height / 2
-                - 64 * uiScaling, paint);
+                - 66 * uiScaling, paint);
+        canvas.drawText(monsterString, width / 2 -125 * uiScaling, height / 2
+                - 26 * uiScaling, paint);
         canvas.drawText(monstersPlayed + "", width / 2 + 208 * uiScaling, height
-                / 2 - 24 * uiScaling, paint);
+                / 2 - 26 * uiScaling, paint);
+        canvas.drawText(manaString, width / 2 -125 * uiScaling, height / 2
+                + 16 * uiScaling, paint);
         canvas.drawText(manaCardsPlayed + "", width / 2 + 208 * uiScaling,
                 height / 2 + 16 * uiScaling, paint);
+        canvas.drawText(winString, width / 2 -125 * uiScaling, height / 2
+                + 56 * uiScaling, paint);
         canvas.drawText(numberOfWins + "", width / 2 + 208 * uiScaling,
                 height / 2 + 56 * uiScaling, paint);
+        canvas.drawText(gamesString, width / 2 -125 * uiScaling, height / 2
+                + 96 * uiScaling, paint);
         canvas.drawText(gamesPlayed + "", width / 2 + 208 * uiScaling,
                 height / 2 + 96 * uiScaling, paint);
+        canvas.drawText(totalPlayTimeString, width / 2 -125 * uiScaling, height / 2
+                + 136 * uiScaling, paint);
         canvas.drawText(String.format("%d:%02d", totalPlayTimeMins,
                 totalPlayTimeSecs), width / 2 + 208 * uiScaling, height / 2
                 + 136 * uiScaling, paint);
-        canvas.drawText(String.format("%d:%02d", longestPlayTimeMins,
+        canvas.drawText(longestPlayTimeString, width / 2 -125 * uiScaling, height / 2
+                + 176 * uiScaling, paint);
+        canvas.drawText(String.format ("%d:%02d", longestPlayTimeMins,
                 longestPlayTimeSecs), width / 2 + 208 * uiScaling, height
                 / 2 + 176 * uiScaling, paint);
 
