@@ -107,10 +107,8 @@ public class Settings {
     /**
      * This adds a specific value onto an int value
      *
-     * @param key
-     *            : Name of the variable to be added to
-     * @param value
-     *            : The amount to be added to the current value
+     * @param key   : Name of the variable to be added to
+     * @param value : The amount to be added to the current value
      */
     public void addToInt(String key, int value) {
         edit.putInt(key, value + pref.getInt(key, 0));
@@ -120,10 +118,8 @@ public class Settings {
     /**
      * This sets a specific value onto an int value
      *
-     * @param key
-     *            : Name of the variable to be set
-     * @param value
-     *            : The amount to be set
+     * @param key   : Name of the variable to be set
+     * @param value : The amount to be set
      */
     public void setInt(String key, int value) {
         edit.putInt(key, value);
@@ -147,7 +143,7 @@ public class Settings {
      * @return boolean
      */
     public boolean toggleBoolean(String string) {
-        if(pref.getBoolean(string, false)) {
+        if (pref.getBoolean(string, false)) {
             edit.putBoolean(string, false);
         } else {
             edit.putBoolean(string, true);
@@ -212,7 +208,6 @@ public class Settings {
     public String getString(String key, String defValue) {
         return pref.getString(key, defValue);
     }
-
 
 
 }
