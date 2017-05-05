@@ -17,11 +17,12 @@ import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 public class StatsFragment extends MenuFragment {
 
     //Stats Bitmap
-    private Bitmap bground, backBitmap;
+    private Bitmap bground, backBitmap, resetBitmap;
     //Stats Rect
-    private Rect bgroundRect, backRect;
+    private Rect bgroundRect, backRect, resetRect;
 
-    private int totalPlayTimeMins, totalPlayTimeSecs, longestPlayTimeMins, longestPlayTimeSecs;
+    private int totalPlayTimeMins, totalPlayTimeSecs, longestPlayTimeMins, longestPlayTimeSecs,
+            totalCardsPlayed, monsterCardsPlayed, manaCardsPlayed, numberOfCardsDrawn;
 
     public StatsFragment() {
     }
@@ -37,6 +38,7 @@ public class StatsFragment extends MenuFragment {
         // load in bitmaps here
         bground = AssetLoader.loadBitmap(assetManager, "img/Marc/Screen 1.png");
         backBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/ButtonBack.png");
+        resetBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/reset.png");
 
         // Sets up Rect parameters
         backRect = new Rect((int) (8 * uiScaling), (int) (8 * uiScaling),
@@ -57,6 +59,7 @@ public class StatsFragment extends MenuFragment {
         backRect = new Rect((int) (8 * uiScaling), (int) (8 * uiScaling),
                 (int) (24 * 2 * uiScaling + 8 * uiScaling),
                 (int) (24 * 2 * uiScaling + 8 * uiScaling));
+        resetRect =  new Rect(755, 50, 805, 100);
     }
 
     /**
@@ -73,7 +76,16 @@ public class StatsFragment extends MenuFragment {
         bgroundRect.set(0, 0, width, height);
         canvas.drawBitmap(bground, null, bgroundRect, null);
         canvas.drawBitmap(backBitmap, null, backRect, null);
+        canvas.drawBitmap(resetBitmap, null, resetRect, null);
 
+        canvas.drawText(totalCardsPlayed + "", width / 2 + 208 * uiScaling, height / 2
+                - 64 * uiScaling, paint);
+        canvas.drawText(monsterCardsPlayed + "", width / 2 + 208 * uiScaling, height
+                / 2 - 24 * uiScaling, paint);
+        canvas.drawText(manaCardsPlayed + "", width / 2 + 208 * uiScaling,
+                height / 2 + 16 * uiScaling, paint);
+        canvas.drawText(numberOfCardsDrawn + "", width / 2 + 208 * uiScaling,
+                height / 2 + 56 * uiScaling, paint);
         canvas.drawText(String.format("%d:%02d", totalPlayTimeMins,
                 totalPlayTimeSecs), width / 2 + 208 * uiScaling, height / 2
                 + 96 * uiScaling, paint);
@@ -91,6 +103,11 @@ public class StatsFragment extends MenuFragment {
                             .replace(R.id.container, new SettingsFragment(), "settings_fragment").commit();
                 }
 
+                if (resetRect.contains(x, y)) {
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.container, new ResetFragment(), "reset_fragment").commit();
+                }
 
             }
         }

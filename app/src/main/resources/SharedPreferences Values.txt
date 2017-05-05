@@ -1,22 +1,25 @@
 Below are what values are labelled as in the SharedPreferences
 
-Label					| Data Type	|
 ---------------------------------------------------------
 				VolumeFragment
 ---------------------------------------------------------
 sfxValue				| int		| 
 musicValue				| int		| 
-languageString			| String	| 			
-handednessBool			| Boolean	| 
+
 ---------------------------------------------------------
-				GameStatsFragment
+				StatsFragment
 ---------------------------------------------------------
-killsValue				| int		| 
-deathsValue				| int		| 
-totalScoreValue			| int		| 
-timesPlayedValue		| int		| 
-totalPlayTimeValue		| int		| 
-longestPlayTimeValue	| int		| 
+totalCardsPlayed		| int		|
+monsterCardsPlayed		| int		|
+manaCardsPlayed         | int		|
+buffCardsPlayed         | int		|
+numberOfCardsDrawn      | int		|
+monstersDestroyed       | int		|
+numberOfWins            | int		|
+numberOfLoses           | int		|
+gamesPlayed             | int		|
+totalPlayTimeValue		| int		|
+longestPlayTimeValue    | int		|
 ---------------------------------------------------------
 				    Timer
 ---------------------------------------------------------
