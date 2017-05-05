@@ -2,6 +2,7 @@ package javalampstudos.kingofqueens.kingOfQueens.objects.Cards;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.pdf.PdfDocument;
 
 /**
  * Created by brian on 24/11/2016.
@@ -17,6 +18,7 @@ public class SupportCard extends BasicCard
     private BuffType buff;
     private StatusEffect statusEffect;
     private boolean active;
+    private int turns = 3;
 
     private int buffValue;
 
@@ -42,42 +44,68 @@ public class SupportCard extends BasicCard
     {
         // canvas.drawBitmap();
     }
-
     //Matt 40149561
-    public void attackBuff(int turns,int attack,MonsterCard buffedCard)
+    // TODO: 05/05/2017 Try and make this a switch statement
+    public void doBuff(MonsterCard affectedCard)
     {
-        active=true;
-        buffedCard.setAttackValue(buffedCard.attackValue += attack);
-        while(active=true)
-        {
-            // TODO: 01/02/2017 When turn structure is implemented, work out how to increment a counter after a turn
-            if(turns==0) {
-                active = false;
-                buffedCard.setAttackValue(buffedCard.attackValue -= attack);
-            }
-        }
+        if (this.buff == BuffType.AttackBoost )
+            attackBuff(affectedCard);
+        else if (this.buff ==BuffType.DefenceBoost)
+            defenceBuff(affectedCard);
+        else if (this.buff ==BuffType.Heal)
+            healBuff(affectedCard);
+        else if (this.buff == BuffType.EnvokeStatus)
+            envokeStatus(affectedCard);
+        else if (this.buff == BuffType.CureStatus)
+            cureStatus(affectedCard);
     }
 
     //Matt 40149561
-    public void defenceBuff(int turns, int defence,MonsterCard buffedCard)
+    public void attackBuff(MonsterCard buffedCard)
     {
-        active = true;
-        buffedCard.setDefence(buffedCard.defence += defence);
+            buffedCard.setStatBeforeBuff(buffedCard.attackValue);
+            buffedCard.setAttackValue(buffedCard.attackValue += this.buffValue);
+            buffedCard.setTurnsBuffed(turns);
+            buffedCard.setBuffed(true);
 
-        while (active = true) {
-            if (turns == 0) {
-                active = false;
-                buffedCard.setDefence(buffedCard.defence -= defence);
-            }
-        }
+
+        //05/05/2017 Going to put this in the turn logic
+//            // TODO: 01/02/2017 When turn structure is implemented, work out how to increment a counter after a turn
+//            if(turns==0) {
+//                active = false;
+//                buffedCard.setAttackValue(buffedCard.attackValue -= attack);
+//            }
+
     }
 
     //Matt 40149561
-    public void healBuff(int health,MonsterCard healedCard)
+    public void defenceBuff(MonsterCard buffedCard)
     {
-        int newHealth = healedCard.getHealth()+ health;
+            buffedCard.setStatBeforeBuff(buffedCard.defence);
+            buffedCard.setDefence(buffedCard.defence += this.buffValue);
+            buffedCard.setTurnsBuffed(turns);
+            buffedCard.setBuffed(true);
+    }
+
+    //Matt 40149561
+    public void healBuff(MonsterCard healedCard)
+    {
+        int newHealth = healedCard.getHealth()+ this.buffValue;
         if (newHealth> healedCard.getMaxHealth())
             newHealth=healedCard.getMaxHealth();
         healedCard.setHealth(newHealth);
     }
+
+    //Matt 40149561
+    public void cureStatus(MonsterCard affectedCard)
+    {
+            affectedCard.setStatusEffect(StatusEffect.None);
+    }
+
+    //Matt 40149561
+    public void envokeStatus(MonsterCard affectedCard)
+    {
+            affectedCard.setStatusEffect(this.statusEffect);
+    }
+
 }

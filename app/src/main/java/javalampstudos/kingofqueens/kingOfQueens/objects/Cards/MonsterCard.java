@@ -18,8 +18,10 @@ public class MonsterCard extends BasicCard
 {
     private final double attackBonus = 0.3;
     private CardLevel level; // ENUM
-    public int health,defence,attackValue,evolutionID,maxHealth;
+    public int health,defence,attackValue,evolutionID,maxHealth,turnsBuffed;
     private StatusEffect statusEffect;
+    private boolean isBuffed = false;
+    private int statBeforeBuff = 0;
 
     // holds a list of the mana types required
     private HashMap<ManaTypes, Integer> attackManaRequirement;
@@ -30,6 +32,7 @@ public class MonsterCard extends BasicCard
     // constructor
     //Matt 22/04/17: Added in a maxHealth variable. realised that there would be a bug if we tried to
     //heal a monster and it didn't have a health limit
+    //Matt 05/05/2017: Added in Buff variables to manage buff functions
 
     public MonsterCard(int x, int y, int width, int height, Bitmap Sprite, boolean player, int id,
                        CardSchools cardSchool, boolean destroyed, int pointerID, int targetX, CardLevel level,
@@ -112,6 +115,36 @@ public class MonsterCard extends BasicCard
         this.statusEffect = statusEffect;
     }
 
+    public int getTurnsBuffed()
+    {
+        return turnsBuffed;
+    }
+
+    public void setTurnsBuffed(int turnsBuffed)
+    {
+        this.turnsBuffed = turnsBuffed;
+    }
+
+    public boolean isBuffed()
+    {
+        return isBuffed;
+    }
+
+    public void setBuffed(boolean buffed)
+    {
+        isBuffed = buffed;
+    }
+
+    public int getStatBeforeBuff()
+    {
+        return statBeforeBuff;
+    }
+
+    public void setStatBeforeBuff(int statBeforeBuff)
+    {
+        this.statBeforeBuff = statBeforeBuff;
+    }
+
     // draw monster cards to the screen
 
     public void draw(Canvas canvas)
@@ -163,12 +196,9 @@ public class MonsterCard extends BasicCard
     // Brian's + Matts Method
     public void attack(MonsterCard defendingCard) {
 
-        //monsterCard target = this.monsterCard;
-        //Matt: I need to get touch input to tell the class what monster to attack.
-
         randomGenerator rand = new randomGenerator();
         int randomMultiplier = rand.generateRandomNumber();
-        if (compareCardAttackBonus(getCardSchool(), defendingCard.getCardSchool()) == true) {
+        if (compareCardAttackBonus(getCardSchool(), defendingCard.getCardSchool())) {
             defendingCard.health -= (getAttackValue() * (attackBonus * randomMultiplier));
 
         } else {
@@ -232,8 +262,7 @@ public class MonsterCard extends BasicCard
     {
         switch (this.id)
         {
-            case 3: specialEnabled = true;
-                Random rand = new Random();
+            case 3:Random rand = new Random();
                 int randomNum = rand.nextInt((10-1)+1)+1;
                 if(randomNum >=4) { //60% chance of critical
                     specialEnabled = true;
