@@ -10,7 +10,7 @@ musicValue				| int		|
 				StatsFragment
 ---------------------------------------------------------
 totalCardsPlayed		| int		|
-monsterCardsPlayed		| int		|
+monstersPlayed		    | int		|
 manaCardsPlayed         | int		|
 buffCardsPlayed         | int		|
 numberOfCardsDrawn      | int		|

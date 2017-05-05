@@ -451,9 +451,16 @@ public class GameLoop implements Runnable
         // The prep phase becomes active here
         prepPhase = true;
 
+        //40123776 below
+
+        //starts timer on screen
         timer.start();
 
+        //sfx
         startSFX = AssetLoader.loadSoundpool(assetManager, "start.mp3");
+
+        //increases integer on stats screen
+        MainActivity.setting.increaseInt("gamesPlayed");
 
     }
 
@@ -1402,6 +1409,11 @@ public class GameLoop implements Runnable
 
                             // reset the logic for taking cards at the start of the player's turn
                             boundHit = false;
+
+                            //40123776
+                            //when mana card is played, increases int on stats screen
+                            MainActivity.setting.increaseInt("manaPlayed");
+
                         }
                     }
 
@@ -1505,7 +1517,8 @@ public class GameLoop implements Runnable
                                 && handCards.get(handIndex).id == 0)
 
                         {
-                            MainActivity.setting.getInt("totalPlayTimeValue");
+                            //40123776, when monster is played, increases int on stats screen
+                            MainActivity.setting.increaseInt("monstersPlayed");
 
                             // prevents cards splipping off the edge
                             dragActive = false;
@@ -1553,7 +1566,7 @@ public class GameLoop implements Runnable
 
                         {
 
-                            MainActivity.setting.getInt("totalPlayTimeValue");
+                            MainActivity.setting.increaseInt("monstersPlayed");
 
                             // no more card movement
                             dragActive = false;
@@ -1604,7 +1617,7 @@ public class GameLoop implements Runnable
 
                         {
 
-                            MainActivity.setting.getInt("mosterCardPlayed");
+                            MainActivity.setting.increaseInt("monstersPlayed");
 
                             // no more card movement
                             dragActive = false;
@@ -1811,6 +1824,9 @@ public class GameLoop implements Runnable
                                 if (opponentMonstersKilled >= 2)
                                 {
                                     gameState = GameState.VICTORY;
+
+                                    //40123776, number of wins increased on stats screen
+                                    MainActivity.setting.increaseInt("numberOfWins");
 
                                 }
 
