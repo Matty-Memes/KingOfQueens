@@ -113,24 +113,28 @@ public class littleMan extends Entity {
     }
 
 
+    //Identify if the player is close enough to interact with an interactable GameObject
     public static int interactBounds (GameObject player, ArrayList<GameObject> objects, Entity tile) {
 
         for (int i = 0; i < objects.size(); i++) {
             objects.get(i);
 
-                    if (((player.getLeft() - tile.width / 2) < objects.get(i).getRight()) &&
-                            ((player.getRight() + tile.width / 2) > objects.get(i).getLeft()) &&
-                            ((player.getBottom() - tile.width / 2) < objects.get(i).getTop()) &&
-                            ((player.getTop() + tile.width / 2) > objects.get(i).getBottom())) {
+            if (((player.getLeft() - tile.width / 2) < objects.get(i).getRight()) &&
+                    ((player.getRight() + tile.width / 2) > objects.get(i).getLeft()) &&
+                    ((player.getBottom() - tile.width / 2) < objects.get(i).getTop()) &&
+                    ((player.getTop() + tile.width / 2) > objects.get(i).getBottom())) {
 
-                        return i;
-                    }
+                //return index of GameObject in the passed in ArrayList
+                return i;
+            }
         }
 
+        //No interactable Game Object found, return no index
         return -1;
     }
 
 
+    //Animation Frame update
     public void updateCurrentFrame(GameLoop.MoveDirection moveDirection) {
         animation.updateCurrentFrame(moveDirection);
     }

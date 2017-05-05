@@ -55,6 +55,16 @@ public class GameViewFragment extends CanvasFragment {
     // Width and heihgt for creating the view
     private int width, height;
 
+    //States of Dialogue
+    private enum DialogueState {
+        REGULAR, SHOP, OPTIONS, RESPONSE, NONE
+    }
+
+    //Boolean for resetting DialoguePoint variable
+    private boolean resetDialoguePoint = true;
+
+    private DialogueState dialogueState;
+
     // Empty GameViewFragment constructor
     public GameViewFragment ()
 
@@ -292,130 +302,143 @@ public class GameViewFragment extends CanvasFragment {
 
     }
 
+    //Draw OpenWorld
+    //Nathan-   40131544
     public void drawOpenWorld(Canvas canvas)
 
     {
 
+        //Setup spacing to set up Rect in context of the screen
         int spacingX = width / 10;
         int spacingY = height / 10;
 
+        //Draw map
         loop.mapTest.draw(canvas, loop.mLayerViewport, loop.mScreenViewport);
         //loop.coin.draw(canvas, loop.mLayerViewport, loop.mScreenViewport);
 
+        //Draw objects from objectList
         for (int i = 0; i < loop.objectList.size(); i++) {
             loop.objectList.get(i).drawOpenWorld(canvas, loop.mLayerViewport, loop.mScreenViewport);
         }
 
+        //Draw coins from coinList
         for (int i = 0; i < loop.coinList.size(); i++) {
             loop.coinList.get(i).drawOpenWorld(canvas, loop.mLayerViewport, loop.mScreenViewport);
         }
 
+        //Draw player and buildings
         loop.player.draw(canvas, loop.mLayerViewport, loop.mScreenViewport);
         loop.mcclayTop.draw(canvas, loop.mLayerViewport, loop.mScreenViewport);
         loop.lanyonTop.draw(canvas, loop.mLayerViewport, loop.mScreenViewport);
         //loop.player2.draw(canvas, loop.mLayerViewport, loop.mScreenViewport);
 
-        /*if(loop.interactionIndex >= 0) {
-            System.out.println(Dialogue.conversationIndex(loop.interactionIndex));
-        }*/
-        if(loop.interactionIndex >= 0) {
-            if(Dialogue.conversationIndex(loop.interactionIndex, loop.dialoguePoint) != "None") {
-                canvas.clipRect(spacingX, spacingY * 5, spacingX * 9, spacingY * 9);
-                canvas.drawColor(-1);
-                mPaint.setTextSize(150.0f);
-                mPaint.setTextAlign(Paint.Align.LEFT);
-                mPaint.setColor(Color.BLACK);
 
-                if(Dialogue.conversationIndex(loop.interactionIndex, loop.dialoguePoint) == "Coin" &&
-                        Dialogue.shopConvo(loop.dialoguePoint, loop.coinCounter) != "None") {
-                    canvas.drawText(Dialogue.shopConvo(loop.dialoguePoint, loop.coinCounter),
-                            canvas.getClipBounds().left + spacingX / 2, canvas.getClipBounds().top + spacingY, mPaint);
-                } else {
-                    if(Dialogue.conversationIndex(loop.interactionIndex, loop.dialoguePoint) != "Coin") {
-                        canvas.drawText(Dialogue.conversationIndex(loop.interactionIndex, loop.dialoguePoint),
-                                canvas.getClipBounds().left + spacingX / 2, canvas.getClipBounds().top + spacingY, mPaint);
-                    } else {
-                        loop.dialoguePoint = 0;
-                        loop.inDialogue = false;
-                        loop.interactionIndex = -1;
-                    }
+
+
+        //Check if the player has interacted with an NPC
+        if (loop.interactionIndex >= 0) {
+
+
+            //At this point we know that we need to start dialogue//
+
+            //Setup canvas and paint
+            canvas.clipRect(spacingX, spacingY * 5, spacingX * 9, spacingY * 9);
+            canvas.drawColor(-1);
+            mPaint.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "minecraftia.ttf"));
+            mPaint.setTextSize(115.0f);
+            mPaint.setTextAlign(Paint.Align.LEFT);
+            mPaint.setColor(Color.BLACK);
+
+
+            ////////////////////////////////////////////////
+            //Code to determine what the dialogue state is//
+            ////////////////////////////////////////////////
+
+
+            //Assume dialogueState is REGULAR to start
+            dialogueState = DialogueState.REGULAR;
+
+            //If "Coin" is returned then dialogueState is  set to SHOP
+            if(Dialogue.conversationIndex(loop.interactionIndex, loop.dialoguePoint, loop.response) == "Coin") {
+                dialogueState = DialogueState.SHOP;
+            }
+
+            //If "OPTIONS" is returned then dialogueState is set to OPTIONS, loop.response = 0 to notify the GameLoop class
+            //that a response is required from the user, dialoguePoint is reset for a new conversation.
+            //If loop.response is 0, the code is awaitng user response after the dialogue options have been drawn
+            if(Dialogue.conversationIndex(loop.interactionIndex, loop.dialoguePoint, loop.response) == "Options" ||
+                    loop.response == 0) {
+                loop.response = 0;
+                loop.dialoguePoint = 1;
+                dialogueState = DialogueState.OPTIONS;
+            }
+
+            //If response is greater than 0, user has given their response. DialoguePoint is set the first time the statment
+            //is accessed and dialogueState is set to REGULAR to allow dialogue to continue normally
+            if(loop.response > 0) {
+
+                //Accessed only the first time the outer if statement is accessed to ensure the dialoguePoint isn't reset
+                //after every update
+                if (resetDialoguePoint == true) {
+                    loop.dialoguePoint = 1;
                 }
-            } else {
-                loop.dialoguePoint = 0;
-                loop.inDialogue = false;
-                loop.interactionIndex = -1;
+
+                //Set to false so dialoguePoint can increment normally when the user presses the interactButton in GameLoop
+                resetDialoguePoint = false;
+                dialogueState = DialogueState.REGULAR;
             }
+
+            //If "None" is returned from conversationIndex, the conversation has ended
+            //If "Coin" is returned from shopConvo and "None" is returned from conversationIndex, the conversation with the
+            //shopkeeper has ended.
+            //      DialogueState is set to none for both
+            if(Dialogue.conversationIndex(loop.interactionIndex, loop.dialoguePoint, loop.response) == "None" ||
+                    (Dialogue.conversationIndex(loop.interactionIndex, loop.dialoguePoint, loop.response) == "Coin" &&
+                            Dialogue.shopConvo(loop.dialoguePoint, loop.coinCounter) == "None")) {
+                dialogueState = DialogueState.NONE;
+            }
+
+
+            //At this point dialogueState has been determined
+
+
+            //Once dialogue State has been assigned, run the right case
+            switch(dialogueState) {
+
+                case REGULAR:
+                    canvas.drawText(Dialogue.conversationIndex(loop.interactionIndex, loop.dialoguePoint, loop.response),
+                            canvas.getClipBounds().left + spacingX / 2, canvas.getClipBounds().top + spacingY * 2, mPaint); break;
+
+                case SHOP:
+                    canvas.drawText(Dialogue.shopConvo(loop.dialoguePoint, loop.coinCounter),
+                            canvas.getClipBounds().left + spacingX / 2, canvas.getClipBounds().top + spacingY * 2, mPaint); break;
+
+                case OPTIONS:
+                    //Reset colour to distinguish NPC lines from player dialogue options
+                    mPaint.setColor(Color.BLUE);
+                    //Draw both options
+                    canvas.drawText(Dialogue.conversationIndex(loop.interactionIndex, loop.dialoguePoint, loop.response),
+                            canvas.getClipBounds().left + spacingX / 2, canvas.getClipBounds().top + spacingY * 2, mPaint);
+                    loop.dialoguePoint++;
+                    canvas.drawText(Dialogue.conversationIndex(loop.interactionIndex, loop.dialoguePoint, loop.response),
+                            canvas.getClipBounds().left + spacingX / 2, canvas.getClipBounds().top + spacingY * 4, mPaint); break;
+
+                case NONE:
+                    //When reached, conversation has ended. Reset dialoguePoint, inDialogue, interactionIndex, response
+                    //and resetDialoguePoint to return game to a free-roam gameplay
+                    loop.dialoguePoint = 0;
+                    loop.inDialogue = false;
+                    loop.interactionIndex = -1;
+                    loop.response = -1;
+                    resetDialoguePoint = true; break;
+            }
+
 
         }
 
-        /*if(loop.interactionIndex >= 0) {
 
-            if(Dialogue.conversationIndex(loop.interactionIndex, loop.dialoguePoint) == "Coin" &&
-                    Dialogue.shopConvo(loop.dialoguePoint, loop.coinCounter) != "None") {
-                canvas.drawText(Dialogue.shopConvo(loop.dialoguePoint, loop.coinCounter),
-                        canvas.getClipBounds().left + spacingX / 2, canvas.getClipBounds().top + spacingY, mPaint);
-            }
-
-            else if(Dialogue.conversationIndex(loop.interactionIndex, loop.dialoguePoint) != "None") {
-                canvas.clipRect(spacingX, spacingY * 5, spacingX * 9, spacingY * 9);
-                canvas.drawColor(-1);
-                mPaint.setTextSize(150.0f);
-                mPaint.setTextAlign(Paint.Align.LEFT);
-                mPaint.setColor(Color.BLACK);
-                canvas.drawText(Dialogue.conversationIndex(loop.interactionIndex, loop.dialoguePoint),
-                        canvas.getClipBounds().left + spacingX / 2, canvas.getClipBounds().top + spacingY, mPaint);
-
-            } else {
-                loop.dialoguePoint = 0;
-                loop.inDialogue = false;
-                loop.interactionIndex = -1;
-            }
-
-        }*/
-
+        //Draw the interact button last
         canvas.drawBitmap(loop.aButton, null, loop.interactButton, null);
-
-
-        /*String mText = "What Up!!";
-        for (int i = 0; i < mText.length(); i++) {
-            canvas.drawText(mText.substring(i, i + 1), canvas.getClipBounds().left + spacingX / 2 + i * 30, canvas.getClipBounds().top + spacingY * 2, mPaint);
-        }*/
-
-        // might be able to add text
-
-        /*
-
-        int width = canvas.getWidth();
-        int height = canvas.getHeight();
-
-        // Draw the loaded bitmap 1,000 times
-        int batchSize = 1000;
-        for (int drawIdx = 0; drawIdx < batchSize; drawIdx++) {
-
-
-            int spacingX = width / 6;
-            int spacingY = height / 6;
-            mLittleManBound  = new Rect(2 * spacingX, spacingY, 4 * spacingX, 5 * spacingY);
-            cloudyBackgroundBound = new Rect (0, 0, 6 * spacingX, 6 * spacingY);
-            KofQBound = new Rect (10, 4* spacingY, 2 * spacingX, 6 * spacingY);
-            //mLittleManBound2 = new Rect(4 * spacingX, spacingY, 5 * spacingX, 2 * spacingY);
-
-            //canvas.drawColor(-1);
-
-            // these lines are replaced with the first line
-            canvas.drawBitmap(mImage2, null, cloudyBackgroundBound, null);
-            canvas.drawBitmap(mImage, null, mLittleManBound, null);
-            canvas.drawBitmap(mImage3, null, KofQBound, null);
-            //canvas.drawBitmap(mImage, null, mLittleManBound2, null);
-        }
-
-        // Display a count of the number of frames that have been displayed
-        mNumCalls++;
-        mPaint.setTextSize(36.0f);
-        mPaint.setTextAlign(Paint.Align.LEFT);
-        mPaint.setColor(Color.WHITE);
-        canvas.drawText("Num=" + mNumCalls, 50.0f, 50.0f, mPaint);
-        */
 
     }
 

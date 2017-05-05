@@ -225,10 +225,14 @@ public class GameLoop implements Runnable
     // Used to keep frames on the screen
     public int numFrames = 0;
 
-    // Nathan variables
+    // Nathan/OpenWorld variables      //
+    //         40131544              //
+
+
+    //Tile Grid
     public int[][] grid = new int[100][100];
 
-    //NathanMessingAbout
+    //Movement Directions
     public enum MoveDirection {
 
         LEFT, RIGHT, UP, DOWN;
@@ -246,20 +250,24 @@ public class GameLoop implements Runnable
     public Bitmap wallSprite;
     public Bitmap aButton;
 
+    //Player and Other Entities
     public littleMan player;
     public Entity player2;
-    //public Entity cloudyBackground;
     public Entity mapTest;
     public Entity mcclayTop;
     public Entity lanyonTop;
     public Entity tile;
 
+    //Interaction variables: Collectibles, Dialogue, Buttons
     public Rect interactButton;
+    public Rect dialogueOption1;
+    public Rect dialogueOption2;
     public int interactionIndex = -1;
     public int coinIndex = -1;
     public int coinCounter;
     public boolean inDialogue;
     public int dialoguePoint = 0;
+    public int response = -1;
 
     private Rect moveLeftRect;
     public Rect moveRightRect;
@@ -282,24 +290,47 @@ public class GameLoop implements Runnable
         return mScreenHeight;
     }
 
-    /**
-     * Width and height of the level
-     */
+
+    //Width and height of the level
     public final float LEVEL_WIDTH = 1500.0f;
     public final float LEVEL_HEIGHT = 1500.0f;
 
+
+    //Alternative grid initailisation for smaller grids. Used for testing
+    /*public int[][] grid =
+            {
+                    {1, 0, 0, 0, 0, 2, 2, 0, 0, 1},
+                    {0, 0, 0, 0, 0, 2, 2, 0, 0, 0},
+                    {0, 0, 0, 0, 0, 2, 2, 1, 0, 0},
+                    {0, 0, 0, 1, 0, 2, 2, 0, 0, 0},
+                    {0, 0, 0, 0, 0, 2, 2, 0, 0, 0},
+                    {0, 0, 0, 2, 2, 2, 3, 0, 1, 0},
+                    {0, 1, 0, 2, 2, 2, 2, 0, 0, 0},
+                    {0, 0, 0, 2, 2, 0, 1, 1, 0, 0},
+                    {2, 2, 2, 2, 2, 0, 1, 1, 0, 0},
+                    {2, 2, 1, 1, 1, 1, 1, 1, 1, 0}
+
+    };*/
+
+
+    //ArrayLists used for Interaction
     ArrayList<GameObject> tileList = new ArrayList<>();
     ArrayList<GameObject> collisionList = new ArrayList<>();
     ArrayList<GameObject> objectList = new ArrayList<>();
     ArrayList<GameObject> coinList = new ArrayList<>();
     ArrayList<GameObject> interactionList = new ArrayList<>();
 
+    //Viewports
     public LayerViewport mLayerViewport;
     public ScreenViewport mScreenViewport;
 
     public int getCoinCounter() {
         return coinCounter;
     }
+
+    //////////////////////
+    //(End of OpenWorld) //
+    //////////////////////
 
     // Declare a gamestate
     public GameState gameState;
@@ -350,6 +381,7 @@ public class GameLoop implements Runnable
         // load assets
         loadAssets();
 
+        //Setup OpenWorld
         openWorldSetup();
 
         // THESE CARDS ARE PLACEHOLDERS FOR BITMAPS - THIS SHOULD BE IN ANOTHER METHOD
@@ -470,29 +502,40 @@ public class GameLoop implements Runnable
     }
 
     //Create the Open World
+    //Nathan-   40131544
     public void openWorldSetup() {
 
 
         int spacingX = width / 3;
         int spacingY = height / 2;
 
+        int spacingX2 = width / 10;
+        int spacingY2 = height / 10;
+
         createViewports();
 
         initialise2DGrid();
 
+
+        //Setup Player and Entities
         tile = new Entity(0, 0, LEVEL_WIDTH / 100, LEVEL_HEIGHT / 100, null, true);
         player = new littleMan(tile.width * 10 + tile.width / 2, tile.height * 24 +  tile.height / 2, tile.width, tile.height, playerSprite, true);
-        //interactionList.add(player2 = new Entity(100, 100, 20, 20, player2Sprite));
-        //collisionList.add(player2);
-        //cloudyBackground = new Entity(LEVEL_WIDTH / 2, LEVEL_HEIGHT / 2, LEVEL_WIDTH, LEVEL_HEIGHT, backgroundBitmap);
         mapTest = new Entity(LEVEL_WIDTH / 2, LEVEL_HEIGHT / 2, LEVEL_WIDTH, LEVEL_HEIGHT, backgroundBitmap, true);
         mcclayTop = new Entity(tile.width * 33 + tile.width / 2, tile.height * 92, tile.width * 25, tile.height * 14, mcclayTopBitmap, true);
         lanyonTop = new Entity(tile.width * 33, tile.height * 37 + tile.height / 2, tile.width * 58, tile.height * 17, lanyonTopBitmap, true);
-        //coin =  new Entity(tile.width * 17 + tile.width / 2, tile.height * 24 + tile.height / 2, tile.width, tile.height, coinBitmap);
 
-        //tileList.add(coin);
+        //Setup OpenWolrd Rects
+        interactButton = new Rect(spacingX2 * 7 + spacingX2 / 2, spacingY2 * 7, spacingX2 * 9, spacingY2 * 9);
+        dialogueOption1 = new Rect(spacingX2, spacingY2 * 5, spacingX2 * 9, spacingY2 * 7);
+        dialogueOption2 = new Rect(spacingX2, spacingY2 * 7, spacingX2 * 9, spacingY2 * 9);
+        //Movement Rects
+        moveLeftRect = new Rect(0, 0, spacingX, spacingY * 2);
+        moveRightRect = new Rect(spacingX * 2, 0, spacingX * 3, spacingY * 2);
+        moveUpRect = new Rect(spacingX, 0, spacingX * 2, spacingY);
+        moveDownRect = new Rect(spacingX, spacingY, spacingX * 2, spacingY * 2);
 
-        interactButton = new Rect(spacingX * 2, spacingY + spacingY / 2, spacingX * 2 + spacingX / 2, spacingY * 2);
+
+        // Go through grid and identify special tiles
 
         int x = 0;
         int y;
@@ -505,17 +548,19 @@ public class GameLoop implements Runnable
                 switch (grid[y][x]) {
 
                     case 1:
+                        //Add a collision tile at location
                         collisionList.add(new Entity((tile.width * x) + tile.width / 2,
                                 LEVEL_HEIGHT - ((tile.height * (y)) - tile.height / 2),
                                 tile.width, tile.height, null, true)); break;
-                    //collisionList.add(tileList.get(tileList.size() - 1));
 
                     case 2:
+                        //Add a coin tile at location
                         coinList.add(new Entity((tile.width * x) + tile.width / 2,
                                 LEVEL_HEIGHT - ((tile.height * (y + 1)) - tile.height / 2),
                                 tile.width, tile.height, coinBitmap, true)); break;
 
                     case 3:
+                        //Add an interactable NPC at tile
                         objectList.add(new Entity((tile.width * x) + tile.width / 2,
                                 LEVEL_HEIGHT - ((tile.height * (y + 1)) - tile.height / 2),
                                 tile.width, tile.height, player2Sprite, true));
@@ -528,18 +573,6 @@ public class GameLoop implements Runnable
             x++;
         }
 
-
-
-        //System.out.println("X " + tileArrayList.get(0).x + " Y " + tileArrayList.get(0).y);
-        //System.out.println("X " + tileArrayList.get(1).x + " Y " + tileArrayList.get(1).y);
-        //System.out.println("X " + tileArrayList.get(2).x + " Y " + tileArrayList.get(2).y);
-        //System.out.println("X " + tileArrayList.get(3).x + " Y " + tileArrayList.get(3).y);
-        //System.out.println("X " + tileArrayList.get(4).x + " Y " + tileArrayList.get(4).y);
-
-        moveLeftRect = new Rect(0, 0, spacingX, spacingY * 2);
-        moveRightRect = new Rect(spacingX * 2, 0, spacingX * 3, spacingY * 2);
-        moveUpRect = new Rect(spacingX, 0, spacingX * 2, spacingY);
-        moveDownRect = new Rect(spacingX, spacingY, spacingX * 2, spacingY * 2);
     }
 
     // Created by Andrew - 40083349
@@ -571,12 +604,10 @@ public class GameLoop implements Runnable
                     case NEW:
                         newGame();
                         break;
-                    /*
                     case OPENWORLD:
                         updateOWTouch();
                         updateObjects();
                         break;
-                    */
                     case PROMPT:
                         updateCard();
                         updatePrompt();
@@ -823,37 +854,48 @@ public class GameLoop implements Runnable
 
                     if (touchListener.isTouchDown(i)) {
 
+                        //If interactButton has been pressed
                         if(interactButton.contains((int) x, (int) y))
 
                         {
-                            /*if(interactBounds()) {
-                                System.out.println("Interact");
-                            }*/
+
+                            //Identify if the player is close enough to interact with a GameObject in the interactionList
                             interactionIndex = littleMan.interactBounds(player, interactionList, tile);
 
+                            //If interactable GameObject has been found, increment dialoguePoint and set inDialogue to true
                             if(interactionIndex >= 0) {
                                 dialoguePoint++;
                                 inDialogue = true;
                             }
 
+
+                            //Identify if the player is close enough to pick up a coin the coinList
                             coinIndex = littleMan.interactBounds(player, coinList, tile);
 
+                            //If interactable Coin has been found, remove it from the CoinList, increment coincounter, reset coinIndex
                             if (coinIndex >= 0) {
                                 coinList.remove(coinIndex);
                                 coinCounter++;
                                 coinIndex = -1;
                             }
 
-
-
-                            /*else if(interactionIndex >= 0) {
-                                dialoguePoint++;
-                            }*/
-
-                            /*if (interactionIndex >= 0) {
-                                interact(interactionState, interactionIndex);
-                            }*/
                         }
+
+                        //If the player needs to respond to dialogue (-1 = no response needed, 0 = response needed, 1/2 = response given)
+                        if(response == 0) {
+
+                            //If first dialogueOption is pressed set response to 1
+                            if(dialogueOption1.contains((int) x, (int) y)) {
+                                response = 1;
+                            }
+
+                            //If second dialogueOption is pressed set response to 2
+                            if(dialogueOption2.contains((int) x, (int) y)) {
+                                response = 2;
+                            }
+
+                        }
+
                     }
 
                 }
@@ -877,49 +919,51 @@ public class GameLoop implements Runnable
         Medic.update();
     }
 
-    //movement has temporary restrictions currently based only on pixels
+    //Method to move the player
+    //Nathan-   40131544
     public void movePlayer() {
 
+        //Determine which frame on the player sprite sheet should be drawn based on moveDirection
         player.updateCurrentFrame(moveDirection);
 
+        //Move move player in the moveDirection State if they will not be in collision with any GameObjects
+        // (Very performance heavy, could be improved with more sophisticated Collision Detection)
         switch (moveDirection) {
 
             case LEFT:
-                //if ((player.x - 400) - 15 >= 0) {
-                //if(player.collision(player, player2, moveDirection) != littleMan.CollisionSide.LEFT)
+
+                //Move if overlap will not be created on the left side
+                //Move player a tenth of their width each update
+                //(Same logic for each direction)
                 if(player.collision(player, collisionList, moveDirection) != littleMan.CollisionSide.LEFT)
                     player.x -= player.width / 10;
-                //}
-                System.out.println(player.x);
-                System.out.println("Moving Left");
                 break;
+
             case RIGHT:
-                //if ((player.x + 400) + 15 <= getScreenWidth()) {
+
                 if(player.collision(player, collisionList, moveDirection) != littleMan.CollisionSide.RIGHT)
                     player.x += player.width / 10;
-                //}
-                //System.out.println(player.y);
                 break;
+
             case UP:
-                //if ((player.y - 400) - 15 >= 0)
+
                 if(player.collision(player, collisionList, moveDirection) != littleMan.CollisionSide.TOP)
                     player.y += player.height / 10;
                 break;
+
             case DOWN:
-                //if ((player.y + 400) + 15 <= getScreenHeight())
+
                 if(player.collision(player, collisionList, moveDirection) != littleMan.CollisionSide.BOTTOM)
                     player.y -= player.height / 10;
-                //System.out.println("Moving Down");
                 break;
         }
     }
 
+    //Nathan/OpenWorld
     private void createViewports() {
         // Create the screen viewport
         mScreenViewport = new ScreenViewport(0, 0, getScreenWidth(),
                 getScreenHeight());
-
-        //mLayerViewport = new LayerViewport(player.x, player.y, 600, 600);
 
         // Create the layer viewport, taking into account the orientation
         // and aspect ratio of the screen.
@@ -934,6 +978,8 @@ public class GameLoop implements Runnable
     }
 
 
+    //OpenWorld Collision Info
+    //Nathan - 40131544
     private void initialise2DGrid() {
 
 
