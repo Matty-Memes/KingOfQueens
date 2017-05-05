@@ -67,14 +67,14 @@ public class JSONcardLibrary
     private Bitmap Architect2Sprite;
     private Bitmap Architect3Sprite;
     //Social Science Monsters
-    private Bitmap Pyschologist1Sprite;
-    private Bitmap Pyschologist2Sprite;
-    private Bitmap Pyschologist3Sprite;
-    private Bitmap Sociologist1Sprite;
-    private Bitmap Sociologist2Sprite;
-    private Bitmap SocialWorker1Sprite;
-    private Bitmap SocialWorker2Sprite;
-    private Bitmap SocialWorker3Sprite;
+//    private Bitmap Pyschologist1Sprite;
+//    private Bitmap Pyschologist2Sprite;
+//    private Bitmap Pyschologist3Sprite;
+//    private Bitmap Sociologist1Sprite;
+//    private Bitmap Sociologist2Sprite;
+//    private Bitmap SocialWorker1Sprite;
+//    private Bitmap SocialWorker2Sprite;
+//    private Bitmap SocialWorker3Sprite;
     // ManaSprites
     private Bitmap socialScienceManaSprite;
     private Bitmap medicalManaSprite;
@@ -186,7 +186,7 @@ public class JSONcardLibrary
         ParaMedicSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Medical/ParaMedic.png");
         ChemistSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Medical/Chemist.png");
         PharmacistSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Medical/Pharmacist.png");
-        //Social Science Monsters
+        //Arts and Humanities Monsters
         JuniorHistorianSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Arts/JuniorHistorian.png");
         LegitHistorianSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Arts/LegitHistorian.png");
         TimeTravelerSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/Arts/TimeTraveller.png");
@@ -204,14 +204,14 @@ public class JSONcardLibrary
         Architect2Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/BuildEnvi/Architect-2.png");
         Architect3Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/BuildEnvi/Architect-3.png");
         //Social Science Monsters
-        Pyschologist1Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/Pyschologist-1.png");
-        Pyschologist2Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/Pyschologist-2.png");
-        Pyschologist3Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/Pyschologist-3.png");
-        Sociologist1Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/Sociologist-1.png");
-        Sociologist2Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/Sociologist-2.png");
-        SocialWorker1Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/SocialWorker-1.png");
-        SocialWorker2Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/SocialWorker-2.png");
-        SocialWorker3Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/SocialWorker-3.png");
+//        Pyschologist1Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/Pyschologist-1.png");
+//        Pyschologist2Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/Pyschologist-2.png");
+//        Pyschologist3Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/Pyschologist-3.png");
+//        Sociologist1Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/Sociologist-1.png");
+//        Sociologist2Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/Sociologist-2.png");
+//        SocialWorker1Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/SocialWorker-1.png");
+//        SocialWorker2Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/SocialWorker-2.png");
+//        SocialWorker3Sprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Monster/SocialSci/SocialWorker-3.png");
 
         // ManaSprites
         socialScienceManaSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Mana/SocialSciencesMana.png");
@@ -221,8 +221,6 @@ public class JSONcardLibrary
         engineeringManaSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Mana/EngineeringMana.png");
         builtEnvironmentManaSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Mana/BuiltMana.png");
         //support cards
-
-        /*
 
         ointmentSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Support/Ointment.png");
         superOintmentSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Support/SuperOintment.png");
@@ -239,7 +237,6 @@ public class JSONcardLibrary
         cureSleepSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Support/CureSleep.png");
         curePoisonSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Support/CurePoison.png");
 
-        */
 
     }
     private void generateCards() throws IOException
@@ -263,7 +260,7 @@ public class JSONcardLibrary
         {
             readMonsterCardArray(reader);
             readManaCardArray(reader);
-            // readSupportCardArray(reader);
+            readSupportCardArray(reader);
             reader.close();
         }
         catch(IOException e)
@@ -488,14 +485,14 @@ public class JSONcardLibrary
             case "Architect1":return Architect1Sprite;
             case "Architect2":return Architect2Sprite;
             case "Architect3":return Architect3Sprite;
-            case "Psychologist1":return Pyschologist1Sprite;
-            case "Psychologist2":return Pyschologist2Sprite;
-            case "Psychologist3":return Pyschologist3Sprite;
-            case "Sociologist1":return Sociologist1Sprite;
-            case "Sociologist2":return Sociologist2Sprite;
-            case "SocialWorker1":return SocialWorker1Sprite;
-            case "SocialWorker2":return SocialWorker2Sprite;
-            case "SocialWorker3":return SocialWorker3Sprite;
+//            case "Psychologist1":return Pyschologist1Sprite;
+//            case "Psychologist2":return Pyschologist2Sprite;
+//            case "Psychologist3":return Pyschologist3Sprite;
+//            case "Sociologist1":return Sociologist1Sprite;
+//            case "Sociologist2":return Sociologist2Sprite;
+//            case "SocialWorker1":return SocialWorker1Sprite;
+//            case "SocialWorker2":return SocialWorker2Sprite;
+//            case "SocialWorker3":return SocialWorker3Sprite;
             case "EEECS":return eeecsManaSprite;
             case "MEDICS":return medicalManaSprite;
             case "ARTS_HUMANITIES": return artsManaSprite;

@@ -26,6 +26,7 @@ public class Deck {
     private int deckSize=0;
     // Generate 13 values
     final private int MAXDECKSIZE = 14;
+//    final private int MAXDECKSIZE = 40;
     // Might need to move this
     private JSONcardLibrary lib = new JSONcardLibrary();
     private randomGenerator rand = new randomGenerator();
@@ -33,7 +34,7 @@ public class Deck {
     //Matthew 40149561
     //Will use card ID numbers to specify cards to place in deck
     /*A deck with Engineering and Medic cards*/
-    private int startingDeck1[] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,49,49,49,49,49,49,51,51,51,51,51,51,54,54,55,57,57,58,60,61,63,65,66,67};
+    private int startingDeck1[] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,41,41,41,41,41,41,43,43,43,43,43,43,46,46,47,49,49,50,52,53,55,57,58,59};
 
     // Could be re-used
     public ArrayList<MonsterCard> monsterArray = new ArrayList<>(noOfMonsterCards);
@@ -179,19 +180,19 @@ public class Deck {
         lib.loadAssets(loop);
         for(int i = 0;i<MAXDECKSIZE;i++)
         {
-            if(cardIDs[i]<=47)
+            if(cardIDs[i]<=39)
             {
                 monsterArray.add(lib.monsterCards.get((cardIDs[i]-1)));
                 noOfMonsterCards++;
                 deckSize++;
             }
-            if((cardIDs[i]>47) && (cardIDs[i] <=53))
+            if((cardIDs[i]>39) && (cardIDs[i] <=45))
             {
                 manaArray.add(lib.manaCards.get(manaIDLookup(cardIDs[i])));
                 noOfManaCards++;
                 deckSize++;
             }
-            if(cardIDs[i] >53)
+            if(cardIDs[i] >45)
             {
                 supportArray.add(lib.supportCards.get(supportIDLookup(cardIDs[i])));
                 noOfSupportCards++;

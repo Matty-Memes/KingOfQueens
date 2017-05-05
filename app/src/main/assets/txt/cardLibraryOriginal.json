@@ -440,6 +440,95 @@
 			"evolutionID":15,
 			"attackManaRequirement":[
 				{"manatype":"BUILT_ENVIRONMENT_MANA" ,"value":3}]
+		},
+		{
+			"name":"Psychologist1",
+			"cardSchool":"SOCIAL_SCIENCES",
+			"level":"UNDERGRAD",
+			"health":60,
+			"defence":0,
+			"attackValue":10,
+			"evolutionID":16,
+			"attackManaRequirement":[
+				{"manatype":"SOCIAL_SCIENCES_MANA" ,"value":1}]
+		},
+		{
+			"name":"Psychologist2",
+			"cardSchool":"SOCIAL_SCIENCES",
+			"level":"GRAD",
+			"health":80,
+			"defence":0,
+			"attackValue":15,
+			"evolutionID":16,
+			"attackManaRequirement":[
+				{"manatype":"SOCIAL_SCIENCES_MANA" ,"value":2}]
+		},
+		{
+			"name":"Psychologist3",
+			"cardSchool":"SOCIAL_SCIENCES",
+			"level":"DOCTRATE",
+			"health":140,
+			"defence":0,
+			"attackValue":40,
+			"evolutionID":16,
+			"attackManaRequirement":[
+				{"manatype":"SOCIAL_SCIENCES_MANA" ,"value":3}]
+		},
+		{
+			"name":"SocialWorker1",
+			"cardSchool":"SOCIAL_SCIENCES",
+			"level":"UNDERGRAD",
+			"health":60,
+			"defence":0,
+			"attackValue":20,
+			"evolutionID":17,
+			"attackManaRequirement":[
+				{"manatype":"SOCIAL_SCIENCES_MANA" ,"value":1}]
+		},
+		{
+			"name":"SocialWorker2",
+			"cardSchool":"SOCIAL_SCIENCES",
+			"level":"GRAD",
+			"health":80,
+			"defence":0,
+			"attackValue":30,
+			"evolutionID":17,
+			"attackManaRequirement":[
+				{"manatype":"SOCIAL_SCIENCES_MANA" ,"value":2}]
+		},
+		{
+			"name":"SocialWorker3",
+			"cardSchool":"SOCIAL_SCIENCES",
+			"level":"DOCTRATE",
+			"health":100,
+			"defence":0,
+			"attackValue":40,
+			"evolutionID":17,
+			"attackManaRequirement":[
+				{"manatype":"SOCIAL_SCIENCES_MANA" ,"value":3}]
+		},
+		{
+			"name":"Sociologist1",
+			"cardSchool":"SOCIAL_SCIENCES",
+			"level":"UNDERGRAD",
+			"health":70,
+			"defence":0,
+			"attackValue":30,
+			"evolutionID":18,
+			"attackManaRequirement":[
+				{"manatype":"SOCIAL_SCIENCES_MANA" ,"value":1}]
+		},
+		{
+			"name":"Sociologist2",
+			"cardSchool":"SOCIAL_SCIENCES",
+			"level":"GRAD",
+			"health":90,
+			"defence":0,
+			"attackValue":30,
+			"evolutionID":18,
+			"attackManaRequirement":[
+				{"manatype":"SOCIAL_SCIENCES_MANA" ,"value":2},
+				{"manatype":"GENERIC_MANA","value":1}]
 		}
 	],
 	"manaCards":[
