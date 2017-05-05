@@ -278,6 +278,8 @@ public class GameViewFragment extends CanvasFragment {
 
     }
 
+    // new array list of particles in Game Loop
+
     public void onPause()
 
     {
@@ -479,7 +481,7 @@ public class GameViewFragment extends CanvasFragment {
     private void drawVictory(Canvas canvas)
 
     {
-      loop.victory.draw(canvas);
+        loop.victory.draw(canvas);
     }
 
     // This needs changed anyway

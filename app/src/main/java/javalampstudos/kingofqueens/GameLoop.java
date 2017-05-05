@@ -28,6 +28,7 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Deck;
 import javalampstudos.kingofqueens.kingOfQueens.Menu.MainMenuFragment;
 import javalampstudos.kingofqueens.kingOfQueens.AiEngine.Window;
 import javalampstudos.kingofqueens.kingOfQueens.util.andyManaCounter;
+import javalampstudos.kingofqueens.kingOfQueens.util.CardAnimation;
 
 // Android Imports
 
@@ -155,18 +156,10 @@ public class GameLoop implements Runnable
     // When a card is placed by the player remember the empty slot.
     public int emptySlot;
 
-    // When you want to move a card this should become true
-    public boolean animationNeeded = false;
-
     // boundary conditions for the test card
     public boolean boundHit = false;
 
-    // Where should it stop?
-    public int bound;
-
-    public float animationSpeed;
-
-    public BasicCard cardToAnimate;
+    public CardAnimation animation;
 
     // OTHER CLASSES
     public boardLayout gameBoard;
@@ -416,6 +409,9 @@ public class GameLoop implements Runnable
 
         // Opponent cards snap back here
         opponentDeck = new BasicCard(70, 100, 90, 120, cardBackSprite, false, 0, CardSchools.EEECS, false, 49, 0);
+
+        // Use this to aniamte card objects
+        animation = new CardAnimation();
 
         rand = new randomGenerator();
 
@@ -1264,20 +1260,9 @@ public class GameLoop implements Runnable
     private void updateAIAnimation ()
 
     {
-        System.out.println("Animating AI");
+        // Call the animation method on the animation object here with the right methods
+        animation.updateCardAnimation(this, 2.5f, opponent1, false);
 
-        // move the hand card left till it hits it's target position
-        // associate the target position with the card
-        if (!boundHit) {
-            opponent1.x += 2.5;
-            // the proper position of any card is tied to that individual card
-            if (opponent1.x >= opponent1.targetX) {
-                boundHit = true;
-                // The game state moves to the player's draw state
-                gameState = GameState.DRAW;
-            }
-
-        }
     }
 
     // Created by Andrew - 40083349
