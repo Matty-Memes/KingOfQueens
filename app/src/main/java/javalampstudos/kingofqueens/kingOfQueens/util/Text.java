@@ -12,12 +12,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+
+import javalampstudos.kingofqueens.GameLoop;
 import javalampstudos.kingofqueens.kingOfQueens.engine.graphics.CanvasFragment;
 
 
 // Java Imports
-
-
 
 public class Text
 
@@ -31,7 +31,7 @@ public class Text
 
 
     // Text Constructor
-    public Text (float x, float y, String text)
+    public Text (float x, float y, String text, GameLoop loop)
 
     {
         this.x = x;
@@ -42,11 +42,16 @@ public class Text
 
         paint = new Paint();
 
-        paint.setTextAlign(Paint.Align.LEFT);
-        // this needs to be scaled
-        paint.setTextSize(16);
-        paint.setColor(Color.WHITE);
+        // Need the asset manager for the font
+        // relates to the paint stuff as well
+        AssetManager assetManager = loop.fragment.getActivity().getAssets();
 
+        paint.setTextAlign(Paint.Align.CENTER);
+        // this needs to be scaled
+        paint.setTextSize(23);
+        paint.setColor(Color.WHITE);
+        paint.setTypeface(paint.setTypeface(Typeface.createFromAsset(assetManager,
+                "txt/OpenSans-BoldItalic.ttf")));
 
     }
 
@@ -63,8 +68,8 @@ public class Text
 
     {
 
-      // the paint is always the same
-      canvas.drawText(text, x, y, paint);
+        // the paint is always the same
+        canvas.drawText(text, x, y, paint);
 
     }
 

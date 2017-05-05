@@ -112,11 +112,10 @@ public abstract class MenuFragment extends CanvasFragment
 
         paint = new Paint();
 
+
         paint.setColor(Color.WHITE);
         paint.setTypeface(Typeface.createFromAsset(assetManager,
-                "minecraftia.ttf"));
-
-
+                "txt/OpenSans-BoldItalic.ttf"));
 
 
 

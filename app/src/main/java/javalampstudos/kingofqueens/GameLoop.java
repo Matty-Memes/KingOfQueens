@@ -22,6 +22,7 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaTypes;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
 import javalampstudos.kingofqueens.kingOfQueens.util.GameTimer;
+import javalampstudos.kingofqueens.kingOfQueens.util.Text;
 import javalampstudos.kingofqueens.kingOfQueens.util.randomGenerator;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.boardLayout;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Deck;
@@ -214,6 +215,15 @@ public class GameLoop implements Runnable
     public Window victory;
     public Bitmap victoryScreen;
     public int opponentMonstersKilled;
+
+    // User Prompt Stuff
+    public String manaPrompt = "Monsters need mana to attack. Place a mana card in the mana zone on the left";
+    public String monsterPrompt = "Place a monster card on the field above your hand";
+    public String attackPrompt = "Attack the opponent’s monsters by dragging your monster card over them";
+
+    public Text userPrompt;
+    // Used to keep frames on the screen
+    public int numFrames = 0;
 
     // Nathan variables
     public int[][] grid = new int[100][100];
@@ -418,10 +428,8 @@ public class GameLoop implements Runnable
         // initialzing AiBrain.
         aiBrain = new Brain();
 
-        // populate logical arrays
-        initializeHandMonsters();
-        initializeHandMana();
-        intializeFieldMonsters();
+        // populate the arrays for the behind the scenes logic
+        initializeLogicalArrays();
 
 //        int startingDeck1[] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,49,49,49,49,49,49,51,51,51,51,51,51,54,54,55,57,57,58,60,61,63,65,66,67};
 //
@@ -439,11 +447,15 @@ public class GameLoop implements Runnable
         populateOpponentHand();
         rand.flushRandomLogic();
 
-        engineering = new andyManaCounter(100, 250, "0");
-        artsAndHumanities = new andyManaCounter(100, 290 , "0");
-        builtEnvironment = new andyManaCounter(100, 335, "0");
-        eeecs = new andyManaCounter(100, 380, "0");
-        Medic = new andyManaCounter(100, 430, "0");
+        engineering = new andyManaCounter(100, 250, "0", this);
+        artsAndHumanities = new andyManaCounter(100, 290 , "0", this);
+        builtEnvironment = new andyManaCounter(100, 335, "0", this);
+        eeecs = new andyManaCounter(100, 380, "0", this);
+        Medic = new andyManaCounter(100, 430, "0", this);
+
+
+        // Use this for all user prompts - change the text when needed
+        userPrompt = new Text(width/2, height/2, manaPrompt, this);
 
         // Once everything is loaded the user can interact
         handActive = true;
@@ -451,16 +463,9 @@ public class GameLoop implements Runnable
         // The prep phase becomes active here
         prepPhase = true;
 
-        //40123776 below
-
-        //starts timer on screen
         timer.start();
 
-        //sfx
         startSFX = AssetLoader.loadSoundpool(assetManager, "start.mp3");
-
-        //increases integer on stats screen
-        MainActivity.setting.increaseInt("gamesPlayed");
 
     }
 
@@ -574,8 +579,8 @@ public class GameLoop implements Runnable
                     */
                     case PROMPT:
                         updateCard();
-                        updateWindow();
-                        // updatePrompt();
+                        updatePrompt();
+                        updateTouch();
                         break;
                     case PAUSED:
                         updateTouch ();
@@ -1083,40 +1088,12 @@ public class GameLoop implements Runnable
         grid[78][14] = 3;
     }
 
-
-
-
-    /*public void interact(boolean state, int index) {
-
-        state = true;
-        currentConvo.conversationIndex(index);
-
-    }*/
-
-
-
-
-    private class GameWorld {
-
-        private Rect mLayerViewport;
-
-        public void draw(Canvas canvas, Rect screenViewport) {
-
-            // Determine the x- and y-aspect ratios between the layer and screen viewports
-            float screenXScale =
-                    (float) screenViewport.width() / (float) mLayerViewport.width();
-            float screenYScale =
-                    (float) screenViewport.height() / (float) mLayerViewport.height();
-        }
-    }
-
     // PUT THIS IN A SINGLE METHOD
 
-    // Andrew - 40083349
-    private void initializeHandMonsters()
+    private void initializeLogicalArrays ()
 
     {
-
+        // Monsters
         HashMap<ManaTypes,Integer> requiredMana = new HashMap<ManaTypes,Integer>();
         requiredMana.put(ManaTypes.BUILT_ENVIRONMENT_MANA,5);
 
@@ -1127,12 +1104,8 @@ public class GameLoop implements Runnable
                     49, 0, CardLevel.DOCTRATE, 140, 0, 3, 1, requiredMana));
         }
 
-    }
+        // Mana
 
-    // Andrew - 40083349
-    private void initializeHandMana()
-
-    {
         for (int i = 0; i < 5; i++)
 
         {
@@ -1140,15 +1113,6 @@ public class GameLoop implements Runnable
                     ManaTypes.SOCIAL_SCIENCES_MANA, CardSchools.SOCIAL_SCIENCES, false, 49, 0));
 
         }
-
-    }
-
-    // Andrew - 40083349
-    private void intializeFieldMonsters ()
-
-    {
-        HashMap<ManaTypes,Integer> requiredMana = new HashMap<ManaTypes,Integer>();
-        requiredMana.put(ManaTypes.BUILT_ENVIRONMENT_MANA,5);
 
         for (int i = 0; i < 3; i++)
 
@@ -1197,45 +1161,6 @@ public class GameLoop implements Runnable
         }
     }
 
-    // Andrew - 40083349
-
-    /*
-    private void updatePrompt ()
-
-    {
-        // move the prompt up and down
-        // set bounds for the prompt
-        // speed = 0.1
-        if(windowDown) {
-
-            window.y += 0.5;
-            if(window.y >= 270)
-                windowDown = false;
-
-            // start moving the window up
-        } else {
-            window.y -= 0.5;
-            if(window.y <= 210) {
-                // animation completed return to the card game
-                gameState = GameState.AITURN;
-                // reset the prompt window
-                window.x = 477;
-                window.y = 240;
-                windowDown = true;
-            }
-        }
-
-    }
-    */
-
-    // Andrew - 40083349
-    private void updateWindow ()
-
-    {
-        window.update();
-
-    }
-
     private void updateVS()
 
     {
@@ -1258,12 +1183,13 @@ public class GameLoop implements Runnable
             if (handCards.get(emptySlot).x <= handCards.get(emptySlot).targetX) {
                 boundHit = true;
                 // animation finished start mana placement
-                gameState = GameState.MANAPLACEMENT;
+                gameState = GameState.PROMPT;
             }
 
         }
     }
 
+    // Created by Andrew - 40083349
     private void updateAIAnimation ()
 
     {
@@ -1407,13 +1333,14 @@ public class GameLoop implements Runnable
                             // allow movement of hand cards again
                             handActive = true;
 
+                            userPrompt.text = monsterPrompt;
+
                             // reset the logic for taking cards at the start of the player's turn
                             boundHit = false;
 
                             //40123776
                             //when mana card is played, increases int on stats screen
                             MainActivity.setting.increaseInt("manaPlayed");
-
                         }
                     }
 
@@ -1539,6 +1466,8 @@ public class GameLoop implements Runnable
                             // The last card to be placed is set back to the deck for the drawing phase
                             handCards.get(handIndex).moveToDeck();
 
+                            userPrompt.text = attackPrompt;
+
                             System.out.println("The x value is now" + handCards.get(handIndex).x);
 
                             if (prepPhase)
@@ -1565,7 +1494,6 @@ public class GameLoop implements Runnable
                                 && handCards.get(handIndex).id == 0)
 
                         {
-
                             MainActivity.setting.increaseInt("monstersPlayed");
 
                             // no more card movement
@@ -1589,6 +1517,8 @@ public class GameLoop implements Runnable
 
                             // The last card to be placed is set back to the deck for the drawing phase
                             handCards.get(handIndex).moveToDeck();
+
+                            userPrompt.text = attackPrompt;
 
                             System.out.println("The x value is now" + handCards.get(handIndex).x);
 
@@ -1616,7 +1546,6 @@ public class GameLoop implements Runnable
                                 && handCards.get(handIndex).id == 0)
 
                         {
-
                             MainActivity.setting.increaseInt("monstersPlayed");
 
                             // no more card movement
@@ -1638,6 +1567,8 @@ public class GameLoop implements Runnable
 
                             // The last card to be placed is set back to the deck for the drawing phase
                             handCards.get(handIndex).moveToDeck();
+
+                            userPrompt.text = monsterPrompt;
 
                             System.out.println("The x value is now" + handCards.get(handIndex).x);
 
@@ -1743,6 +1674,8 @@ public class GameLoop implements Runnable
                             System.out.println("We're in the attack phase");
                             aiFieldMonsters.get(0).attackValue = 1000;
 
+                            userPrompt.text = manaPrompt;
+
                             // Check if a monster has been killed
                             if (aiFieldMonsters.get(0).attackValue > playerFieldMonsters.get(handIndex).health)
 
@@ -1777,6 +1710,8 @@ public class GameLoop implements Runnable
                         if (boardLayout.opponent2Rect.contains((int)monstersInPlay.get(monsterIndex).x, (int)monstersInPlay.get(monsterIndex).y))
 
                         {
+                            userPrompt.text = manaPrompt;
+
                             if (aiFieldMonsters.get(1).attackValue > playerFieldMonsters.get(monsterIndex).health)
 
                             {
@@ -1808,6 +1743,8 @@ public class GameLoop implements Runnable
                         if (boardLayout.opponent3Rect.contains((int)monstersInPlay.get(monsterIndex).x, (int)monstersInPlay.get(monsterIndex).y))
 
                         {
+                            userPrompt.text = manaPrompt;
+
                             if (aiFieldMonsters.get(2).attackValue > playerFieldMonsters.get(monsterIndex).health)
 
                             {
@@ -1824,9 +1761,6 @@ public class GameLoop implements Runnable
                                 if (opponentMonstersKilled >= 2)
                                 {
                                     gameState = GameState.VICTORY;
-
-                                    //40123776, number of wins increased on stats screen
-                                    MainActivity.setting.increaseInt("numberOfWins");
 
                                 }
 
@@ -1860,6 +1794,25 @@ public class GameLoop implements Runnable
                 }
 
                 break;
+
+            case PROMPT:
+
+                for(int i = 0; i < touchListener.MAX_TOUCH_POINTS; i++) {
+                    if (touchListener.isTouchContinuous(i)) {
+                        int x = (int) touchListener.getTouchX(i), y = (int) touchListener
+                                .getTouchY(i);
+                        if(boardLayout.movementRect.contains(x, y))
+                        {
+                            // start the next phase - depends on the prompt screen
+                            gameState = GameState.MANAPLACEMENT;
+
+                        }
+
+                    }
+                }
+
+                break;
+
 
             case PAUSED:
 
@@ -1903,18 +1856,6 @@ public class GameLoop implements Runnable
         }
     }
 
-
-    // show that the ai is thinking about it's choice
-
-
-    // remove this
-    public void think ()
-
-    {
-        // Show that the AI is thinking
-        gameState = GameState.PROMPT;
-    }
-
     public void pauseGame ()
 
     {
@@ -1944,6 +1885,23 @@ public class GameLoop implements Runnable
 
         // animate the ai's sprite
         gameState = GameState.AIANIMATION;
+    }
+
+    private void updatePrompt()
+
+    {
+        // For a certain number of turns display prompts to the user
+        // Start a frame counter
+
+        userPrompt.update();
+
+        // Take it off the screen
+        if (numFrames >= 300)
+
+        {
+            gameState = GameState.ANIMATION;
+
+        }
     }
 
     private void updateDraw ()

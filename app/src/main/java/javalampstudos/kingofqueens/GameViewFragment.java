@@ -110,7 +110,7 @@ public class GameViewFragment extends CanvasFragment {
         paint = new Paint();
         paint.setColor(Color.WHITE);
         paint.setTypeface(Typeface.createFromAsset(getActivity().getAssets(),
-                "minecraftia.ttf"));
+                "txt/OpenSans-BoldItalic.ttf"));
 
         // create an AssetManager
         AssetManager assetManager = getActivity().getAssets();
@@ -196,10 +196,6 @@ public class GameViewFragment extends CanvasFragment {
             case PROMPT:
 
                 drawCard(canvas);
-
-                drawMonsterCards(canvas);
-
-                drawHand(canvas);
 
                 // dim the screen - make it obvious that the player can't interact
                 canvas.drawARGB(127, 0, 0, 0);
@@ -474,7 +470,7 @@ public class GameViewFragment extends CanvasFragment {
     private void drawPrompt (Canvas canvas)
 
     {
-        loop.window.draw(canvas);
+        loop.userPrompt.draw(canvas);
 
     }
 

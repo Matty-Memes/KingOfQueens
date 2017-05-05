@@ -13,8 +13,8 @@ import android.graphics.Canvas;
 public class ManaCounter
 
 {
-         private HashMap<ManaTypes,Integer> unusedManaHashMap;
-         private HashMap<ManaTypes, Integer> manaCounterHashMap;
+    private HashMap<ManaTypes,Integer> unusedManaHashMap;
+    private HashMap<ManaTypes, Integer> manaCounterHashMap;
 
     // these values are used for drawing the values to the screen.
     private final int EEECS_Y_VALUE = 370;
@@ -27,14 +27,14 @@ public class ManaCounter
     private final int X_CO_ORDINATES = 100;
 
 
-        // Should contain a call to the superclass constructor
-        // hashmaps are created within the constructor, this allows for it to be populated with the correct manatypes.
-        public ManaCounter() {
-             manaCounterHashMap = new HashMap<ManaTypes, Integer>();
-            setupManaCounter(manaCounterHashMap);
-            unusedManaHashMap = new HashMap<ManaTypes,Integer>();
-            setupUsedMana();
-        }
+    // Should contain a call to the superclass constructor
+    // hashmaps are created within the constructor, this allows for it to be populated with the correct manatypes.
+    public ManaCounter() {
+        manaCounterHashMap = new HashMap<ManaTypes, Integer>();
+        setupManaCounter(manaCounterHashMap);
+        unusedManaHashMap = new HashMap<ManaTypes,Integer>();
+        setupUsedMana();
+    }
 
     public HashMap<ManaTypes, Integer> getUnusedManaHashMap() {
         return unusedManaHashMap;
@@ -45,70 +45,72 @@ public class ManaCounter
     }
 
     public HashMap<ManaTypes, Integer> getManaCounterHashMap() {
-            return manaCounterHashMap;
-        }
+        return manaCounterHashMap;
+    }
 
-        public void setManaCounterHashMap(HashMap<ManaTypes, Integer> manaCounterHashMap) {
-            this.manaCounterHashMap = manaCounterHashMap;
-        }
+    public void setManaCounterHashMap(HashMap<ManaTypes, Integer> manaCounterHashMap) {
+        this.manaCounterHashMap = manaCounterHashMap;
+    }
 
-        //40111707
-        // brians method
-        // initalises the hashmap for the manacounter and sets all of the values to 0 initally.
-        public void setupManaCounter(HashMap map) {
-            map.put(ManaTypes.ARTS_HUMANITIES_MANA, 0);
-            map.put(ManaTypes.BUILT_ENVIRONMENT_MANA, 0);
-            map.put(ManaTypes.EEECS_MANA, 0);
-            map.put(ManaTypes.ENGINEERING_MANA, 0);
-            map.put(ManaTypes.MEDICS_MANA, 0);
-            map.put(ManaTypes.SOCIAL_SCIENCES_MANA, 0);
-            map.put(ManaTypes.GENERIC_MANA, 0);
-        }
+    //40111707
+    // brians method
+    // initalises the hashmap for the manacounter and sets all of the values to 0 initally.
+    public void setupManaCounter(HashMap map) {
+        map.put(ManaTypes.ARTS_HUMANITIES_MANA, 0);
+        map.put(ManaTypes.BUILT_ENVIRONMENT_MANA, 0);
+        map.put(ManaTypes.EEECS_MANA, 0);
+        map.put(ManaTypes.ENGINEERING_MANA, 0);
+        map.put(ManaTypes.MEDICS_MANA, 0);
+        map.put(ManaTypes.SOCIAL_SCIENCES_MANA, 0);
+        map.put(ManaTypes.GENERIC_MANA, 0);
+    }
 
-           //Add mana to the mana counter
-        // brian method
-        public void addMana(ManaTypes mana) {
-            manaCounterHashMap.put(mana, manaCounterHashMap.get(mana)+1);
-        }
+    //Add mana to the mana counter
+    // brian method
+    public void addMana(ManaTypes mana) {
+        manaCounterHashMap.put(mana, manaCounterHashMap.get(mana)+1);
+    }
 
-        // 40111707
-        // brians method
-        //Use mana finds the remainder of mana after an attack has been done.
-        public void useMana(int manaCost,ManaTypes mana) {
-            if(unusedManaHashMap.get(mana) > 0) {
-                if ((manaCounterHashMap.get(mana) - manaCost) > 0) {
-                    unusedManaHashMap.put(mana, manaCounterHashMap.get(mana) - manaCost);
-                } else {
-                    // there is not enough mana for this attack
-                }
-            } else{
-                if(((unusedManaHashMap.get(mana) - manaCost) > 0)){
-                    unusedManaHashMap.put(mana, unusedManaHashMap.get(mana) - manaCost);
-                }
-                else {
-                    // the mana is not enough
-                }
+    // 40111707
+    // brians method
+    //Use mana finds the remainder of mana after an attack has been done.
+    public void useMana(int manaCost,ManaTypes mana) {
+        if(unusedManaHashMap.get(mana) > 0) {
+            if ((manaCounterHashMap.get(mana) - manaCost) > 0) {
+                unusedManaHashMap.put(mana, manaCounterHashMap.get(mana) - manaCost);
+            } else {
+                // there is not enough mana for this attack
+            }
+        } else{
+            if(((unusedManaHashMap.get(mana) - manaCost) > 0)){
+                unusedManaHashMap.put(mana, unusedManaHashMap.get(mana) - manaCost);
+            }
+            else {
+                // the mana is not enough
             }
         }
-        // 40111707
-        // brians method
-        //Reset the unusedMana at the beginning of every turn
-        public void setupUsedMana() {
-            unusedManaHashMap.putAll(manaCounterHashMap);
-        }
+    }
+    // 40111707
+    // brians method
+    //Reset the unusedMana at the beginning of every turn
+    public void setupUsedMana() {
+        unusedManaHashMap.putAll(manaCounterHashMap);
+    }
 
 
 
-        public String manaValueToString(ManaTypes manaTypes)
-        {
-         String valueConvert =   manaCounterHashMap.get(manaTypes).toString();
+    public String manaValueToString(ManaTypes manaTypes)
+    {
+        String valueConvert =   manaCounterHashMap.get(manaTypes).toString();
 
-            return valueConvert;
-        }
-        // 40111707
-        // 40083349
-        //brian + andrews method
-        // this method returns an arrray of converted objects so that i can print them.
+        return valueConvert;
+    }
+    // 40111707
+    // 40083349
+    //brian + andrews method
+    // this method returns an arrray of converted objects so that i can print them.
+
+    /*
     public Text[] manaCounterToDrawObject() {
         Text eeecs = new Text(X_CO_ORDINATES, EEECS_Y_VALUE, manaValueToString(ManaTypes.EEECS_MANA));
         Text generic = new Text(X_CO_ORDINATES, GENERIC_Y_VALUE, manaValueToString(ManaTypes.GENERIC_MANA));
@@ -124,6 +126,7 @@ public class ManaCounter
 
         return manaArray;
     }
+    */
 
     // 40111707
     // brians method

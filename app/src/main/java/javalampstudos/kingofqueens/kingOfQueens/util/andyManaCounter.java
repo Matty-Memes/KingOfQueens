@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.Canvas;
 
 // Local Imports
+import javalampstudos.kingofqueens.GameLoop;
 
 
 public class andyManaCounter extends Text
@@ -19,10 +20,10 @@ public class andyManaCounter extends Text
     public int counter;
 
     // Constructor
-    public andyManaCounter(float x, float y, String text)
+    public andyManaCounter(float x, float y, String text, GameLoop loop)
 
     {
-        super(x, y, text);
+        super(x, y, text, loop);
         // Counter always starts at 0
         counter = 0;
 
