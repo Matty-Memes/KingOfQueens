@@ -150,7 +150,7 @@ public class boardLayout
                 (int) (340 + (240 / 2)));
 
         // no movement any lower than the bottom of the monster cards
-        attackRect = new Rect(0, 0, 480, 340);
+        attackRect = new Rect(0, 0, 679, 340);
 
         pauseRect = new Rect(755, 50, 805, 100);
 
@@ -169,8 +169,6 @@ public class boardLayout
 
         // For the aithinking message
         aiRect = new Rect(107, 120, 747, 360);
-
-
 
     }
 
