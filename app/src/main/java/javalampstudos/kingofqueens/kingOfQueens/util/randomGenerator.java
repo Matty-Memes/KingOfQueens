@@ -39,9 +39,8 @@ public class randomGenerator
         for (int i = 0; i < 40; i++)
 
         {
-
             // Weird
-            playerHasAppeared[0] = 41;
+            playerHasAppeared[i] = 40;
 
         }
 
@@ -56,7 +55,7 @@ public class randomGenerator
     {
         // choose a card at random from the deck
         int min = 0;
-        int max = 14;
+        int max = 13;
 
         while (active == true)
 
@@ -74,8 +73,6 @@ public class randomGenerator
             while (randomNumber != playerHasAppeared[innerCounter] && innerSearchActive == true)
 
             {
-
-
                 innerCounter++;
 
                 // This would stop you checking position 39
@@ -111,26 +108,26 @@ public class randomGenerator
     public void flushRandomLogic ()
 
     {
-      // can't be null
-      randomNumber = 0;
-      counter = 0;
+        // can't be null
+        randomNumber = 0;
+        counter = 0;
 
-      for (int i = 0; i < 40; i++)
+        for (int i = 0; i < 40; i++)
 
-      {
-          if (i == 0) {
-              playerHasAppeared[i] = 41;
+        {
+            if (i == 0) {
+                playerHasAppeared[i] = 41;
 
-          } else
+            } else
 
-          // as per normal intialiazation
-          {
-              playerHasAppeared[i] = 0;
-          }
-      }
+            // as per normal intialiazation
+            {
+                playerHasAppeared[i] = 0;
+            }
+        }
 
-      // Successful
-      System.out.println("Random logic flushed");
+        // Successful
+        System.out.println("Random logic flushed");
 
     }
 

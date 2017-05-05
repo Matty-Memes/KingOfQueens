@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Head.iml" filepath="$PROJECT_DIR$/Head.iml" />
       <module fileurl="file://$PROJECT_DIR$/KingOfQueens.iml" filepath="$PROJECT_DIR$/KingOfQueens.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/csc2043-1617-118.iml" filepath="$PROJECT_DIR$/csc2043-1617-118.iml" />

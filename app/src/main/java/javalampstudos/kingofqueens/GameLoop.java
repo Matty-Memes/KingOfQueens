@@ -334,7 +334,6 @@ public class GameLoop implements Runnable
     public String[] attack1ManaRequired;
     public String[] attack2ManaRequired;
 
-
     // Created by Andrew - 40083349
 
     // SPLIT THIS OUT
@@ -354,6 +353,8 @@ public class GameLoop implements Runnable
         GameLoop.width = width;
         GameLoop.height = height;
 
+        System.out.println("width");
+
         gameScaling = width / 320.0f;
 
         // Getting UI scaling from display metrics
@@ -371,9 +372,6 @@ public class GameLoop implements Runnable
 
         // Now all the rects exist
         gameBoard = new boardLayout(width, height, uiScaling);
-
-        // set the gamestate to new intially - in the finished version will depend on the presence of a save file
-        gameState = GameState.OPENWORLD;
 
         // input stuff
         touchListener = new MultitouchListener();
@@ -459,19 +457,24 @@ public class GameLoop implements Runnable
         initializeHandMana();
         intializeFieldMonsters();
 
-        int startingDeck1[] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,49,49,49,49,49,49,51,51,51,51,51,51,54,54,55,57,57,58,60,61,63,65,66,67};
-
-        playerDeck.generateDeck(this,startingDeck1);
+//        int startingDeck1[] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,49,49,49,49,49,49,51,51,51,51,51,51,54,54,55,57,57,58,60,61,63,65,66,67};
+//
+//        playerDeck.generateDeck(this,startingDeck1);
         // this only affects basic card at the moment
-        populatePlayerHand ();
 
+        playerDeck.createDeck(this);
         rand.flushRandomLogic();
 
-        aiDeck.generateDeck(this,startingDeck1);
+        populatePlayerHand ();
+        rand.flushRandomLogic();
 
+//        aiDeck.generateDeck(this,startingDeck1);
+
+        aiDeck.createDeck(this);
         rand.flushRandomLogic();
 
         populateOpponentHand();
+        rand.flushRandomLogic();
 
         engineering = new andyManaCounter(100, 250, "0");
         artsAndHumanities = new andyManaCounter(100, 290 , "0");
@@ -488,7 +491,7 @@ public class GameLoop implements Runnable
         // Starts game timer
         timer.start();
 
-        startSFX = AssetLoader.loadSoundpool(assetManager, "start.mp3");
+        // startSFX = AssetLoader.loadSoundpool(assetManager, "start.mp3");
 
     }
 
@@ -595,10 +598,12 @@ public class GameLoop implements Runnable
                     case NEW:
                         newGame();
                         break;
+                    /*
                     case OPENWORLD:
                         updateOWTouch();
                         updateObjects();
                         break;
+                    */
                     case PROMPT:
                         updateCard();
                         updateWindow();
@@ -668,8 +673,6 @@ public class GameLoop implements Runnable
 
         }
 
-
-
     }
 
     // Created by Andrew - 40083349
@@ -726,8 +729,8 @@ public class GameLoop implements Runnable
         // Hands and deck are set up so the prep phase can begin
         gameState = GameState.MONSTERPLACEMENT;
 
-        sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
-        startSFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
+//        sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
+//        startSFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
     }
 
     private void loadAssets()
@@ -1261,7 +1264,7 @@ public class GameLoop implements Runnable
     private void updateVS()
 
     {
-      victory.update();
+        victory.update();
 
     }
 
@@ -1272,18 +1275,18 @@ public class GameLoop implements Runnable
     {
         System.out.println("Animating");
 
-            // move the hand card left till it hits it's target position
-            // associate the target position with the card
-            if (!boundHit) {
-                handCards.get(emptySlot).x -= 4.0;
-                // the proper position of any card is tied to that individual card
-                if (handCards.get(emptySlot).x <= handCards.get(emptySlot).targetX) {
-                    boundHit = true;
-                    // animation finished start mana placement
-                    gameState = GameState.MANAPLACEMENT;
-                }
-
+        // move the hand card left till it hits it's target position
+        // associate the target position with the card
+        if (!boundHit) {
+            handCards.get(emptySlot).x -= 4.0;
+            // the proper position of any card is tied to that individual card
+            if (handCards.get(emptySlot).x <= handCards.get(emptySlot).targetX) {
+                boundHit = true;
+                // animation finished start mana placement
+                gameState = GameState.MANAPLACEMENT;
             }
+
+        }
     }
 
     // Created by Andrew - 40083349
@@ -1757,7 +1760,7 @@ public class GameLoop implements Runnable
                                 opponentMonstersKilled++;
                                 if (opponentMonstersKilled >= 2)
                                 {
-                                  gameState = GameState.VICTORY;
+                                    gameState = GameState.VICTORY;
 
                                 }
 
@@ -1879,8 +1882,10 @@ public class GameLoop implements Runnable
                                     .replace(R.id.container, new GameViewFragment(),
                                             "game_fragment").commit();
 
+                            /*
                             sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
                             startSFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
+                            */
                         }
 
                         if(boardLayout.mainMenuRect.contains(x, y)) {
@@ -1990,9 +1995,8 @@ public class GameLoop implements Runnable
         for (int i = 0; i < 5; i++)
 
         {
+            // remember this has been changed
             randex = rand.generateRandomNumber();
-            // keep for troubleshooting
-            System.out.println("Random is" + randex);
 
             if (randex <= 7)
 

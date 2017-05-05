@@ -24,8 +24,8 @@ public class Deck {
 
     private int noOfMonsterCards,noOfManaCards,noOfSupportCards;
     private int deckSize=0;
-    // For test purposes
-    final private int MAXDECKSIZE = 40;
+    // Generate 13 values
+    final private int MAXDECKSIZE = 14;
     // Might need to move this
     private JSONcardLibrary lib = new JSONcardLibrary();
     private randomGenerator rand = new randomGenerator();
@@ -123,6 +123,11 @@ public class Deck {
         this.basicArray = basicArray;
     }
 
+    private void loadLibraryAssets ()
+
+    {
+
+    }
 
 
     // first parse the JSON for all the cards
@@ -133,14 +138,15 @@ public class Deck {
     public void createDeck (GameLoop loop)
 
     {
-        lib = new JSONcardLibrary();
+        // Think of a way to run this only once
         lib.loadAssets(loop);
 
         for (int i = 0; i < MAXDECKSIZE; i++)
 
         {
             int randex = rand.generateRandomNumber();
-            randex = randex-1;
+
+            System.out.println("Index generated was " + randex);
 
             // Interaction with each array list
             // mirrored in JSONcardLibrary
@@ -162,11 +168,11 @@ public class Deck {
 
         }
 
-
     }
 
     /*Deck assembly*/
     //generates a starting deck
+    /*
     public void generateDeck(GameLoop loop,int cardIDs[])
     {
         lib = new JSONcardLibrary();
@@ -193,6 +199,7 @@ public class Deck {
             }
         }
     }
+    */
 
     //Since ID doesn't map as easily to other card types, this looks up the position in the array
     private int manaIDLookup(int ID)
@@ -251,8 +258,6 @@ public class Deck {
         }
         return pos;
     }
-
-
 
     //These methods will be used in the deck assembler fragment
     private void addMonstersCards(MonsterCard monsterCard)
