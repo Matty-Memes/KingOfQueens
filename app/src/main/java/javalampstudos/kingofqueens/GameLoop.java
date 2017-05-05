@@ -470,9 +470,6 @@ public class GameLoop implements Runnable
 
 //        aiDeck.generateDeck(this,startingDeck1);
 
-        aiDeck.createDeck(this);
-        rand.flushRandomLogic();
-
         populateOpponentHand();
         rand.flushRandomLogic();
 
@@ -2043,14 +2040,14 @@ public class GameLoop implements Runnable
             if (randex <= 7)
 
             {
-                aiHandMonsters.add(aiDeck.monsterArray.get(randex));
+                aiHandMonsters.add(playerDeck.monsterArray.get(randex));
             }
 
             // trap this in certain bounds
             if (randex > 7 && randex <= 13)
 
             {
-                aiHandMana.add(aiDeck.manaArray.get(randex % 8));
+                aiHandMana.add(playerDeck.manaArray.get(randex % 8));
             }
 
         }
