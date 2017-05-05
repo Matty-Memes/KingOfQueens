@@ -258,13 +258,16 @@ public class GameViewFragment extends CanvasFragment {
                 break;
             case MONSTERPLACEMENT:
 
-                drawCard(canvas);
+                drawTest(canvas);
 
-                drawMana(canvas);
+                // drawCard(canvas);
 
-                drawUI(canvas);
+                // drawMana(canvas);
+
+                // drawUI(canvas);
 
                 break;
+
 
             case ATTACK:
 
@@ -299,6 +302,13 @@ public class GameViewFragment extends CanvasFragment {
     {
         super.onResume();
         loop.resume();
+
+    }
+
+    public void drawTest (Canvas canvas)
+
+    {
+      loop.testCard.draw(canvas);
 
     }
 

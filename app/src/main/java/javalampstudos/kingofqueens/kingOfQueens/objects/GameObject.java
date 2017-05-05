@@ -104,12 +104,10 @@ public abstract class GameObject
 
         // x will be offset and should be increased
 
-        // Specify the center point and the arguments work out the points of the rect
-        // Removed the scaling
-        rect.set((int) (x - (width / 2)),
-                (int) (y - (height / 2)),
-                (int) (x + (width / 2)),
-                (int) (y + (height / 2)));
+        rect.set((int) (x - (width / 2) * GameLoop.gameScaling),
+                (int) (y - (height / 2) * GameLoop.gameScaling),
+                (int) (x + (width / 2 ) * GameLoop.gameScaling),
+                (int) (y + (height / 2 ) * GameLoop.gameScaling));
 
     }
 

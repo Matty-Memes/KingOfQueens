@@ -30,7 +30,7 @@ public class BasicCard extends GameObject
 
 
     // Modified by Andrew - 27/03/17
-    public BasicCard(int x, int y, int width, int height, Bitmap Sprite, boolean player, int id,
+    public BasicCard(float x, float y, int width, int height, Bitmap Sprite, boolean player, int id,
                      CardSchools cardSchool, boolean destroyed, int pointerID, int targetX)
     {
         super(x, y, width, height, Sprite, player);

@@ -341,6 +341,9 @@ public class GameLoop implements Runnable
 
     public GameTimer timer = new GameTimer();
 
+    public Bitmap testSprite;
+    public BasicCard testCard;
+
     public GameLoop (CanvasFragment fragment, int width, int height)
 
     {
@@ -393,11 +396,20 @@ public class GameLoop implements Runnable
         aiThinking = AssetLoader.loadBitmap(assetManager, "img/AiThinking3.png");
         victoryScreen = AssetLoader.loadBitmap(assetManager, "img/Screens/VictoryScreen.png");
 
+        testSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Cardback.png");
+
         // This is the ai message
         window = new Window(477, 240, 740, 240, aiThinking, true);
 
         // The victory screen
         victory = new Window(477, 240, 740, 240, victoryScreen, true);
+
+        // Specify the point where you want it drawn
+        float x = (width / 2);
+        float y = (height / 2);
+
+        testCard = new BasicCard(x, y, 40, 40, testSprite, true, 3, CardSchools.EEECS, false, 49, 234);
+
 
         cardBackSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Cardback.png");
         manaZoneSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Mana/ManaZoner.png");
@@ -641,7 +653,8 @@ public class GameLoop implements Runnable
                         updateTouch();
                         break;
                     case MONSTERPLACEMENT:
-                        updateCard();
+                        updateTest();
+                        // updateCard();
                         updateTouch();
                         break;
                     case ATTACK:
@@ -1179,6 +1192,13 @@ public class GameLoop implements Runnable
 
     }
 
+    private void updateTest ()
+
+    {
+      testCard.update();
+
+    }
+
     private void updateVictoryScreen ()
 
     {
@@ -1410,250 +1430,265 @@ public class GameLoop implements Runnable
             case MONSTERPLACEMENT:
 
                 for(int i = 0; i < touchListener.MAX_TOUCH_POINTS; i++) {
-                    if(touchListener.isTouchContinuous(i)) {
+                    if (touchListener.isTouchContinuous(i)) {
                         int x = (int) touchListener.getTouchX(i), y = (int) touchListener
                                 .getTouchY(i);
 
-                        if(boardLayout.pauseRect.contains((int) x, (int) y)) {
-                            pauseGame();
-                        }
-
-                        if (boardLayout.handRect1.contains((int) x, (int) y) && handActive)
-
-                        {
-                            // Allow the card chosen to be dragged
-                            dragActive = true;
-                            // The first card becomes the current card
-                            handIndex = 0;
-                            // Index into the array and set the pointer ID
-                            handCards.get(handIndex).pointerID = i;
-                            // No more hand cards can be picked up
-                            handActive = false;
-                        }
-
-                        if (boardLayout.handRect2.contains((int) x, (int) y) && handActive)
-
-                        {
-                            dragActive = true;
-                            handIndex = 1;
-                            // Index into the array and set the pointer ID
-                            handCards.get(handIndex).pointerID = i;
-                            handActive = false;
-
-                        }
-
-                        if (boardLayout.handRect3.contains((int) x, (int) y) && handActive)
-
-                        {
-                            dragActive = true;
-                            handIndex = 2;
-                            // Index into the array and set the pointer ID
-                            handCards.get(handIndex).pointerID = i;
-                            handActive = false;
-
-                        }
-
-                        if (boardLayout.handRect4.contains((int) x, (int) y) && handActive)
-
-                        {
-                            dragActive = true;
-                            handIndex = 3;
-                            // Index into the array and set the pointer ID
-                            handCards.get(handIndex).pointerID = i;
-                            handActive = false;
-
-                        }
-
-                        if (boardLayout.handRect5.contains((int) x, (int) y) && handActive)
-
-                        {
-                            dragActive = true;
-                            handIndex = 4;
-                            // Index into the array and set the pointer ID
-                            handCards.get(handIndex).pointerID = i;
-                            handActive = false;
-
-                        }
-
-                        if(boardLayout.playerMovementRect.contains((int) x, (int) y) && dragActive)
-
-                        {
-                            // how do you know which card this effects
-                            // set the index of the array to talk to
-                            handCards.get(handIndex).x = x;
-                            handCards.get(handIndex).y = y;
-
-                        }
-
-                        // Hand Index
-                        if (boardLayout.MSlot1Rect.contains((int)handCards.get(handIndex).x, (int)handCards.get(handIndex).y)
-                                && handCards.get(handIndex).id == 0)
-
-                        {
-                            //40123776, when monster is played, increases int on stats screen
-                            MainActivity.setting.increaseInt("monstersPlayed");
-
-                            // prevents cards splipping off the edge
-                            dragActive = false;
-
-                            // get rid of the hand card
-                            handCards.get(handIndex).destroyed = true;
-
-                            // update the bitmap of the monster card and lock it at the right slot
-                            monsterCard1.sprite = handCards.get(handIndex).sprite;
-                            monsterCard1.x = 234;
-                            monsterCard1.y = 280;
-
-                            // move from the hand to the field
-                            // the card should be moved to the player's logical monster array
-                            // The touch zones dictate the index
-                            playerFieldMonsters.add(0, playerHandMonsters.get(handIndex));
-
-                            // The last card to be placed is set back to the deck for the drawing phase
-                            handCards.get(handIndex).moveToDeck();
-
-                            userPrompt.text = attackPrompt;
-
-                            System.out.println("The x value is now" + handCards.get(handIndex).x);
-
-                            if (prepPhase)
-
-                            {
-                                prepPhase = false;
-                                emptySlot = handIndex;
-                                // The AI chooses a card and plays it
-                                gameState = GameState.AITURN;
-                            }
-
-                            else
-
-                            {
-                                gameState = GameState.ATTACK;
-                                monsterSlotActive = true;
-                            }
-
-                        }
-
-                        // Test with the middle
-
-                        if (boardLayout.MSlot2Rect.contains((int)handCards.get(handIndex).x, (int)handCards.get(handIndex).y)
-                                && handCards.get(handIndex).id == 0)
-
-                        {
-                            MainActivity.setting.increaseInt("monstersPlayed");
-
-                            // no more card movement
-                            dragActive = false;
-
-                            // get rid of the hand card
-                            handCards.get(handIndex).destroyed = true;
-
-                            // update the bitmap of the monster card and lock it at the right slot
-                            monsterCard2.sprite = handCards.get(handIndex).sprite;
-                            monsterCard2.x = 434;
-                            monsterCard2.y = 280;
-
-                            // move from the hand to the field
-                            // the card should be moved to the player's logical monster array
-                            // The touch zones dictate the index
-
-                            System.out.println(handIndex);
-                            // Avoid out of bounds exceptions
-                            playerFieldMonsters.add(1, playerHandMonsters.get(handIndex));
-
-                            // The last card to be placed is set back to the deck for the drawing phase
-                            handCards.get(handIndex).moveToDeck();
-
-                            userPrompt.text = attackPrompt;
-
-                            System.out.println("The x value is now" + handCards.get(handIndex).x);
-
-                            if (prepPhase)
-
-                            {
-                                prepPhase = false;
-                                emptySlot = handIndex;
-                                gameState = GameState.AITURN;
-
-                            }
-
-                            else
-
-                            {
-                                gameState = GameState.ATTACK;
-                                monsterSlotActive = true;
-                            }
-
-                        }
-
-                        //
-
-                        if (boardLayout.MSlot3Rect.contains((int)handCards.get(handIndex).x, (int)handCards.get(handIndex).y)
-                                && handCards.get(handIndex).id == 0)
-
-                        {
-                            MainActivity.setting.increaseInt("monstersPlayed");
-
-                            // no more card movement
-                            dragActive = false;
-
-                            // get rid of the hand card
-                            handCards.get(handIndex).destroyed = true;
-
-                            // update the bitmap of the monster card and lock it at the right slot
-                            monsterCard3.sprite = handCards.get(handIndex).sprite;
-                            monsterCard3.x = 634;
-                            monsterCard3.y = 280;
-
-                            // move from the hand to the field
-                            // the card should be moved to the player's logical monster array
-                            // The touch zones dictate the index
-                            playerFieldMonsters.add(3, playerHandMonsters.get(handIndex));
-//                            attack = true;
-
-                            // The last card to be placed is set back to the deck for the drawing phase
-                            handCards.get(handIndex).moveToDeck();
-
-                            userPrompt.text = monsterPrompt;
-
-                            System.out.println("The x value is now" + handCards.get(handIndex).x);
-
-                            if (prepPhase)
-
-                            {
-                                prepPhase = false;
-                                emptySlot = handIndex;
-                                gameState = GameState.AITURN;
-                            }
-
-                            else
-
-                            {
-                                gameState = GameState.ATTACK;
-                                monsterSlotActive = true;
-                            }
-
-                        }
+                        testCard.x = x;
+                        testCard.y = y;
 
                     }
 
-                    // release that pointerID
-                    else
-
-                    {
-                        // how do you control which one goes where
-                        if (handCards.get(handIndex).pointerID == i)
-
-                        {
-                            // Put whatever BasicCard was picked up back in it's old position
-                            handCards.get(handIndex).resetPosition(handIndex);
-                            // the player has let go of the card and needs to pick up a new one
-                            handActive = true;
-
-                        }
-
-                    }
                 }
+
+
+
+
+//                for(int i = 0; i < touchListener.MAX_TOUCH_POINTS; i++) {
+//                    if(touchListener.isTouchContinuous(i)) {
+//                        int x = (int) touchListener.getTouchX(i), y = (int) touchListener
+//                                .getTouchY(i);
+//
+//                        if(boardLayout.pauseRect.contains((int) x, (int) y)) {
+//                            pauseGame();
+//                        }
+//
+//                        if (boardLayout.handRect1.contains((int) x, (int) y) && handActive)
+//
+//                        {
+//                            // Allow the card chosen to be dragged
+//                            dragActive = true;
+//                            // The first card becomes the current card
+//                            handIndex = 0;
+//                            // Index into the array and set the pointer ID
+//                            handCards.get(handIndex).pointerID = i;
+//                            // No more hand cards can be picked up
+//                            handActive = false;
+//                        }
+//
+//                        if (boardLayout.handRect2.contains((int) x, (int) y) && handActive)
+//
+//                        {
+//                            dragActive = true;
+//                            handIndex = 1;
+//                            // Index into the array and set the pointer ID
+//                            handCards.get(handIndex).pointerID = i;
+//                            handActive = false;
+//
+//                        }
+//
+//                        if (boardLayout.handRect3.contains((int) x, (int) y) && handActive)
+//
+//                        {
+//                            dragActive = true;
+//                            handIndex = 2;
+//                            // Index into the array and set the pointer ID
+//                            handCards.get(handIndex).pointerID = i;
+//                            handActive = false;
+//
+//                        }
+//
+//                        if (boardLayout.handRect4.contains((int) x, (int) y) && handActive)
+//
+//                        {
+//                            dragActive = true;
+//                            handIndex = 3;
+//                            // Index into the array and set the pointer ID
+//                            handCards.get(handIndex).pointerID = i;
+//                            handActive = false;
+//
+//                        }
+//
+//                        if (boardLayout.handRect5.contains((int) x, (int) y) && handActive)
+//
+//                        {
+//                            dragActive = true;
+//                            handIndex = 4;
+//                            // Index into the array and set the pointer ID
+//                            handCards.get(handIndex).pointerID = i;
+//                            handActive = false;
+//
+//                        }
+//
+//                        if(boardLayout.playerMovementRect.contains((int) x, (int) y) && dragActive)
+//
+//                        {
+//                            // how do you know which card this effects
+//                            // set the index of the array to talk to
+//                            handCards.get(handIndex).x = x;
+//                            handCards.get(handIndex).y = y;
+//
+//                        }
+//
+//                        // Hand Index
+//                        if (boardLayout.MSlot1Rect.contains((int)handCards.get(handIndex).x, (int)handCards.get(handIndex).y)
+//                                && handCards.get(handIndex).id == 0)
+//
+//                        {
+//                            //40123776, when monster is played, increases int on stats screen
+//                            MainActivity.setting.increaseInt("monstersPlayed");
+//
+//                            // prevents cards splipping off the edge
+//                            dragActive = false;
+//
+//                            // get rid of the hand card
+//                            handCards.get(handIndex).destroyed = true;
+//
+//                            // update the bitmap of the monster card and lock it at the right slot
+//                            monsterCard1.sprite = handCards.get(handIndex).sprite;
+//                            monsterCard1.x = 234;
+//                            monsterCard1.y = 280;
+//
+//                            // move from the hand to the field
+//                            // the card should be moved to the player's logical monster array
+//                            // The touch zones dictate the index
+//                            playerFieldMonsters.add(0, playerHandMonsters.get(handIndex));
+//
+//                            // The last card to be placed is set back to the deck for the drawing phase
+//                            handCards.get(handIndex).moveToDeck();
+//
+//                            userPrompt.text = attackPrompt;
+//
+//                            System.out.println("The x value is now" + handCards.get(handIndex).x);
+//
+//                            if (prepPhase)
+//
+//                            {
+//                                prepPhase = false;
+//                                emptySlot = handIndex;
+//                                // The AI chooses a card and plays it
+//                                gameState = GameState.AITURN;
+//                            }
+//
+//                            else
+//
+//                            {
+//                                gameState = GameState.ATTACK;
+//                                monsterSlotActive = true;
+//                            }
+//
+//                        }
+//
+//                        // Test with the middle
+//
+//                        if (boardLayout.MSlot2Rect.contains((int)handCards.get(handIndex).x, (int)handCards.get(handIndex).y)
+//                                && handCards.get(handIndex).id == 0)
+//
+//                        {
+//                            MainActivity.setting.increaseInt("monstersPlayed");
+//
+//                            // no more card movement
+//                            dragActive = false;
+//
+//                            // get rid of the hand card
+//                            handCards.get(handIndex).destroyed = true;
+//
+//                            // update the bitmap of the monster card and lock it at the right slot
+//                            monsterCard2.sprite = handCards.get(handIndex).sprite;
+//                            monsterCard2.x = 434;
+//                            monsterCard2.y = 280;
+//
+//                            // move from the hand to the field
+//                            // the card should be moved to the player's logical monster array
+//                            // The touch zones dictate the index
+//
+//                            System.out.println(handIndex);
+//                            // Avoid out of bounds exceptions
+//                            playerFieldMonsters.add(1, playerHandMonsters.get(handIndex));
+//
+//                            // The last card to be placed is set back to the deck for the drawing phase
+//                            handCards.get(handIndex).moveToDeck();
+//
+//                            userPrompt.text = attackPrompt;
+//
+//                            System.out.println("The x value is now" + handCards.get(handIndex).x);
+//
+//                            if (prepPhase)
+//
+//                            {
+//                                prepPhase = false;
+//                                emptySlot = handIndex;
+//                                gameState = GameState.AITURN;
+//
+//                            }
+//
+//                            else
+//
+//                            {
+//                                gameState = GameState.ATTACK;
+//                                monsterSlotActive = true;
+//                            }
+//
+//                        }
+//
+//                        //
+//
+//                        if (boardLayout.MSlot3Rect.contains((int)handCards.get(handIndex).x, (int)handCards.get(handIndex).y)
+//                                && handCards.get(handIndex).id == 0)
+//
+//                        {
+//                            MainActivity.setting.increaseInt("monstersPlayed");
+//
+//                            // no more card movement
+//                            dragActive = false;
+//
+//                            // get rid of the hand card
+//                            handCards.get(handIndex).destroyed = true;
+//
+//                            // update the bitmap of the monster card and lock it at the right slot
+//                            monsterCard3.sprite = handCards.get(handIndex).sprite;
+//                            monsterCard3.x = 634;
+//                            monsterCard3.y = 280;
+//
+//                            // move from the hand to the field
+//                            // the card should be moved to the player's logical monster array
+//                            // The touch zones dictate the index
+//                            playerFieldMonsters.add(3, playerHandMonsters.get(handIndex));
+////                            attack = true;
+//
+//                            // The last card to be placed is set back to the deck for the drawing phase
+//                            handCards.get(handIndex).moveToDeck();
+//
+//                            userPrompt.text = monsterPrompt;
+//
+//                            System.out.println("The x value is now" + handCards.get(handIndex).x);
+//
+//                            if (prepPhase)
+//
+//                            {
+//                                prepPhase = false;
+//                                emptySlot = handIndex;
+//                                gameState = GameState.AITURN;
+//                            }
+//
+//                            else
+//
+//                            {
+//                                gameState = GameState.ATTACK;
+//                                monsterSlotActive = true;
+//                            }
+//
+//                        }
+//
+//                    }
+//
+//                    // release that pointerID
+//                    else
+//
+//                    {
+//                        // how do you control which one goes where
+//                        if (handCards.get(handIndex).pointerID == i)
+//
+//                        {
+//                            // Put whatever BasicCard was picked up back in it's old position
+//                            handCards.get(handIndex).resetPosition(handIndex);
+//                            // the player has let go of the card and needs to pick up a new one
+//                            handActive = true;
+//
+//                        }
+//
+//                    }
+//                }
 
                 break;
 
