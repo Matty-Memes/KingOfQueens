@@ -96,6 +96,7 @@ public class BasicCard extends GameObject
 
     }
 
+    //Matt:What's this doing here?
     public void drawOpenWorld (Canvas canvas, LayerViewport layerViewport, ScreenViewport screenViewport)
 
     {
@@ -155,6 +156,7 @@ public class BasicCard extends GameObject
     }
 
     //Matt:This metod will be used in creating the card graphic. It checks the card School and sets the graphic
+    //05/05/2017 We originally planned to create the cards with layered images. Decided against it in the end
 
      /*   public void setCardSchoolGraphic()
         {

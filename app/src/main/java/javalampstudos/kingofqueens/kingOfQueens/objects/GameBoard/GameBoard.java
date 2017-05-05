@@ -6,6 +6,7 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
 
 /**
  * Created by Matt on 06/02/2017.
+ * The idea was that the player and the AI would each have a playspace. This would be contained in the gameBoard
  */
 
 public class GameBoard extends GameObject {

@@ -48,7 +48,7 @@ public class Deck {
 
     }
 
-
+//Matt:old constructor
     //    public Deck(float x, float y, int width, int height,
 //    Bitmap sprite, boolean player, ArrayList<MonsterCard> monsterArray,ArrayList<ManaCard> manaArray,ArrayList<SupportCard> supportArray)
 //    {
@@ -171,9 +171,9 @@ public class Deck {
 
     }
 
+    //Matt 40149561
     /*Deck assembly*/
     //generates a starting deck
-    /*
     public void generateDeck(GameLoop loop,int cardIDs[])
     {
         lib = new JSONcardLibrary();
@@ -200,8 +200,8 @@ public class Deck {
             }
         }
     }
-    */
 
+    //Matt 40149561
     //Since ID doesn't map as easily to other card types, this looks up the position in the array
     private int manaIDLookup(int ID)
     {
@@ -260,6 +260,7 @@ public class Deck {
         return pos;
     }
 
+    //Matt 40149561
     //These methods will be used in the deck assembler fragment
     private void addMonstersCards(MonsterCard monsterCard)
     {
@@ -292,6 +293,7 @@ public class Deck {
             System.out.print("The deck is full");
 
     }
+    //Matt 40149561
     private boolean isDeckFull()
     {
         return (deckSize>MAXDECKSIZE);
