@@ -93,7 +93,7 @@ public class Dialogue {
                                 mText = "Let's play!"; break;
 
                             default:
-                                mText = "None"; // Sets GameViewFragment- dialogueState to NONE
+                                mText = "Switch"; // Sets GameViewFragment- dialogueState to NONE
 
                         } break;
 

@@ -260,6 +260,7 @@ public class GameLoop implements Runnable
     public Bitmap grassSprite;
     public Bitmap wallSprite;
     public Bitmap aButton;
+    public Bitmap dPadSprite;
 
     //Player and Other Entities
     public littleMan player;
@@ -271,6 +272,7 @@ public class GameLoop implements Runnable
 
     //Interaction variables: Collectibles, Dialogue, Buttons
     public Rect interactButton;
+    public Rect dPad;
     public Rect dialogueOption1;
     public Rect dialogueOption2;
     public int interactionIndex = -1;
@@ -338,6 +340,8 @@ public class GameLoop implements Runnable
         return coinCounter;
     }
 
+    public boolean gameStateSwitch = false;
+
     //////////////////////
     //(End of OpenWorld) //
     //////////////////////
@@ -379,7 +383,7 @@ public class GameLoop implements Runnable
 
         // set the game state to new initially
         // Once the board is set up you can move to the default game state
-        gameState = GameState.NEW;
+        gameState = GameState.OPENWORLD;
 
         // Now all the rects exist
         gameBoard = new boardLayout(width, height, uiScaling);
@@ -539,15 +543,20 @@ public class GameLoop implements Runnable
         mcclayTop = new Entity(tile.width * 33 + tile.width / 2, tile.height * 92, tile.width * 25, tile.height * 14, mcclayTopBitmap, true);
         lanyonTop = new Entity(tile.width * 33, tile.height * 37 + tile.height / 2, tile.width * 58, tile.height * 17, lanyonTopBitmap, true);
 
-        //Setup OpenWolrd Rects
+        //Setup OpenWorld Rects
+        dPad = new Rect (spacingX2 / 10, spacingY2 * 6, spacingX2 * 3, spacingY2 * 9 + spacingY2 / 2);
         interactButton = new Rect(spacingX2 * 7 + spacingX2 / 2, spacingY2 * 7, spacingX2 * 9, spacingY2 * 9);
         dialogueOption1 = new Rect(spacingX2, spacingY2 * 5, spacingX2 * 9, spacingY2 * 7);
         dialogueOption2 = new Rect(spacingX2, spacingY2 * 7, spacingX2 * 9, spacingY2 * 9);
+
+        int dPadSectionsX = dPad.width() / 3;
+        int dPadSectionsY = dPad.height() / 3;
+
         //Movement Rects
-        moveLeftRect = new Rect(0, 0, spacingX, spacingY * 2);
-        moveRightRect = new Rect(spacingX * 2, 0, spacingX * 3, spacingY * 2);
-        moveUpRect = new Rect(spacingX, 0, spacingX * 2, spacingY);
-        moveDownRect = new Rect(spacingX, spacingY, spacingX * 2, spacingY * 2);
+        moveLeftRect = new Rect(dPad.left, dPad.top + dPadSectionsY, dPad.left + dPadSectionsX, dPad.bottom - dPadSectionsY);
+        moveRightRect = new Rect(dPad.right - dPadSectionsX, dPad.top + dPadSectionsY, dPad.right, dPad.bottom - dPadSectionsY);
+        moveUpRect = new Rect(dPad.left + dPadSectionsX, dPad.top, dPad.right - dPadSectionsX, dPad.top + dPadSectionsY);
+        moveDownRect = new Rect(dPad.left + dPadSectionsX, dPad.bottom - dPadSectionsY, dPad.right - dPadSectionsX, dPad.bottom);
 
 
         // Go through grid and identify special tiles
@@ -777,6 +786,7 @@ public class GameLoop implements Runnable
         playerSprite = AssetLoader.loadBitmap(assetManager, "img/Nathan/playerSpriteSheet.png");
         player2Sprite = AssetLoader.loadBitmap(assetManager, "img/Nathan/trimLittleMan.png");
         aButton = AssetLoader.loadBitmap(assetManager, "img/Nathan/aButton.png");
+        dPadSprite = AssetLoader.loadBitmap(assetManager, "img/Nathan/DPad.png");
         grassSprite = AssetLoader.loadBitmap(assetManager, "img/Nathan/GrassTile.png");
         wallSprite = AssetLoader.loadBitmap(assetManager, "img/Nathan/Wall.png");
         //backgroundBitmap = AssetLoader.loadBitmap(assetManager, "img/Nathan/10x10Grid.png");
@@ -793,6 +803,10 @@ public class GameLoop implements Runnable
 
         player.update();
         //player2.update();
+
+        if (gameStateSwitch == true) {
+            gameState = GameState.NEW;
+        }
 
 
         // Ensure the player cannot leave the confines of the world

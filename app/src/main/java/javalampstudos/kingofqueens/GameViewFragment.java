@@ -57,7 +57,7 @@ public class GameViewFragment extends CanvasFragment {
 
     //States of Dialogue
     private enum DialogueState {
-        REGULAR, SHOP, OPTIONS, RESPONSE, NONE
+        REGULAR, SHOP, OPTIONS, RESPONSE, SWITCH, NONE
     }
 
     //Boolean for resetting DialoguePoint variable
@@ -357,6 +357,8 @@ public class GameViewFragment extends CanvasFragment {
 
 
 
+        dialogueState = DialogueState.NONE;
+
 
         //Check if the player has interacted with an NPC
         if (loop.interactionIndex >= 0) {
@@ -411,6 +413,10 @@ public class GameViewFragment extends CanvasFragment {
                 dialogueState = DialogueState.REGULAR;
             }
 
+            if(Dialogue.conversationIndex(loop.interactionIndex, loop.dialoguePoint, loop.response) == "Switch") {
+                dialogueState = DialogueState.SWITCH;
+            }
+
 
             //If "None" is returned from conversationIndex, the conversation has ended
             //If "Coin" is returned from shopConvo and "None" is returned from conversationIndex, the conversation with the
@@ -447,6 +453,9 @@ public class GameViewFragment extends CanvasFragment {
                     canvas.drawText(Dialogue.conversationIndex(loop.interactionIndex, loop.dialoguePoint, loop.response),
                             canvas.getClipBounds().left + clipSpacingX / 2, canvas.getClipBounds().top + clipSpacingY * 4, mPaint); break;
 
+                case SWITCH:
+                    loop.gameStateSwitch = true;
+
                 case NONE:
                     //When reached, conversation has ended. Reset dialoguePoint, inDialogue, interactionIndex, response
                     //and resetDialoguePoint to return game to a free-roam gameplay
@@ -456,11 +465,16 @@ public class GameViewFragment extends CanvasFragment {
                     loop.response = -1;
                     resetDialoguePoint = true; break;
             }
+
+
         }
 
 
         //Draw the interact button last
         canvas.drawBitmap(loop.aButton, null, loop.interactButton, null);
+        if(dialogueState == DialogueState.NONE) {
+            canvas.drawBitmap(loop.dPadSprite, null, loop.dPad, null);
+        }
 
     }
 
