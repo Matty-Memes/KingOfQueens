@@ -155,21 +155,21 @@ public class boardLayout
         pauseRect = new Rect(755, 50, 805, 100);
 
         resumeRect = new Rect((int) (width / 2 - 128 * uiScaling),
-                (int) (height / 2 - 63 * uiScaling),
+                (int) (height / 2 - 68 * uiScaling),
                 (int) (width / 2 + 128 * uiScaling),
-                (int) (height / 2 - 15 * uiScaling));
+                (int) (height / 2 - 20 * uiScaling));
         restartRect = new Rect((int) (width / 2 - 128 * uiScaling),
-                (int) (height / 2 - 7 * uiScaling),
+                (int) (height / 2 - 12 * uiScaling),
                 (int) (width / 2 + 128 * uiScaling),
-                (int) (height / 2 + 41 * uiScaling));
+                (int) (height / 2 + 36 * uiScaling));
         forfeitRect = new Rect((int) (width / 2 - 128 * uiScaling),
-                (int) (height / 2 + 49 * uiScaling),
+                (int) (height / 2 + 44 * uiScaling),
                 (int) (width / 2 + 128 * uiScaling),
-                (int) (height / 2 + 97 * uiScaling));
+                (int) (height / 2 + 92 * uiScaling));
         mainMenuRect = new Rect((int) (width / 2 - 128 * uiScaling),
-                (int) (height / 2 + 105 * uiScaling),
+                (int) (height / 2 + 100 * uiScaling),
                 (int) (width / 2 + 128 * uiScaling),
-                (int) (height / 2 + 153 * uiScaling));
+                (int) (height / 2 + 148 * uiScaling));
 
         // For the aithinking message
         aiRect = new Rect(107, 120, 747, 360);

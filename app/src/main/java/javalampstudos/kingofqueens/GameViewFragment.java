@@ -195,13 +195,13 @@ public class GameViewFragment extends CanvasFragment {
                 paint.setTextSize(32 * loop.uiScaling);
                 canvas.drawText(pauseString, width / 2, 66 * loop.uiScaling, paint);
 
-                canvas.drawText(resumeString, width / 2, height / 2 - 13
+                canvas.drawText(resumeString, width / 2, height / 2 - 18
                         * loop.uiScaling, paint);
-                canvas.drawText(restartString, width / 2, height / 2 + 43
+                canvas.drawText(restartString, width / 2, height / 2 + 38
                         * loop.uiScaling, paint);
-                canvas.drawText(forfeitString, width / 2, height / 2 + 99
+                canvas.drawText(forfeitString, width / 2, height / 2 + 94
                         * loop.uiScaling, paint);
-                canvas.drawText(mainMenuString, width / 2, height / 2 + 155
+                canvas.drawText(mainMenuString, width / 2, height / 2 + 150
                         * loop.uiScaling, paint);
 
                 break;
