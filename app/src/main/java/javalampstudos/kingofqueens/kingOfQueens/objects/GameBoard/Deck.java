@@ -35,6 +35,9 @@ public class Deck {
     //Will use card ID numbers to specify cards to place in deck
     /*A deck with Engineering and Medic cards*/
     private int startingDeck1[] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,41,41,41,41,41,41,43,43,43,43,43,43,46,46,47,49,49,50,52,53,55,57,58,59};
+    //Stores the players custom deck
+    private int playerDeck[] = new int[MAXDECKSIZE];
+
 
     // Could be re-used
     public ArrayList<MonsterCard> monsterArray = new ArrayList<>(noOfMonsterCards);
@@ -124,10 +127,10 @@ public class Deck {
         this.basicArray = basicArray;
     }
 
-    private void loadLibraryAssets ()
+    private void loadLibraryAssets (GameLoop loop)
 
     {
-
+        lib.loadAssets(loop);
     }
 
 
@@ -176,8 +179,6 @@ public class Deck {
     //generates a starting deck
     public void generateDeck(GameLoop loop,int cardIDs[])
     {
-        lib = new JSONcardLibrary();
-        lib.loadAssets(loop);
         for(int i = 0;i<MAXDECKSIZE;i++)
         {
             if(cardIDs[i]<=39)
@@ -201,6 +202,45 @@ public class Deck {
         }
     }
 
+    //Matt 40149561: Called from the DeckBuilder to add selected card to the Deck
+    public void addToDeck(int ID)
+    {
+        if(!isDeckFull())
+        {
+            playerDeck[deckSize] = ID;
+            deckSize++;
+            if (ID <= 39)
+            {
+                addMonstersCards(lib.monsterCards.get(ID - 1));
+            }
+            if ((ID > 39) && (ID <= 45))
+            {
+                addManaCards(lib.manaCards.get(manaIDLookup(ID)));
+            }
+            if (ID > 45)
+            {
+                addSupportCards(lib.supportCards.get(supportIDLookup(ID)));
+            }
+        }
+        else
+            System.out.print("The deck is full");
+    }
+    private void addMonstersCards(MonsterCard monsterCard)
+    {
+        monsterArray.add(monsterCard);
+        noOfMonsterCards++;
+    }
+    private void addManaCards(ManaCard manaCard)
+    {
+        manaArray.add(manaCard);
+        noOfManaCards++;
+    }
+    private void addSupportCards(SupportCard supportCard)
+    {
+        supportArray.add(supportCard);
+        noOfSupportCards++;
+    }
+
     //Matt 40149561
     //Since ID doesn't map as easily to other card types, this looks up the position in the array
     private int manaIDLookup(int ID)
@@ -208,17 +248,17 @@ public class Deck {
         int pos = 0;
         switch(ID)
         {
-            case 48: pos = 0;
+            case 40: pos = 0;
                 break;
-            case 49:pos = 1;
+            case 41:pos = 1;
                 break;
-            case 50:pos = 2;
+            case 42:pos = 2;
                 break;
-            case 51:pos = 3;
+            case 43:pos = 3;
                 break;
-            case 52:pos = 4;
+            case 44:pos = 4;
                 break;
-            case 53:pos = 5;
+            case 45:pos = 5;
                 break;
         }
         return pos;
@@ -228,74 +268,50 @@ public class Deck {
         int pos =0;
         switch(ID)
         {
-            case 54:pos = 0;
+            case 46:pos = 0;
                 break;
-            case 55:pos = 1;
+            case 47:pos = 1;
                 break;
-            case 56:pos = 2;
+            case 48:pos = 2;
                 break;
-            case 57:pos = 3;
+            case 49:pos = 3;
                 break;
-            case 58:pos = 4;
+            case 50:pos = 4;
                 break;
-            case 59:pos = 5;
+            case 51:pos = 5;
                 break;
-            case 60:pos = 6;
+            case 52:pos = 6;
                 break;
-            case 61:pos = 7;
+            case 53:pos = 7;
                 break;
-            case 62:pos = 8;
+            case 54:pos = 8;
                 break;
-            case 63:pos = 9;
+            case 55:pos = 9;
                 break;
-            case 64:pos = 10;
+            case 56:pos = 10;
                 break;
-            case 65:pos = 11;
+            case 57:pos = 11;
                 break;
-            case 66:pos = 12;
+            case 58:pos = 12;
                 break;
-            case 67:pos = 13;
+            case 59:pos = 13;
                 break;
         }
         return pos;
     }
 
     //Matt 40149561
-    //These methods will be used in the deck assembler fragment
-    private void addMonstersCards(MonsterCard monsterCard)
-    {
-        if(!isDeckFull())
-        {
-            monsterArray.add(monsterCard);
-            noOfMonsterCards++;
-        }
-        else
-            System.out.print("The deck is full");
-    }
-    private void addManaCards(ManaCard manaCard)
-    {
-        if(!isDeckFull())
-        {
-            manaArray.add(manaCard);
-            noOfManaCards++;
-        }
-        else
-            System.out.print("The deck is full");
-    }
-    private void addSupportCards(SupportCard supportCard)
-    {
-        if(!isDeckFull())
-        {
-            supportArray.add(supportCard);
-            noOfSupportCards++;
-        }
-        else
-            System.out.print("The deck is full");
-
-    }
-    //Matt 40149561
     private boolean isDeckFull()
     {
-        return (deckSize>MAXDECKSIZE);
+        return (deckSize>=MAXDECKSIZE);
     }
+
+    //If the player wants to recreate their deck call this method
+    private void resetDeck()
+    {
+        for(int i=0;i<MAXDECKSIZE;i++)
+            playerDeck[i] = -1;
+        deckSize = 0;
+    }
+
 }
