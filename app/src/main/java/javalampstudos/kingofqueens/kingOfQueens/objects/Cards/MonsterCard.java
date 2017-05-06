@@ -10,6 +10,7 @@ import javalampstudos.kingofqueens.kingOfQueens.world.LayerViewport;
 import javalampstudos.kingofqueens.kingOfQueens.world.ScreenViewport;
 
 /**
+ * //We don't actually know who created the orignal file, but Andrew had to recreate some classes back in March
  * Created by Andrew on 29/03/2017.
  */
 
@@ -257,6 +258,7 @@ public class MonsterCard extends BasicCard
     //Certain monsters have a special attack. This method allows the monster to use it
     private int statBeforeSpecial = -1; //Placeholder int for storing stat values pre-Special
     private boolean specialEnabled = false; //If a special attack modifies values,this allows the values to be reset
+    private BuffType statChanged = null;
     private boolean hasRecievedDefence = false; // Stops a card from receiving more than one buff from the Tinkerer/Craftsman
     private void specialAttack(MonsterCard affectedCard) // @param affectedCard - if a special move doesn't affect any monsters, just pass through the monster itself
     {
@@ -286,11 +288,13 @@ public class MonsterCard extends BasicCard
                 break;
             case 14:heal(50,affectedCard);
                 break;
-            case 15:specialEnabled = true;
+            case 15:affectedCard.specialEnabled = true;
+                statChanged = BuffType.AttackBoost;
                 statBeforeSpecial = affectedCard.attackValue;
                 affectedCard.setAttackValue(affectedCard.attackValue+20);
                 break;
-            case 16: specialEnabled = true;
+            case 16: affectedCard.specialEnabled = true;
+                statChanged = BuffType.AttackBoost;
                 statBeforeSpecial = affectedCard.attackValue;
                 affectedCard.setAttackValue(affectedCard.attackValue+30);
                 break;
@@ -312,6 +316,17 @@ public class MonsterCard extends BasicCard
                 System.out.print("Card has already been buffed!");
                 break;
             default:System.out.print("Card does not have a special Attack");
+        }
+    }
+    //Matt 40149561: When a special buff ends, call this method
+    public void endSpecialStats()
+    {
+        if(specialEnabled)
+        {
+            if (statChanged == BuffType.AttackBoost)
+                setAttackValue(statBeforeSpecial);
+            else if (statChanged == BuffType.DefenceBoost)
+                setDefence(statBeforeSpecial);
         }
     }
 }

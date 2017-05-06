@@ -71,8 +71,7 @@ public class SupportCard extends BasicCard
             buffedCard.setBuffed(true);
 
 
-        //05/05/2017 Going to put this in the turn logic
-//            // TODO: 01/02/2017 When turn structure is implemented, work out how to increment a counter after a turn
+        // TODO: 05/05/2017  Going to put this in the turn logic
 //            if(turns==0) {
 //                active = false;
 //                buffedCard.setAttackValue(buffedCard.attackValue -= attack);

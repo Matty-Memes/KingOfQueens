@@ -177,7 +177,7 @@ public class Deck {
     //Matt 40149561
     /*Deck assembly*/
     //generates a starting deck
-    public void generateDeck(GameLoop loop,int cardIDs[])
+    public void generateDeck(int cardIDs[])
     {
         for(int i = 0;i<MAXDECKSIZE;i++)
         {

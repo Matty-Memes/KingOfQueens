@@ -9,23 +9,22 @@ import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Deck;
 
 /**
- * Created by Matt on 05/05/2017.
+ * Created by Matt on 06/05/2017.
  */
 
-public class DeckBuilderFragment extends MenuFragment
+public class CardTypeFilterFragment extends MainMenuFragment
 {
     // DeckBuilder Bitmaps
-    private Bitmap bgroundBitmap,cardSchoolFilterBitmap,cardTypeFilterBitmap,backBitmap,leftArrowBitmap,rightArrowBitmap,deckButtonBitmap,returnToBuilderBitmap;
+    private Bitmap bgroundBitmap,cardSchoolFilterBitmap,cardTypeFilterBitmap,backBitmap,leftArrowBitmap,rightArrowBitmap,deckButtonBitmap,filterBoxBitmap,monsterFilterBitmap,manaFilterBitmap,supportFilterBitmap;
     // DeckBuilder Rects
-    private Rect bgroundRect, cardSchoolFilterRect,cardTypeFilterRect,backRect,leftArrowRect,rightArrowRect,deckButtonRect,returnToBuilderRect;
-    //rects for storing cards
-    private Rect card1Rect,card2Rect,card3Rect,card4Rect,card5Rect,card6Rect,card7Rect,card8Rect;
+    private Rect bgroundRect,backRect,filterBoxRect,monsterFilterRect,manaFilterRect,supportFilterRect;
+
 
     public Deck playerDeck = new Deck();
 
 
 
-    public DeckBuilderFragment()
+    public CardTypeFilterFragment()
 
     {
 
@@ -38,25 +37,15 @@ public class DeckBuilderFragment extends MenuFragment
     {
         super.doSetup();
 
-        // Loads in image assets related to the currently selected language
+        // Loads in image assets
         AssetManager assetManager = getActivity().getAssets();
 
         // set up rects here
         bgroundRect = new Rect();
-        cardSchoolFilterRect = new Rect();
-        cardTypeFilterRect = new Rect();
-        leftArrowRect = new Rect();
-        rightArrowRect = new Rect();
-        deckButtonRect = new Rect();
-        returnToBuilderRect = new Rect();
-        card1Rect = new Rect();
-        card2Rect = new Rect();
-        card3Rect = new Rect();
-        card4Rect = new Rect();
-        card5Rect = new Rect();
-        card6Rect = new Rect();
-        card7Rect = new Rect();
-        card8Rect = new Rect();
+        filterBoxRect = new Rect();
+        monsterFilterRect = new Rect();
+        manaFilterRect = new Rect();
+        supportFilterRect = new Rect();
 
 
         // Load bitmaps
@@ -67,11 +56,15 @@ public class DeckBuilderFragment extends MenuFragment
         leftArrowBitmap = AssetLoader.loadBitmap(assetManager,"img/Buttons/ArrowLeft.png");
         rightArrowBitmap = AssetLoader.loadBitmap(assetManager,"img/Buttons/ArrowRight.png");
         deckButtonBitmap = AssetLoader.loadBitmap(assetManager,"img/Buttons/ViewDeckButton.png");
-        returnToBuilderBitmap = AssetLoader.loadBitmap(assetManager,"img/Buttons/BackToBuilder.png");
+        filterBoxBitmap = AssetLoader.loadBitmap(assetManager,"img/Buttons/FilterBoxType.png");
+        monsterFilterBitmap = AssetLoader.loadBitmap(assetManager,"img/Buttons/MonsterFilter.png");
+        manaFilterBitmap = AssetLoader.loadBitmap(assetManager,"img/Buttons/ManaFilter.png");
+        supportFilterBitmap = AssetLoader.loadBitmap(assetManager,"img/Buttons/SupportFilter.png");
 
 
 
-        // Set up values for each deckBuilder rect
+
+        // Set up values for each rect
         backRect = new Rect((int) (width - 96 * uiScaling - 3 * gameScaling),
                 (int) (height / 2 + 56 * uiScaling),
                 (int) (width - 8 * gameScaling),
@@ -89,6 +82,11 @@ public class DeckBuilderFragment extends MenuFragment
 
         canvas.drawBitmap(bgroundBitmap,null,bgroundRect,null);
         canvas.drawBitmap(backBitmap, null, backRect, null);
+        canvas.drawBitmap(filterBoxBitmap,null,filterBoxRect,null);
+        canvas.drawBitmap(monsterFilterBitmap,null,monsterFilterRect,null);
+        canvas.drawBitmap(manaFilterBitmap,null,manaFilterRect,null);
+        canvas.drawBitmap(supportFilterBitmap,null,supportFilterRect,null);
+
 
         // Touch input for each menu rect
 
@@ -96,31 +94,22 @@ public class DeckBuilderFragment extends MenuFragment
             if (input.isTouchDown(i)) {
                 int x = (int) input.getTouchX(i), y = (int) input.getTouchY(i);
 
-                if (card1Rect.contains(x,y))
+                if (monsterFilterRect.contains(x,y))
                 {
-                    //run add to deck method
-                    //playerDeck.addToDeck(ID);
+                    //Filter by Monster Card
                 }
 
-                if(cardSchoolFilterRect.contains(x,y))
+                if(manaFilterRect.contains(x,y))
                 {
-                    //Bring up the cardSchool Filter menu
+                    //Filter by Mana Card
                 }
-                if(cardTypeFilterRect.contains(x,y))
+                if(supportFilterRect.contains(x,y))
                 {
-                    //Bring up the cardType filter menu
+                    //Filter by Support Card
                 }
-                if(leftArrowRect.contains(x,y))
+                if(backRect.contains(x,y))
                 {
-                    //Previous page
-                }
-                if(rightArrowRect.contains(x,y))
-                {
-                    //Next page
-                }
-                if(deckButtonRect.contains(x,y))
-                {
-                    //move to deck deck view
+                    //return to deck builder without changing filter
                 }
             }
 
@@ -129,4 +118,3 @@ public class DeckBuilderFragment extends MenuFragment
 
     }
 }
-
