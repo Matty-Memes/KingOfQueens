@@ -28,15 +28,18 @@ public class Text
     public String text;
     // paint object for style
     public Paint paint;
+    public boolean damage, visible;
 
 
     // Text Constructor
-    public Text (float x, float y, String text, GameLoop loop)
+    public Text (float x, float y, String text, GameLoop loop, boolean damage, boolean visible)
 
     {
         this.x = x;
         this.y = y;
         this.text = text;
+        this.damage = damage;
+        this.visible = visible;
 
         // Initialize paint object
 
@@ -49,7 +52,21 @@ public class Text
         paint.setTextAlign(Paint.Align.CENTER);
         // this needs to be scaled
         paint.setTextSize(23);
-        paint.setColor(Color.WHITE);
+
+        if (damage)
+
+        {
+            paint.setTextSize(35);
+            paint.setColor(Color.RED);
+
+        }
+
+        else
+
+        {
+            paint.setColor(Color.WHITE);
+        }
+
         paint.setTypeface(paint.setTypeface(Typeface.createFromAsset(assetManager,
                 "txt/OpenSans-BoldItalic.ttf")));
 
@@ -67,9 +84,13 @@ public class Text
     public void draw (Canvas canvas)
 
     {
+        if (visible)
 
-        // the paint is always the same
-        canvas.drawText(text, x, y, paint);
+        {
+            // the paint is always the same
+            canvas.drawText(text, x, y, paint);
+
+        }
 
     }
 

@@ -175,7 +175,6 @@ public class GameViewFragment extends CanvasFragment {
                 drawOpenWorld(canvas);
 
                 break;
-
             case PAUSED:
 
                 drawCard(canvas);
@@ -267,16 +266,25 @@ public class GameViewFragment extends CanvasFragment {
                 break;
             case MONSTERPLACEMENT:
 
-                 drawCard(canvas);
+                drawCard(canvas);
 
-                 drawMana(canvas);
+                drawMana(canvas);
 
-                 drawUI(canvas);
+                drawUI(canvas);
 
                 break;
+            case DAMAGE:
 
+                drawCard(canvas);
 
+                drawDamage(canvas);
+
+                drawMana(canvas);
+
+                break;
             case ATTACK:
+
+                drawDamage(canvas);
 
                 drawCard(canvas);
 
@@ -290,6 +298,8 @@ public class GameViewFragment extends CanvasFragment {
                 canvas.drawBitmap(victoryScreen, null, backgroundImageRect, null);
 
                 break;
+
+
         }
 
     }
@@ -446,13 +456,19 @@ public class GameViewFragment extends CanvasFragment {
                     loop.response = -1;
                     resetDialoguePoint = true; break;
             }
-
-
         }
 
 
         //Draw the interact button last
         canvas.drawBitmap(loop.aButton, null, loop.interactButton, null);
+
+    }
+
+    private void drawDamage (Canvas canvas)
+
+    {
+
+        loop.damageText.draw(canvas);
 
     }
 
