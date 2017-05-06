@@ -175,7 +175,6 @@ public class GameViewFragment extends CanvasFragment {
                 drawOpenWorld(canvas);
 
                 break;
-
             case PAUSED:
 
                 drawCard(canvas);
@@ -267,16 +266,25 @@ public class GameViewFragment extends CanvasFragment {
                 break;
             case MONSTERPLACEMENT:
 
-                 drawCard(canvas);
+                drawCard(canvas);
 
-                 drawMana(canvas);
+                drawMana(canvas);
 
-                 drawUI(canvas);
+                drawUI(canvas);
 
                 break;
+            case DAMAGE:
 
+                drawCard(canvas);
 
+                drawDamage(canvas);
+
+                drawMana(canvas);
+
+                break;
             case ATTACK:
+
+                drawDamage(canvas);
 
                 drawCard(canvas);
 
@@ -290,6 +298,8 @@ public class GameViewFragment extends CanvasFragment {
                 canvas.drawBitmap(victoryScreen, null, backgroundImageRect, null);
 
                 break;
+
+
         }
 
     }
@@ -321,6 +331,9 @@ public class GameViewFragment extends CanvasFragment {
         //Setup spacing to set up Rect in context of the screen
         int spacingX = width / 10;
         int spacingY = height / 10;
+
+        int clipSpacingX = canvas.getClipBounds().width() / 10;
+        int clipSpacingY = canvas.getClipBounds().height() / 10;
 
         //Draw map
         loop.mapTest.draw(canvas, loop.mLayerViewport, loop.mScreenViewport);
@@ -355,7 +368,8 @@ public class GameViewFragment extends CanvasFragment {
             canvas.clipRect(spacingX, spacingY * 5, spacingX * 9, spacingY * 9);
             canvas.drawColor(-1);
             mPaint.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "minecraftia.ttf"));
-            mPaint.setTextSize(115.0f);
+            mPaint.setTextSize(clipSpacingY - clipSpacingY / 4);
+            System.out.println(canvas.getClipBounds().height());
             mPaint.setTextAlign(Paint.Align.LEFT);
             mPaint.setColor(Color.BLACK);
 
@@ -373,6 +387,7 @@ public class GameViewFragment extends CanvasFragment {
                 dialogueState = DialogueState.SHOP;
             }
 
+
             //If "OPTIONS" is returned then dialogueState is set to OPTIONS, loop.response = 0 to notify the GameLoop class
             //that a response is required from the user, dialoguePoint is reset for a new conversation.
             //If loop.response is 0, the code is awaitng user response after the dialogue options have been drawn
@@ -383,20 +398,19 @@ public class GameViewFragment extends CanvasFragment {
                 dialogueState = DialogueState.OPTIONS;
             }
 
-            //If response is greater than 0, user has given their response. DialoguePoint is set the first time the statment
+
+            //If response is greater than 0, user has given their response. DialoguePoint is set the first time the statement
             //is accessed and dialogueState is set to REGULAR to allow dialogue to continue normally
             if(loop.response > 0) {
 
-                //Accessed only the first time the outer if statement is accessed to ensure the dialoguePoint isn't reset
-                //after every update
                 if (resetDialoguePoint == true) {
                     loop.dialoguePoint = 1;
                 }
 
-                //Set to false so dialoguePoint can increment normally when the user presses the interactButton in GameLoop
                 resetDialoguePoint = false;
                 dialogueState = DialogueState.REGULAR;
             }
+
 
             //If "None" is returned from conversationIndex, the conversation has ended
             //If "Coin" is returned from shopConvo and "None" is returned from conversationIndex, the conversation with the
@@ -417,21 +431,21 @@ public class GameViewFragment extends CanvasFragment {
 
                 case REGULAR:
                     canvas.drawText(Dialogue.conversationIndex(loop.interactionIndex, loop.dialoguePoint, loop.response),
-                            canvas.getClipBounds().left + spacingX / 2, canvas.getClipBounds().top + spacingY * 2, mPaint); break;
+                            canvas.getClipBounds().left + clipSpacingX / 2, canvas.getClipBounds().top + clipSpacingY * 2, mPaint); break;
 
                 case SHOP:
                     canvas.drawText(Dialogue.shopConvo(loop.dialoguePoint, loop.coinCounter),
-                            canvas.getClipBounds().left + spacingX / 2, canvas.getClipBounds().top + spacingY * 2, mPaint); break;
+                            canvas.getClipBounds().left + clipSpacingX / 2, canvas.getClipBounds().top + clipSpacingY * 2, mPaint); break;
 
                 case OPTIONS:
                     //Reset colour to distinguish NPC lines from player dialogue options
                     mPaint.setColor(Color.BLUE);
                     //Draw both options
                     canvas.drawText(Dialogue.conversationIndex(loop.interactionIndex, loop.dialoguePoint, loop.response),
-                            canvas.getClipBounds().left + spacingX / 2, canvas.getClipBounds().top + spacingY * 2, mPaint);
+                            canvas.getClipBounds().left + clipSpacingX / 2, canvas.getClipBounds().top + clipSpacingY * 2, mPaint);
                     loop.dialoguePoint++;
                     canvas.drawText(Dialogue.conversationIndex(loop.interactionIndex, loop.dialoguePoint, loop.response),
-                            canvas.getClipBounds().left + spacingX / 2, canvas.getClipBounds().top + spacingY * 4, mPaint); break;
+                            canvas.getClipBounds().left + clipSpacingX / 2, canvas.getClipBounds().top + clipSpacingY * 4, mPaint); break;
 
                 case NONE:
                     //When reached, conversation has ended. Reset dialoguePoint, inDialogue, interactionIndex, response
@@ -442,13 +456,19 @@ public class GameViewFragment extends CanvasFragment {
                     loop.response = -1;
                     resetDialoguePoint = true; break;
             }
-
-
         }
 
 
         //Draw the interact button last
         canvas.drawBitmap(loop.aButton, null, loop.interactButton, null);
+
+    }
+
+    private void drawDamage (Canvas canvas)
+
+    {
+
+        loop.damageText.draw(canvas);
 
     }
 

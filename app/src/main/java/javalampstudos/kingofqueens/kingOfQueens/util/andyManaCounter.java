@@ -20,10 +20,10 @@ public class andyManaCounter extends Text
     public int counter;
 
     // Constructor
-    public andyManaCounter(float x, float y, String text, GameLoop loop)
+    public andyManaCounter(float x, float y, String text, GameLoop loop, boolean damage, boolean visible )
 
     {
-        super(x, y, text, loop);
+        super(x, y, text, loop, damage, visible);
         // Counter always starts at 0
         counter = 0;
 
