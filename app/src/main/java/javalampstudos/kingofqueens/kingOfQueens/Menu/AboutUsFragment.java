@@ -14,9 +14,9 @@ import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 
 public class AboutUsFragment extends MenuFragment {
 
-    //AboutUs Bitmap
+    //About Us Bitmap
     private Bitmap bground, backBitmap;
-    //AboutUs Rect
+    //About Us Rect
     private Rect bgroundRect, backRect;
 
     public AboutUsFragment() {
