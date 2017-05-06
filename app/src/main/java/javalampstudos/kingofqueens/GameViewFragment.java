@@ -50,7 +50,7 @@ public class GameViewFragment extends CanvasFragment {
     // RECTS
     private Rect backgroundImageRect;
     // STRINGS - For the pause menu and the win and lose cases
-    private String pauseString, mainMenuString, resumeString, restartString;
+    private String pauseString, mainMenuString, resumeString, restartString, forfeitString;
 
     // Width and heihgt for creating the view
     private int width, height;
@@ -135,6 +135,7 @@ public class GameViewFragment extends CanvasFragment {
         mainMenuString = "Main Menu";
         resumeString = "Resume";
         restartString = "Restart";
+        forfeitString = "Forfeit";
 
     }
 
@@ -198,7 +199,9 @@ public class GameViewFragment extends CanvasFragment {
                         * loop.uiScaling, paint);
                 canvas.drawText(restartString, width / 2, height / 2 + 48
                         * loop.uiScaling, paint);
-                canvas.drawText(mainMenuString, width / 2, height / 2 + 104
+                canvas.drawText(forfeitString, width / 2, height / 2 + 104
+                        * loop.uiScaling, paint);
+                canvas.drawText(mainMenuString, width / 2, height / 2 + 160
                         * loop.uiScaling, paint);
 
                 break;

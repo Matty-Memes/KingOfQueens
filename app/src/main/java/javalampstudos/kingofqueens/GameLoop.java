@@ -1963,6 +1963,11 @@ public class GameLoop implements Runnable
 
                 }
 
+                if(boardLayout.forfeitRect.contains(x, y)) {
+                    gameState = GameState.OPENWORLD;
+                    gameStateSwitch = false;
+                }
+
                 if(boardLayout.mainMenuRect.contains(x, y)) {
                     fragment.getFragmentManager()
                             .beginTransaction()
