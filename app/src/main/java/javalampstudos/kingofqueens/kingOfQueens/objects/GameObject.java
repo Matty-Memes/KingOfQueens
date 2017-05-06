@@ -104,10 +104,10 @@ public abstract class GameObject
 
         // x will be offset and should be increased
 
-        rect.set((int) (x - (width / 2) * GameLoop.gameScaling),
-                (int) (y - (height / 2) * GameLoop.gameScaling),
-                (int) (x + (width / 2 ) * GameLoop.gameScaling),
-                (int) (y + (height / 2 ) * GameLoop.gameScaling));
+        rect.set((int) (x - (width / 2) ),
+                (int) (y - (height / 2) ),
+                (int) (x + (width / 2 ) ),
+                (int) (y + (height / 2 )));
 
     }
 

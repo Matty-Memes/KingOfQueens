@@ -46,7 +46,7 @@ public class GameViewFragment extends CanvasFragment {
     private Paint paint;
 
     // BITMAPS
-    private Bitmap backgroundImage, pauseBitmap;
+    private Bitmap backgroundImage, pauseBitmap, victoryScreen;;
     // RECTS
     private Rect backgroundImageRect;
     // STRINGS - For the pause menu and the win and lose cases
@@ -125,7 +125,8 @@ public class GameViewFragment extends CanvasFragment {
         // create an AssetManager
         AssetManager assetManager = getActivity().getAssets();
         // draw the background
-        backgroundImage = AssetLoader.loadBitmap(assetManager, "img/Nathan/cloudyBackground.png");
+        victoryScreen = AssetLoader.loadBitmap(assetManager, "img/Screens/Victory.png");
+        backgroundImage = AssetLoader.loadBitmap(assetManager, "img/Screens/KoQBoard.png");
         pauseBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/Pause.png");
         // create a rect for the background
         backgroundImageRect = new Rect(0, 0, width, height);
@@ -207,6 +208,8 @@ public class GameViewFragment extends CanvasFragment {
 
                 drawCard(canvas);
 
+                drawMana(canvas);
+
                 // dim the screen - make it obvious that the player can't interact
                 canvas.drawARGB(127, 0, 0, 0);
 
@@ -238,6 +241,8 @@ public class GameViewFragment extends CanvasFragment {
 
                 drawUI(canvas);
 
+                break;
+
             case AIANIMATION:
 
                 drawCard(canvas);
@@ -247,24 +252,26 @@ public class GameViewFragment extends CanvasFragment {
 
                 drawUI(canvas);
 
+                break;
+
             case MANAPLACEMENT:
 
                 drawCard(canvas);
 
                 drawHand(canvas);
 
+                drawMana(canvas);
+
                 drawUI(canvas);
 
                 break;
             case MONSTERPLACEMENT:
 
-                drawTest(canvas);
+                 drawCard(canvas);
 
-                // drawCard(canvas);
+                 drawMana(canvas);
 
-                // drawMana(canvas);
-
-                // drawUI(canvas);
+                 drawUI(canvas);
 
                 break;
 
@@ -280,7 +287,7 @@ public class GameViewFragment extends CanvasFragment {
                 break;
             case VICTORY:
 
-                drawVictory(canvas);
+                canvas.drawBitmap(victoryScreen, null, backgroundImageRect, null);
 
                 break;
         }
@@ -302,13 +309,6 @@ public class GameViewFragment extends CanvasFragment {
     {
         super.onResume();
         loop.resume();
-
-    }
-
-    public void drawTest (Canvas canvas)
-
-    {
-      loop.testCard.draw(canvas);
 
     }
 
@@ -486,16 +486,6 @@ public class GameViewFragment extends CanvasFragment {
 
     {
         canvas.drawBitmap(pauseBitmap, null, boardLayout.pauseRect, paint);
-
-        // Paints time at bottom of game screen
-
-        paint.setTextSize(16 * loop.uiScaling);
-
-        paint.setTextAlign(Paint.Align.CENTER);
-
-        canvas.drawText(String.format("%02d:%02d",loop.timer.minutes,
-                loop.timer.seconds), width / 2, height + 2 * loop.uiScaling,
-                paint);
 
     }
 

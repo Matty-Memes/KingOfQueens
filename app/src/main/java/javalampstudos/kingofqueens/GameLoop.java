@@ -30,6 +30,7 @@ import javalampstudos.kingofqueens.kingOfQueens.Menu.MainMenuFragment;
 import javalampstudos.kingofqueens.kingOfQueens.AiEngine.Window;
 import javalampstudos.kingofqueens.kingOfQueens.util.andyManaCounter;
 import javalampstudos.kingofqueens.kingOfQueens.util.CardAnimation;
+import javalampstudos.kingofqueens.kingOfQueens.util.Direction;
 
 // Android Imports
 
@@ -69,7 +70,7 @@ public class GameLoop implements Runnable
     public enum GameState {
 
         NEW, PAUSED,
-        // Non-player states
+        // Non-player states - get rid of AiAnimation
         PROMPT, AITURN, ANIMATION, AIANIMATION,
         // Turn Structure
         DRAW, MANAPLACEMENT, MONSTERPLACEMENT, ATTACK,
@@ -198,7 +199,7 @@ public class GameLoop implements Runnable
     public boolean windowDown = true;
 
     // SFX
-    private SoundPool startSFX;
+    private SoundPool startSFX, winSFX, loseSFX, dieSFX, attackSFX;
     private float sfxVolume;
 
     // MISC
@@ -218,16 +219,21 @@ public class GameLoop implements Runnable
 
     // User Prompt Stuff
     public String manaPrompt = "Monsters need mana to attack. Place a mana card in the mana zone on the left";
-    public String monsterPrompt = "Place a monster card on the field above your hand";
     public String attackPrompt = "Attack the opponent’s monsters by dragging your monster card over them";
+    public String monsterPrompt = "Drag a monster card to the field above your hand";
 
     public Text userPrompt;
     // Used to keep frames on the screen
     public int numFrames = 0;
 
+    // Used to dictate behaviour and for stats
+    // 0 - Mana Phase
+    // 1 - Monster Phase
+    // 2 - Attack Phase
+    public int phase = 1;
+
     // Nathan/OpenWorld variables      //
     //         40131544              //
-
 
     //Tile Grid
     public int[][] grid = new int[100][100];
@@ -393,23 +399,11 @@ public class GameLoop implements Runnable
 
         AssetManager assetManager = fragment.getActivity().getAssets();
 
-        aiThinking = AssetLoader.loadBitmap(assetManager, "img/AiThinking3.png");
-        victoryScreen = AssetLoader.loadBitmap(assetManager, "img/Screens/VictoryScreen.png");
-
-        testSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Cardback.png");
-
         // This is the ai message
         window = new Window(477, 240, 740, 240, aiThinking, true);
 
         // The victory screen
         victory = new Window(477, 240, 740, 240, victoryScreen, true);
-
-        // Specify the point where you want it drawn
-        float x = (width / 2);
-        float y = (height / 2);
-
-        testCard = new BasicCard(x, y, 40, 40, testSprite, true, 3, CardSchools.EEECS, false, 49, 234);
-
 
         cardBackSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Cardback.png");
         manaZoneSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Mana/ManaZoner.png");
@@ -497,9 +491,8 @@ public class GameLoop implements Runnable
         eeecs = new andyManaCounter(100, 380, "0", this);
         Medic = new andyManaCounter(100, 430, "0", this);
 
-
         // Use this for all user prompts - change the text when needed
-        userPrompt = new Text(width/2, height/2, manaPrompt, this);
+        userPrompt = new Text(width/2, height/2, monsterPrompt, this);
 
         // Once everything is loaded the user can interact
         handActive = true;
@@ -507,9 +500,15 @@ public class GameLoop implements Runnable
         // The prep phase becomes active here
         prepPhase = true;
 
+        //40123776, timer for stats
         timer.start();
 
+        //40123776, sfx
         startSFX = AssetLoader.loadSoundpool(assetManager, "start.mp3");
+        winSFX = AssetLoader.loadSoundpool(assetManager, "win.mp3");
+        loseSFX = AssetLoader.loadSoundpool(assetManager, "lose.mp3");
+        dieSFX = AssetLoader.loadSoundpool(assetManager, "die.mp3");
+        attackSFX = AssetLoader.loadSoundpool(assetManager, "attack.mp3");
 
     }
 
@@ -622,51 +621,55 @@ public class GameLoop implements Runnable
                         break;
                     case PROMPT:
                         updateCard();
+                        updateMana();
+                        updatePromptPause();
                         updatePrompt();
-                        updateTouch();
                         break;
                     case PAUSED:
-                        updateTouch ();
+                        updateTouchPaused ();
+                        updateMana();
                         break;
                     case AITURN:
                         updateCard();
+                        updateMana();
                         updateAICards();
                         break;
                     // automated so no updateTouch
                     case AIANIMATION:
                         updateCard();
+                        updateMana();
                         updateAIAnimation();
                         break;
                     case DRAW:
                         updateCard();
+                        updateMana();
                         updateDraw();
                         break;
                     case ANIMATION:
                         // don't update touch
                         updateAnimation();
+                        updateMana();
                         updateCard();
                         break;
                     case MANAPLACEMENT:
                         updateCard();
-                        // not really necessary
                         updateMana();
-                        updateTouch();
+                        updateTouchMana();
                         break;
                     case MONSTERPLACEMENT:
-                        updateTest();
-                        // updateCard();
-                        updateTouch();
+                        updateCard();
+                        updateMana();
+                        updateTouchMonster();
                         break;
                     case ATTACK:
                         updateCard();
-                        updateTouch();
+                        updateMana();
+                        updateTouchAttack();
                         break;
                     case VICTORY:
                         updateVictoryScreen();
-                        updateVS();
                         break;
                 }
-
 
                 // now draw the new updates using the other thread
                 canvasRenderer.drawNeeded = true;
@@ -703,7 +706,7 @@ public class GameLoop implements Runnable
         if(gameState != GameState.PAUSED) {
             pauseGame();
 
-            // timer.stop();
+            //timer.stop();
         }
 
         canvasRenderer.pause();
@@ -735,7 +738,7 @@ public class GameLoop implements Runnable
         // go to the renderer thread and run it's resume method
         canvasRenderer.resume();
 
-        sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
+
 
     }
 
@@ -748,7 +751,7 @@ public class GameLoop implements Runnable
         gameBoard = new boardLayout(width, height, uiScaling);
 
         // Hands and deck are set up so the prep phase can begin
-        gameState = GameState.MONSTERPLACEMENT;
+        gameState = GameState.PROMPT;
 
         sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
         startSFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
@@ -932,6 +935,12 @@ public class GameLoop implements Runnable
         Medic.update();
     }
 
+    private void updatePrompt ()
+
+    {
+      userPrompt.update();
+    }
+
     //Method to move the player
     //Nathan-   40131544
     public void movePlayer() {
@@ -989,7 +998,6 @@ public class GameLoop implements Runnable
                     / mScreenViewport.width, 240.0f, 240.0f
                     * mScreenViewport.height / mScreenViewport.width, 240);
     }
-
 
     //OpenWorld Collision Info
     //Nathan - 40131544
@@ -1192,6 +1200,7 @@ public class GameLoop implements Runnable
 
     }
 
+    // For troubleshooting
     private void updateTest ()
 
     {
@@ -1199,38 +1208,27 @@ public class GameLoop implements Runnable
 
     }
 
+    // Pauses the screen for 300 frames before returning to the main menu
+    // This is the last screen to be run so no clearing
+    // Andrew - 40083349
     private void updateVictoryScreen ()
 
     {
-        // move the prompt up and down
-        // set bounds for the prompt
-        // speed = 0.1
-        if(windowDown) {
+        if (numFrames >= 300)
 
-            victory.y += 1.0;
-            if(victory.y >= 270)
-                windowDown = false;
-
-            // start moving the window up
-        } else {
-            victory.y -= 1.0;
-            if(victory.y <= 210) {
-
-                // go to the main menu for now
-                // this should go back to the open world
-                fragment.getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.container,
-                                new MainMenuFragment(),
-                                "main_menu_fragment").commit();
-            }
+        {
+            fragment.getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.container,
+                            new MainMenuFragment(),
+                            "main_menu_fragment").commit();
         }
-    }
 
-    private void updateVS()
+        else
 
-    {
-        victory.update();
+        {
+            numFrames++;
+        }
 
     }
 
@@ -1261,679 +1259,642 @@ public class GameLoop implements Runnable
     {
         // Call the animation method on the animation object here with the right methods
         animation.updateCardAnimation(this, 2.5f, opponent1, false);
-
     }
 
-    // Created by Andrew - 40083349
-    private void updateTouch ()
+    private void updateTouchMana ()
 
     {
-        switch (gameState)
+        for(int i = 0; i < touchListener.MAX_TOUCH_POINTS; i++) {
+            if (touchListener.isTouchContinuous(i)) {
+                int x = (int) touchListener.getTouchX(i), y = (int) touchListener
+                        .getTouchY(i);
 
-        {
-            case MANAPLACEMENT:
+                if(boardLayout.pauseRect.contains((int) x, (int) y)) {
+                    pauseGame();
+                }
 
-                for(int i = 0; i < touchListener.MAX_TOUCH_POINTS; i++) {
-                    if (touchListener.isTouchContinuous(i)) {
-                        int x = (int) touchListener.getTouchX(i), y = (int) touchListener
-                                .getTouchY(i);
+                if (boardLayout.handRect1.contains((int) x, (int) y) && handActive)
 
-                        if(boardLayout.pauseRect.contains((int) x, (int) y)) {
-                            pauseGame();
-                        }
+                {
+                    // Allow the card chosen to be dragged
+                    dragActive = true;
+                    // The first card becomes the current card
+                    handIndex = 0;
+                    // Index into the array and set the pointer ID
+                    handCards.get(handIndex).pointerID = i;
+                    // No more hand cards can be picked up
+                    handActive = false;
 
-                        if (boardLayout.handRect1.contains((int) x, (int) y) && handActive)
-
-                        {
-                            // Allow the card chosen to be dragged
-                            dragActive = true;
-                            // The first card becomes the current card
-                            handIndex = 0;
-                            // Index into the array and set the pointer ID
-                            handCards.get(handIndex).pointerID = i;
-                            // No more hand cards can be picked up
-                            handActive = false;
-
-                        }
+                }
 
 
-                        if (boardLayout.handRect2.contains((int) x, (int) y) && handActive )
+                if (boardLayout.handRect2.contains((int) x, (int) y) && handActive )
 
-                        {
-                            dragActive = true;
-                            handIndex = 1;
-                            // Index into the array and set the pointer ID
-                            handCards.get(handIndex).pointerID = i;
+                {
+                    dragActive = true;
+                    handIndex = 1;
+                    // Index into the array and set the pointer ID
+                    handCards.get(handIndex).pointerID = i;
 
-                            handActive = false;
+                    handActive = false;
 
-                        }
+                }
 
-                        if (boardLayout.handRect3.contains((int) x, (int) y) && handActive)
+                if (boardLayout.handRect3.contains((int) x, (int) y) && handActive)
 
-                        {
-                            dragActive = true;
-                            handIndex = 2;
-                            // Index into the array and set the pointer ID
-                            handCards.get(handIndex).pointerID = i;
-                            handActive = false;
+                {
+                    dragActive = true;
+                    handIndex = 2;
+                    // Index into the array and set the pointer ID
+                    handCards.get(handIndex).pointerID = i;
+                    handActive = false;
 
-                        }
+                }
 
-                        if (boardLayout.handRect4.contains((int) x, (int) y) && handActive)
+                if (boardLayout.handRect4.contains((int) x, (int) y) && handActive)
 
-                        {
-                            dragActive = true;
-                            handIndex = 3;
-                            // Index into the array and set the pointer ID
-                            handCards.get(handIndex).pointerID = i;
-                            handActive = false;
+                {
+                    dragActive = true;
+                    handIndex = 3;
+                    // Index into the array and set the pointer ID
+                    handCards.get(handIndex).pointerID = i;
+                    handActive = false;
 
-                        }
+                }
 
-                        if (boardLayout.handRect5.contains((int) x, (int) y) && handActive)
+                if (boardLayout.handRect5.contains((int) x, (int) y) && handActive)
 
-                        {
-                            dragActive = true;
-                            handIndex = 4;
-                            // Index into the array and set the pointer ID
-                            handCards.get(handIndex).pointerID = i;
-                            handActive = false;
+                {
+                    dragActive = true;
+                    handIndex = 4;
+                    // Index into the array and set the pointer ID
+                    handCards.get(handIndex).pointerID = i;
+                    handActive = false;
 
-                        }
+                }
 
-                        if(boardLayout.playerMovementRect.contains((int) x, (int) y) && dragActive)
+                if(boardLayout.playerMovementRect.contains((int) x, (int) y) && dragActive)
 
-                        {
-                            // how do you know which card this effects
-                            // set the index of the array to talk to
-                            handCards.get(handIndex).x = x;
-                            handCards.get(handIndex).y = y;
+                {
+                    // how do you know which card this effects
+                    // set the index of the array to talk to
+                    handCards.get(handIndex).x = x;
+                    handCards.get(handIndex).y = y;
 
-                        }
+                }
 
-                        // Mana cards are placed here - Reset the position of the card that was placed
-                        if (boardLayout.manaRect.contains((int) handCards.get(handIndex).x, (int) handCards.get(handIndex).y)
-                                && handCards.get(handIndex).id == 1 && manaflag)
+                // Mana cards are placed here - Reset the position of the card that was placed
+                if (boardLayout.manaRect.contains((int) handCards.get(handIndex).x, (int) handCards.get(handIndex).y)
+                        && handCards.get(handIndex).id == 1 && manaflag)
 
-                        {
-                            // no more dragging now the mana has been placed
-                            dragActive = false;
+                {
+                    // no more dragging now the mana has been placed
+                    dragActive = false;
 
-                            // Work out which manaCounter object to update
-                            switch (handCards.get(handIndex).getCardSchool())
+                    // Work out which manaCounter object to update
+                    switch (handCards.get(handIndex).getCardSchool())
 
-                            {
-                                case ARTS_HUMANITIES:
-                                    artsAndHumanities.incrementCounter();
-                                    break;
-                                case ENGINEERING:
-                                    engineering.incrementCounter();
-                                    break;
-                                case BUILT_ENVIORNMENT:
-                                    builtEnvironment.incrementCounter();
-                                    break;
-                                case EEECS:
-                                    eeecs.incrementCounter();
-                                    break;
-                                case MEDICS:
-                                    Medic.incrementCounter();
-                                    break;
-                                // Deal with generic mana
+                    {
+                        case ARTS_HUMANITIES:
+                            artsAndHumanities.incrementCounter();
+                            break;
+                        case ENGINEERING:
+                            engineering.incrementCounter();
+                            break;
+                        case BUILT_ENVIORNMENT:
+                            builtEnvironment.incrementCounter();
+                            break;
+                        case EEECS:
+                            eeecs.incrementCounter();
+                            break;
+                        case MEDICS:
+                            Medic.incrementCounter();
+                            break;
+                        // Deal with generic mana
                                 /*
                                 case
                                     manaTest.addMana(ManaTypes.GENERIC_MANA);
                                     break;
                                 */
-                            }
-                            // get the current card off the screen
-                            handCards.get(handIndex).destroyed = true;
+                    }
+                    // get the current card off the screen
+                    handCards.get(handIndex).destroyed = true;
 
-                            // The last card to be placed is set back to the deck for the drawing phase
-                            handCards.get(handIndex).moveToDeck();
+                    // The last card to be placed is set back to the deck for the drawing phase
+                    handCards.get(handIndex).moveToDeck();
 
-                            // move to the monster placement phase
-                            gameState = GameState.MONSTERPLACEMENT;
+                    userPrompt.text = monsterPrompt;
+                    phase = 1;
+                    numFrames = 0;
 
-                            manaflag = false;
-                            // allow movement of hand cards again
-                            handActive = true;
+                    manaflag = false;
+                    // allow movement of hand cards again
+                    handActive = true;
 
-                            userPrompt.text = monsterPrompt;
+                    // reset the logic for taking cards at the start of the player's turn
+                    boundHit = false;
 
-                            // reset the logic for taking cards at the start of the player's turn
-                            boundHit = false;
+                    //40123776
+                    //when mana card is played, increases int on stats screen
+                    MainActivity.setting.increaseInt("manaPlayed");
 
-                            //40123776
-                            //when mana card is played, increases int on stats screen
-                            MainActivity.setting.increaseInt("manaPlayed");
-                        }
+                    // move to the prompt phase then the monster placement phase
+                    gameState = GameState.PROMPT;
+                }
+            }
+
+            else
+
+            {
+                // how do you control which one goes where
+                if (handCards.get(handIndex).pointerID == i)
+
+                {
+                    // Put whatever BasicCard was picked up back in it's old position
+                    handCards.get(handIndex).resetPosition(handIndex);
+                    // the player has let go of the card and needs to pick up a new one
+                    handActive = true;
+
+                }
+
+            }
+        }
+
+    }
+
+    private void updateTouchMonster()
+
+    {
+        for(int i = 0; i < touchListener.MAX_TOUCH_POINTS; i++) {
+            if(touchListener.isTouchContinuous(i)) {
+                int x = (int) touchListener.getTouchX(i), y = (int) touchListener
+                        .getTouchY(i);
+
+                if(boardLayout.pauseRect.contains((int) x, (int) y)) {
+                    pauseGame();
+                }
+
+                if (boardLayout.handRect1.contains((int) x, (int) y) && handActive)
+
+                {
+                    // Allow the card chosen to be dragged
+                    dragActive = true;
+                    // The first card becomes the current card
+                    handIndex = 0;
+                    // Index into the array and set the pointer ID
+                    handCards.get(handIndex).pointerID = i;
+                    // No more hand cards can be picked up
+                    handActive = false;
+                }
+
+                if (boardLayout.handRect2.contains((int) x, (int) y) && handActive)
+
+                {
+                    dragActive = true;
+                    handIndex = 1;
+                    // Index into the array and set the pointer ID
+                    handCards.get(handIndex).pointerID = i;
+                    handActive = false;
+
+                }
+
+                if (boardLayout.handRect3.contains((int) x, (int) y) && handActive)
+
+                {
+                    dragActive = true;
+                    handIndex = 2;
+                    // Index into the array and set the pointer ID
+                    handCards.get(handIndex).pointerID = i;
+                    handActive = false;
+
+                }
+
+                if (boardLayout.handRect4.contains((int) x, (int) y) && handActive)
+
+                {
+                    dragActive = true;
+                    handIndex = 3;
+                    // Index into the array and set the pointer ID
+                    handCards.get(handIndex).pointerID = i;
+                    handActive = false;
+
+                }
+
+                if (boardLayout.handRect5.contains((int) x, (int) y) && handActive)
+
+                {
+                    dragActive = true;
+                    handIndex = 4;
+                    // Index into the array and set the pointer ID
+                    handCards.get(handIndex).pointerID = i;
+                    handActive = false;
+
+                }
+
+                if(boardLayout.playerMovementRect.contains((int) x, (int) y) && dragActive)
+
+                {
+                    // how do you know which card this effects
+                    // set the index of the array to talk to
+                    handCards.get(handIndex).x = x;
+                    handCards.get(handIndex).y = y;
+
+                }
+
+                // Hand Index
+                if (boardLayout.MSlot1Rect.contains((int)handCards.get(handIndex).x, (int)handCards.get(handIndex).y)
+                        && handCards.get(handIndex).id == 0)
+
+                {
+                    //40123776, when monster is played, increases int on stats screen
+                    MainActivity.setting.increaseInt("monstersPlayed");
+
+                    // prevents cards splipping off the edge
+                    dragActive = false;
+
+                    // get rid of the hand card
+                    handCards.get(handIndex).destroyed = true;
+
+                    // update the bitmap of the monster card and lock it at the right slot
+                    monsterCard1.sprite = handCards.get(handIndex).sprite;
+                    monsterCard1.x = 234;
+                    monsterCard1.y = 280;
+
+                    // move from the hand to the field
+                    // the card should be moved to the player's logical monster array
+                    // The touch zones dictate the index
+                    playerFieldMonsters.add(0, playerHandMonsters.get(handIndex));
+
+                    // The last card to be placed is set back to the deck for the drawing phase
+                    handCards.get(handIndex).moveToDeck();
+
+                    if (prepPhase)
+
+                    {
+                        prepPhase = false;
+                        emptySlot = handIndex;
+                        // The AI chooses a card and plays it
+                        userPrompt.text = manaPrompt;
+                        phase = 0;
+                        gameState = GameState.AITURN;
                     }
 
                     else
 
                     {
-                        // how do you control which one goes where
-                        if (handCards.get(handIndex).pointerID == i)
-
-                        {
-                            // Put whatever BasicCard was picked up back in it's old position
-                            handCards.get(handIndex).resetPosition(handIndex);
-                            // the player has let go of the card and needs to pick up a new one
-                            handActive = true;
-
-                        }
-
-                    }
-                }
-
-            case MONSTERPLACEMENT:
-
-                for(int i = 0; i < touchListener.MAX_TOUCH_POINTS; i++) {
-                    if (touchListener.isTouchContinuous(i)) {
-                        int x = (int) touchListener.getTouchX(i), y = (int) touchListener
-                                .getTouchY(i);
-
-                        testCard.x = x;
-                        testCard.y = y;
-
+                        userPrompt.text = attackPrompt;
+                        phase = 2;
+                        gameState = GameState.ATTACK;
+                        monsterSlotActive = true;
                     }
 
                 }
 
+                // Test with the middle
 
+                if (boardLayout.MSlot2Rect.contains((int)handCards.get(handIndex).x, (int)handCards.get(handIndex).y)
+                        && handCards.get(handIndex).id == 0)
 
+                {
+                    MainActivity.setting.increaseInt("monstersPlayed");
 
-//                for(int i = 0; i < touchListener.MAX_TOUCH_POINTS; i++) {
-//                    if(touchListener.isTouchContinuous(i)) {
-//                        int x = (int) touchListener.getTouchX(i), y = (int) touchListener
-//                                .getTouchY(i);
-//
-//                        if(boardLayout.pauseRect.contains((int) x, (int) y)) {
-//                            pauseGame();
-//                        }
-//
-//                        if (boardLayout.handRect1.contains((int) x, (int) y) && handActive)
-//
-//                        {
-//                            // Allow the card chosen to be dragged
-//                            dragActive = true;
-//                            // The first card becomes the current card
-//                            handIndex = 0;
-//                            // Index into the array and set the pointer ID
-//                            handCards.get(handIndex).pointerID = i;
-//                            // No more hand cards can be picked up
-//                            handActive = false;
-//                        }
-//
-//                        if (boardLayout.handRect2.contains((int) x, (int) y) && handActive)
-//
-//                        {
-//                            dragActive = true;
-//                            handIndex = 1;
-//                            // Index into the array and set the pointer ID
-//                            handCards.get(handIndex).pointerID = i;
-//                            handActive = false;
-//
-//                        }
-//
-//                        if (boardLayout.handRect3.contains((int) x, (int) y) && handActive)
-//
-//                        {
-//                            dragActive = true;
-//                            handIndex = 2;
-//                            // Index into the array and set the pointer ID
-//                            handCards.get(handIndex).pointerID = i;
-//                            handActive = false;
-//
-//                        }
-//
-//                        if (boardLayout.handRect4.contains((int) x, (int) y) && handActive)
-//
-//                        {
-//                            dragActive = true;
-//                            handIndex = 3;
-//                            // Index into the array and set the pointer ID
-//                            handCards.get(handIndex).pointerID = i;
-//                            handActive = false;
-//
-//                        }
-//
-//                        if (boardLayout.handRect5.contains((int) x, (int) y) && handActive)
-//
-//                        {
-//                            dragActive = true;
-//                            handIndex = 4;
-//                            // Index into the array and set the pointer ID
-//                            handCards.get(handIndex).pointerID = i;
-//                            handActive = false;
-//
-//                        }
-//
-//                        if(boardLayout.playerMovementRect.contains((int) x, (int) y) && dragActive)
-//
-//                        {
-//                            // how do you know which card this effects
-//                            // set the index of the array to talk to
-//                            handCards.get(handIndex).x = x;
-//                            handCards.get(handIndex).y = y;
-//
-//                        }
-//
-//                        // Hand Index
-//                        if (boardLayout.MSlot1Rect.contains((int)handCards.get(handIndex).x, (int)handCards.get(handIndex).y)
-//                                && handCards.get(handIndex).id == 0)
-//
-//                        {
-//                            //40123776, when monster is played, increases int on stats screen
-//                            MainActivity.setting.increaseInt("monstersPlayed");
-//
-//                            // prevents cards splipping off the edge
-//                            dragActive = false;
-//
-//                            // get rid of the hand card
-//                            handCards.get(handIndex).destroyed = true;
-//
-//                            // update the bitmap of the monster card and lock it at the right slot
-//                            monsterCard1.sprite = handCards.get(handIndex).sprite;
-//                            monsterCard1.x = 234;
-//                            monsterCard1.y = 280;
-//
-//                            // move from the hand to the field
-//                            // the card should be moved to the player's logical monster array
-//                            // The touch zones dictate the index
-//                            playerFieldMonsters.add(0, playerHandMonsters.get(handIndex));
-//
-//                            // The last card to be placed is set back to the deck for the drawing phase
-//                            handCards.get(handIndex).moveToDeck();
-//
-//                            userPrompt.text = attackPrompt;
-//
-//                            System.out.println("The x value is now" + handCards.get(handIndex).x);
-//
-//                            if (prepPhase)
-//
-//                            {
-//                                prepPhase = false;
-//                                emptySlot = handIndex;
-//                                // The AI chooses a card and plays it
-//                                gameState = GameState.AITURN;
-//                            }
-//
-//                            else
-//
-//                            {
-//                                gameState = GameState.ATTACK;
-//                                monsterSlotActive = true;
-//                            }
-//
-//                        }
-//
-//                        // Test with the middle
-//
-//                        if (boardLayout.MSlot2Rect.contains((int)handCards.get(handIndex).x, (int)handCards.get(handIndex).y)
-//                                && handCards.get(handIndex).id == 0)
-//
-//                        {
-//                            MainActivity.setting.increaseInt("monstersPlayed");
-//
-//                            // no more card movement
-//                            dragActive = false;
-//
-//                            // get rid of the hand card
-//                            handCards.get(handIndex).destroyed = true;
-//
-//                            // update the bitmap of the monster card and lock it at the right slot
-//                            monsterCard2.sprite = handCards.get(handIndex).sprite;
-//                            monsterCard2.x = 434;
-//                            monsterCard2.y = 280;
-//
-//                            // move from the hand to the field
-//                            // the card should be moved to the player's logical monster array
-//                            // The touch zones dictate the index
-//
-//                            System.out.println(handIndex);
-//                            // Avoid out of bounds exceptions
-//                            playerFieldMonsters.add(1, playerHandMonsters.get(handIndex));
-//
-//                            // The last card to be placed is set back to the deck for the drawing phase
-//                            handCards.get(handIndex).moveToDeck();
-//
-//                            userPrompt.text = attackPrompt;
-//
-//                            System.out.println("The x value is now" + handCards.get(handIndex).x);
-//
-//                            if (prepPhase)
-//
-//                            {
-//                                prepPhase = false;
-//                                emptySlot = handIndex;
-//                                gameState = GameState.AITURN;
-//
-//                            }
-//
-//                            else
-//
-//                            {
-//                                gameState = GameState.ATTACK;
-//                                monsterSlotActive = true;
-//                            }
-//
-//                        }
-//
-//                        //
-//
-//                        if (boardLayout.MSlot3Rect.contains((int)handCards.get(handIndex).x, (int)handCards.get(handIndex).y)
-//                                && handCards.get(handIndex).id == 0)
-//
-//                        {
-//                            MainActivity.setting.increaseInt("monstersPlayed");
-//
-//                            // no more card movement
-//                            dragActive = false;
-//
-//                            // get rid of the hand card
-//                            handCards.get(handIndex).destroyed = true;
-//
-//                            // update the bitmap of the monster card and lock it at the right slot
-//                            monsterCard3.sprite = handCards.get(handIndex).sprite;
-//                            monsterCard3.x = 634;
-//                            monsterCard3.y = 280;
-//
-//                            // move from the hand to the field
-//                            // the card should be moved to the player's logical monster array
-//                            // The touch zones dictate the index
-//                            playerFieldMonsters.add(3, playerHandMonsters.get(handIndex));
-////                            attack = true;
-//
-//                            // The last card to be placed is set back to the deck for the drawing phase
-//                            handCards.get(handIndex).moveToDeck();
-//
-//                            userPrompt.text = monsterPrompt;
-//
-//                            System.out.println("The x value is now" + handCards.get(handIndex).x);
-//
-//                            if (prepPhase)
-//
-//                            {
-//                                prepPhase = false;
-//                                emptySlot = handIndex;
-//                                gameState = GameState.AITURN;
-//                            }
-//
-//                            else
-//
-//                            {
-//                                gameState = GameState.ATTACK;
-//                                monsterSlotActive = true;
-//                            }
-//
-//                        }
-//
-//                    }
-//
-//                    // release that pointerID
-//                    else
-//
-//                    {
-//                        // how do you control which one goes where
-//                        if (handCards.get(handIndex).pointerID == i)
-//
-//                        {
-//                            // Put whatever BasicCard was picked up back in it's old position
-//                            handCards.get(handIndex).resetPosition(handIndex);
-//                            // the player has let go of the card and needs to pick up a new one
-//                            handActive = true;
-//
-//                        }
-//
-//                    }
-//                }
+                    // no more card movement
+                    dragActive = false;
 
-                break;
+                    // get rid of the hand card
+                    handCards.get(handIndex).destroyed = true;
 
-            // add soundfx here
-            // before this is accessed drag active should be false
+                    // update the bitmap of the monster card and lock it at the right slot
+                    monsterCard2.sprite = handCards.get(handIndex).sprite;
+                    monsterCard2.x = 434;
+                    monsterCard2.y = 280;
 
-            case ATTACK:
+                    // move from the hand to the field
+                    // the card should be moved to the player's logical monster array
+                    // The touch zones dictate the index
 
-                for(int i = 0; i < touchListener.MAX_TOUCH_POINTS; i++) {
-                    if(touchListener.isTouchContinuous(i)) {
-                        int x = (int) touchListener.getTouchX(i), y = (int) touchListener
-                                .getTouchY(i);
+                    System.out.println(handIndex);
+                    // Avoid out of bounds exceptions
+                    playerFieldMonsters.add(1, playerHandMonsters.get(handIndex));
 
-                        if(boardLayout.pauseRect.contains((int) x, (int) y)) {
-                            pauseGame();
-                        }
+                    // The last card to be placed is set back to the deck for the drawing phase
+                    handCards.get(handIndex).moveToDeck();
 
-                        if (boardLayout.MSlot1Rect.contains((int) x, (int) y) && monsterSlotActive)
+                    if (prepPhase)
 
-                        {
-
-                            dragActive = true;
-                            monsterIndex = 0;
-                            // Index into the array and set the pointer ID
-                            handCards.get(monsterIndex).pointerID = i;
-                            monsterSlotActive = false;
-
-                        }
-
-                        if (boardLayout.MSlot2Rect.contains((int) x, (int) y) && monsterSlotActive)
-
-                        {
-                            dragActive = true;
-                            monsterIndex = 1;
-                            // Index into the array and set the pointer ID
-                            handCards.get(monsterIndex).pointerID = i;
-                            monsterSlotActive = false;
-
-                        }
-
-                        if (boardLayout.MSlot3Rect.contains((int) x, (int) y) && monsterSlotActive)
-
-                        {
-                            dragActive = true;
-                            monsterIndex = 2;
-                            // Index into the array and set the pointer ID
-                            handCards.get(monsterIndex).pointerID = i;
-                            monsterSlotActive = false;
-
-                        }
-
-                        // Set up movement for attack logic
-                        if(boardLayout.attackRect.contains((int) x, (int) y) && dragActive)
-
-                        {
-                            monstersInPlay.get(monsterIndex).x = x;
-                            monstersInPlay.get(monsterIndex).y = y;
-
-                        }
-
-                        if (boardLayout.opponent1Rect.contains((int)monstersInPlay.get(monsterIndex).x, (int)monstersInPlay.get(monsterIndex).y))
-
-                        {
-                            System.out.println("We're in the attack phase");
-                            aiFieldMonsters.get(0).attackValue = 1000;
-
-                            userPrompt.text = manaPrompt;
-
-                            // Check if a monster has been killed
-                            if (aiFieldMonsters.get(0).attackValue > playerFieldMonsters.get(handIndex).health)
-
-                            {
-                                System.out.println("Test");
-
-                                // beats the opponent and kills the card
-                                // or does some damage
-
-                                // stop drawing the monster that was destroyed
-                                opponent1.destroyed = true;
-
-                                // Check if the player has won the game
-                                opponentMonstersKilled++;
-                                if (opponentMonstersKilled >= 2)
-                                {
-                                    gameState = GameState.VICTORY;
-
-                                }
-
-                                else
-
-                                {
-                                    // transfer control back to the AI
-                                    gameState = GameState.AITURN;
-                                }
-
-                            }
-
-                        }
-
-                        if (boardLayout.opponent2Rect.contains((int)monstersInPlay.get(monsterIndex).x, (int)monstersInPlay.get(monsterIndex).y))
-
-                        {
-                            userPrompt.text = manaPrompt;
-
-                            if (aiFieldMonsters.get(1).attackValue > playerFieldMonsters.get(monsterIndex).health)
-
-                            {
-                                System.out.println("Test");
-
-                                // beats the opponent and kills the card
-                                // or does some damage
-
-                                // Check if the player has won the game
-                                opponentMonstersKilled++;
-                                if (opponentMonstersKilled >= 2)
-                                {
-                                    gameState = GameState.VICTORY;
-
-                                }
-
-                                else
-
-                                {
-                                    // transfer control back to the AI
-                                    gameState = GameState.AITURN;
-
-                                }
-
-                            }
-
-                        }
-
-                        if (boardLayout.opponent3Rect.contains((int)monstersInPlay.get(monsterIndex).x, (int)monstersInPlay.get(monsterIndex).y))
-
-                        {
-                            userPrompt.text = manaPrompt;
-
-                            if (aiFieldMonsters.get(2).attackValue > playerFieldMonsters.get(monsterIndex).health)
-
-                            {
-                                System.out.println("Test");
-
-                                // beats the opponent and kills the card
-                                // or does some damage
-
-                                // stop drawing the monster that was destroyed
-                                opponent3.destroyed = true;
-
-                                // Check if the player has won the game
-                                opponentMonstersKilled++;
-                                if (opponentMonstersKilled >= 2)
-                                {
-                                    gameState = GameState.VICTORY;
-
-                                }
-
-                                else
-
-                                {
-                                    // transfer control back to the AI
-                                    gameState = GameState.AITURN;
-                                }
-                            }
-
-                        }
+                    {
+                        prepPhase = false;
+                        emptySlot = handIndex;
+                        // The AI chooses a card and plays it
+                        userPrompt.text = manaPrompt;
+                        phase = 0;
+                        gameState = GameState.AITURN;
                     }
 
-                    // Snapping goes here - code in positions
                     else
 
                     {
-                        // how do you control which one goes where
-                        if (monstersInPlay.get(monsterIndex).pointerID == i)
+                        userPrompt.text = attackPrompt;
+                        phase = 2;
+                        gameState = GameState.ATTACK;
+                        monsterSlotActive = true;
+                    }
+
+
+                }
+
+                if (boardLayout.MSlot3Rect.contains((int)handCards.get(handIndex).x, (int)handCards.get(handIndex).y)
+                        && handCards.get(handIndex).id == 0)
+
+                {
+                    MainActivity.setting.increaseInt("monstersPlayed");
+
+                    // no more card movement
+                    dragActive = false;
+
+                    // get rid of the hand card
+                    handCards.get(handIndex).destroyed = true;
+
+                    // update the bitmap of the monster card and lock it at the right slot
+                    monsterCard3.sprite = handCards.get(handIndex).sprite;
+                    monsterCard3.x = 634;
+                    monsterCard3.y = 280;
+
+                    // move from the hand to the field
+                    // the card should be moved to the player's logical monster array
+                    // The touch zones dictate the index
+                    playerFieldMonsters.add(3, playerHandMonsters.get(handIndex));
+//                            attack = true;
+
+                    // The last card to be placed is set back to the deck for the drawing phase
+                    handCards.get(handIndex).moveToDeck();
+
+                    if (prepPhase)
+
+                    {
+                        prepPhase = false;
+                        emptySlot = handIndex;
+                        // The AI chooses a card and plays it
+                        userPrompt.text = manaPrompt;
+                        phase = 0;
+                        gameState = GameState.AITURN;
+                    }
+
+                    else
+
+                    {
+                        userPrompt.text = attackPrompt;
+                        phase = 2;
+                        gameState = GameState.ATTACK;
+                        monsterSlotActive = true;
+                    }
+
+                }
+
+            }
+
+            // release that pointerID
+            else
+
+            {
+                // how do you control which one goes where
+                if (handCards.get(handIndex).pointerID == i)
+
+                {
+                    // Put whatever BasicCard was picked up back in it's old position
+                    handCards.get(handIndex).resetPosition(handIndex);
+                    // the player has let go of the card and needs to pick up a new one
+                    handActive = true;
+
+                }
+
+            }
+        }
+    }
+
+    private void updateTouchAttack ()
+
+    {
+        for(int i = 0; i < touchListener.MAX_TOUCH_POINTS; i++) {
+            if(touchListener.isTouchContinuous(i)) {
+                int x = (int) touchListener.getTouchX(i), y = (int) touchListener
+                        .getTouchY(i);
+
+                if(boardLayout.pauseRect.contains((int) x, (int) y)) {
+                    pauseGame();
+                }
+
+                if (boardLayout.MSlot1Rect.contains((int) x, (int) y) && monsterSlotActive)
+
+                {
+
+                    dragActive = true;
+                    monsterIndex = 0;
+                    // Index into the array and set the pointer ID
+                    handCards.get(monsterIndex).pointerID = i;
+                    monsterSlotActive = false;
+
+                }
+
+                if (boardLayout.MSlot2Rect.contains((int) x, (int) y) && monsterSlotActive)
+
+                {
+                    dragActive = true;
+                    monsterIndex = 1;
+                    // Index into the array and set the pointer ID
+                    handCards.get(monsterIndex).pointerID = i;
+                    monsterSlotActive = false;
+
+                }
+
+                if (boardLayout.MSlot3Rect.contains((int) x, (int) y) && monsterSlotActive)
+
+                {
+                    dragActive = true;
+                    monsterIndex = 2;
+                    // Index into the array and set the pointer ID
+                    handCards.get(monsterIndex).pointerID = i;
+                    monsterSlotActive = false;
+
+                }
+
+                // Set up movement for attack logic
+                if(boardLayout.attackRect.contains((int) x, (int) y) && dragActive)
+
+                {
+                    monstersInPlay.get(monsterIndex).x = x;
+                    monstersInPlay.get(monsterIndex).y = y;
+
+                }
+
+                if (boardLayout.opponent1Rect.contains((int)monstersInPlay.get(monsterIndex).x, (int)monstersInPlay.get(monsterIndex).y))
+
+                {
+                    System.out.println("We're in the attack phase");
+                    aiFieldMonsters.get(0).attackValue = 1000;
+
+                    userPrompt.text = manaPrompt;
+
+                    phase = 0;
+
+                    // Check if a monster has been killed
+                    if (aiFieldMonsters.get(0).attackValue > playerFieldMonsters.get(handIndex).health)
+
+                    {
+                        System.out.println("Test");
+
+                        // beats the opponent and kills the card
+                        // or does some damage
+
+                        // stop drawing the monster that was destroyed
+                        opponent1.destroyed = true;
+
+                        // Check if the player has won the game
+                        opponentMonstersKilled++;
+                        if (opponentMonstersKilled >= 1)
+                        {
+                            gameState = GameState.VICTORY;
+
+                        }
+
+                        else
 
                         {
-                            // Put whatever BasicCard was picked up back in it's old position
-                            monstersInPlay.get(handIndex).resetPosition(handIndex);
-                            // The player has let go of that monster
-                            handActive = true;
-
+                            // transfer control back to the AI
+                            gameState = GameState.AITURN;
                         }
 
                     }
+
                 }
 
-                break;
+                if (boardLayout.opponent2Rect.contains((int)monstersInPlay.get(monsterIndex).x, (int)monstersInPlay.get(monsterIndex).y))
 
-            case PROMPT:
+                {
+                    userPrompt.text = manaPrompt;
 
-                for(int i = 0; i < touchListener.MAX_TOUCH_POINTS; i++) {
-                    if (touchListener.isTouchContinuous(i)) {
-                        int x = (int) touchListener.getTouchX(i), y = (int) touchListener
-                                .getTouchY(i);
-                        if(boardLayout.movementRect.contains(x, y))
+                    phase = 0;
+
+                    if (aiFieldMonsters.get(1).attackValue > playerFieldMonsters.get(monsterIndex).health)
+
+                    {
+                        System.out.println("Test");
+
+                        // beats the opponent and kills the card
+                        // or does some damage
+
+                        // Check if the player has won the game
+                        opponentMonstersKilled++;
+                        if (opponentMonstersKilled >= 2)
                         {
-                            // start the next phase - depends on the prompt screen
-                            gameState = GameState.MANAPLACEMENT;
+                            gameState = GameState.VICTORY;
+
+                        }
+
+                        else
+
+                        {
+                            // transfer control back to the AI
+                            gameState = GameState.AITURN;
 
                         }
 
                     }
+
                 }
 
-                break;
+                if (boardLayout.opponent3Rect.contains((int)monstersInPlay.get(monsterIndex).x, (int)monstersInPlay.get(monsterIndex).y))
 
+                {
+                    userPrompt.text = manaPrompt;
 
-            case PAUSED:
+                    phase = 0;
 
-                for(int i = 0; i < touchListener.MAX_TOUCH_POINTS; i++) {
-                    if(touchListener.isTouchDown(i)) {
-                        int x = (int) touchListener.getTouchX(i), y = (int) touchListener
-                                .getTouchY(i);
+                    if (aiFieldMonsters.get(2).attackValue > playerFieldMonsters.get(monsterIndex).health)
 
-                        // This should be the default case
-                        if(boardLayout.resumeRect.contains(x, y)) {
-                            gameState = GameState.NEW;
+                    {
+                        System.out.println("Test");
 
-                            timer.start();
+                        // beats the opponent and kills the card
+                        // or does some damage
 
-                        }
+                        // stop drawing the monster that was destroyed
+                        opponent3.destroyed = true;
 
-                        if(boardLayout.restartRect.contains(x, y)) {
-
-                            fragment.getFragmentManager()
-                                    .beginTransaction()
-                                    .replace(R.id.container, new GameViewFragment(),
-                                            "game_fragment").commit();
-
-
-                            sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
-                            startSFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
+                        // Check if the player has won the game
+                        opponentMonstersKilled++;
+                        if (opponentMonstersKilled >= 2)
+                        {
+                            gameState = GameState.VICTORY;
 
                         }
 
-                        if(boardLayout.mainMenuRect.contains(x, y)) {
-                            fragment.getFragmentManager()
-                                    .beginTransaction()
-                                    .replace(R.id.container,
-                                            new MainMenuFragment(),
-                                            "main_menu_fragment").commit();
+                        else
+
+                        {
+                            // transfer control back to the AI
+                            gameState = GameState.AITURN;
                         }
                     }
+
+                }
+            }
+
+            // Snapping goes here - code in positions
+            else
+
+            {
+                // how do you control which one goes where
+                if (monstersInPlay.get(monsterIndex).pointerID == i)
+
+                {
+                    // Put whatever BasicCard was picked up back in it's old position
+                    monstersInPlay.get(handIndex).resetPosition(handIndex);
+                    // The player has let go of that monster
+                    handActive = true;
+
                 }
 
-                break;
+            }
+        }
+
+
+
+    }
+
+    private void updateTouchPaused ()
+
+    {
+        for(int i = 0; i < touchListener.MAX_TOUCH_POINTS; i++) {
+            if(touchListener.isTouchDown(i)) {
+                int x = (int) touchListener.getTouchX(i), y = (int) touchListener
+                        .getTouchY(i);
+
+                // This should be the default case
+                if(boardLayout.resumeRect.contains(x, y)) {
+                    gameState = GameState.NEW;
+
+                    timer.start();
+
+                }
+
+                if(boardLayout.restartRect.contains(x, y)) {
+
+                    fragment.getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.container, new GameViewFragment(),
+                                    "game_fragment").commit();
+
+                }
+
+                if(boardLayout.mainMenuRect.contains(x, y)) {
+                    fragment.getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.container,
+                                    new MainMenuFragment(),
+                                    "main_menu_fragment").commit();
+                }
+            }
         }
     }
 
@@ -1943,6 +1904,7 @@ public class GameLoop implements Runnable
         gameState = GameState.PAUSED;
 
         timer.stop();
+
     }
 
     // This is like the player's draw method
@@ -1968,21 +1930,43 @@ public class GameLoop implements Runnable
         gameState = GameState.AIANIMATION;
     }
 
-    private void updatePrompt()
+    // Pauses the screen for 300 frames before returning to the main menu
+    // This is the last screen to be run so no clearing
+    // Andrew - 40083349
+
+    // Prompts happen just before a phase in the turn structure
+    private void updatePromptPause()
 
     {
-        // For a certain number of turns display prompts to the user
-        // Start a frame counter
 
-        userPrompt.update();
 
-        // Take it off the screen
-        if (numFrames >= 300)
+        // Test different speeds
+        if (numFrames >= 200)
 
         {
-            gameState = GameState.ANIMATION;
+         if (phase == 0)
+         {
+          gameState = GameState.MANAPLACEMENT;
+         }
+
+         if (phase == 1)
+         {
+          gameState = GameState.MONSTERPLACEMENT;
+         }
+
+         if (phase == 2)
+         {
+           gameState = GameState.ATTACK;
+         }
 
         }
+
+        else
+
+        {
+            numFrames++;
+        }
+
     }
 
     private void updateDraw ()
@@ -1999,6 +1983,13 @@ public class GameLoop implements Runnable
         handActive = true;
 
         boundHit = false;
+
+        // rest the pause timer for prompts
+        numFrames = 0;
+        // change the prompt string
+        userPrompt.text = manaPrompt;
+        // Move to the mana placement state
+
 
         // run the card movement animation
         gameState = GameState.ANIMATION;
