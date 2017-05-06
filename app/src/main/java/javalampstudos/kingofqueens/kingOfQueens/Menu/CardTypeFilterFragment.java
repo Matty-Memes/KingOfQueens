@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
+import dalvik.system.DexClassLoader;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Deck;
 
@@ -50,11 +51,6 @@ public class CardTypeFilterFragment extends MainMenuFragment
 
         // Load bitmaps
         bgroundBitmap = AssetLoader.loadBitmap(assetManager,"img/DeckBuilderBackground.png");
-        cardSchoolFilterBitmap = AssetLoader.loadBitmap(assetManager,"img/Buttons/CardSchoolFilter.png");
-        cardTypeFilterBitmap = AssetLoader.loadBitmap(assetManager,"img/Buttons/CardTypeFilter.png");
-        backBitmap = AssetLoader.loadBitmap(assetManager,"img/Marc/ButtonBack.png");
-        leftArrowBitmap = AssetLoader.loadBitmap(assetManager,"img/Buttons/ArrowLeft.png");
-        rightArrowBitmap = AssetLoader.loadBitmap(assetManager,"img/Buttons/ArrowRight.png");
         deckButtonBitmap = AssetLoader.loadBitmap(assetManager,"img/Buttons/ViewDeckButton.png");
         filterBoxBitmap = AssetLoader.loadBitmap(assetManager,"img/Buttons/FilterBoxType.png");
         monsterFilterBitmap = AssetLoader.loadBitmap(assetManager,"img/Buttons/MonsterFilter.png");
