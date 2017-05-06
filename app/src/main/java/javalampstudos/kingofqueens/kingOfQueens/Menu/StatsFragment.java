@@ -40,7 +40,7 @@ public class StatsFragment extends MenuFragment {
         bgroundRect = new Rect();
 
         // load in bitmaps here
-        bground = AssetLoader.loadBitmap(assetManager, "img/Marc/Screen 1.png");
+        bground = AssetLoader.loadBitmap(assetManager, "img/Marc/StatsBack.PNG");
         backBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/ButtonBack.png");
         resetBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/reset.png");
 

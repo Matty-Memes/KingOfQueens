@@ -12,15 +12,15 @@ import javalampstudos.kingofqueens.MainActivity;
  */
 
 public class GameTimer  {
-    public int minutes, seconds;
+    public int mins, secs;
     public long millis, startTime, currentTime;
     private ScheduledExecutorService thread;
     private ScheduledFuture<?> scheduledFuture;
 
 
     public GameTimer() {
-        minutes = 0;
-        seconds = 0;
+        mins = 0;
+        secs = 0;
         millis = 0L;
         thread = Executors.newSingleThreadScheduledExecutor();
     }
@@ -62,38 +62,12 @@ public class GameTimer  {
                 MainActivity.setting.setInt("longestPlayTimeValue",
                         (int) millis);
             MainActivity.setting.addToInt("totalPlayTimeValue", (int) diff);
-            seconds = (int) millis / 1000;
-            minutes = seconds / 60;
-            seconds = seconds % 60;
+            secs = (int) millis / 1000;
+            mins = secs / 60;
+            secs = secs % 60;
         }
     }
 
-//    /**
-//     * Returns the current second value of the timer.
-//     *
-//     * @return The current second value.
-//     */
-//    public int getSeconds() {
-//        return seconds;
-//    }
-//
-//    /**
-//     * Returns the current minute value of the timer.
-//     *
-//     * @return The current minute value.
-//     */
-//    public int getMinutes() {
-//        return minutes;
-//    }
-//
-//    /**
-//     * Returns a score based on the current time of the timer.
-//     *
-//     * @return The score based on the current time.
-//     */
-//    public int getScore() {
-//        return (int) (millis / 1000) * 10;
-//    }
 
 }
 

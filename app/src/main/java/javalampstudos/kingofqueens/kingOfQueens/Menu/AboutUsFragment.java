@@ -32,7 +32,7 @@ public class AboutUsFragment extends MenuFragment {
         bgroundRect = new Rect();
 
         // load in bitmaps here
-        bground = AssetLoader.loadBitmap(assetManager, "img/Marc/Screen 1.png");
+        bground = AssetLoader.loadBitmap(assetManager, "img/Marc/AboutUsBack.PNG");
         backBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/ButtonBack.png");
 
         // Sets up Rect parameters

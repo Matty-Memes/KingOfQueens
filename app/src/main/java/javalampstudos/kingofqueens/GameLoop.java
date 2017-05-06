@@ -198,7 +198,7 @@ public class GameLoop implements Runnable
     public boolean windowDown = true;
 
     // SFX
-    private SoundPool startSFX;
+    private SoundPool startSFX, winSFX, loseSFX, dieSFX, attackSFX;
     private float sfxVolume;
 
     // MISC
@@ -394,7 +394,6 @@ public class GameLoop implements Runnable
         AssetManager assetManager = fragment.getActivity().getAssets();
 
         aiThinking = AssetLoader.loadBitmap(assetManager, "img/AiThinking3.png");
-        victoryScreen = AssetLoader.loadBitmap(assetManager, "img/Screens/VictoryScreen.png");
 
         testSprite = AssetLoader.loadBitmap(assetManager, "img/Cards/Cardback.png");
 
@@ -507,9 +506,15 @@ public class GameLoop implements Runnable
         // The prep phase becomes active here
         prepPhase = true;
 
+        //40123776, timer for stats
         timer.start();
 
+        //40123776, sfx
         startSFX = AssetLoader.loadSoundpool(assetManager, "start.mp3");
+        winSFX = AssetLoader.loadSoundpool(assetManager, "win.mp3");
+        loseSFX = AssetLoader.loadSoundpool(assetManager, "lose.mp3");
+        dieSFX = AssetLoader.loadSoundpool(assetManager, "die.mp3");
+        attackSFX = AssetLoader.loadSoundpool(assetManager, "attack.mp3");
 
     }
 
@@ -703,7 +708,7 @@ public class GameLoop implements Runnable
         if(gameState != GameState.PAUSED) {
             pauseGame();
 
-            // timer.stop();
+            //timer.stop();
         }
 
         canvasRenderer.pause();
@@ -735,7 +740,7 @@ public class GameLoop implements Runnable
         // go to the renderer thread and run it's resume method
         canvasRenderer.resume();
 
-        sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
+
 
     }
 
@@ -1210,6 +1215,9 @@ public class GameLoop implements Runnable
             victory.y += 1.0;
             if(victory.y >= 270)
                 windowDown = false;
+
+            sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
+            winSFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
 
             // start moving the window up
         } else {
@@ -1917,10 +1925,6 @@ public class GameLoop implements Runnable
                                     .replace(R.id.container, new GameViewFragment(),
                                             "game_fragment").commit();
 
-
-                            sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
-                            startSFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
-
                         }
 
                         if(boardLayout.mainMenuRect.contains(x, y)) {
@@ -1943,6 +1947,7 @@ public class GameLoop implements Runnable
         gameState = GameState.PAUSED;
 
         timer.stop();
+
     }
 
     // This is like the player's draw method
