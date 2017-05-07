@@ -565,7 +565,7 @@ public class GameLoop implements Runnable
 
         //Setup Player and Entities
         tile = new Entity(0, 0, LEVEL_WIDTH / 100, LEVEL_HEIGHT / 100, null, true);
-        player = new littleMan(tile.width * 10 + tile.width / 2, tile.height * 24 +  tile.height / 2, tile.width, tile.height, playerSprite, true);
+        player = new littleMan(tile.width * 39 + tile.width / 2, tile.height * 80 +  tile.height / 2, tile.width, tile.height, playerSprite, true);
         map = new Entity(LEVEL_WIDTH / 2, LEVEL_HEIGHT / 2, LEVEL_WIDTH, LEVEL_HEIGHT, backgroundBitmap, true);
         mcclayTop = new Entity(tile.width * 33 + tile.width / 2, tile.height * 92, tile.width * 25, tile.height * 14, mcclayTopBitmap, true);
         lanyonTop = new Entity(tile.width * 33, tile.height * 37 + tile.height / 2, tile.width * 58, tile.height * 17, lanyonTopBitmap, true);
@@ -1212,7 +1212,7 @@ public class GameLoop implements Runnable
         grid[75][27] = 2;
 
         //Load in NPCs
-        grid[78][10] = 3;
+        grid[23][36] = 3;
         grid[78][12] = 3;
         grid[78][14] = 3;
     }

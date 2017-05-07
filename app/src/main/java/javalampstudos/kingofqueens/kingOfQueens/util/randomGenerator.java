@@ -103,6 +103,19 @@ public class randomGenerator
 
     }
 
+    //Nathan/OpenWorld- 40131544 unimplemented
+    public int randomSprite() {
+
+        randomNumber = 0;
+
+        randomNumber = rand.nextInt(2);
+
+        return randomNumber;
+
+    }
+    //Nathan/OpenWorld- 40131544 unimplemented
+    public void flushRandomSpriteLogic() { randomNumber = 0; }
+
     // call this after the player deck is drawn
 
     public void flushRandomLogic ()
