@@ -34,7 +34,8 @@ public class Deck {
     //Matthew 40149561
     //Will use card ID numbers to specify cards to place in deck
     /*A deck with Engineering and Medic cards*/
-    private int startingDeck1[] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,41,41,41,41,41,41,43,43,43,43,43,43,46,46,47,49,49,50,52,53,55,57,58,59};
+    //private int startingDeck1[] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,41,41,41,41,41,41,43,43,43,43,43,43,46,46,47,49,49,50,52,53,55,57,58,59};
+
     //Stores the players custom deck
     private int playerDeck[] = new int[MAXDECKSIZE];
 
