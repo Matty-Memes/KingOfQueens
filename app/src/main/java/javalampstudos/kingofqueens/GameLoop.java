@@ -31,6 +31,7 @@ import javalampstudos.kingofqueens.kingOfQueens.AiEngine.Window;
 import javalampstudos.kingofqueens.kingOfQueens.util.andyManaCounter;
 import javalampstudos.kingofqueens.kingOfQueens.util.CardAnimation;
 import javalampstudos.kingofqueens.kingOfQueens.util.Direction;
+import javalampstudos.kingofqueens.kingOfQueens.util.ManaTotals;
 
 // Android Imports
 
@@ -191,6 +192,13 @@ public class GameLoop implements Runnable
     andyManaCounter builtEnvironment;
     andyManaCounter eeecs;
     andyManaCounter Medic;
+
+    // Make text for insufficent mana - assuming mana is only needed for attacks
+    public Text insufficentMana;
+    public String insufficentManaText = "You don't have enough mana";
+
+    // Store the total mana for the background logic
+    public ManaTotals total;
 
     // AI
 
@@ -450,11 +458,11 @@ public class GameLoop implements Runnable
         requiredMana.put(ManaTypes.BUILT_ENVIRONMENT_MANA, 5);
 
         monsterCard1 = new MonsterCard(234, 280, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
-                49, 0, CardLevel.DOCTRATE, 140, 0, 3, 1, requiredMana);
+                49, 0, CardLevel.DOCTRATE, 140, 0, 3, 1, 0);
         monsterCard2 = new MonsterCard(434, 280, 90, 120, cardBackSprite, true, 3,CardSchools.MEDICS, false,
-                49, 0, CardLevel.DOCTRATE, 140, 0, 3,1, requiredMana);
+                49, 0, CardLevel.DOCTRATE, 140, 0, 3,1, 0);
         monsterCard3 = new MonsterCard(634, 280, 90, 120, cardBackSprite, true, 3,CardSchools.MEDICS, false,
-                49, 0, CardLevel.DOCTRATE, 140, 0, 3, 1, requiredMana);
+                49, 0, CardLevel.DOCTRATE, 140, 0, 3, 1, 0);
 
         monstersInPlay.add(monsterCard1);
         monstersInPlay.add(monsterCard2);
@@ -468,9 +476,9 @@ public class GameLoop implements Runnable
         manaZone = new BasicCard(100, 340, 140, 240, manaZoneSprite, true, 3, CardSchools.MEDICS, false, 49, 0);
 
         // Opponent card
-        opponent1 = new MonsterCard(234, 100, 90, 120, cardBackSprite, false, 0, CardSchools.EEECS, false, 49, 234, CardLevel.DOCTRATE, 140, 0, 3,1, requiredMana);
-        opponent2 = new MonsterCard(434, 100, 90, 120, cardBackSprite, false, 0, CardSchools.EEECS, false, 49, 434, CardLevel.DOCTRATE, 140, 0, 3,4, requiredMana);
-        opponent3 = new MonsterCard(634, 100, 90, 120, cardBackSprite, false, 0, CardSchools.EEECS, false, 49, 634, CardLevel.DOCTRATE, 140, 0, 3,8, requiredMana);
+        opponent1 = new MonsterCard(234, 100, 90, 120, cardBackSprite, false, 0, CardSchools.EEECS, false, 49, 234, CardLevel.DOCTRATE, 140, 0, 3,1, 0);
+        opponent2 = new MonsterCard(434, 100, 90, 120, cardBackSprite, false, 0, CardSchools.EEECS, false, 49, 434, CardLevel.DOCTRATE, 140, 0, 3,4, 0);
+        opponent3 = new MonsterCard(634, 100, 90, 120, cardBackSprite, false, 0, CardSchools.EEECS, false, 49, 634, CardLevel.DOCTRATE, 140, 0, 3,8, 0);
 
         // Opponent cards snap back here
         opponentDeck = new BasicCard(70, 100, 90, 120, cardBackSprite, false, 0, CardSchools.EEECS, false, 49, 0);
@@ -520,6 +528,9 @@ public class GameLoop implements Runnable
 
         // Change the position of this as necessary
         playerDamageText = new Text(200, 200, "Checking", this, true, false);
+
+        // Changes depending on the monster with insufficent mana
+        insufficentMana = new Text(0, 0, insufficentManaText, this, true, false);
 
         // Once everything is loaded the user can interact
         handActive = true;
@@ -1219,7 +1230,7 @@ public class GameLoop implements Runnable
 
         {
             playerHandMonsters.add(new MonsterCard(234, 280, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
-                    49, 0, CardLevel.DOCTRATE, 45, 0, 3, 1, requiredMana));
+                    49, 0, CardLevel.DOCTRATE, 45, 0, 3, 1, 0));
         }
 
         // Mana
@@ -1237,7 +1248,7 @@ public class GameLoop implements Runnable
         {
 
             playerFieldMonsters.add(new MonsterCard(234, 280, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
-                    49, 0, CardLevel.DOCTRATE, 45, 0, 3, 1, requiredMana));
+                    49, 0, CardLevel.DOCTRATE, 45, 0, 3, 1, 0));
 
         }
 
@@ -1246,7 +1257,7 @@ public class GameLoop implements Runnable
         {
 
             aiFieldMonsters.add(new MonsterCard(234, 280, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
-                    49, 0, CardLevel.DOCTRATE, 50, 0, 3, 1, requiredMana));
+                    49, 0, CardLevel.DOCTRATE, 50, 0, 3, 1, 0));
         }
 
     }
@@ -1785,12 +1796,22 @@ public class GameLoop implements Runnable
                 {
                     dragActive = true;
                     monsterIndex = 0;
-                    // Index into the array and set the pointer ID
+
+                    // Is the available mana less than or equal to the cards required mana
+                    if (total.returnTotal(playerFieldMonsters.get(monsterIndex).cardSchool) <= playerFieldMonsters.get(monsterIndex).getAttackManaRequirement())
+
+                    {
+                        // This is fixed at the position of monster slot 1
+                        insufficentMana.x = 234;
+                        insufficentMana.y = 280;
+                        insufficentMana.visible = true;
+
+                    }
+
                     monstersInPlay.get(monsterIndex).pointerID = i;
                     monsterSlotActive = false;
 
                 }
-
                 if (boardLayout.MSlot2Rect.contains((int) x, (int) y) && monsterSlotActive)
 
                 {
