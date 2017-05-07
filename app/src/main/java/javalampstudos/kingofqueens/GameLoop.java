@@ -204,7 +204,7 @@ public class GameLoop implements Runnable
     public boolean windowDown = true;
 
     // SFX
-    private SoundPool startSFX, winSFX, loseSFX, dieSFX, attackSFX;
+    private SoundPool startSFX, winSFX, attackSFX;
     private float sfxVolume;
 
     // MISC
@@ -533,10 +533,8 @@ public class GameLoop implements Runnable
         //40123776, sfx
         startSFX = AssetLoader.loadSoundpool(assetManager, "start.mp3");
         winSFX = AssetLoader.loadSoundpool(assetManager, "win.mp3");
-        loseSFX = AssetLoader.loadSoundpool(assetManager, "lose.mp3");
-        dieSFX = AssetLoader.loadSoundpool(assetManager, "die.mp3");
         attackSFX = AssetLoader.loadSoundpool(assetManager, "attack.mp3");
-
+//        coinsfx = AssetLoader.loadSoundpool(assetManager, "coin.mp3");
     }
 
     //Create the Open World
@@ -791,8 +789,14 @@ public class GameLoop implements Runnable
         // Hands and deck are set up so the prep phase can begin
         gameState = GameState.PROMPT;
 
+        //40123776
+        //Plays Start SFX
         sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
         startSFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
+
+        //40123776
+        //Increases Games Played in Stats Fragment
+        MainActivity.setting.increaseInt("gamesPlayed");
     }
 
     private void loadAssets()
@@ -924,6 +928,7 @@ public class GameLoop implements Runnable
                             if(interactionIndex >= 0) {
                                 dialoguePoint++;
                                 inDialogue = true;
+                                //inset bla sfx
                             }
 
 
@@ -935,6 +940,7 @@ public class GameLoop implements Runnable
                                 coinList.remove(coinIndex);
                                 coinCounter++;
                                 coinIndex = -1;
+                                //coin sfx here
                             }
 
                         }
@@ -945,11 +951,15 @@ public class GameLoop implements Runnable
                             //If first dialogueOption is pressed set response to 1
                             if(dialogueOption1.contains((int) x, (int) y)) {
                                 response = 1;
+                               //insert sfx here
+
+
                             }
 
                             //If second dialogueOption is pressed set response to 2
                             if(dialogueOption2.contains((int) x, (int) y)) {
                                 response = 2;
+                                //inset sfx here
                             }
 
                         }
@@ -1844,7 +1854,8 @@ public class GameLoop implements Runnable
                         // Check if the player has won the game
                         opponentMonstersKilled++;
                         if (opponentMonstersKilled >= 2) {
-                            // Add victory SFX here
+                            sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
+                            winSFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
                             gameState = GameState.VICTORY;
 
                         }
@@ -1890,7 +1901,8 @@ public class GameLoop implements Runnable
                             // Check if the player has won the game
                             opponentMonstersKilled++;
                             if (opponentMonstersKilled >= 2) {
-                                // Add victory SFX here
+                                sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
+                                winSFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
                                 gameState = GameState.VICTORY;
 
                             }
@@ -1911,6 +1923,8 @@ public class GameLoop implements Runnable
 
                 {
                     // Add SFX
+                    sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
+                    attackSFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
 
                     userPrompt.text = manaPrompt;
 
@@ -1939,6 +1953,8 @@ public class GameLoop implements Runnable
                             if (opponentMonstersKilled >= 2) {
                                 // Add victory SFX here
                                 gameState = GameState.VICTORY;
+
+                                MainActivity.setting.increaseInt("numberOfWins");
 
                             }
                         } else
@@ -2082,8 +2098,7 @@ public class GameLoop implements Runnable
             playerDamageText.text = "" + damage;
             playerDamageText.visible = true;
 
-            // Play SFX
-            // Add attack SFX here
+            // Play Attack SFX
             sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
             attackSFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
 

@@ -29,7 +29,6 @@ public class MainActivity extends Activity {
     private MediaPlayer music;
     public static float musicVolume = 0;
     public static Settings setting;
-    public boolean isPrevMenu;
 
     @Override
     // Andrew - 40083349
@@ -75,43 +74,20 @@ public class MainActivity extends Activity {
 
     public void music() {
 
-        boolean isGame = getFragmentManager().findFragmentById(R.id.container)
-                .getTag().equals("game_fragment");
+//        boolean isGame = getFragmentManager().findFragmentById(R.id.container)
+//                .getTag().equals("game_fragment");
+//
+//
 
         musicVolume = setting.getVolume("musicValue") / 10.0f;
 
 
         if (musicVolume != 0) {
             if (music == null) {
-                if (isGame) {
                     music = AssetLoader
-                            .loadMusic(getAssets(), "music/KingOfQueens Battle Theme.mp3");
-                    isPrevMenu = false;
-                } else {
-
-                    music = AssetLoader.loadMusic(getAssets(), "music/MainMenuTheme.mp3");
-                    isPrevMenu = true;
-                }
+                            .loadMusic(getAssets(), "music/MainMenuTheme.mp3");
 
                 music.start();
-
-            } else {
-                if (isGame) {
-                    if (music.isPlaying())
-                        music.pause();
-                    music = AssetLoader
-                            .loadMusic(getAssets(), "music/KingOfQueens Battle Theme.mp3");
-                    isPrevMenu = false;
-                    music.start();
-                } else if (!isPrevMenu) {
-                    if (music.isPlaying())
-                        music.pause();
-                    music = AssetLoader.loadMusic(getAssets(), "music/MainMenuTheme.mp3");
-                    isPrevMenu = true;
-                    music.start();
-                } else {
-                    music.start();
-                }
 
             }
             music.setVolume(musicVolume, musicVolume);

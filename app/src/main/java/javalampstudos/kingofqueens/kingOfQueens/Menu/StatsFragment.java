@@ -51,14 +51,10 @@ public class StatsFragment extends MenuFragment {
         resetRect = new Rect(755, 50, 805, 100);
 
         monstersPlayed = MainActivity.setting.getInt("monstersPlayed");
-        manaCardsPlayed = MainActivity.setting.getInt("manaCardsPlayed");
-        buffsPlayed = MainActivity.setting.getInt("buffCardsPlayed");
-        numberOfCardsDrawn =  MainActivity.setting.getInt("numberOfCardsDrawn");
-        monstersDestroyed =  MainActivity.setting.getInt("monstersDestroyed");
+        manaCardsPlayed = MainActivity.setting.getInt("manaCardsPlayed");;
         numberOfWins =  MainActivity.setting.getInt("numberOfWins");
-        numberOfLoses =  MainActivity.setting.getInt("numberOfLoses");
         gamesPlayed = MainActivity.setting.getInt("gamesPlayed");
-        totalCardsPlayed = monstersPlayed + manaCardsPlayed + buffsPlayed;
+        totalCardsPlayed = monstersPlayed + manaCardsPlayed;
 
 
         int totalPlayTime = MainActivity.setting.getInt("totalPlayTimeValue") / 1000;
@@ -78,7 +74,7 @@ public class StatsFragment extends MenuFragment {
         manaString = "Mana Cards Played";
         monsterString = "Monster Cards Played";
         cardsPlayedString = "Total Cards Played";
-        buffString = "Buff Cards Played";
+
     }
 
     /**

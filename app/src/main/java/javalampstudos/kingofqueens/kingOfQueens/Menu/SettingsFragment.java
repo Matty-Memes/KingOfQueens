@@ -25,9 +25,10 @@ public class SettingsFragment extends MenuFragment
     //Settings Bitmap
     private Bitmap bground, backBitmap;
     //Settings Rects
-    private Rect bgroundRect, volumeRect, howToPlayRect, statsRect, backRect, aboutUsRect;
+    private Rect bgroundRect, volumeRect, howToPlayRect, statsRect, backRect, aboutUsRect,
+    deckBuilderRect;
 
-    private String volumeString, statsString, howToPlayString, aboutUsString;
+    private String volumeString, statsString, howToPlayString, aboutUsString, deckBuilderString;
 
     // Constructor
     public SettingsFragment()
@@ -57,24 +58,29 @@ public class SettingsFragment extends MenuFragment
         statsString = "Stats";
         howToPlayString = "How To Play";
         aboutUsString = "About Us";
+        deckBuilderString = "Deck Builder";
 
         // Set up values for each menu rect
         volumeRect = new Rect((int) (width / 2 - 128 * uiScaling),
-                (int) (height / 2 - 85 * uiScaling),
+                (int) (height / 2 - 80 * uiScaling),
                 (int) (width / 2 + 128 * uiScaling),
-                (int) (height / 2 - 40 * uiScaling));
-        statsRect = new Rect((int) (width / 2 - 128 * uiScaling),
+                (int) (height / 2 - 50 * uiScaling));
+        deckBuilderRect = new Rect((int) (width / 2 - 128 * uiScaling),
                 (int) (height / 2 - 29 * uiScaling),
                 (int) (width / 2 + 128 * uiScaling),
                 (int) (height / 2 + 20 * uiScaling));
-        howToPlayRect = new Rect((int) (width / 2 - 128 * uiScaling),
+        statsRect = new Rect((int) (width / 2 - 128 * uiScaling),
                 (int) (height / 2 + 27 * uiScaling),
                 (int) (width / 2 + 128 * uiScaling),
                 (int) (height / 2 + 80 * uiScaling));
-        aboutUsRect = new Rect((int) (width / 2 - 128 * uiScaling),
+        howToPlayRect = new Rect((int) (width / 2 - 128 * uiScaling),
                 (int) (height / 2 + 83 * uiScaling),
                 (int) (width / 2 + 128 * uiScaling),
                 (int) (height / 2 + 140 * uiScaling));
+        aboutUsRect = new Rect((int) (width / 2 - 128 * uiScaling),
+                (int) (height / 2 + 139 * uiScaling),
+                (int) (width / 2 + 128 * uiScaling),
+                (int) (height / 2 + 200 * uiScaling));
         backRect = new Rect((int) (8 * uiScaling), (int) (8 * uiScaling),
                 (int) (24 * 2 * uiScaling + 8 * uiScaling),
                 (int) (24 * 2 * uiScaling + 8 * uiScaling));
@@ -92,14 +98,16 @@ public class SettingsFragment extends MenuFragment
 
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTextSize(32 * uiScaling);
-        canvas.drawText(volumeString, width / 2, height / 2 - 55
+        canvas.drawText(volumeString, width / 2, height / 2 - 80
                 * uiScaling, paint);
-        canvas.drawText(statsString, width / 2, height / 2 + 10
+        canvas.drawText(deckBuilderString, width / 2, height / 2 - 20
                 * uiScaling, paint);
-        canvas.drawText(howToPlayString, width / 2, height / 2 + 70
+        canvas.drawText(statsString, width / 2, height / 2 + 40
                 * uiScaling, paint);
-        canvas.drawText(aboutUsString, width / 2, height / 2 + 130
+        canvas.drawText(howToPlayString, width / 2, height / 2 + 100
                 * uiScaling, paint);
+        canvas.drawText(aboutUsString, width / 2, height / 2 + 160
+            * uiScaling, paint);
 
 
         for (int i = 0; i < input.MAX_TOUCH_POINTS; i++) {
@@ -139,6 +147,13 @@ public class SettingsFragment extends MenuFragment
                             .beginTransaction()
                             .replace(R.id.container, new AboutUsFragment(),
                                     "about_us_fragment").commit();
+                }
+
+                if(deckBuilderRect.contains(x, y)) {
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.container, new DeckBuilderFragmentFilters(),
+                                    "deck_builder_fragment_filters").commit();
                 }
 
 
