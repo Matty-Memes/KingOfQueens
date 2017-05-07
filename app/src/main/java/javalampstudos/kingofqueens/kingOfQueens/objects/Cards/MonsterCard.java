@@ -25,7 +25,8 @@ public class MonsterCard extends BasicCard
     private int statBeforeBuff = 0;
 
     // holds a list of the mana types required
-    private HashMap<ManaTypes, Integer> attackManaRequirement;
+   // private HashMap<ManaTypes, Integer> attackManaRequirement;
+    private int attackManaRequirement;
 
 
     // Brian + Matt
@@ -37,8 +38,7 @@ public class MonsterCard extends BasicCard
 
     public MonsterCard(int x, int y, int width, int height, Bitmap Sprite, boolean player, int id,
                        CardSchools cardSchool, boolean destroyed, int pointerID, int targetX, CardLevel level,
-                       int health, int defence, int attackValue, int evolutionID,
-                       HashMap<ManaTypes, Integer> attackManaRequirement) {
+                       int health, int defence, int attackValue, int evolutionID,int attackManaRequirement) {
         super(x, y, width, height, Sprite, player, id, cardSchool, destroyed, pointerID, targetX);
         this.level = level;
         this.health = health;
@@ -89,14 +89,22 @@ public class MonsterCard extends BasicCard
         this.attackValue = attackValue;
     }
 
-    public HashMap<ManaTypes, Integer> getAttackManaRequirement() {
+    public int getAttackManaRequirement()
+    {
         return attackManaRequirement;
     }
 
-
-    public void setAttackManaRequirement(HashMap<ManaTypes, Integer> attackManaRequirement) {
+    public void setAttackManaRequirement(int attackManaRequirement)
+    {
         this.attackManaRequirement = attackManaRequirement;
     }
+
+    //    public HashMap<ManaTypes, Integer> getAttackManaRequirement() {
+//        return attackManaRequirement;
+//    }
+//    public void setAttackManaRequirement(HashMap<ManaTypes, Integer> attackManaRequirement) {
+//        this.attackManaRequirement = attackManaRequirement;
+//    }
 
     public int getEvolutionID() {
         return evolutionID;

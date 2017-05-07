@@ -152,8 +152,8 @@ public class SettingsFragment extends MenuFragment
                 if(deckBuilderRect.contains(x, y)) {
                     getFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.container, new DeckBuilderFragmentFilters(),
-                                    "deck_builder_fragment_filters").commit();
+                            .replace(R.id.container, new DeckBuilderWorkingFragment(),
+                                    "deck_builder_working_fragment").commit();
                 }
 
 

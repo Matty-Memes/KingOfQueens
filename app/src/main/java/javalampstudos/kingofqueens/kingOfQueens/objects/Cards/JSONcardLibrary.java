@@ -243,7 +243,7 @@ public class JSONcardLibrary
     {
         try
         {
-            InputStream fileIn = assetManager.open("txt/cardLibrary.json");
+            InputStream fileIn = assetManager.open("txt/cardLibraryManaCounter.json");
             readJsonStream(fileIn);
             fileIn.close();
         }
@@ -296,7 +296,8 @@ public class JSONcardLibrary
         int evolutionID = -1;
         CardSchools cardSchool = null;
         CardLevel level = null;
-        HashMap<ManaTypes,Integer> attackManaRequirements = null;
+        int attackManaRequirements = -1;
+       // HashMap<ManaTypes,Integer> attackManaRequirements = null; //07/05/2017 We needed to swap out hashmaps at the very last minute
         reader.beginObject();
         while(reader.hasNext())
         {
@@ -317,7 +318,7 @@ public class JSONcardLibrary
                     break;
                 case "evolutionID":evolutionID = reader.nextInt();
                     break;
-                case "attackManaRequirement":attackManaRequirements = readManaRequirements(reader);
+                case "attackManaRequirement":attackManaRequirements = reader.nextInt();
                     break;
                 default: reader.skipValue();
                     break;
