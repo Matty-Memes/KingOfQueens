@@ -100,9 +100,6 @@ public class MainMenuFragment extends MenuFragment
                 }
 
 
-
-
-
                 if(continueRect.contains(x, y)) {
                     getFragmentManager()
                             .beginTransaction()

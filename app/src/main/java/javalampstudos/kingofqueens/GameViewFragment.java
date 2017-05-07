@@ -46,10 +46,15 @@ public class GameViewFragment extends CanvasFragment {
     private Paint paint;
 
     // BITMAPS
-    private Bitmap backgroundImage, pauseBitmap, victoryScreen;;
+
+    // Add bitmap for skip turn button
+    private Bitmap backgroundImage, pauseBitmap, victoryScreen;
     // RECTS
     private Rect backgroundImageRect;
     // STRINGS - For the pause menu and the win and lose cases
+
+    private Rect skipRect;
+
     private String pauseString, mainMenuString, resumeString, restartString, forfeitString;
 
     // Width and heihgt for creating the view
@@ -130,6 +135,11 @@ public class GameViewFragment extends CanvasFragment {
         pauseBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/Pause.png");
         // create a rect for the background
         backgroundImageRect = new Rect(0, 0, width, height);
+
+        // skip rect - make it responsive
+
+
+        skipRect = new Rect(700, 110, 800, 210);
 
         pauseString = "Pause";
         mainMenuString = "Main Menu";
@@ -252,6 +262,8 @@ public class GameViewFragment extends CanvasFragment {
 
                 // draw the text for the mana counter
                 drawMana(canvas);
+
+                drawMonsterCards(canvas);
 
                 drawUI(canvas);
 
@@ -503,7 +515,7 @@ public class GameViewFragment extends CanvasFragment {
         loop.handCard3.draw(canvas);
         loop.handCard4.draw(canvas);
         loop.handCard5.draw(canvas);
-
+//
         loop.monsterCard1.draw(canvas);
         loop.monsterCard2.draw(canvas);
         loop.monsterCard3.draw(canvas);
@@ -526,6 +538,7 @@ public class GameViewFragment extends CanvasFragment {
 
     {
         canvas.drawBitmap(pauseBitmap, null, boardLayout.pauseRect, paint);
+        canvas.drawBitmap(victoryScreen, null, skipRect, null);
 
     }
 
@@ -565,15 +578,10 @@ public class GameViewFragment extends CanvasFragment {
     private void drawMonsterCards(Canvas canvas)
 
     {
-        loop.monsterCard1.draw(canvas);
-        loop.monsterCard2.draw(canvas);
-        loop.monsterCard3.draw(canvas);
-
-      /*  for(int i =0; i < loop.player.getCardZones().length; i++)
-        {
-            loop.player.getCardZones()[i].getCurrentCard().draw(canvas);
-        }*/
-
+//        for (int i = 0; i < loop.monstersInPlay.size(); i++)
+//        {
+//          loop.monstersInPlay.get(i).draw(canvas);
+//        }
     }
 
     /*

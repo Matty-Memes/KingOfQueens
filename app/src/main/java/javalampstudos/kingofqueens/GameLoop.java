@@ -398,6 +398,8 @@ public class GameLoop implements Runnable
         touchListener = new MultitouchListener();
         canvasRenderer.setOnTouchListener(touchListener);
 
+        // Make a single hash map for storing all values
+
         // load assets
         loadAssets();
 
@@ -442,7 +444,7 @@ public class GameLoop implements Runnable
         // required mana
         // Temporary variable to use for all hash maps
         HashMap<ManaTypes,Integer> requiredMana = new HashMap<ManaTypes,Integer>();
-        requiredMana.put(ManaTypes.BUILT_ENVIRONMENT_MANA,5);
+        requiredMana.put(ManaTypes.BUILT_ENVIRONMENT_MANA, 5);
 
         monsterCard1 = new MonsterCard(234, 280, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
                 49, 0, CardLevel.DOCTRATE, 140, 0, 3, 1, requiredMana);
@@ -1573,7 +1575,7 @@ public class GameLoop implements Runnable
 
                 }
 
-                // Hand Index
+
                 if (boardLayout.MSlot1Rect.contains((int)handCards.get(handIndex).x, (int)handCards.get(handIndex).y)
                         && handCards.get(handIndex).id == 0)
 
@@ -1618,7 +1620,8 @@ public class GameLoop implements Runnable
                     {
                         userPrompt.text = attackPrompt;
                         phase = 2;
-                        gameState = GameState.ATTACK;
+                        // Show the attack prompt and make dragActive again
+                        gameState = GameState.PROMPT;
                         monsterSlotActive = true;
                     }
 
@@ -1670,7 +1673,8 @@ public class GameLoop implements Runnable
                     {
                         userPrompt.text = attackPrompt;
                         phase = 2;
-                        gameState = GameState.ATTACK;
+                        // Show the attack prompt and make dragActive again
+                        gameState = GameState.PROMPT;
                         monsterSlotActive = true;
                     }
 
@@ -1686,6 +1690,7 @@ public class GameLoop implements Runnable
                     // no more card movement
                     dragActive = false;
 
+                    // Reset the frames for the next prompt
                     numFrames = 0;
 
                     // get rid of the hand card
@@ -1719,7 +1724,8 @@ public class GameLoop implements Runnable
                     {
                         userPrompt.text = attackPrompt;
                         phase = 2;
-                        gameState = GameState.ATTACK;
+                        // Show the attack prompt and make dragActive again
+                        gameState = GameState.PROMPT;
                         monsterSlotActive = true;
                     }
 
@@ -1761,11 +1767,10 @@ public class GameLoop implements Runnable
                 if (boardLayout.MSlot1Rect.contains((int) x, (int) y) && monsterSlotActive)
 
                 {
-
                     dragActive = true;
                     monsterIndex = 0;
                     // Index into the array and set the pointer ID
-                    handCards.get(monsterIndex).pointerID = i;
+                    monstersInPlay.get(monsterIndex).pointerID = i;
                     monsterSlotActive = false;
 
                 }
@@ -1776,7 +1781,7 @@ public class GameLoop implements Runnable
                     dragActive = true;
                     monsterIndex = 1;
                     // Index into the array and set the pointer ID
-                    handCards.get(monsterIndex).pointerID = i;
+                    monstersInPlay.get(monsterIndex).pointerID = i;
                     monsterSlotActive = false;
 
                 }
@@ -1787,7 +1792,7 @@ public class GameLoop implements Runnable
                     dragActive = true;
                     monsterIndex = 2;
                     // Index into the array and set the pointer ID
-                    handCards.get(monsterIndex).pointerID = i;
+                    monstersInPlay.get(monsterIndex).pointerID = i;
                     monsterSlotActive = false;
 
                 }
@@ -1951,7 +1956,7 @@ public class GameLoop implements Runnable
 
                     {
                         // Put whatever BasicCard was picked up back in it's old position
-                        monstersInPlay.get(handIndex).resetPosition(handIndex);
+                        monstersInPlay.get(monsterIndex).resetPosition(monsterIndex);
                         // The player has let go of that monster
                         handActive = true;
 
