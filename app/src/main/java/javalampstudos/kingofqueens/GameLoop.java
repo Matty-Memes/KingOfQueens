@@ -432,6 +432,7 @@ public class GameLoop implements Runnable
         handCard5 = new BasicCard(634, 410, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
                 49, 634);
 
+
         handCards.add(handCard1);
         handCards.add(handCard2);
         handCards.add(handCard3);
