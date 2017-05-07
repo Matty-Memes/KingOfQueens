@@ -138,7 +138,7 @@ public class GameLoop implements Runnable
     // BEHIND THE SCENES CARD ARRAYS FOR CARD LOGIC
 
     public Deck playerDeck = new Deck();
-    public Deck aiDeck = new Deck();
+//    public Deck aiDeck = new Deck();
 
     // players logic arrays
     public ArrayList<MonsterCard> playerHandMonsters = new ArrayList<>();
@@ -171,8 +171,11 @@ public class GameLoop implements Runnable
     // Random Logic
 
     public randomGenerator rand;
+    public randomGenerator aiRand;
     // Used for drawing cards and populating the hand
     public int randex;
+    // The random index for the AI
+    public int aiRandex;
 
     // MANA
 
@@ -476,6 +479,7 @@ public class GameLoop implements Runnable
         animation = new CardAnimation();
 
         rand = new randomGenerator();
+        aiRand = new randomGenerator();
 
         // initialzing AiBrain.
         aiBrain = new Brain();
@@ -491,13 +495,15 @@ public class GameLoop implements Runnable
         playerDeck.createDeck(this);
         rand.flushRandomLogic();
 
+        // Should remember these unique numbers
         populatePlayerHand ();
-        rand.flushRandomLogic();
 
 //        aiDeck.generateDeck(this,startingDeck1);
 
+        // This should use aiRand
         populateOpponentHand();
-        rand.flushRandomLogic();
+        // Flush the random logic for the ai
+        aiRand.flushRandomLogic();
 
         engineering = new andyManaCounter(100, 250, "0", this, false, true);
         artsAndHumanities = new andyManaCounter(100, 290 , "0", this, false, true);
@@ -2232,6 +2238,9 @@ public class GameLoop implements Runnable
     }
     // randomly selects hand cards but doesn't draw them
 
+    // randomly selects hand cards but doesn't draw them
+    // Uses the player's deck for now to save memory - prevents OOM
+    // Andrew - 40083349
     private void populateOpponentHand ()
 
     {
@@ -2239,21 +2248,21 @@ public class GameLoop implements Runnable
 
         {
 
-            randex = rand.generateRandomNumber();
+            aiRandex = aiRand.generateRandomNumber();
             // keep for troubleshooting
-            System.out.println("Random is" + randex);
+            System.out.println("Random is" + aiRandex);
 
-            if (randex <= 7)
+            if (aiRandex <= 7)
 
             {
-                aiHandMonsters.add(playerDeck.monsterArray.get(randex));
+                aiHandMonsters.add(playerDeck.monsterArray.get(aiRandex));
             }
 
             // trap this in certain bounds
-            if (randex > 7 && randex <= 13)
+            if (aiRandex > 7 && aiRandex <= 13)
 
             {
-                aiHandMana.add(playerDeck.manaArray.get(randex % 8));
+                aiHandMana.add(playerDeck.manaArray.get(aiRandex % 8));
             }
 
         }
