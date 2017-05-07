@@ -22,6 +22,7 @@ import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 import javalampstudos.kingofqueens.kingOfQueens.Menu.MainMenuFragment;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.Settings;
 
+// Andrew - 40083349
 public class MainActivity extends Activity {
 
     // music variables
@@ -31,6 +32,7 @@ public class MainActivity extends Activity {
     public boolean isPrevMenu;
 
     @Override
+    // Andrew - 40083349
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -56,6 +58,7 @@ public class MainActivity extends Activity {
 
     }
 
+    // Andrew - 40083349
     public void hideNav() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getWindow().getDecorView().setSystemUiVisibility(
@@ -82,11 +85,11 @@ public class MainActivity extends Activity {
             if (music == null) {
                 if (isGame) {
                     music = AssetLoader
-                            .loadMusic(getAssets(), "LevelMusic.mp3");
+                            .loadMusic(getAssets(), "music/KingOfQueens Battle Theme.mp3");
                     isPrevMenu = false;
                 } else {
 
-                    music = AssetLoader.loadMusic(getAssets(), "StarShips - Nicki Minaj (Lyrics).mp3");
+                    music = AssetLoader.loadMusic(getAssets(), "music/MainMenuTheme.mp3");
                     isPrevMenu = true;
                 }
 
@@ -97,13 +100,13 @@ public class MainActivity extends Activity {
                     if (music.isPlaying())
                         music.pause();
                     music = AssetLoader
-                            .loadMusic(getAssets(), "LevelMusic.mp3");
+                            .loadMusic(getAssets(), "music/KingOfQueens Battle Theme.mp3");
                     isPrevMenu = false;
                     music.start();
                 } else if (!isPrevMenu) {
                     if (music.isPlaying())
                         music.pause();
-                    music = AssetLoader.loadMusic(getAssets(), "StarShips - Nicki Minaj (Lyrics).mp3");
+                    music = AssetLoader.loadMusic(getAssets(), "music/MainMenuTheme.mp3");
                     isPrevMenu = true;
                     music.start();
                 } else {
@@ -118,19 +121,6 @@ public class MainActivity extends Activity {
                 music.pause();
         }
     }
-
-
-//    boolean isGame = getFragmentManager().findFragmentById(R.id.container)
-//                .getTag().equals("game_fragment");
-
-        // load in the correct asset
-        // music = AssetLoader.loadMusic(getAssets(), "music/StarShips - Nicki Minaj (Lyrics).mp3");
-
-        // start the music
-        // music.start();
-
-        // need to control what plays in each menu
-        // also pause the music
 
 
     public void stopMusic() {

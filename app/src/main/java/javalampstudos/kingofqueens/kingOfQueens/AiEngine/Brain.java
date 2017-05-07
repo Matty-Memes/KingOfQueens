@@ -25,8 +25,6 @@ import javalampstudos.kingofqueens.kingOfQueens.util.andyManaCounter;
 // This class scans player and AI monsters for information about them
 
 public class Brain {
-
-
     // Constructor for the Ai Brain.
     public Brain(){
 
