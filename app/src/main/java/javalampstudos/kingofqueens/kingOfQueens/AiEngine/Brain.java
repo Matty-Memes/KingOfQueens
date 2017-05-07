@@ -21,13 +21,15 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.graveYard;
  * Created by brian on 07/04/2017.
  */
 
+// This class scans player and AI monsters for information about them
+
 public class Brain {
 
     // Constructor for the Ai Brain.
     public Brain(){
 
     }
-    // writen by andrew
+    // Andrew - 40083349
     // loop through and find the index of the monster with the highest attack
     public int playHighestAttack (ArrayList<MonsterCard> monster)
 
@@ -47,6 +49,28 @@ public class Brain {
         }
         return index;
 
+    }
+
+    // Would need to about opponent health
+    // Andrew - 40083349
+    public int attackWeakestMonster(ArrayList<MonsterCard> playerMonsters)
+
+    {
+        int min = 50;
+        int index = 0;
+
+        System.out.println("The size of playerMonsters is" + playerMonsters.size());
+
+        for (int i = 0; i < playerMonsters.size(); i++)
+        {
+            if (playerMonsters.get(i).health <= min)
+            {
+                index = i;
+                min = playerMonsters.get(i).attackValue;
+            }
+        }
+
+        return index;
     }
 
     // 40111707 brians

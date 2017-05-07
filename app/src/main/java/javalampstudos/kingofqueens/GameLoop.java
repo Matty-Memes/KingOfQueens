@@ -82,7 +82,7 @@ public class GameLoop implements Runnable
     }
 
     // Allow the prep phase to happen
-    public boolean prepPhase;
+    public boolean prepPhase = true;
 
     // TOUCH INPUT/DRAW LOGIC
 
@@ -217,10 +217,10 @@ public class GameLoop implements Runnable
 
     public Window victory;
     public Bitmap victoryScreen;
-    public int opponentMonstersKilled;
+    public int opponentMonstersKilled = 0;
 
-    // User Prompt Stuff
-    public String manaPrompt = "Monsters need mana to attack. Place a mana card in the mana zone on the left";
+    // User Prompt Stuff - could import this seperately
+    public String manaPrompt = "Place a mana card in the mana zone on the left";
     public String attackPrompt = "Attack the opponent’s monsters by dragging your monster card over them";
     public String monsterPrompt = "Drag a monster card to the field above your hand";
 
@@ -234,8 +234,15 @@ public class GameLoop implements Runnable
     // 2 - Attack Phase
     public int phase = 1;
 
+    // For the opponent
     public Text damageText;
+    // This can be re-used
     public int damage;
+
+    // For when the player is attacked by the AI
+    public Text playerDamageText;
+
+    public boolean aiTurn;
 
     // Nathan/OpenWorld variables      //
     //         40131544              //
@@ -324,7 +331,6 @@ public class GameLoop implements Runnable
 
     };*/
 
-
     //ArrayLists used for Interaction
     ArrayList<GameObject> tileList = new ArrayList<>();
     ArrayList<GameObject> collisionList = new ArrayList<>();
@@ -340,14 +346,14 @@ public class GameLoop implements Runnable
         return coinCounter;
     }
 
-    public boolean gameStateSwitch = false;
-
     //////////////////////
     //(End of OpenWorld) //
     //////////////////////
 
     // Declare a gamestate
     public GameState gameState;
+
+    public boolean gameStateSwitch = false;
 
     // Created by Andrew - 40083349
 
@@ -501,11 +507,15 @@ public class GameLoop implements Runnable
 
         // Enemy Damage
         damageText = new Text(234, 100, "", this, true, false);
+        // Player Damage - position depends on what was attacked
+
+        // Change the position of this as necessary
+        playerDamageText = new Text(200, 200, "Checking", this, true, false);
 
         // Once everything is loaded the user can interact
         handActive = true;
 
-        // The prep phase becomes active here
+        // Make the prep phase active at the start of the game
         prepPhase = true;
 
         //40123776, timer for stats
@@ -651,8 +661,7 @@ public class GameLoop implements Runnable
                     case AITURN:
                         updateCard();
                         updateMana();
-                        updateAICards();
-                        updateDamage();
+                        updateAITurn();
                         break;
                     // automated so no updateTouch
                     case AIANIMATION:
@@ -759,8 +768,6 @@ public class GameLoop implements Runnable
         // go to the renderer thread and run it's resume method
         canvasRenderer.resume();
 
-
-
     }
 
     // Created by Andrew - 40083349
@@ -838,7 +845,6 @@ public class GameLoop implements Runnable
 
 
     }
-
     // continuously checks for new touch input
     private void updateOWTouch()
 
@@ -1181,8 +1187,8 @@ public class GameLoop implements Runnable
         grid[78][14] = 3;
     }
 
-    // PUT THIS IN A SINGLE METHOD
 
+    // Initialize the arrays used for the background logic
     private void initializeLogicalArrays ()
 
     {
@@ -1194,7 +1200,7 @@ public class GameLoop implements Runnable
 
         {
             playerHandMonsters.add(new MonsterCard(234, 280, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
-                    49, 0, CardLevel.DOCTRATE, 140, 0, 3, 1, requiredMana));
+                    49, 0, CardLevel.DOCTRATE, 45, 0, 3, 1, requiredMana));
         }
 
         // Mana
@@ -1212,7 +1218,7 @@ public class GameLoop implements Runnable
         {
 
             playerFieldMonsters.add(new MonsterCard(234, 280, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
-                    49, 0, CardLevel.DOCTRATE, 140, 0, 3, 1, requiredMana));
+                    49, 0, CardLevel.DOCTRATE, 45, 0, 3, 1, requiredMana));
 
         }
 
@@ -1221,18 +1227,33 @@ public class GameLoop implements Runnable
         {
 
             aiFieldMonsters.add(new MonsterCard(234, 280, 90, 120, cardBackSprite, true, 3, CardSchools.MEDICS, false,
-                    49, 0, CardLevel.DOCTRATE, 140, 0, 3, 1, requiredMana));
+                    49, 0, CardLevel.DOCTRATE, 50, 0, 3, 1, requiredMana));
         }
 
     }
 
+    // Start with the players damage
+
     private void updateDamagePause ()
 
     {
+        // Might have to add more conditions
         if (numFrames >= 100)
 
         {
-            gameState = GameState.AITURN;
+            if (aiTurn)
+
+            {
+                gameState = GameState.DRAW;
+
+            }
+
+            else
+
+            {
+                gameState = GameState.AITURN;
+
+            }
         }
 
         else
@@ -1247,6 +1268,7 @@ public class GameLoop implements Runnable
 
     {
         damageText.update();
+        playerDamageText.update();
     }
 
     // Pauses the screen for 300 frames before returning to the main menu
@@ -1313,6 +1335,7 @@ public class GameLoop implements Runnable
                 if(boardLayout.pauseRect.contains((int) x, (int) y)) {
                     pauseGame();
                 }
+
 
                 if (boardLayout.handRect1.contains((int) x, (int) y) && handActive)
 
@@ -1474,6 +1497,13 @@ public class GameLoop implements Runnable
                 if(boardLayout.pauseRect.contains((int) x, (int) y)) {
                     pauseGame();
                 }
+//
+//                if(boardLayout.skipRect.contains((int) x, (int) y))
+//
+//                {
+//                    gameState = GameState.MONSTERPLACEMENT;
+//
+//                }
 
                 if (boardLayout.handRect1.contains((int) x, (int) y) && handActive)
 
@@ -1554,6 +1584,8 @@ public class GameLoop implements Runnable
                     // prevents cards splipping off the edge
                     dragActive = false;
 
+                    numFrames = 0;
+
                     // get rid of the hand card
                     handCards.get(handIndex).destroyed = true;
 
@@ -1573,7 +1605,6 @@ public class GameLoop implements Runnable
                     if (prepPhase)
 
                     {
-                        prepPhase = false;
                         emptySlot = handIndex;
                         // The AI chooses a card and plays it
                         userPrompt.text = manaPrompt;
@@ -1611,6 +1642,8 @@ public class GameLoop implements Runnable
                     monsterCard2.x = 434;
                     monsterCard2.y = 280;
 
+                    numFrames = 0;
+
                     // move from the hand to the field
                     // the card should be moved to the player's logical monster array
                     // The touch zones dictate the index
@@ -1625,9 +1658,7 @@ public class GameLoop implements Runnable
                     if (prepPhase)
 
                     {
-                        prepPhase = false;
                         emptySlot = handIndex;
-                        // The AI chooses a card and plays it
                         userPrompt.text = manaPrompt;
                         phase = 0;
                         gameState = GameState.AITURN;
@@ -1654,6 +1685,8 @@ public class GameLoop implements Runnable
                     // no more card movement
                     dragActive = false;
 
+                    numFrames = 0;
+
                     // get rid of the hand card
                     handCards.get(handIndex).destroyed = true;
 
@@ -1674,9 +1707,7 @@ public class GameLoop implements Runnable
                     if (prepPhase)
 
                     {
-                        prepPhase = false;
                         emptySlot = handIndex;
-                        // The AI chooses a card and plays it
                         userPrompt.text = manaPrompt;
                         phase = 0;
                         gameState = GameState.AITURN;
@@ -1717,12 +1748,12 @@ public class GameLoop implements Runnable
     private void updateTouchAttack ()
 
     {
-        for(int i = 0; i < touchListener.MAX_TOUCH_POINTS; i++) {
-            if(touchListener.isTouchContinuous(i)) {
+        for (int i = 0; i < touchListener.MAX_TOUCH_POINTS; i++) {
+            if (touchListener.isTouchContinuous(i)) {
                 int x = (int) touchListener.getTouchX(i), y = (int) touchListener
                         .getTouchY(i);
 
-                if(boardLayout.pauseRect.contains((int) x, (int) y)) {
+                if (boardLayout.pauseRect.contains((int) x, (int) y)) {
                     pauseGame();
                 }
 
@@ -1761,7 +1792,7 @@ public class GameLoop implements Runnable
                 }
 
                 // Set up movement for attack logic
-                if(boardLayout.attackRect.contains((int) x, (int) y) && dragActive)
+                if (boardLayout.attackRect.contains((int) x, (int) y) && dragActive)
 
                 {
                     monstersInPlay.get(monsterIndex).x = x;
@@ -1769,12 +1800,9 @@ public class GameLoop implements Runnable
 
                 }
 
-                if (boardLayout.opponent1Rect.contains((int)monstersInPlay.get(monsterIndex).x, (int)monstersInPlay.get(monsterIndex).y))
+                if (boardLayout.opponent1Rect.contains((int) monstersInPlay.get(monsterIndex).x, (int) monstersInPlay.get(monsterIndex).y))
 
                 {
-                    // Add attack SFX here
-                    sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
-                    attackSFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
 
                     userPrompt.text = manaPrompt;
 
@@ -1803,23 +1831,22 @@ public class GameLoop implements Runnable
 
                         // Check if the player has won the game
                         opponentMonstersKilled++;
-                        if (opponentMonstersKilled >= 1)
-                        {
+                        if (opponentMonstersKilled >= 2) {
                             // Add victory SFX here
                             gameState = GameState.VICTORY;
 
                         }
-                    }
-
-                    else
+                    } else
 
                     {
-                        // transfer control back to the AI
+                        // Add attack SFX here
+                        sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
+                        attackSFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
                         gameState = GameState.DAMAGE;
                     }
                 }
 
-                if (boardLayout.opponent2Rect.contains((int)monstersInPlay.get(monsterIndex).x, (int)monstersInPlay.get(monsterIndex).y))
+                if (boardLayout.opponent2Rect.contains((int) monstersInPlay.get(monsterIndex).x, (int) monstersInPlay.get(monsterIndex).y))
 
                 {
                     // Add attack SFX here
@@ -1834,7 +1861,6 @@ public class GameLoop implements Runnable
                         // Add SFX
 
 
-
                         // Calculate damage
                         damage = playerFieldMonsters.get(handIndex).health - aiFieldMonsters.get(0).attackValue;
 
@@ -1842,7 +1868,8 @@ public class GameLoop implements Runnable
                         damageText.text = "" + damage;
                         damageText.visible = true;
 
-                        if (damage <= 0)
+                        // Was the ai monster destroyed
+                        if (aiFieldMonsters.get(0).health <= 0)
 
                         {
                             // stop drawing the monster that was destroyed
@@ -1850,27 +1877,25 @@ public class GameLoop implements Runnable
 
                             // Check if the player has won the game
                             opponentMonstersKilled++;
-                            if (opponentMonstersKilled >= 1)
-                            {
+                            if (opponentMonstersKilled >= 2) {
                                 // Add victory SFX here
                                 gameState = GameState.VICTORY;
 
                             }
-
-                        }
-
-                        else
+                        } else
 
                         {
-                            // transfer control back to the AI
-                            gameState = GameState.AITURN;
+                            // Add attack SFX here
+                            sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
+                            attackSFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
+                            gameState = GameState.DAMAGE;
                         }
 
                     }
 
                 }
 
-                if (boardLayout.opponent3Rect.contains((int)monstersInPlay.get(monsterIndex).x, (int)monstersInPlay.get(monsterIndex).y))
+                if (boardLayout.opponent3Rect.contains((int) monstersInPlay.get(monsterIndex).x, (int) monstersInPlay.get(monsterIndex).y))
 
                 {
                     // Add SFX
@@ -1890,7 +1915,8 @@ public class GameLoop implements Runnable
                         // stop drawing the monster that was destroyed
                         opponent3.destroyed = true;
 
-                        if (damage <= 0)
+                        // Was the ai monster destroyed
+                        if (aiFieldMonsters.get(0).health <= 0)
 
                         {
                             // stop drawing the monster that was destroyed
@@ -1898,42 +1924,41 @@ public class GameLoop implements Runnable
 
                             // Check if the player has won the game
                             opponentMonstersKilled++;
-                            if (opponentMonstersKilled >= 1)
-                            {
+                            if (opponentMonstersKilled >= 2) {
                                 // Add victory SFX here
                                 gameState = GameState.VICTORY;
 
                             }
-
-                        }
-
-                        else
+                        } else
 
                         {
-                            // transfer control back to the AI
-                            gameState = GameState.AITURN;
+                            // Add attack SFX here
+                            sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
+                            attackSFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
+                            gameState = GameState.DAMAGE;
                         }
+
+                    }
+                }
+
+                // Snapping goes here - code in positions
+                else
+
+                {
+                    // how do you control which one goes where
+                    if (monstersInPlay.get(monsterIndex).pointerID == i)
+
+                    {
+                        // Put whatever BasicCard was picked up back in it's old position
+                        monstersInPlay.get(handIndex).resetPosition(handIndex);
+                        // The player has let go of that monster
+                        handActive = true;
+
                     }
 
                 }
             }
 
-            // Snapping goes here - code in positions
-            else
-
-            {
-                // how do you control which one goes where
-                if (monstersInPlay.get(monsterIndex).pointerID == i)
-
-                {
-                    // Put whatever BasicCard was picked up back in it's old position
-                    monstersInPlay.get(handIndex).resetPosition(handIndex);
-                    // The player has let go of that monster
-                    handActive = true;
-
-                }
-
-            }
         }
 
     }
@@ -1979,6 +2004,7 @@ public class GameLoop implements Runnable
         }
     }
 
+
     public void pauseGame ()
 
     {
@@ -1988,27 +2014,79 @@ public class GameLoop implements Runnable
 
     }
 
-    // This is like the player's draw method
+    // The AI can either draw a card or attack the player
 
-    // Should work for any ai animation
-    public void updateAICards ()
+    public void updateAITurn ()
 
     {
-        // This needs to happen seperately.
-        int index = aiBrain.playHighestAttack(aiHandMonsters);
-        System.out.println(index);
+        // Keep using this card till it's killed and needs replaced
 
-        // This is the logic not the visual stuff
-        aiFieldMonsters.add(aiHandMonsters.get(index));
+        // This is what happens the first time
+        if (prepPhase == true)
 
-        // THis is for monster placement
-        // monsterSlotActive = true;
-        opponent1.x = 70;
-        opponent1.y = 100;
-        opponent1.sprite = aiHandMonsters.get(index).sprite;
+        {
+            // This needs to happen seperately.
+            int index = aiBrain.playHighestAttack(aiHandMonsters);
+            // This is the logic not the visual stuff
+            aiFieldMonsters.add(aiHandMonsters.get(index));
+            // THis is for monster placement
+            // monsterSlotActive = true;
+            opponent1.x = 70;
+            opponent1.y = 100;
+            opponent1.sprite = aiHandMonsters.get(index).sprite;
+            // animate the AI card being drawn to the deck
 
-        // animate the ai's sprite
-        gameState = GameState.AIANIMATION;
+            // now the prep phase is completely finished
+            prepPhase = false;
+            gameState = GameState.AIANIMATION;
+        }
+
+        // the AI attacks here - should simulate the player attack
+        // The prep phase guarantees at least one monster on the field
+        else
+
+        {
+            // Tell the AI which player monster is weakest and attack it
+            int index = aiBrain.attackWeakestMonster(playerFieldMonsters);
+
+            numFrames = 0;
+
+            // Turn the damage text for the AI off
+            damageText.visible = false;
+
+            // Player card death??
+
+            // Need to know who the attacking card is
+            // Snap the card to the player monster
+            opponent1.x = monstersInPlay.get(index).x;
+            // the y pos of the player monsters doesn't change
+            opponent1.y = 280;
+
+            // how do you know what attacked you??
+            damage = playerFieldMonsters.get(index).health - aiFieldMonsters.get(0).attackValue;
+            playerDamageText.x = monstersInPlay.get(index).x;
+            playerDamageText.y = monstersInPlay.get(index).y;
+
+            playerDamageText.text = "" + damage;
+            playerDamageText.visible = true;
+
+            // Play SFX
+            // Add attack SFX here
+            sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
+            attackSFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
+
+            // Snap back to original position - needs to be calculated
+            opponent1.x = 234;
+            opponent1.y = 100;
+
+            // Apply damage to the player instead
+            aiTurn = true;
+
+            // Show the damage
+            gameState = GameState.DAMAGE;
+
+        }
+
     }
 
     // Pauses the screen for 300 frames before returning to the main menu
@@ -2048,6 +2126,7 @@ public class GameLoop implements Runnable
 
     }
 
+    // This is the player's draw phase.
     private void updateDraw ()
 
     {
@@ -2069,10 +2148,8 @@ public class GameLoop implements Runnable
         userPrompt.text = manaPrompt;
         // Move to the mana placement state
 
-
         // run the card movement animation
         gameState = GameState.ANIMATION;
-
     }
 
     // This handles all updates - needs split into arraylists fore readability

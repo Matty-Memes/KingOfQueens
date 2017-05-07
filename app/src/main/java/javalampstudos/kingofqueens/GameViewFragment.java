@@ -228,6 +228,7 @@ public class GameViewFragment extends CanvasFragment {
 
                 break;
             case DRAW:
+
                 drawCard(canvas);
 
                 drawMana(canvas);
@@ -481,11 +482,13 @@ public class GameViewFragment extends CanvasFragment {
 
     }
 
+    // Andrew - 40083349
     private void drawDamage (Canvas canvas)
 
     {
 
         loop.damageText.draw(canvas);
+        loop.playerDamageText.draw(canvas);
 
     }
 
@@ -534,13 +537,7 @@ public class GameViewFragment extends CanvasFragment {
 
     }
 
-    private void drawVictory(Canvas canvas)
 
-    {
-        loop.victory.draw(canvas);
-    }
-
-    // This needs changed anyway
     private void drawMana(Canvas canvas)
 
     {

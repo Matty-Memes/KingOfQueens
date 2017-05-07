@@ -25,6 +25,7 @@ public class CardAnimation
 
     // Add a direction
 
+    // Only for the prepPhase currently
     public void updateCardAnimation (GameLoop loop, float speed, BasicCard card,  boolean boundHit)
 
     {
@@ -44,7 +45,5 @@ public class CardAnimation
         }
 
     }
-
-
 
 }
