@@ -32,7 +32,7 @@ public class boardLayout
     // MOVE TO SEPERATE CLASSES SINCE THEY DON'T RELATE TO THE BOARD
 
     // Menu Rect/Rects
-    public static Rect pauseRect, resumeRect, restartRect, mainMenuRect;
+    public static Rect pauseRect, resumeRect, restartRect, forfeitRect, mainMenuRect;
 
     // User Prompts/Messages
     public static Rect aiRect;
@@ -155,17 +155,21 @@ public class boardLayout
         pauseRect = new Rect(755, 50, 805, 100);
 
         resumeRect = new Rect((int) (width / 2 - 128 * uiScaling),
-                (int) (height / 2 - 58 * uiScaling),
+                (int) (height / 2 - 68 * uiScaling),
                 (int) (width / 2 + 128 * uiScaling),
-                (int) (height / 2 - 10 * uiScaling));
+                (int) (height / 2 - 20 * uiScaling));
         restartRect = new Rect((int) (width / 2 - 128 * uiScaling),
-                (int) (height / 2 - 2 * uiScaling),
+                (int) (height / 2 - 12 * uiScaling),
                 (int) (width / 2 + 128 * uiScaling),
-                (int) (height / 2 + 46 * uiScaling));
+                (int) (height / 2 + 36 * uiScaling));
+        forfeitRect = new Rect((int) (width / 2 - 128 * uiScaling),
+                (int) (height / 2 + 44 * uiScaling),
+                (int) (width / 2 + 128 * uiScaling),
+                (int) (height / 2 + 92 * uiScaling));
         mainMenuRect = new Rect((int) (width / 2 - 128 * uiScaling),
-                (int) (height / 2 + 54 * uiScaling),
+                (int) (height / 2 + 100 * uiScaling),
                 (int) (width / 2 + 128 * uiScaling),
-                (int) (height / 2 + 102 * uiScaling));
+                (int) (height / 2 + 148 * uiScaling));
 
         // For the aithinking message
         aiRect = new Rect(107, 120, 747, 360);

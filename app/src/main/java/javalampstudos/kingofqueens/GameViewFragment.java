@@ -46,18 +46,23 @@ public class GameViewFragment extends CanvasFragment {
     private Paint paint;
 
     // BITMAPS
-    private Bitmap backgroundImage, pauseBitmap, victoryScreen;;
+
+    // Add bitmap for skip turn button
+    private Bitmap backgroundImage, pauseBitmap, victoryScreen;
     // RECTS
     private Rect backgroundImageRect;
     // STRINGS - For the pause menu and the win and lose cases
-    private String pauseString, mainMenuString, resumeString, restartString;
+
+    private Rect skipRect;
+
+    private String pauseString, mainMenuString, resumeString, restartString, forfeitString;
 
     // Width and heihgt for creating the view
     private int width, height;
 
     //States of Dialogue
     private enum DialogueState {
-        REGULAR, SHOP, OPTIONS, RESPONSE, NONE
+        REGULAR, SHOP, OPTIONS, RESPONSE, SWITCH, NONE
     }
 
     //Boolean for resetting DialoguePoint variable
@@ -131,10 +136,16 @@ public class GameViewFragment extends CanvasFragment {
         // create a rect for the background
         backgroundImageRect = new Rect(0, 0, width, height);
 
+        // skip rect - make it responsive
+
+
+        skipRect = new Rect(700, 110, 800, 210);
+
         pauseString = "Pause";
         mainMenuString = "Main Menu";
         resumeString = "Resume";
         restartString = "Restart";
+        forfeitString = "Forfeit";
 
     }
 
@@ -194,11 +205,13 @@ public class GameViewFragment extends CanvasFragment {
                 paint.setTextSize(32 * loop.uiScaling);
                 canvas.drawText(pauseString, width / 2, 66 * loop.uiScaling, paint);
 
-                canvas.drawText(resumeString, width / 2, height / 2 - 8
+                canvas.drawText(resumeString, width / 2, height / 2 - 18
                         * loop.uiScaling, paint);
-                canvas.drawText(restartString, width / 2, height / 2 + 48
+                canvas.drawText(restartString, width / 2, height / 2 + 38
                         * loop.uiScaling, paint);
-                canvas.drawText(mainMenuString, width / 2, height / 2 + 104
+                canvas.drawText(forfeitString, width / 2, height / 2 + 94
+                        * loop.uiScaling, paint);
+                canvas.drawText(mainMenuString, width / 2, height / 2 + 150
                         * loop.uiScaling, paint);
 
                 break;
@@ -225,6 +238,7 @@ public class GameViewFragment extends CanvasFragment {
 
                 break;
             case DRAW:
+
                 drawCard(canvas);
 
                 drawMana(canvas);
@@ -248,6 +262,8 @@ public class GameViewFragment extends CanvasFragment {
 
                 // draw the text for the mana counter
                 drawMana(canvas);
+
+                drawMonsterCards(canvas);
 
                 drawUI(canvas);
 
@@ -357,6 +373,8 @@ public class GameViewFragment extends CanvasFragment {
 
 
 
+        dialogueState = DialogueState.NONE;
+
 
         //Check if the player has interacted with an NPC
         if (loop.interactionIndex >= 0) {
@@ -411,6 +429,10 @@ public class GameViewFragment extends CanvasFragment {
                 dialogueState = DialogueState.REGULAR;
             }
 
+            if(Dialogue.conversationIndex(loop.interactionIndex, loop.dialoguePoint, loop.response) == "Switch") {
+                dialogueState = DialogueState.SWITCH;
+            }
+
 
             //If "None" is returned from conversationIndex, the conversation has ended
             //If "Coin" is returned from shopConvo and "None" is returned from conversationIndex, the conversation with the
@@ -447,6 +469,9 @@ public class GameViewFragment extends CanvasFragment {
                     canvas.drawText(Dialogue.conversationIndex(loop.interactionIndex, loop.dialoguePoint, loop.response),
                             canvas.getClipBounds().left + clipSpacingX / 2, canvas.getClipBounds().top + clipSpacingY * 4, mPaint); break;
 
+                case SWITCH:
+                    loop.gameStateSwitch = true;
+
                 case NONE:
                     //When reached, conversation has ended. Reset dialoguePoint, inDialogue, interactionIndex, response
                     //and resetDialoguePoint to return game to a free-roam gameplay
@@ -456,19 +481,26 @@ public class GameViewFragment extends CanvasFragment {
                     loop.response = -1;
                     resetDialoguePoint = true; break;
             }
+
+
         }
 
 
         //Draw the interact button last
         canvas.drawBitmap(loop.aButton, null, loop.interactButton, null);
+        if(dialogueState == DialogueState.NONE) {
+            canvas.drawBitmap(loop.dPadSprite, null, loop.dPad, null);
+        }
 
     }
 
+    // Andrew - 40083349
     private void drawDamage (Canvas canvas)
 
     {
 
         loop.damageText.draw(canvas);
+        loop.playerDamageText.draw(canvas);
 
     }
 
@@ -483,7 +515,7 @@ public class GameViewFragment extends CanvasFragment {
         loop.handCard3.draw(canvas);
         loop.handCard4.draw(canvas);
         loop.handCard5.draw(canvas);
-
+//
         loop.monsterCard1.draw(canvas);
         loop.monsterCard2.draw(canvas);
         loop.monsterCard3.draw(canvas);
@@ -506,6 +538,7 @@ public class GameViewFragment extends CanvasFragment {
 
     {
         canvas.drawBitmap(pauseBitmap, null, boardLayout.pauseRect, paint);
+        canvas.drawBitmap(victoryScreen, null, skipRect, null);
 
     }
 
@@ -517,13 +550,7 @@ public class GameViewFragment extends CanvasFragment {
 
     }
 
-    private void drawVictory(Canvas canvas)
 
-    {
-        loop.victory.draw(canvas);
-    }
-
-    // This needs changed anyway
     private void drawMana(Canvas canvas)
 
     {
@@ -551,15 +578,10 @@ public class GameViewFragment extends CanvasFragment {
     private void drawMonsterCards(Canvas canvas)
 
     {
-        loop.monsterCard1.draw(canvas);
-        loop.monsterCard2.draw(canvas);
-        loop.monsterCard3.draw(canvas);
-
-      /*  for(int i =0; i < loop.player.getCardZones().length; i++)
-        {
-            loop.player.getCardZones()[i].getCurrentCard().draw(canvas);
-        }*/
-
+//        for (int i = 0; i < loop.monstersInPlay.size(); i++)
+//        {
+//          loop.monstersInPlay.get(i).draw(canvas);
+//        }
     }
 
     /*
