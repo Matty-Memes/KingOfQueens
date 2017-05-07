@@ -532,6 +532,8 @@ public class GameLoop implements Runnable
         // Changes depending on the monster with insufficent mana
         insufficentMana = new Text(0, 0, insufficentManaText, this, true, false);
 
+        total = new ManaTotals();
+
         // Once everything is loaded the user can interact
         handActive = true;
 
@@ -714,6 +716,7 @@ public class GameLoop implements Runnable
                         updateMana();
                         updateTouchAttack();
                         updateDamage();
+                        updateManaMessage();
                         break;
                     case VICTORY:
                         updateVictoryScreen();
@@ -996,6 +999,13 @@ public class GameLoop implements Runnable
         builtEnvironment.update();
         eeecs.update();
         Medic.update();
+    }
+
+    private void updateManaMessage ()
+
+    {
+        insufficentMana.update();
+
     }
 
     private void updatePrompt ()
@@ -1310,11 +1320,8 @@ public class GameLoop implements Runnable
         if (numFrames >= 300)
 
         {
-            fragment.getFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.container,
-                            new MainMenuFragment(),
-                            "main_menu_fragment").commit();
+          gameStateSwitch = false;
+          gameState = GameState.OPENWORLD;
         }
 
         else
@@ -1801,10 +1808,12 @@ public class GameLoop implements Runnable
                     if (total.returnTotal(playerFieldMonsters.get(monsterIndex).cardSchool) <= playerFieldMonsters.get(monsterIndex).getAttackManaRequirement())
 
                     {
-                        // This is fixed at the position of monster slot 1
-                        insufficentMana.x = 234;
-                        insufficentMana.y = 280;
-                        insufficentMana.visible = true;
+//                        System.out.println("First Zone");
+//
+//                        // This is fixed at the position of monster slot 1
+//                        insufficentMana.x = 234;
+//                        insufficentMana.y = 280;
+//                        insufficentMana.visible = true;
 
                     }
 
@@ -1818,6 +1827,18 @@ public class GameLoop implements Runnable
                     dragActive = true;
                     monsterIndex = 1;
                     // Index into the array and set the pointer ID
+
+                    // Is the available mana less than or equal to the cards required mana
+                    if (total.returnTotal(playerFieldMonsters.get(monsterIndex).cardSchool) <= playerFieldMonsters.get(monsterIndex).getAttackManaRequirement())
+
+                    {
+//                        // This is fixed at the position of monster slot 1
+//                        insufficentMana.x = 434;
+//                        insufficentMana.y = 280;
+//                        insufficentMana.visible = true;
+
+                    }
+
                     monstersInPlay.get(monsterIndex).pointerID = i;
                     monsterSlotActive = false;
 
@@ -1829,6 +1850,18 @@ public class GameLoop implements Runnable
                     dragActive = true;
                     monsterIndex = 2;
                     // Index into the array and set the pointer ID
+
+                    // Is the available mana less than or equal to the cards required mana
+                    if (total.returnTotal(playerFieldMonsters.get(monsterIndex).cardSchool) <= playerFieldMonsters.get(monsterIndex).getAttackManaRequirement())
+
+                    {
+//                        // This is fixed at the position of monster slot 1
+//                        insufficentMana.x = 634;
+//                        insufficentMana.y = 280;
+//                        insufficentMana.visible = true;
+
+                    }
+
                     monstersInPlay.get(monsterIndex).pointerID = i;
                     monsterSlotActive = false;
 
@@ -1893,8 +1926,6 @@ public class GameLoop implements Runnable
                 if (boardLayout.opponent2Rect.contains((int) monstersInPlay.get(monsterIndex).x, (int) monstersInPlay.get(monsterIndex).y))
 
                 {
-                    // Add attack SFX here
-
                     userPrompt.text = manaPrompt;
 
                     phase = 0;

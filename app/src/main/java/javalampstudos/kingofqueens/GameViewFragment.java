@@ -308,6 +308,8 @@ public class GameViewFragment extends CanvasFragment {
 
                 drawUI(canvas);
 
+                drawManaMessage(canvas);
+
                 break;
             case VICTORY:
 
@@ -490,6 +492,12 @@ public class GameViewFragment extends CanvasFragment {
             canvas.drawBitmap(loop.dPadSprite, null, loop.dPad, null);
         }
 
+    }
+
+    private void drawManaMessage(Canvas canvas)
+
+    {
+        loop.insufficentMana.draw(canvas);
     }
 
     // Andrew - 40083349
