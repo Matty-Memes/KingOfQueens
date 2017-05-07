@@ -352,8 +352,7 @@ public class GameViewFragment extends CanvasFragment {
         int clipSpacingY = canvas.getClipBounds().height() / 10;
 
         //Draw map
-        loop.mapTest.draw(canvas, loop.mLayerViewport, loop.mScreenViewport);
-        //loop.coin.draw(canvas, loop.mLayerViewport, loop.mScreenViewport);
+        loop.map.draw(canvas, loop.mLayerViewport, loop.mScreenViewport);
 
         //Draw objects from objectList
         for (int i = 0; i < loop.objectList.size(); i++) {
@@ -371,8 +370,7 @@ public class GameViewFragment extends CanvasFragment {
         loop.lanyonTop.draw(canvas, loop.mLayerViewport, loop.mScreenViewport);
         //loop.player2.draw(canvas, loop.mLayerViewport, loop.mScreenViewport);
 
-
-
+        //Not in dialogue until loop.interactionIndex is >=0
         dialogueState = DialogueState.NONE;
 
 

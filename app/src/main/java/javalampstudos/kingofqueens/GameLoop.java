@@ -272,7 +272,7 @@ public class GameLoop implements Runnable
     //Player and Other Entities
     public littleMan player;
     public Entity player2;
-    public Entity mapTest;
+    public Entity map;
     public Entity mcclayTop;
     public Entity lanyonTop;
     public Entity tile;
@@ -289,6 +289,7 @@ public class GameLoop implements Runnable
     public int dialoguePoint = 0;
     public int response = -1;
 
+    //Movement Rects for D-Pad
     private Rect moveLeftRect;
     public Rect moveRightRect;
     private Rect moveUpRect;
@@ -331,8 +332,7 @@ public class GameLoop implements Runnable
 
     };*/
 
-    //ArrayLists used for Interaction
-    ArrayList<GameObject> tileList = new ArrayList<>();
+    //ArrayLists used for Interaction and Collision
     ArrayList<GameObject> collisionList = new ArrayList<>();
     ArrayList<GameObject> objectList = new ArrayList<>();
     ArrayList<GameObject> coinList = new ArrayList<>();
@@ -537,22 +537,21 @@ public class GameLoop implements Runnable
     //Nathan -   40131544
     public void openWorldSetup() {
 
-
-        int spacingX = width / 3;
-        int spacingY = height / 2;
-
+        //Variables to create Rects in context of screen
         int spacingX2 = width / 10;
         int spacingY2 = height / 10;
 
+        //Viewports method
         createViewports();
 
+        //Setup special tile info e.g. collision, npcs, collectibles
         initialise2DGrid();
 
 
         //Setup Player and Entities
         tile = new Entity(0, 0, LEVEL_WIDTH / 100, LEVEL_HEIGHT / 100, null, true);
         player = new littleMan(tile.width * 10 + tile.width / 2, tile.height * 24 +  tile.height / 2, tile.width, tile.height, playerSprite, true);
-        mapTest = new Entity(LEVEL_WIDTH / 2, LEVEL_HEIGHT / 2, LEVEL_WIDTH, LEVEL_HEIGHT, backgroundBitmap, true);
+        map = new Entity(LEVEL_WIDTH / 2, LEVEL_HEIGHT / 2, LEVEL_WIDTH, LEVEL_HEIGHT, backgroundBitmap, true);
         mcclayTop = new Entity(tile.width * 33 + tile.width / 2, tile.height * 92, tile.width * 25, tile.height * 14, mcclayTopBitmap, true);
         lanyonTop = new Entity(tile.width * 33, tile.height * 37 + tile.height / 2, tile.width * 58, tile.height * 17, lanyonTopBitmap, true);
 
@@ -562,10 +561,12 @@ public class GameLoop implements Runnable
         dialogueOption1 = new Rect(spacingX2, spacingY2 * 5, spacingX2 * 9, spacingY2 * 7);
         dialogueOption2 = new Rect(spacingX2, spacingY2 * 7, spacingX2 * 9, spacingY2 * 9);
 
+
+        //Variables to create Rects in context of D-Pad
         int dPadSectionsX = dPad.width() / 3;
         int dPadSectionsY = dPad.height() / 3;
 
-        //Movement Rects
+        //D-Pad Rects
         moveLeftRect = new Rect(dPad.left, dPad.top + dPadSectionsY, dPad.left + dPadSectionsX, dPad.bottom - dPadSectionsY);
         moveRightRect = new Rect(dPad.right - dPadSectionsX, dPad.top + dPadSectionsY, dPad.right, dPad.bottom - dPadSectionsY);
         moveUpRect = new Rect(dPad.left + dPadSectionsX, dPad.top, dPad.right - dPadSectionsX, dPad.top + dPadSectionsY);
@@ -585,19 +586,19 @@ public class GameLoop implements Runnable
                 switch (grid[y][x]) {
 
                     case 1:
-                        //Add a collision tile at location
+                        //Add a collision tile at positions marked "1"
                         collisionList.add(new Entity((tile.width * x) + tile.width / 2,
                                 LEVEL_HEIGHT - ((tile.height * (y)) - tile.height / 2),
                                 tile.width, tile.height, null, true)); break;
 
                     case 2:
-                        //Add a coin tile at location
+                        //Add a coin tile at positions marked "2"
                         coinList.add(new Entity((tile.width * x) + tile.width / 2,
                                 LEVEL_HEIGHT - ((tile.height * (y + 1)) - tile.height / 2),
                                 tile.width, tile.height, coinBitmap, true)); break;
 
                     case 3:
-                        //Add an interactable NPC at tile
+                        //Add an interactable NPC positions marked "3"
                         objectList.add(new Entity((tile.width * x) + tile.width / 2,
                                 LEVEL_HEIGHT - ((tile.height * (y + 1)) - tile.height / 2),
                                 tile.width, tile.height, player2Sprite, true));
@@ -800,7 +801,7 @@ public class GameLoop implements Runnable
         grassSprite = AssetLoader.loadBitmap(assetManager, "img/Nathan/GrassTile.png");
         wallSprite = AssetLoader.loadBitmap(assetManager, "img/Nathan/Wall.png");
         //backgroundBitmap = AssetLoader.loadBitmap(assetManager, "img/Nathan/10x10Grid.png");
-        backgroundBitmap = AssetLoader.loadBitmap(assetManager, "img/Nathan/MapTest.png");
+        backgroundBitmap = AssetLoader.loadBitmap(assetManager, "img/Nathan/Map.png");
         mcclayTopBitmap = AssetLoader.loadBitmap(assetManager, "img/Nathan/McClayTop.png");
         lanyonTopBitmap = AssetLoader.loadBitmap(assetManager, "img/Nathan/LanyonTop.png");
         coinBitmap = AssetLoader.loadBitmap(assetManager, "img/Nathan/Coin.png");
@@ -1022,8 +1023,7 @@ public class GameLoop implements Runnable
         mScreenViewport = new ScreenViewport(0, 0, getScreenWidth(),
                 getScreenHeight());
 
-        // Create the layer viewport, taking into account the orientation
-        // and aspect ratio of the screen.
+        // Create the layer viewport
         if (mScreenViewport.width > mScreenViewport.height)
             mLayerViewport = new LayerViewport(240.0f, 240.0f
                     * mScreenViewport.height / mScreenViewport.width, 240,
@@ -1034,7 +1034,7 @@ public class GameLoop implements Runnable
                     * mScreenViewport.height / mScreenViewport.width, 240);
     }
 
-    //OpenWorld Collision Info
+    //OpenWorld Collision, NPCs, Coins assignments
     //Nathan - 40131544
     private void initialise2DGrid() {
 
