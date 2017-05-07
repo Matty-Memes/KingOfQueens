@@ -28,9 +28,9 @@ public class DeckBuilderWorkingFragment extends MenuFragment
     //rects for storing cards
     private Rect card1Rect,card2Rect,card3Rect,card4Rect,card5Rect,card6Rect,card7Rect,card8Rect;
     //Rects for the CardType Filter
-    private Rect typeFilterRect,monsterFilterRect,manaFilterRect,supportFilterRect;
+    private Rect typeFilterBoxRect,monsterFilterRect,manaFilterRect,supportFilterRect;
     //Rects for the CardSchool Filter
-    private Rect schoolFilterRect,engineerFilterRect,medicFilterRect,EEECSFilterRect,artsFilterRect,builtEnviFilterRect;
+    private Rect schoolFilterBoxRect,engineerFilterRect,medicFilterRect,EEECSFilterRect,artsFilterRect,builtEnviFilterRect;
 
     //Bitmaps for the cards
     //Engineer Monsters
@@ -115,11 +115,11 @@ public class DeckBuilderWorkingFragment extends MenuFragment
         card6Rect = new Rect();
         card7Rect = new Rect();
         card8Rect = new Rect();
-        typeFilterRect = new Rect();
+        typeFilterBoxRect = new Rect();
         monsterFilterRect = new Rect();
         manaFilterRect = new Rect();
         supportFilterRect = new Rect();
-        schoolFilterRect = new Rect();
+        schoolFilterBoxRect = new Rect();
         engineerFilterRect = new Rect();
         medicFilterRect = new Rect();
         EEECSFilterRect = new Rect();
@@ -218,10 +218,137 @@ public class DeckBuilderWorkingFragment extends MenuFragment
         curePoisonSprite = AssetLoader.loadBitmap(assetManager,"img/Cards/Support/CurePoison.png");
 
         // Set up values for each deckBuilder rect
-        backRect = new Rect((int) (width - 96 * uiScaling - 3 * gameScaling),
-                (int) (height / 2 + 56 * uiScaling),
-                (int) (width - 8 * gameScaling),
-                (int) (height / 2 + 98 * uiScaling));
+        backRect = new Rect((4),(24), (96), (96));
+        cardTypeFilterRect = new Rect(120, 24, 312, 96);
+        cardSchoolFilterRect = new Rect(552,24,744,96);
+        leftArrowRect = new Rect(0,201,96,279);
+        rightArrowRect = new Rect(703,201,800,279);
+        deckButtonRect = new Rect(688,400,792,472);
+        //Cardslot Rects
+        card1Rect = new Rect(125,108,247,276);
+        card2Rect = new Rect(269,108,391,276);
+        card3Rect = new Rect(408,108,530,276);
+        card4Rect = new Rect(552,108,674,276);
+        card5Rect = new Rect(125, 288,391,456);
+        card6Rect = new Rect(269,288,391,456);
+        card7Rect = new Rect(408,288,552,456);
+        card8Rect = new Rect(552,288,391,674);
+
+        //CardSchoolFilter rects
+        schoolFilterBoxRect = new Rect(220,120,579,360);
+        engineerFilterRect = new Rect(240,192,312,264);
+        medicFilterRect = new Rect(364,192,436,264);
+        EEECSFilterRect = new Rect(480,192,556,264);
+        artsFilterRect = new Rect(302,264,374,336);
+        builtEnviFilterRect = new Rect(423,264,495,336);
+
+        //cardTypeFilter rects
+        typeFilterBoxRect = new Rect(211,160,578,319);
+        monsterFilterRect = new Rect(240,226,336,282);
+        manaFilterRect = new Rect(249,226,447,282);
+        supportFilterRect = new Rect(462,226,558,282);
+
+//        backRect = new Rect((int) (width - 96 * uiScaling - 3 * gameScaling),
+//                (int) (height / 2 + 24 * uiScaling),
+//                (int) (width - 8 * gameScaling),
+//                (int) (height / 2 + 96 * uiScaling));
+//        cardTypeFilterRect = new Rect((int) (width - 120 * uiScaling - 3 * gameScaling),
+//                (int) (height / 2 + 24 * uiScaling),
+//                (int) (width - 312 * gameScaling),
+//                (int) (height / 2 + 96 * uiScaling));
+//        cardSchoolFilterRect = new Rect((int) (width - 552 * uiScaling - 3 * gameScaling),
+//                (int) (height / 2 + 24 * uiScaling),
+//                (int) (width - 744 * gameScaling),
+//                (int) (height / 2 + 96 * uiScaling));
+//        leftArrowRect = new Rect((int) (width - 0 * uiScaling - 3 * gameScaling),
+//                (int) (height / 2 + 201 * uiScaling),
+//                (int) (width - 96 * gameScaling),
+//                (int) (height / 2 + 279 * uiScaling));
+//        rightArrowRect = new Rect((int) (width - 703 * uiScaling - 3 * gameScaling),
+//                (int) (height / 2 + 201 * uiScaling),
+//                (int) (width - 800 * gameScaling),
+//                (int) (height / 2 + 279 * uiScaling));
+//        deckButtonRect = new Rect((int) (width - 688 * uiScaling - 3 * gameScaling),
+//                (int) (height / 2 + 400 * uiScaling),
+//                (int) (width - 792 * gameScaling),
+//                (int) (height / 2 + 472 * uiScaling));
+//        //Cardslot Rects
+//        card1Rect = new Rect((int) (width - 125 * uiScaling - 3 * gameScaling),
+//                (int) (height / 2 + 108 * uiScaling),
+//                (int) (width - 247 * gameScaling),
+//                (int) (height / 2 + 276 * uiScaling));
+//        card2Rect = new Rect((int) (width - 269 * uiScaling - 3 * gameScaling),
+//                (int) (height / 2 + 108 * uiScaling),
+//                (int) (width - 391 * gameScaling),
+//                (int) (height / 2 + 276 * uiScaling));
+//        card3Rect = new Rect((int) (width - 408 * uiScaling - 3 * gameScaling),
+//                (int) (height / 2 + 108 * uiScaling),
+//                (int) (width - 530 * gameScaling),
+//                (int) (height / 2 + 276 * uiScaling));
+//        card4Rect = new Rect((int) (width - 552 * uiScaling - 3 * gameScaling),
+//                (int) (height / 2 + 108 * uiScaling),
+//                (int) (width - 674 * gameScaling),
+//                (int) (height / 2 + 276 * uiScaling));
+//        card5Rect = new Rect((int) (width - 125 * uiScaling - 3 * gameScaling),
+//                (int) (height / 2 + 288 * uiScaling),
+//                (int) (width - 391 * gameScaling),
+//                (int) (height / 2 + 456 * uiScaling));
+//        card6Rect = new Rect((int) (width - 269 * uiScaling - 3 * gameScaling),
+//                (int) (height / 2 + 288 * uiScaling),
+//                (int) (width - 391 * gameScaling),
+//                (int) (height / 2 + 456 * uiScaling));
+//        card7Rect = new Rect((int) (width - 408 * uiScaling - 3 * gameScaling),
+//                (int) (height / 2 + 288 * uiScaling),
+//                (int) (width - 552 * gameScaling),
+//                (int) (height / 2 + 456 * uiScaling));
+//        card8Rect = new Rect((int) (width - 552 * uiScaling - 3 * gameScaling),
+//                (int) (height / 2 + 288 * uiScaling),
+//                (int) (width - 391 * gameScaling),
+//                (int) (height / 2 + 674 * uiScaling));
+//
+//        //CardSchoolFilter rects
+//        schoolFilterBoxRect = new Rect((int) (width - 220 * uiScaling - 3 * gameScaling),
+//                (int) (height / 2 + 120 * uiScaling),
+//                (int) (width - 579 * gameScaling),
+//                (int) (height / 2 + 360 * uiScaling));
+//        engineerFilterRect = new Rect((int) (width - 240 * uiScaling - 3 * gameScaling),
+//                (int) (height / 2 + 192 * uiScaling),
+//                (int) (width - 312 * gameScaling),
+//                (int) (height / 2 + 264 * uiScaling));
+//        medicFilterRect = new Rect((int) (width - 364 * uiScaling - 3 * gameScaling),
+//                (int) (height / 2 + 192 * uiScaling),
+//                (int) (width - 436 * gameScaling),
+//                (int) (height / 2 + 264 * uiScaling));
+//        EEECSFilterRect = new Rect((int) (width - 480 * uiScaling - 3 * gameScaling),
+//                (int) (height / 2 + 192 * uiScaling),
+//                (int) (width - 556 * gameScaling),
+//                (int) (height / 2 + 264 * uiScaling));
+//        artsFilterRect = new Rect((int) (width - 302 * uiScaling - 3 * gameScaling),
+//                (int) (height / 2 + 264 * uiScaling),
+//                (int) (width - 374 * gameScaling),
+//                (int) (height / 2 + 336 * uiScaling));
+//        builtEnviFilterRect = new Rect((int) (width - 423 * uiScaling - 3 * gameScaling),
+//                (int) (height / 2 + 264 * uiScaling),
+//                (int) (width - 495 * gameScaling),
+//                (int) (height / 2 + 336 * uiScaling));
+//
+//        //cardTypeFilter rects
+//        typeFilterBoxRect = new Rect((int) (width - 211 * uiScaling - 3 * gameScaling),
+//                (int) (height / 2 + 160 * uiScaling),
+//                (int) (width - 578 * gameScaling),
+//                (int) (height / 2 + 319 * uiScaling));
+//        monsterFilterRect = new Rect((int) (width - 240 * uiScaling - 3 * gameScaling),
+//                (int) (height / 2 + 226 * uiScaling),
+//                (int) (width - 336 * gameScaling),
+//                (int) (height / 2 + 282 * uiScaling));
+//        manaFilterRect = new Rect((int) (width - 249 * uiScaling - 3 * gameScaling),
+//                (int) (height / 2 + 226 * uiScaling),
+//                (int) (width - 447 * gameScaling),
+//                (int) (height / 2 + 282 * uiScaling));
+//        supportFilterRect = new Rect((int) (width - 462 * uiScaling - 3 * gameScaling),
+//                (int) (height / 2 + 226 * uiScaling),
+//                (int) (width - 558 * gameScaling),
+//                (int) (height / 2 + 282 * uiScaling));
     }
 
     //used for displaying Filter Menus
@@ -250,50 +377,50 @@ public class DeckBuilderWorkingFragment extends MenuFragment
         {
             case 1:
                 canvas.drawBitmap(rightArrowBitmap, null, rightArrowRect, null);
-                canvas.drawBitmap(monsters[0], null, card1Rect, null);
-                canvas.drawBitmap(monsters[1], null, card2Rect, null);
-                canvas.drawBitmap(monsters[2], null, card3Rect, null);
-                canvas.drawBitmap(monsters[3], null, card4Rect, null);
-                canvas.drawBitmap(monsters[4], null, card5Rect, null);
-                canvas.drawBitmap(monsters[5], null, card6Rect, null);
-                canvas.drawBitmap(monsters[6], null, card7Rect, null);
-                canvas.drawBitmap(monsters[7], null, card8Rect, null);
+                canvas.drawBitmap(Engineer1Sprite, null, card1Rect, null);
+                canvas.drawBitmap(Engineer2Sprite, null, card2Rect, null);
+                canvas.drawBitmap(Engineer3Sprite, null, card3Rect, null);
+                canvas.drawBitmap(Turret1Sprite, null, card4Rect, null);
+                canvas.drawBitmap(Turret2Sprite, null, card5Rect, null);
+                canvas.drawBitmap(Turret3Sprite, null, card6Rect, null);
+                canvas.drawBitmap(AeroSpaceEngineer1Sprite, null, card7Rect, null);
+                canvas.drawBitmap(AeroSpaceEngineer2Sprite, null, card8Rect, null);
                 break;
             case 2:
                 canvas.drawBitmap(leftArrowBitmap,null,leftArrowRect,null);
                 canvas.drawBitmap(rightArrowBitmap, null, rightArrowRect, null);
-                canvas.drawBitmap(monsters[8], null, card1Rect, null);
-                canvas.drawBitmap(monsters[9], null, card2Rect, null);
-                canvas.drawBitmap(monsters[10], null, card3Rect, null);
-                canvas.drawBitmap(monsters[11], null, card4Rect, null);
-                canvas.drawBitmap(monsters[12], null, card5Rect, null);
-                canvas.drawBitmap(monsters[13], null, card6Rect, null);
-                canvas.drawBitmap(monsters[14], null, card7Rect, null);
-                canvas.drawBitmap(monsters[15], null, card8Rect, null);
+                canvas.drawBitmap(NurseSprite, null, card1Rect, null);
+                canvas.drawBitmap(DoctorSprite, null, card2Rect, null);
+                canvas.drawBitmap(SurgeonSprite, null, card3Rect, null);
+                canvas.drawBitmap(MedicSprite, null, card4Rect, null);
+                canvas.drawBitmap(FieldMedicSprite, null, card5Rect, null);
+                canvas.drawBitmap(ParaMedicSprite, null, card6Rect, null);
+                canvas.drawBitmap(ChemistSprite, null, card7Rect, null);
+                canvas.drawBitmap(PharmacistSprite, null, card8Rect, null);
                 break;
             case 3:
                 canvas.drawBitmap(leftArrowBitmap,null,leftArrowRect,null);
                 canvas.drawBitmap(rightArrowBitmap, null, rightArrowRect, null);
-                canvas.drawBitmap(monsters[16], null, card1Rect, null);
-                canvas.drawBitmap(monsters[17], null, card2Rect, null);
-                canvas.drawBitmap(monsters[18], null, card3Rect, null);
-                canvas.drawBitmap(monsters[19], null, card4Rect, null);
-                canvas.drawBitmap(monsters[20], null, card5Rect, null);
-                canvas.drawBitmap(monsters[21], null, card6Rect, null);
-                canvas.drawBitmap(monsters[22], null, card7Rect, null);
-                canvas.drawBitmap(monsters[23], null, card8Rect, null);
+                canvas.drawBitmap(CodeMonkeySprite, null, card1Rect, null);
+                canvas.drawBitmap(BananaEngineerSprite, null, card2Rect, null);
+                canvas.drawBitmap(SeniorBananaEngineerSprite, null, card3Rect, null);
+                canvas.drawBitmap(SQLSealSprite, null, card4Rect, null);
+                canvas.drawBitmap(DataAnalystSprite, null, card5Rect, null);
+                canvas.drawBitmap(DataAdminSprite, null, card6Rect, null);
+                canvas.drawBitmap(ScriptKiddieSprite, null, card7Rect, null);
+                canvas.drawBitmap(HackerManSprite, null, card8Rect, null);
                 break;
             case 4:
                 canvas.drawBitmap(leftArrowBitmap,null,leftArrowRect,null);
                 canvas.drawBitmap(rightArrowBitmap, null, rightArrowRect, null);
-                canvas.drawBitmap(monsters[24], null, card1Rect, null);
-                canvas.drawBitmap(monsters[25], null, card2Rect, null);
-                canvas.drawBitmap(monsters[26], null, card3Rect, null);
-                canvas.drawBitmap(monsters[27], null, card4Rect, null);
-                canvas.drawBitmap(monsters[28], null, card5Rect, null);
-                canvas.drawBitmap(monsters[29], null, card6Rect, null);
-                canvas.drawBitmap(monsters[30], null, card7Rect, null);
-                canvas.drawBitmap(monsters[31], null, card8Rect, null);
+                canvas.drawBitmap(JuniorHistorianSprite, null, card1Rect, null);
+                canvas.drawBitmap(LegitHistorianSprite, null, card2Rect, null);
+                canvas.drawBitmap(TimeTravelerSprite, null, card3Rect, null);
+                canvas.drawBitmap(DoodlerSprite, null, card4Rect, null);
+                canvas.drawBitmap(SketcherSprite, null, card5Rect, null);
+                canvas.drawBitmap(ArtisteSprite, null, card6Rect, null);
+                canvas.drawBitmap(TinkererSprite, null, card7Rect, null);
+                canvas.drawBitmap(CraftsmanSprite, null, card8Rect, null);
                 break;
             case 5:
                 canvas.drawBitmap(leftArrowBitmap,null,leftArrowRect,null);
@@ -301,14 +428,14 @@ public class DeckBuilderWorkingFragment extends MenuFragment
                 {
                     canvas.drawBitmap(rightArrowBitmap, null, rightArrowRect, null);
                 }
-                canvas.drawBitmap(monsters[31], null, card1Rect, null);
-                canvas.drawBitmap(monsters[32], null, card2Rect, null);
-                canvas.drawBitmap(monsters[33], null, card3Rect, null);
-                canvas.drawBitmap(monsters[34], null, card4Rect, null);
-                canvas.drawBitmap(monsters[35], null, card5Rect, null);
-                canvas.drawBitmap(monsters[36], null, card6Rect, null);
-                canvas.drawBitmap(monsters[37], null, card7Rect, null);
-                canvas.drawBitmap(monsters[38], null, card8Rect, null);
+                canvas.drawBitmap(RockHunterSprite, null, card1Rect, null);
+                canvas.drawBitmap(GeologistSprite, null, card2Rect, null);
+                canvas.drawBitmap(GraveDiggerSprite, null, card3Rect, null);
+                canvas.drawBitmap(ArcheologistSprite, null, card4Rect, null);
+                canvas.drawBitmap(Architect1Sprite, null, card5Rect, null);
+                canvas.drawBitmap(Architect2Sprite, null, card6Rect, null);
+                canvas.drawBitmap(Architect3Sprite, null, card7Rect, null);
+                canvas.drawBitmap(cardbackBitmap, null, card8Rect, null);
                 break;
             case 6:
                 if(filter!=FilterType.mana)
@@ -316,11 +443,11 @@ public class DeckBuilderWorkingFragment extends MenuFragment
                     canvas.drawBitmap(leftArrowBitmap, null, leftArrowRect, null);
                     canvas.drawBitmap(rightArrowBitmap, null, rightArrowRect, null);
                 }
-                canvas.drawBitmap(mana[0], null, card1Rect, null);
-                canvas.drawBitmap(mana[1], null, card2Rect, null);
-                canvas.drawBitmap(mana[2], null, card3Rect, null);
-                canvas.drawBitmap(mana[3], null, card4Rect, null);
-                canvas.drawBitmap(mana[4], null, card5Rect, null);
+                canvas.drawBitmap(eeecsManaSprite, null, card1Rect, null);
+                canvas.drawBitmap(medicalManaSprite, null, card2Rect, null);
+                canvas.drawBitmap(artsManaSprite, null, card3Rect, null);
+                canvas.drawBitmap(engineeringManaSprite, null, card4Rect, null);
+                canvas.drawBitmap(builtEnvironmentManaSprite, null, card5Rect, null);
                 canvas.drawBitmap(cardbackBitmap, null, card6Rect, null);
                 canvas.drawBitmap(cardbackBitmap, null, card7Rect, null);
                 canvas.drawBitmap(cardbackBitmap, null, card8Rect, null);
@@ -331,23 +458,23 @@ public class DeckBuilderWorkingFragment extends MenuFragment
                     canvas.drawBitmap(leftArrowBitmap, null, leftArrowRect, null);
                 }
                 canvas.drawBitmap(rightArrowBitmap, null, rightArrowRect, null);
-                canvas.drawBitmap(support[0],null,card1Rect,null);
-                canvas.drawBitmap(support[1],null,card2Rect,null);
-                canvas.drawBitmap(support[2],null,card3Rect,null);
-                canvas.drawBitmap(support[3],null,card4Rect,null);
-                canvas.drawBitmap(support[4],null,card5Rect,null);
-                canvas.drawBitmap(support[5],null,card6Rect,null);
-                canvas.drawBitmap(support[6],null,card7Rect,null);
-                canvas.drawBitmap(support[7],null,card8Rect,null);
+                canvas.drawBitmap(ointmentSprite,null,card1Rect,null);
+                canvas.drawBitmap(superOintmentSprite,null,card2Rect,null);
+                canvas.drawBitmap(ultraOintmentSprite,null,card3Rect,null);
+                canvas.drawBitmap(attackBoosterSprite,null,card4Rect,null);
+                canvas.drawBitmap(superAttackBoosterSprite,null,card5Rect,null);
+                canvas.drawBitmap(ultraAttackBoosterSprite,null,card6Rect,null);
+                canvas.drawBitmap(defenceBoosterSprite,null,card7Rect,null);
+                canvas.drawBitmap(superDefenceBoosterSprite,null,card8Rect,null);
                 break;
             case 8:
                 canvas.drawBitmap(leftArrowBitmap,null,leftArrowRect,null);
-                canvas.drawBitmap(support[8],null,card1Rect,null);
-                canvas.drawBitmap(support[9],null,card2Rect,null);
-                canvas.drawBitmap(support[10],null,card3Rect,null);
-                canvas.drawBitmap(support[11],null,card4Rect,null);
-                canvas.drawBitmap(support[12],null,card5Rect,null);
-                canvas.drawBitmap(support[13],null,card6Rect,null);
+                canvas.drawBitmap(ultraDefenceBoosterSprite,null,card1Rect,null);
+                canvas.drawBitmap(sleepSprite,null,card2Rect,null);
+                canvas.drawBitmap(enrageSprite,null,card3Rect,null);
+                canvas.drawBitmap(curePoisonSprite,null,card4Rect,null);
+                canvas.drawBitmap(cureSleepSprite,null,card5Rect,null);
+                canvas.drawBitmap(cureEnrageSprite,null,card6Rect,null);
                 canvas.drawBitmap(cardbackBitmap,null,card8Rect,null);
                 canvas.drawBitmap(cardbackBitmap,null,card8Rect,null);
                 break;
@@ -356,14 +483,14 @@ public class DeckBuilderWorkingFragment extends MenuFragment
         //If a Filter button has been pressed, draw the Filter assets
         if(typeFilterOn)
         {
-            canvas.drawBitmap(typeFilterBitmap,null,typeFilterRect,null);
+            canvas.drawBitmap(typeFilterBitmap,null,typeFilterBoxRect,null);
             canvas.drawBitmap(monsterFilterBitmap,null,monsterFilterRect,null);
             canvas.drawBitmap(manaFilterBitmap,null,manaFilterRect,null);
             canvas.drawBitmap(supportFilterBitmap,null,supportFilterRect,null);
         }
         if(schoolFilterOn)
         {
-            canvas.drawBitmap(schoolFilterBitmap,null,schoolFilterRect,null);
+            canvas.drawBitmap(schoolFilterBitmap,null,schoolFilterBoxRect,null);
             canvas.drawBitmap(engineerFilterBitmap,null,engineerFilterRect,null);
             canvas.drawBitmap(medicFilterBitmap,null,medicFilterRect,null);
             canvas.drawBitmap(EEECSFitlerBitmap,null,EEECSFilterRect,null);
@@ -482,7 +609,7 @@ public class DeckBuilderWorkingFragment extends MenuFragment
                 }
 
                 //when there is only one page due to a filter, the arrow does not appear
-                if (!filterSchoolEnabled()||(filter !=FilterType.engineer && page==5)||filter!=FilterType.mana||page==currentNumberOfPages) //Arrow does not appear on last page
+                if (!filterSchoolEnabled()||(filter !=FilterType.engineer && page==5)||filter!=FilterType.mana||page!=currentNumberOfPages) //Arrow does not appear on last page
                 {
                     if (rightArrowRect.contains(x, y)) {
                         //move to next page
