@@ -18,7 +18,7 @@
 			"defence":0,
 			"attackValue":50,
 			"evolutionID":1,
-			"attackManaRequirement":1
+			"attackManaRequirement":2
 		},
 		{
 			"name":"Engineer3",
@@ -28,7 +28,7 @@
 			"defence":0,
 			"attackValue":70,
 			"evolutionID":1,
-			"attackManaRequirement":1
+			"attackManaRequirement":3
 		},
 		{
 			"name":"Turret1",
@@ -48,7 +48,7 @@
 			"defence":"15",
 			"attackValue":"50",
 			"evolutionID":2,
-			"attackManaRequirement":1
+			"attackManaRequirement":2
 		},
 		{
 			"name":"Turret3",
@@ -58,7 +58,7 @@
 			"defence":25,
 			"attackValue":70,
 			"evolutionID":2,
-			"attackManaRequirement":1
+			"attackManaRequirement":3
 		},
 		{
 			"name":"AeroSpaceEngineer1",
@@ -78,7 +78,7 @@
 			"defence":15,
 			"attackValue":70,
 			"evolutionID":3,
-			"attackManaRequirement":1
+			"attackManaRequirement":2
 		}
 	],
 	"manaCards":[
