@@ -93,6 +93,7 @@ public class CardTypeFilterFragment extends MainMenuFragment
                 if (monsterFilterRect.contains(x,y))
                 {
                     //Filter by Monster Card
+                    //DeckBuilderFragment.setFilter(monster)
                 }
 
                 if(manaFilterRect.contains(x,y))
@@ -106,6 +107,7 @@ public class CardTypeFilterFragment extends MainMenuFragment
                 if(backRect.contains(x,y))
                 {
                     //return to deck builder without changing filter
+
                 }
             }
 
