@@ -23,7 +23,7 @@ public class VolumeFragment extends MenuFragment {
     private Rect bgroundRect, musicMinusRect, musicPlusRect, sfxMinusRect, sfxPlusRect, backRect,
             musicVolRect, sfxVolRect, muteMusicRect, muteSFXRect;
 
-
+    //variables for music and sound effects
     private int musicVolume, sfxVolume;
 
     // Constructor
@@ -107,69 +107,24 @@ public class VolumeFragment extends MenuFragment {
 
         bgroundRect.set(0, 0, width, height);
         canvas.drawBitmap(bground, null, bgroundRect, null);
+        canvas.drawBitmap(minusBitmap, null, musicMinusRect, null);
+        canvas.drawBitmap(plusBitmap, null, musicPlusRect, null);
+        canvas.drawBitmap(minusBitmap, null, sfxMinusRect, null);
+        canvas.drawBitmap(plusBitmap, null, sfxPlusRect, null);
         canvas.drawBitmap(musicVolBitmap, null, musicVolRect, null);
         canvas.drawBitmap(backBitmap, null, backRect, null);
         canvas.drawBitmap(sfxVolBitmap, null, sfxVolRect, null);
         canvas.drawBitmap(muteBitmap, null, muteMusicRect, null);
         canvas.drawBitmap(muteBitmap, null, muteSFXRect, null);
 
-
-
-
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTextSize(32 * uiScaling);
-//        canvas.drawText(title, width / 2, 66 * uiScaling, paint);
-//
-//        paint.setTextAlign(Paint.Align.RIGHT);
-//        paint.setTextSize(24 * uiScaling);
-//
-//        int var = -64;
-//        for (String label : labels) {
-//            canvas.drawText(label, width / 2 - 16 * uiScaling, height / 2 + var
-//                    * uiScaling, paint);
-//            var += 56;
 
-//
-//		/*
-//		 * If the musicVolume is 0, the image is grayed out to indicate to the
-//		 * user that the volume cannot go down any further
-//		 */
-        if (musicVolume == 0)
-            paint.setAlpha(127);
-        canvas.drawBitmap(minusBitmap, null, musicMinusRect, paint);
-        paint.setAlpha(255);
 
         canvas.drawText(musicVolume + "", width / 2 + 96 * uiScaling, height
                 / 2 - 64 * uiScaling, paint);
-//		/*
-//		 * If the musicVolume is 10, the image is grayed out to indicate to the
-//	 * user that the volume cannot go up any further
-//		 */
-        if (musicVolume == 10)
-            paint.setAlpha(127);
-        canvas.drawBitmap(plusBitmap, null, musicPlusRect, paint);
-        paint.setAlpha(255);
-//
-//		/*
-//		 * If the sfxVolume is 0, the image is grayed out to indicate to the
-//		 * user that the volume cannot go down any further
-//		 */
-        if (sfxVolume == 0)
-            paint.setAlpha(127);
-        canvas.drawBitmap(minusBitmap, null, sfxMinusRect, paint);
-        paint.setAlpha(255);
-
         canvas.drawText(sfxVolume + "", width / 2 + 96 * uiScaling, height / 2
                 - 8 * uiScaling, paint);
-
-//		/*
-//		 * If the sfxVolume is 10, the image is grayed out to indicate to the
-//		 * user that the volume cannot go down any further
-//		 */
-        if (sfxVolume == 10)
-            paint.setAlpha(127);
-        canvas.drawBitmap(plusBitmap, null, sfxPlusRect, paint);
-        paint.setAlpha(255);
 
 
         for (int i = 0; i < input.MAX_TOUCH_POINTS; i++) {

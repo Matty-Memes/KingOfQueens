@@ -11,7 +11,7 @@ import javalampstudos.kingofqueens.R;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 
 /**
- * Created by User on 04/05/2017.
+ * Created by Marc on 04/05/2017.
  */
 
 public class StatsFragment extends MenuFragment {
@@ -21,11 +21,12 @@ public class StatsFragment extends MenuFragment {
     //Stats Rect
     private Rect bgroundRect, backRect, resetRect;
 
+    //stats variables
     private int gamesPlayed, totalCardsPlayed, monstersPlayed, manaCardsPlayed, buffsPlayed,
-            numberOfCardsDrawn, monstersDestroyed, numberOfWins, totalCoins,
+            monstersDestroyed, numberOfWins, totalCoins,
             forfeit;
-
-    private String totalCardsPlayedString, gamesString, destroyedString, cardsDrawnString,
+    //strings
+    private String totalCardsPlayedString, gamesString, destroyedString,
             monsterString, manaString, buffString, winString, totalCoinsString, forfeitString;
 
     public StatsFragment() {
@@ -52,9 +53,8 @@ public class StatsFragment extends MenuFragment {
 
         monstersPlayed = MainActivity.setting.getInt("monstersPlayed");
         manaCardsPlayed =  MainActivity.setting.getInt("manaPlayed");
-        buffsPlayed = MainActivity.setting.getInt("monstersPlayed");
+        buffsPlayed = MainActivity.setting.getInt("buffsPlayed");
         monstersDestroyed = MainActivity.setting.getInt("monstersDestroyed");
-        numberOfCardsDrawn = MainActivity.setting.getInt("Cards Drawn");
         numberOfWins =  MainActivity.setting.getInt("numberOfWins");
         gamesPlayed = MainActivity.setting.getInt("gamesPlayed");
         totalCoins = MainActivity.setting.getInt("totalCoins");
@@ -70,7 +70,6 @@ public class StatsFragment extends MenuFragment {
         manaString = "Mana Cards Played";
         buffString = "Buff Cards Played";
         destroyedString = "Monsters Destroyed";
-        cardsDrawnString = "Cards Drawn";
 
     }
 
@@ -84,12 +83,12 @@ public class StatsFragment extends MenuFragment {
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTextSize(18 * uiScaling);
 
-
         bgroundRect.set(0, 0, width, height);
         canvas.drawBitmap(bground, null, bgroundRect, null);
         canvas.drawBitmap(backBitmap, null, backRect, null);
         canvas.drawBitmap(resetBitmap, null, resetRect, null);
 
+        //paints strings and stats figures
         canvas.drawText(gamesString, width / 2 -125 * uiScaling, height / 2
                 - 106 * uiScaling, paint);
         canvas.drawText(gamesPlayed + "", width / 2 + 208 * uiScaling, height / 2
@@ -114,22 +113,18 @@ public class StatsFragment extends MenuFragment {
                 - 6 * uiScaling, paint);
         canvas.drawText(monstersDestroyed + "", width / 2 + 208 * uiScaling, height
                 / 2 - 6 * uiScaling, paint);
-//        canvas.drawText(cardsDrawnString, width / 2 -125 * uiScaling, height / 2
-//                + 16 * uiScaling, paint);
-//        canvas.drawText(numberOfCardsDrawn + "", width / 2 + 208 * uiScaling, height
-//                / 2 + 16 * uiScaling, paint);
         canvas.drawText(totalCoinsString, width / 2 -125 * uiScaling, height / 2
-                + 36 * uiScaling, paint);
+                + 16 * uiScaling, paint);
         canvas.drawText(totalCoins + "", width / 2 + 208 * uiScaling, height
-                / 2 + 36 * uiScaling, paint);
+                / 2 + 16 * uiScaling, paint);
         canvas.drawText(winString, width / 2 -125 * uiScaling, height / 2
-                + 56 * uiScaling, paint);
+                + 36 * uiScaling, paint);
         canvas.drawText(numberOfWins + "", width / 2 + 208 * uiScaling, height
-                / 2 + 56 * uiScaling, paint);
+                / 2 + 36 * uiScaling, paint);
         canvas.drawText(forfeitString, width / 2 -125 * uiScaling, height / 2
-                + 76 * uiScaling, paint);
+                + 36 * uiScaling, paint);
         canvas.drawText(forfeit + "", width / 2 + 208 * uiScaling, height
-                / 2 + 76 * uiScaling, paint);
+                / 2 + 36 * uiScaling, paint);
 
 
         for (int i = 0; i < input.MAX_TOUCH_POINTS; i++) {

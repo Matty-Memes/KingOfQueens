@@ -14,9 +14,9 @@ import javalampstudos.kingofqueens.kingOfQueens.engine.io.Stats;
  */
 
 public class ResetFragment extends MenuFragment {
-    //HowToPlay Bitmap
+    //Bitmaps
     private Bitmap bground, areYouSureBitmap, yesBitmap, noBitmap;
-    //HowToPlay Rect
+    //Rects
     private Rect bgroundRect, areYouSureRect, yesRect, noRect;
 
     public ResetFragment() {
@@ -32,9 +32,8 @@ public class ResetFragment extends MenuFragment {
         // set up rects here
         bgroundRect = new Rect();
 
-
         // Load bitmaps for menu buttons
-        bground = AssetLoader.loadBitmap(assetManager, "img/Marc/Screen 1.png");
+        bground = AssetLoader.loadBitmap(assetManager, "img/Marc/StatsBack.PNG");
         areYouSureBitmap= AssetLoader.loadBitmap(assetManager, "img/Marc/AreYouSure.png");
         yesBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/Yes.png");
         noBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/No.png");

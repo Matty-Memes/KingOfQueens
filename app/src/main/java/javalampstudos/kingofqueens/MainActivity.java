@@ -83,6 +83,10 @@ public class MainActivity extends Activity {
             }
             music.setVolume(musicVolume, musicVolume);
 
+        } else {
+            if (music != null)
+                music.pause();
         }
+
     }
 }

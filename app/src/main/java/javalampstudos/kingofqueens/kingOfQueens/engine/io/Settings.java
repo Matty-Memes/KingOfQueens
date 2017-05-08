@@ -57,22 +57,11 @@ public class Settings {
         return pref.getInt(string, 5);
     }
 
-    //Set Int
-    public void setInt(String key, int value) {
-        edit.putInt(key, value);
-        edit.commit();
-    }
-
     //Returns an Int
     public int getInt(String string) {
         return pref.getInt(string, 0);
     }
 
-    //used for timer
-    public void addToInt(String key, int value) {
-        edit.putInt(key, value + pref.getInt(key, 0));
-        edit.commit();
-    }
 
 
     //resets int to zero

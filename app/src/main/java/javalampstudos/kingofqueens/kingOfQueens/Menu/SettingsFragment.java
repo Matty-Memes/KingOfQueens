@@ -1,7 +1,7 @@
 package javalampstudos.kingofqueens.kingOfQueens.Menu;
 
 /**
- * Created by Andrew on 08/03/2017.
+ * Created by Andrew on 08/03/2017. Edited by Marc.
  */
 
 
@@ -11,9 +11,8 @@ import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Canvas;
-import android.graphics.Rect;
 
-import javalampstudos.kingofqueens.GameViewFragment;
+
 import javalampstudos.kingofqueens.R;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 
@@ -28,6 +27,7 @@ public class SettingsFragment extends MenuFragment
     private Rect bgroundRect, volumeRect, howToPlayRect, statsRect, backRect, aboutUsRect,
     deckBuilderRect;
 
+    //Strings
     private String volumeString, statsString, howToPlayString, aboutUsString, deckBuilderString;
 
     // Constructor
@@ -54,6 +54,7 @@ public class SettingsFragment extends MenuFragment
         bground = AssetLoader.loadBitmap(assetManager, "img/Marc/SettingsBack.PNG");
         backBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/ButtonBack.png");
 
+        //Strings
         volumeString = "Volume";
         statsString = "Stats";
         howToPlayString = "How To Play";
@@ -98,17 +99,11 @@ public class SettingsFragment extends MenuFragment
 
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTextSize(32 * uiScaling);
-        canvas.drawText(volumeString, width / 2, height / 2 - 80
-                * uiScaling, paint);
-        canvas.drawText(deckBuilderString, width / 2, height / 2 - 20
-                * uiScaling, paint);
-        canvas.drawText(statsString, width / 2, height / 2 + 40
-                * uiScaling, paint);
-        canvas.drawText(howToPlayString, width / 2, height / 2 + 100
-                * uiScaling, paint);
-        canvas.drawText(aboutUsString, width / 2, height / 2 + 160
-            * uiScaling, paint);
-
+        canvas.drawText(volumeString, width / 2, height / 2 - 80 * uiScaling, paint);
+        canvas.drawText(deckBuilderString, width / 2, height / 2 - 20 * uiScaling, paint);
+        canvas.drawText(statsString, width / 2, height / 2 + 40 * uiScaling, paint);
+        canvas.drawText(howToPlayString, width / 2, height / 2 + 100 * uiScaling, paint);
+        canvas.drawText(aboutUsString, width / 2, height / 2 + 160 * uiScaling, paint);
 
         for (int i = 0; i < input.MAX_TOUCH_POINTS; i++) {
             if (input.isTouchDown(i)) {

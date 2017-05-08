@@ -21,7 +21,6 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.CardLevel;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.ManaTypes;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameObject;
-import javalampstudos.kingofqueens.kingOfQueens.util.GameTimer;
 import javalampstudos.kingofqueens.kingOfQueens.util.Text;
 import javalampstudos.kingofqueens.kingOfQueens.util.randomGenerator;
 import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.boardLayout;
@@ -30,7 +29,6 @@ import javalampstudos.kingofqueens.kingOfQueens.Menu.MainMenuFragment;
 import javalampstudos.kingofqueens.kingOfQueens.AiEngine.Window;
 import javalampstudos.kingofqueens.kingOfQueens.util.andyManaCounter;
 import javalampstudos.kingofqueens.kingOfQueens.util.CardAnimation;
-import javalampstudos.kingofqueens.kingOfQueens.util.Direction;
 import javalampstudos.kingofqueens.kingOfQueens.util.ManaTotals;
 
 // Android Imports
@@ -43,7 +41,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 // Nathan Imports
-import android.graphics.Canvas;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Entity;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Entities.littleMan;
 import javalampstudos.kingofqueens.kingOfQueens.world.ScreenViewport;
@@ -212,8 +209,8 @@ public class GameLoop implements Runnable
     // true when the window is moving down
     public boolean windowDown = true;
 
-    // SFX
-    private SoundPool startSFX, winSFX, attackSFX;
+    // SFX, 40123776
+    private SoundPool startSFX, victorySFX, attackSFX, coinSFX, talkSFX, talk2SFX;
     private float sfxVolume;
 
     // MISC
@@ -368,9 +365,6 @@ public class GameLoop implements Runnable
 
     public boolean gameStateSwitch = false;
 
-
-
-    public GameTimer timer = new GameTimer();
 
     // Andrew - 40083349
     public GameLoop (CanvasFragment fragment, int width, int height)
@@ -541,14 +535,13 @@ public class GameLoop implements Runnable
         // Make the prep phase active at the start of the game
         prepPhase = true;
 
-        //40123776, timer for stats
-        timer.start();
-
         //40123776, sfx
         startSFX = AssetLoader.loadSoundpool(assetManager, "start.mp3");
-        winSFX = AssetLoader.loadSoundpool(assetManager, "win.mp3");
+        victorySFX = AssetLoader.loadSoundpool(assetManager, "victory.mp3");
         attackSFX = AssetLoader.loadSoundpool(assetManager, "attack.mp3");
-//        coinsfx = AssetLoader.loadSoundpool(assetManager, "coin.mp3");
+        coinSFX = AssetLoader.loadSoundpool(assetManager, "coin.mp3");
+        talkSFX = AssetLoader.loadSoundpool(assetManager, "talk.mp3");
+        talk2SFX = AssetLoader.loadSoundpool(assetManager, "talk2.mp3");
     }
 
     //Create the Open World
@@ -944,7 +937,10 @@ public class GameLoop implements Runnable
                             if(interactionIndex >= 0) {
                                 dialoguePoint++;
                                 inDialogue = true;
-                                //inset bla sfx
+
+                                //40123776
+                                sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
+                                talkSFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
                             }
 
 
@@ -956,7 +952,10 @@ public class GameLoop implements Runnable
                                 coinList.remove(coinIndex);
                                 coinCounter++;
                                 coinIndex = -1;
-                                //coin sfx here
+
+                                //40123776
+                                sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
+                                coinSFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
                             }
 
                         }
@@ -967,7 +966,10 @@ public class GameLoop implements Runnable
                             //If first dialogueOption is pressed set response to 1
                             if(dialogueOption1.contains((int) x, (int) y)) {
                                 response = 1;
-                               //insert sfx here
+
+                                //40123776
+                                sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
+                                talk2SFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
 
 
                             }
@@ -975,7 +977,10 @@ public class GameLoop implements Runnable
                             //If second dialogueOption is pressed set response to 2
                             if(dialogueOption2.contains((int) x, (int) y)) {
                                 response = 2;
-                                //inset sfx here
+
+                                //40123776
+                                sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
+                                talk2SFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
                             }
 
                         }
@@ -1705,6 +1710,7 @@ public class GameLoop implements Runnable
                         && handCards.get(handIndex).id == 0)
 
                 {
+                    //40123776
                     MainActivity.setting.increaseInt("monstersPlayed");
 
                     // no more card movement
@@ -1757,6 +1763,7 @@ public class GameLoop implements Runnable
                         && handCards.get(handIndex).id == 0)
 
                 {
+                    //40123776
                     MainActivity.setting.increaseInt("monstersPlayed");
 
                     // no more card movement
@@ -1950,15 +1957,16 @@ public class GameLoop implements Runnable
                         // Check if the player has won the game
                         opponentMonstersKilled++;
                         if (opponentMonstersKilled >= 2) {
+                            //40123776
                             sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
-                            winSFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
+                            victorySFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
                             gameState = GameState.VICTORY;
 
                         }
                     } else
 
                     {
-                        // Add attack SFX here
+                        // 40123776
                         sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
                         attackSFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
                         gameState = GameState.DAMAGE;
@@ -1975,8 +1983,6 @@ public class GameLoop implements Runnable
                     if (aiFieldMonsters.get(1).attackValue > playerFieldMonsters.get(monsterIndex).health)
 
                     {
-                        // Add SFX
-
 
                         // Calculate damage
                         damage = playerFieldMonsters.get(handIndex).health - aiFieldMonsters.get(0).attackValue;
@@ -1995,15 +2001,16 @@ public class GameLoop implements Runnable
                             // Check if the player has won the game
                             opponentMonstersKilled++;
                             if (opponentMonstersKilled >= 2) {
+                                //40123776
                                 sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
-                                winSFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
+                                victorySFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
                                 gameState = GameState.VICTORY;
 
                             }
                         } else
 
                         {
-                            // Add attack SFX here
+                            // 40123776
                             sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
                             attackSFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
                             gameState = GameState.DAMAGE;
@@ -2016,7 +2023,7 @@ public class GameLoop implements Runnable
                 if (boardLayout.opponent3Rect.contains((int) monstersInPlay.get(monsterIndex).x, (int) monstersInPlay.get(monsterIndex).y))
 
                 {
-                    // Add SFX
+                    // 40123776
                     sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
                     attackSFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
 
@@ -2045,7 +2052,9 @@ public class GameLoop implements Runnable
                             // Check if the player has won the game
                             opponentMonstersKilled++;
                             if (opponentMonstersKilled >= 2) {
-                                // Add victory SFX here
+
+                                sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
+                                victorySFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
                                 gameState = GameState.VICTORY;
 
                                 MainActivity.setting.increaseInt("numberOfWins");
@@ -2100,7 +2109,6 @@ public class GameLoop implements Runnable
                 if(boardLayout.resumeRect.contains(x, y)) {
                     gameState = GameState.NEW;
 
-                    timer.start();
 
                 }
 
@@ -2135,7 +2143,6 @@ public class GameLoop implements Runnable
     {
         gameState = GameState.PAUSED;
 
-        timer.stop();
 
     }
 
