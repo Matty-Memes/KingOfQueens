@@ -232,7 +232,7 @@ public class DeckBuilderWorkingFragment extends MenuFragment
         card4Rect = new Rect(552,108,674,276);
         card5Rect = new Rect(125,288,247,456);
         card6Rect = new Rect(269,288,391,456);
-        card7Rect = new Rect(408,288,552,456);
+        card7Rect = new Rect(408,288,530,456);
         card8Rect = new Rect(552,288,674,456);
 
         //CardSchoolFilter rects
@@ -505,6 +505,13 @@ public class DeckBuilderWorkingFragment extends MenuFragment
             if (input.isTouchDown(i)) {
                 int x = (int) input.getTouchX(i), y = (int) input.getTouchY(i);
 
+                if(backRect.contains(x,y))
+                {
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.container, new SettingsFragment(),
+                                    "settings_fragment").commit();
+                }
 
                 if(cardSchoolFilterRect.contains(x,y))
                 {
