@@ -47,7 +47,7 @@ public class HowToPlayFragment extends MenuFragment {
         line2String = "University Belfast. The open world allows you to visit Queens University";
         line3String = "in game. You can interact with NPCs to challenge them to a card game or play";
         line4String = " the mini-game which involves searching the open world to find coins! The aim ";
-        line5String = "of the card game is to defeat your opponent by diminishing their 3 lives,";
+        line5String = "of the card game is to defeat your opponent by diminishing their 2 lives,";
         line6String = "before they diminish yours. This is done by monster cards. Monster cards must ";
         line7String = "destroy other monster cards on the other side of the field by attacking them,";
         line8String = "monster cards on the other side of the field by attacking them, to remove their";
