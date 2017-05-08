@@ -12,6 +12,7 @@ import javalampstudos.kingofqueens.kingOfQueens.world.ScreenViewport;
 
 // Should extend game object
 
+// Based on Blasto by mtstudios
 public class Entity extends GameObject
 
 {

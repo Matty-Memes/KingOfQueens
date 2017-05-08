@@ -7,6 +7,7 @@ import android.app.Fragment;
  * Created by 40083349 on 11/01/2017.
  */
 
+// Sourced from Blasto by mtstudios
 public abstract class CanvasFragment extends Fragment
 
 {

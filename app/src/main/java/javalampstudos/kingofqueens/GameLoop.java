@@ -49,6 +49,7 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.Entities.littleMan;
 import javalampstudos.kingofqueens.kingOfQueens.world.ScreenViewport;
 import javalampstudos.kingofqueens.kingOfQueens.world.LayerViewport;
 
+// Based on Blasto by mtstudios
 public class GameLoop implements Runnable
 
 {
@@ -367,12 +368,11 @@ public class GameLoop implements Runnable
 
     public boolean gameStateSwitch = false;
 
-    // Created by Andrew - 40083349
 
-    // SPLIT THIS OUT
 
     public GameTimer timer = new GameTimer();
 
+    // Andrew - 40083349
     public GameLoop (CanvasFragment fragment, int width, int height)
 
     {
@@ -401,7 +401,7 @@ public class GameLoop implements Runnable
 
         // set the game state to new initially
         // Once the board is set up you can move to the default game state
-        gameState = GameState.OPENWORLD;
+        gameState = GameState.NEW;
 
         // Now all the rects exist
         gameBoard = new boardLayout(width, height, uiScaling);
@@ -1003,6 +1003,7 @@ public class GameLoop implements Runnable
         Medic.update();
     }
 
+    // Andrew - 40083349
     private void updateManaMessage ()
 
     {
@@ -1010,6 +1011,8 @@ public class GameLoop implements Runnable
 
     }
 
+
+    // Andrew - 40083349
     private void updatePrompt ()
 
     {
@@ -1247,7 +1250,7 @@ public class GameLoop implements Runnable
     }
 
 
-    // Initialize the arrays used for the background logic
+    // Andrew - 40083349
     private void initializeLogicalArrays ()
 
     {
@@ -1291,8 +1294,7 @@ public class GameLoop implements Runnable
 
     }
 
-    // Start with the players damage
-
+    // Andrew - 40083349
     private void updateDamagePause ()
 
     {
@@ -1323,6 +1325,7 @@ public class GameLoop implements Runnable
 
     }
 
+    // Andrew - 40083349
     private void updateDamage()
 
     {
@@ -1372,7 +1375,7 @@ public class GameLoop implements Runnable
         }
     }
 
-    // Created by Andrew - 40083349
+    // Andrew - 40083349
     private void updateAIAnimation ()
 
     {
@@ -1380,6 +1383,7 @@ public class GameLoop implements Runnable
         animation.updateCardAnimation(this, 2.5f, opponent1, false);
     }
 
+    // Andrew - 40083349
     private void updateTouchMana ()
 
     {
@@ -1392,6 +1396,18 @@ public class GameLoop implements Runnable
                     pauseGame();
                 }
 
+//                if(boardLayout.skipRect.contains((int) x, (int) y))
+//
+//                {
+//                    System.out.println("Turn skipped");
+//
+//                    // Move to the attack prompt since you skip the monster placement prompt
+//                    phase = 2;
+//                    numFrames = 0;
+//                    gameState = GameState.MONSTERPLACEMENT;
+//                    // drag is already set to active from the draw phase
+//
+//                }
 
                 if (boardLayout.handRect1.contains((int) x, (int) y) && handActive)
 
@@ -1503,12 +1519,13 @@ public class GameLoop implements Runnable
                     // The last card to be placed is set back to the deck for the drawing phase
                     handCards.get(handIndex).moveToDeck();
 
+                    // Set the prompt up for the next phase
                     userPrompt.text = monsterPrompt;
                     phase = 1;
                     numFrames = 0;
 
                     manaflag = false;
-                    // allow movement of hand cards again
+                    // allow movement of hand cards for the next phase
                     handActive = true;
 
                     // reset the logic for taking cards at the start of the player's turn
@@ -1542,6 +1559,7 @@ public class GameLoop implements Runnable
 
     }
 
+    // Andrew - 40083349
     private void updateTouchMonster()
 
     {
@@ -1553,11 +1571,11 @@ public class GameLoop implements Runnable
                 if(boardLayout.pauseRect.contains((int) x, (int) y)) {
                     pauseGame();
                 }
-//
+
 //                if(boardLayout.skipRect.contains((int) x, (int) y))
 //
 //                {
-//                    gameState = GameState.MONSTERPLACEMENT;
+//                    gameState = GameState.ATTACK;
 //
 //                }
 
@@ -1658,6 +1676,7 @@ public class GameLoop implements Runnable
                     // The last card to be placed is set back to the deck for the drawing phase
                     handCards.get(handIndex).moveToDeck();
 
+                    // The prep phase should be followed by the mana phase
                     if (prepPhase)
 
                     {
@@ -1805,6 +1824,7 @@ public class GameLoop implements Runnable
         }
     }
 
+    // Andrew - 40083349
     private void updateTouchAttack ()
 
     {
@@ -1816,6 +1836,9 @@ public class GameLoop implements Runnable
                 if (boardLayout.pauseRect.contains((int) x, (int) y)) {
                     pauseGame();
                 }
+
+                // Skip to ai attack phase - case: AITURN
+
 
                 if (boardLayout.MSlot1Rect.contains((int) x, (int) y) && monsterSlotActive)
 
@@ -2062,6 +2085,9 @@ public class GameLoop implements Runnable
 
     }
 
+
+    // Created by Andrew - 40083349
+    // Modified by Nathan and Marc
     private void updateTouchPaused ()
 
     {
@@ -2113,8 +2139,7 @@ public class GameLoop implements Runnable
 
     }
 
-    // The AI can either draw a card or attack the player
-
+    // Andrew - 40083349
     public void updateAITurn ()
 
     {
@@ -2224,6 +2249,7 @@ public class GameLoop implements Runnable
 
     }
 
+    // Andrew - 40083349
     // This is the player's draw phase.
     private void updateDraw ()
 
@@ -2235,7 +2261,8 @@ public class GameLoop implements Runnable
         dragActive = true;
         // allow mana detection
         manaflag = true;
-        // make the hand cards active
+        // make the hand cards active - is this needed
+
         handActive = true;
 
         boundHit = false;
@@ -2251,6 +2278,7 @@ public class GameLoop implements Runnable
     }
 
     // This handles all updates - needs split into arraylists fore readability
+    // Andrew - 40083349
     private void updateCard ()
 
     {
@@ -2284,6 +2312,7 @@ public class GameLoop implements Runnable
 
     // randomly selects hand cards for the player and draws them to the screen
     // the hand cards objects need to increment
+    // Andrew - 40083349
     private void populatePlayerHand ()
 
     {

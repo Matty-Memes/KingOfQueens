@@ -7,7 +7,7 @@ package javalampstudos.kingofqueens.kingOfQueens.engine.graphics;
 import android.graphics.Canvas;
 import android.content.Context;
 import android.view.View;
-
+// Sourced from Blasto by mtstudios
 public class CanvasRenderer extends View implements Runnable
 
 {

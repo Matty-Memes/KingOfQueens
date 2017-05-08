@@ -156,6 +156,7 @@ public class MonsterCard extends BasicCard
 
     // draw monster cards to the screen
 
+    // Andrew - 40083349
     public void draw(Canvas canvas)
 
     {
@@ -196,7 +197,7 @@ public class MonsterCard extends BasicCard
         }
     }
 
-
+    // Andrew - 40083349
     public void update()
     {
         super.update();

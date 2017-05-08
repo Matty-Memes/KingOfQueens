@@ -32,6 +32,7 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.boardLayout;
 /**
  * A simple {@link Fragment} subclass.
  */
+// Based on Blasto by mtstudios
 public class GameViewFragment extends CanvasFragment {
 
     // instantiate a loop
@@ -48,7 +49,7 @@ public class GameViewFragment extends CanvasFragment {
     // BITMAPS
 
     // Add bitmap for skip turn button
-    private Bitmap backgroundImage, pauseBitmap, victoryScreen;
+    private Bitmap backgroundImage, pauseBitmap, victoryScreen, skipBitmap;
     // RECTS
     private Rect backgroundImageRect;
     // STRINGS - For the pause menu and the win and lose cases
@@ -107,13 +108,13 @@ public class GameViewFragment extends CanvasFragment {
 
     }
 
-
     // SETUP AND DRAW METHODS
 
 
     // The render thread calls this - see Canvas Renderer
 
     // Load in all the pause stuff
+    // Andrew - 40083349
     public void doSetup() {
 
         int spacingX = width / 6;
@@ -136,10 +137,10 @@ public class GameViewFragment extends CanvasFragment {
         // create a rect for the background
         backgroundImageRect = new Rect(0, 0, width, height);
 
+        skipBitmap = AssetLoader.loadBitmap(assetManager, "img/Buttons/SkipTurn.png");
+
         // skip rect - make it responsive
-
-
-        skipRect = new Rect(700, 110, 800, 210);
+        skipRect = new Rect(740, 110, 840, 210);
 
         pauseString = "Pause";
         mainMenuString = "Main Menu";
@@ -167,7 +168,7 @@ public class GameViewFragment extends CanvasFragment {
     */
 
 
-    // tidy this up
+    // Andrew - 40083349
     public void doDraw(Canvas canvas) {
 
         canvas.drawBitmap(backgroundImage, null, backgroundImageRect, null);
@@ -316,13 +317,9 @@ public class GameViewFragment extends CanvasFragment {
                 canvas.drawBitmap(victoryScreen, null, backgroundImageRect, null);
 
                 break;
-
-
         }
 
     }
-
-    // new array list of particles in Game Loop
 
     public void onPause()
 
@@ -494,6 +491,7 @@ public class GameViewFragment extends CanvasFragment {
 
     }
 
+    // Andrew - 40083349
     private void drawManaMessage(Canvas canvas)
 
     {
@@ -510,8 +508,7 @@ public class GameViewFragment extends CanvasFragment {
 
     }
 
-    // draw the current card
-
+    // Andrew - 40083349
     private void drawCard (Canvas canvas)
 
     {
@@ -540,15 +537,16 @@ public class GameViewFragment extends CanvasFragment {
         loop.deck.draw(canvas);
     }
 
+    // Andrew - 40083349
     private void drawUI (Canvas canvas)
 
     {
         canvas.drawBitmap(pauseBitmap, null, boardLayout.pauseRect, paint);
-        canvas.drawBitmap(victoryScreen, null, skipRect, null);
+        canvas.drawBitmap(skipBitmap, null, skipRect, null);
 
     }
 
-    // draw the prompt during the prompt phase
+    // Andrew - 40083349
     private void drawPrompt (Canvas canvas)
 
     {
@@ -556,7 +554,7 @@ public class GameViewFragment extends CanvasFragment {
 
     }
 
-
+    // Andrew - 40083349
     private void drawMana(Canvas canvas)
 
     {
@@ -568,7 +566,7 @@ public class GameViewFragment extends CanvasFragment {
     }
 
     // DRAW SETS OF CARDS
-
+    // Andrew - 40083349
     private void drawHand (Canvas canvas)
 
     {
@@ -581,6 +579,7 @@ public class GameViewFragment extends CanvasFragment {
 
     }
 
+    // Andrew - 40083349
     private void drawMonsterCards(Canvas canvas)
 
     {
@@ -590,6 +589,7 @@ public class GameViewFragment extends CanvasFragment {
 //        }
     }
 
+    // Andrew - 40083349
     /*
 
     private void drawOpponentMonsters(Canvas canvas)

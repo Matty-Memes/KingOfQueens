@@ -10,6 +10,7 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
 
+// Sourced from KrakenEscape by gp13
 public class SoundFX
 
 {

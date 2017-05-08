@@ -37,6 +37,8 @@ public class boardLayout
     // User Prompts/Messages
     public static Rect aiRect;
 
+    public static Rect skipRect;
+
 
     // constructor
     public boardLayout(float width, float height, float uiScaling)
@@ -173,6 +175,8 @@ public class boardLayout
 
         // For the aithinking message
         aiRect = new Rect(107, 120, 747, 360);
+
+        skipRect = new Rect(700, 110, 800, 210);
 
     }
 

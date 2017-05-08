@@ -28,10 +28,10 @@ import java.util.ArrayList;
 // Test flipping images
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 
+
 public abstract class GameObject
 
 {
-
     public float x, y;
     public float width, height;
     // sprites and bitmaps are interchangeable
@@ -59,6 +59,7 @@ public abstract class GameObject
     Rect source = new Rect(432, 641, 0, 0);
     // Destination rect
 
+    // Andrew - 40083349
     public GameObject(float x, float y, float width, float height,
                       Bitmap sprite, boolean player) {
         this.x = x;
@@ -83,7 +84,7 @@ public abstract class GameObject
 
     public float getBottom() { return y - width / 2; }
 
-
+    // Andrew - 40083349
     public void update ()
 
     {
@@ -94,7 +95,7 @@ public abstract class GameObject
     }
 
     // all update calls eventually lead here - must relate to x and y co-ordinates
-
+    // Andrew - 40083349
     public void updateRect ()
 
     {
@@ -153,7 +154,7 @@ public abstract class GameObject
     }
 
     // Actual drawing happens here
-
+    // Andrew - 40083349
     public void draw (Canvas canvas)
 
     {

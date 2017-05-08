@@ -33,6 +33,7 @@ import android.view.WindowManager;
 
 // Java Imports
 
+// Based on Blasto by mtstudios
 public abstract class MenuFragment extends CanvasFragment
 
 {

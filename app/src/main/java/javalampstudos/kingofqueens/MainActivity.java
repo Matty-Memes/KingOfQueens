@@ -22,6 +22,7 @@ import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 import javalampstudos.kingofqueens.kingOfQueens.Menu.MainMenuFragment;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.Settings;
 
+// Based on Blasto by mtstudios
 // Andrew - 40083349
 public class MainActivity extends Activity {
 
@@ -31,7 +32,6 @@ public class MainActivity extends Activity {
     public static Settings setting;
 
     @Override
-    // Andrew - 40083349
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -70,7 +70,6 @@ public class MainActivity extends Activity {
         }
     }
 
-    // deal with music
 
     public void music() {
 

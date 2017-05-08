@@ -18,7 +18,7 @@ import android.graphics.Rect;
 
 // Java Imports
 
-
+// Based on Blasto by mtstudios
 public class MainMenuFragment extends MenuFragment
 
 {

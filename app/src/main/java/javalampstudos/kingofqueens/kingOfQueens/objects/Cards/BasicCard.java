@@ -79,11 +79,13 @@ public class BasicCard extends GameObject
 
     }
 
+    // Andrew - 40083349
 //    public void update()
 //    {
 //        super.update();
 //    }
 
+    // Andrew - 40083349
     public void draw (Canvas canvas)
 
     {
@@ -103,6 +105,7 @@ public class BasicCard extends GameObject
         super.drawOpenWorld(canvas, layerViewport, screenViewport);
     }
 
+    // Andrew - 40083349
     // hand cards that have been placed move back to the deck position
     public void moveToDeck ()
 
@@ -114,7 +117,7 @@ public class BasicCard extends GameObject
 
     // this invisibly returns the cards to their original positions before they were dragged
     // could reference board layout here
-
+    // Andrew - 40083349
     public void resetPosition (int index)
 
     {
