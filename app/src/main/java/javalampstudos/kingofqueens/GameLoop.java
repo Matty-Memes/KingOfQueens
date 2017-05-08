@@ -401,7 +401,7 @@ public class GameLoop implements Runnable
 
         // set the game state to new initially
         // Once the board is set up you can move to the default game state
-        gameState = GameState.NEW;
+        gameState = GameState.OPENWORLD;
 
         // Now all the rects exist
         gameBoard = new boardLayout(width, height, uiScaling);
