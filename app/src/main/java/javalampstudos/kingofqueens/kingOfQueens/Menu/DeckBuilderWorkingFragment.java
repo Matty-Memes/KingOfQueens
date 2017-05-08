@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
+import javalampstudos.kingofqueens.R;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.FilterType;
 import javalampstudos.kingofqueens.kingOfQueens.objects.Cards.JSONcardLibrary;
@@ -106,7 +107,6 @@ public class DeckBuilderWorkingFragment extends MenuFragment
         leftArrowRect = new Rect();
         rightArrowRect = new Rect();
         deckButtonRect = new Rect();
-        returnToBuilderRect = new Rect();
         card1Rect = new Rect();
         card2Rect = new Rect();
         card3Rect = new Rect();
@@ -221,6 +221,7 @@ public class DeckBuilderWorkingFragment extends MenuFragment
         backRect = new Rect((4),(24), (96), (96));
         cardTypeFilterRect = new Rect(120, 24, 312, 96);
         cardSchoolFilterRect = new Rect(552,24,744,96);
+        resetFilterRect = new Rect(336,24,528,96);
         leftArrowRect = new Rect(0,201,96,279);
         rightArrowRect = new Rect(703,201,800,279);
         deckButtonRect = new Rect(688,400,792,472);
@@ -229,10 +230,10 @@ public class DeckBuilderWorkingFragment extends MenuFragment
         card2Rect = new Rect(269,108,391,276);
         card3Rect = new Rect(408,108,530,276);
         card4Rect = new Rect(552,108,674,276);
-        card5Rect = new Rect(125,288,391,456);
+        card5Rect = new Rect(125,288,247,456);
         card6Rect = new Rect(269,288,391,456);
         card7Rect = new Rect(408,288,552,456);
-        card8Rect = new Rect(552,288,391,674);
+        card8Rect = new Rect(552,288,674,456);
 
         //CardSchoolFilter rects
         schoolFilterBoxRect = new Rect(220,120,579,360);
@@ -621,9 +622,10 @@ public class DeckBuilderWorkingFragment extends MenuFragment
                 if(deckButtonRect.contains(x,y))
                 {
                     //move to the Deck View
-//                    getFragmentManager()
-//                            .beginTransaction()
-                          //  .replace(R.id.container, new DeckViewFragment(playerDeck), "DeckViewFragment").commit();
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.container, new DeckViewFragment(),
+                                    "deck_view_fragment").commit();
                 }
 
                 //If a card is touched it is added to the deck. This pulls information from the page arrays
