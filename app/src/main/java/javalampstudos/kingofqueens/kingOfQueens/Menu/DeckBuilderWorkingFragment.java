@@ -229,7 +229,7 @@ public class DeckBuilderWorkingFragment extends MenuFragment
         card2Rect = new Rect(269,108,391,276);
         card3Rect = new Rect(408,108,530,276);
         card4Rect = new Rect(552,108,674,276);
-        card5Rect = new Rect(125, 288,391,456);
+        card5Rect = new Rect(125,288,391,456);
         card6Rect = new Rect(269,288,391,456);
         card7Rect = new Rect(408,288,552,456);
         card8Rect = new Rect(552,288,391,674);

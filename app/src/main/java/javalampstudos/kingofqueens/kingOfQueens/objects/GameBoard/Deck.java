@@ -177,7 +177,7 @@ public class Deck {
 
     //Matt 40149561
     /*Deck assembly*/
-    //generates a starting deck
+    //generates a deck
     public void generateDeck(int cardIDs[])
     {
         for(int i = 0;i<MAXDECKSIZE;i++)
@@ -210,18 +210,18 @@ public class Deck {
         {
             playerDeck[deckSize] = ID;
             deckSize++;
-            if (ID <= 39)
-            {
-                addMonstersCards(lib.monsterCards.get(ID - 1));
-            }
-            if ((ID > 39) && (ID <= 45))
-            {
-                addManaCards(lib.manaCards.get(manaIDLookup(ID)));
-            }
-            if (ID > 45)
-            {
-                addSupportCards(lib.supportCards.get(supportIDLookup(ID)));
-            }
+//            if (ID <= 39)
+//            {
+//                addMonstersCards(lib.monsterCards.get(ID - 1));
+//            }
+//            if ((ID > 39) && (ID <= 45))
+//            {
+//                addManaCards(lib.manaCards.get(manaIDLookup(ID)));
+//            }
+//            if (ID > 45)
+//            {
+//                addSupportCards(lib.supportCards.get(supportIDLookup(ID)));
+//            }
         }
         else
             System.out.print("The deck is full");
