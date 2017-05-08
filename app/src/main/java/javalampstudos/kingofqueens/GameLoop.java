@@ -270,7 +270,8 @@ public class GameLoop implements Runnable
 
     //All Nathan's Sprites
     private Bitmap playerSprite;
-    public Bitmap player2Sprite;
+    private Bitmap player2Sprite;
+    private Bitmap player3Sprite;
     private Bitmap backgroundBitmap;
     private Bitmap mcclayTopBitmap;
     private Bitmap lanyonTopBitmap;
@@ -618,7 +619,7 @@ public class GameLoop implements Runnable
                         //Add an interactable NPC positions marked "3"
                         objectList.add(new Entity((tile.width * x) + tile.width / 2,
                                 LEVEL_HEIGHT - ((tile.height * (y + 1)) - tile.height / 2),
-                                tile.width, tile.height, player2Sprite, true));
+                                tile.width, tile.height, assignSpriteBitmap(objectList.size()), true));
                         collisionList.add(objectList.get(objectList.size() - 1));
                         interactionList.add(objectList.get(objectList.size() - 1)); break;
 
@@ -820,6 +821,7 @@ public class GameLoop implements Runnable
 
         playerSprite = AssetLoader.loadBitmap(assetManager, "img/Nathan/playerSpriteSheet.png");
         player2Sprite = AssetLoader.loadBitmap(assetManager, "img/Nathan/trimLittleMan.png");
+        player3Sprite = AssetLoader.loadBitmap(assetManager, "img/Nathan/blueShirtBoy.png");
         aButton = AssetLoader.loadBitmap(assetManager, "img/Nathan/aButton.png");
         dPadSprite = AssetLoader.loadBitmap(assetManager, "img/Nathan/DPad.png");
         grassSprite = AssetLoader.loadBitmap(assetManager, "img/Nathan/GrassTile.png");
@@ -1225,6 +1227,23 @@ public class GameLoop implements Runnable
         grid[23][36] = 3;
         grid[78][12] = 3;
         grid[78][14] = 3;
+    }
+
+    //Nathan/OpenWorld- 40131544
+    //Method to assign different sprites depending on ArrayList position
+    public Bitmap assignSpriteBitmap(int listSize) {
+
+        Bitmap sprite;
+
+        System.out.println(listSize);
+
+        if((listSize + 1) % 2 == 0) {
+            sprite = player2Sprite;
+        } else {
+            sprite = player3Sprite;
+        }
+
+        return sprite;
     }
 
 
