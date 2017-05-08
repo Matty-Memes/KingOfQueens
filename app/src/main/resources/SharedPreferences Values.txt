@@ -1,4 +1,3 @@
-Below are what values are labelled as in the SharedPreferences
 
 ---------------------------------------------------------
 				VolumeFragment
@@ -18,9 +17,4 @@ monstersDestroyed       | int		|
 numberOfWins            | int		|
 numberOfLoses           | int		|
 gamesPlayed             | int		|
-totalPlayTimeValue		| int		|
-longestPlayTimeValue    | int		|
----------------------------------------------------------
-				    Timer
----------------------------------------------------------
-currentTimeValue		| int		| 
+
