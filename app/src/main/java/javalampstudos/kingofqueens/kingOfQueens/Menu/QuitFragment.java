@@ -4,21 +4,25 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.media.SoundPool;
 
+import javalampstudos.kingofqueens.MainActivity;
 import javalampstudos.kingofqueens.R;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 
 /**
- * Created by User on 30/04/2017.
+ * Created by Marc on 30/04/2017.
  */
 
 public class QuitFragment extends MenuFragment{
 
-        // Pause Menu Bitmaps
+        // Quit Bitmaps
         private Bitmap bground, areYouSureBitmap, yesBitmap, noBitmap;
         // Pause Menu Rects
         private Rect bgroundRect, areYouSureRect, yesRect, noRect;
 
+    private SoundPool yeahSFX;
+    private float sfxVolume;
 
 
         public QuitFragment()
@@ -36,6 +40,8 @@ public class QuitFragment extends MenuFragment{
 
             // Loads in image assets related to the currently selected language
             AssetManager assetManager = getActivity().getAssets();
+
+            yeahSFX = AssetLoader.loadSoundpool(assetManager, "yeah.mp3");
 
             // set up rects here
             bgroundRect = new Rect();
@@ -87,6 +93,8 @@ public class QuitFragment extends MenuFragment{
                     }
 
                     if(noRect.contains(x, y)) {
+                        sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
+                        yeahSFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
                         getFragmentManager()
                                 .beginTransaction()
                                 .replace(R.id.container, new MainMenuFragment(),

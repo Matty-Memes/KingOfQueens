@@ -1,11 +1,12 @@
 package javalampstudos.kingofqueens.kingOfQueens.Menu;
 
 /**
- * Created by Andrew on 05/03/2017.
+ * Created by Andrew on 05/03/2017. Edited by Marc
  */
 
 // Local Imports
 import javalampstudos.kingofqueens.GameViewFragment;
+import javalampstudos.kingofqueens.MainActivity;
 import javalampstudos.kingofqueens.R;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 
@@ -15,6 +16,7 @@ import android.graphics.Canvas;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.media.SoundPool;
 
 // Java Imports
 
@@ -26,6 +28,9 @@ public class MainMenuFragment extends MenuFragment
     private Bitmap newBitmap, continueBitmap, settingsBitmap, quitBitmap;
     // Main Menu Rects
     private Rect newRect, continueRect, settingsRect, quitRect;
+
+    private SoundPool noSFX;
+    private float sfxVolume;
 
 
     public MainMenuFragment ()
@@ -44,10 +49,8 @@ public class MainMenuFragment extends MenuFragment
         // Loads in image assets related to the currently selected languge
         AssetManager assetManager = getActivity().getAssets();
 
-       /* // Sets up paint values
-        paint.setTextAlign(Paint.Align.LEFT);
-        paint.setTextSize(16 * gameScaling);
-*/
+        noSFX = AssetLoader.loadSoundpool(assetManager, "no.mp3");
+
       // Load bitmaps for menu buttons
       newBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/new.png");
       continueBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/continue.png");
@@ -75,10 +78,6 @@ public class MainMenuFragment extends MenuFragment
 
     {
         super.doDraw(canvas);
-
-        // experiment with drawing text
-        /*canvas.drawText("King of Queens", 200, 100, paint);*/
-
 
         // draw each bitmap to the screen
         canvas.drawBitmap(newBitmap, null, newRect, null);
@@ -117,20 +116,14 @@ public class MainMenuFragment extends MenuFragment
                 }
 
                 if(quitRect.contains(x, y)) {
+                    sfxVolume = MainActivity.setting.getVolume("sfxValue") / 10.0f;
+                    noSFX.play(1, sfxVolume, sfxVolume, 1, 0, 1.0f);
                     getFragmentManager()
                             .beginTransaction()
                             .replace(R.id.container, new QuitFragment(),
                                     "quit_fragment").commit();
                 }
-               /* // The How To Play Button loads the HowToPlayFragment
-                if(quitRect.contains(x, y)) {
-                    getFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.container, new HowToPlayFragment(),
-                                    "how_to_play_fragment").commit();
-                }
 
-                */
             }
         }
 

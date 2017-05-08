@@ -8,8 +8,10 @@ import android.graphics.Rect;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
 
 /**
- * Created by User on 15/03/2017.
+ * Created by Marc on 15/03/2017.
  */
+
+//Not Used
 
 public class PauseFragment extends MenuFragment {
 

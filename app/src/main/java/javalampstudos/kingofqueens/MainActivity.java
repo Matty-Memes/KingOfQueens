@@ -45,7 +45,7 @@ public class MainActivity extends Activity {
         */
         setContentView(R.layout.activity_main);
 
-        if(savedInstanceState == null)
+        if (savedInstanceState == null)
             getFragmentManager()
                     .beginTransaction()
                     .add(R.id.container, new MainMenuFragment(),
@@ -59,7 +59,7 @@ public class MainActivity extends Activity {
 
     // Andrew - 40083349
     public void hideNav() {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getWindow().getDecorView().setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
@@ -73,46 +73,16 @@ public class MainActivity extends Activity {
 
     public void music() {
 
-//        boolean isGame = getFragmentManager().findFragmentById(R.id.container)
-//                .getTag().equals("game_fragment");
-//
-//
-
         musicVolume = setting.getVolume("musicValue") / 10.0f;
 
 
         if (musicVolume != 0) {
             if (music == null) {
-                    music = AssetLoader
-                            .loadMusic(getAssets(), "music/MainMenuTheme.mp3");
-
+                music = AssetLoader.loadMusic(getAssets(), "music/MainMenuTheme.mp3");
                 music.start();
-
             }
             music.setVolume(musicVolume, musicVolume);
 
-        } else {
-            if (music != null)
-                music.pause();
         }
-    }
-
-
-    public void stopMusic() {
-        if (music != null && music.isPlaying())
-            music.pause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        hideNav();
-        music();
-    }
-
-    @Override
-    protected void onPause() {
-        stopMusic();
-        super.onPause();
     }
 }

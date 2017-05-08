@@ -52,8 +52,8 @@ public class VolumeFragment extends MenuFragment {
 
         // load in bitmaps here
         bground = AssetLoader.loadBitmap(assetManager, "img/Marc/VolumeBack.PNG");
-        plusBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/plus.png");
-        minusBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/minus.png");
+        plusBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/up.png");
+        minusBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/down.png");
         backBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/ButtonBack.png");
         musicVolBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/MusicVol.png");
         sfxVolBitmap = AssetLoader.loadBitmap(assetManager, "img/Marc/SFXVol.png");

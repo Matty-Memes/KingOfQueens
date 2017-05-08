@@ -12,6 +12,8 @@ import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
  * Created by Marc on 28/04/2017.
  */
 
+
+//was supposed to be used as screen before main menu, but was breaking game so want not included
 public class LoadingFragment extends MenuFragment {
 
     //Settings Bitmap
