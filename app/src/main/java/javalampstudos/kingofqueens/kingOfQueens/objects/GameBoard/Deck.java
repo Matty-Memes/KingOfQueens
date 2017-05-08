@@ -39,6 +39,10 @@ public class Deck {
     //Stores the players custom deck
     private int playerDeck[] = new int[MAXDECKSIZE];
 
+    public int[] getPlayerDeck()
+    {
+        return playerDeck;
+    }
 
     // Could be re-used
     public ArrayList<MonsterCard> monsterArray = new ArrayList<>(noOfMonsterCards);
@@ -303,7 +307,7 @@ public class Deck {
     }
 
     //Matt 40149561
-    private boolean isDeckFull()
+    public boolean isDeckFull()
     {
         return (deckSize>=MAXDECKSIZE);
     }

@@ -4,6 +4,7 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.os.Bundle;
 
 import javalampstudos.kingofqueens.R;
 import javalampstudos.kingofqueens.kingOfQueens.engine.io.AssetLoader;
@@ -13,19 +14,20 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Deck;
 
 /**
  * Created by Matt on 07/05/2017.
- * Hacked together version of the Deck builder which *should* work. Look at other versions for better code practice
+ * The working version of Deck Builder that has been hacked together.Had to hardcode Card Bitmaps instead of getting them from the library
+ * Look at other versions for better code practice
  */
 
 public class DeckBuilderWorkingFragment extends MenuFragment
 {
     // DeckBuilder Bitmaps
-    private Bitmap bgroundBitmap,cardSchoolFilterBitmap,cardTypeFilterBitmap,resetFilterBitmap,backBitmap,leftArrowBitmap,rightArrowBitmap,deckButtonBitmap,deckIsNotFullBitmap,yesBitmap,NoBitmap,cardbackBitmap;
+    private Bitmap bgroundBitmap,cardSchoolFilterBitmap,cardTypeFilterBitmap,resetFilterBitmap,backBitmap,leftArrowBitmap,rightArrowBitmap,deckButtonBitmap,deckIsNotFullBitmap,yesBitmap,noBitmap,okBitmap,cardAddedToDeckBitmap,deckIsFullBitmap,cardbackBitmap;
     // Bitmaps for the CardType Filter
     private Bitmap typeFilterBitmap,monsterFilterBitmap,manaFilterBitmap,supportFilterBitmap;
     //Bitmaps for the CardSchool Filter
     private Bitmap schoolFilterBitmap,engineerFilterBitmap,medicFilterBitmap,EEECSFitlerBitmap,artsFilterBitmap,builtEnviFilterBitmap;
     // DeckBuilder Rects
-    private Rect bgroundRect, cardSchoolFilterRect,cardTypeFilterRect,resetFilterRect,backRect,leftArrowRect,rightArrowRect,deckButtonRect,deckIsNotFullRect,yesRect,noRect;
+    private Rect bgroundRect, cardSchoolFilterRect,cardTypeFilterRect,resetFilterRect,backRect,leftArrowRect,rightArrowRect,deckButtonRect,deckIsNotFullRect,yesRect,noRect,okRect,cardAddedToDeckRect,deckIsFullRect;
     //rects for storing cards
     private Rect card1Rect,card2Rect,card3Rect,card4Rect,card5Rect,card6Rect,card7Rect,card8Rect;
     //Rects for the CardType Filter
@@ -107,6 +109,12 @@ public class DeckBuilderWorkingFragment extends MenuFragment
         leftArrowRect = new Rect();
         rightArrowRect = new Rect();
         deckButtonRect = new Rect();
+        deckIsNotFullRect = new Rect();
+        deckIsFullRect = new Rect();
+        cardAddedToDeckRect =new Rect();
+        okRect = new Rect();
+        yesRect = new Rect();
+        noRect = new Rect();
         card1Rect = new Rect();
         card2Rect = new Rect();
         card3Rect = new Rect();
@@ -127,6 +135,7 @@ public class DeckBuilderWorkingFragment extends MenuFragment
         builtEnviFilterRect = new Rect();
 
         // Load bitmaps
+        //Buttons
         bgroundBitmap = AssetLoader.loadBitmap(assetManager,"img/DeckBuilderBackground.png");
         cardSchoolFilterBitmap = AssetLoader.loadBitmap(assetManager,"img/Buttons/CardSchoolFilter.png");
         cardTypeFilterBitmap = AssetLoader.loadBitmap(assetManager,"img/Buttons/CardTypeFilter.png");
@@ -136,6 +145,12 @@ public class DeckBuilderWorkingFragment extends MenuFragment
         rightArrowBitmap = AssetLoader.loadBitmap(assetManager,"img/Buttons/ArrowRight.png");
         deckButtonBitmap = AssetLoader.loadBitmap(assetManager,"img/Buttons/ViewDeckButton.png");
         cardbackBitmap = AssetLoader.loadBitmap(assetManager,"img/Cards/Cardback.png");
+        cardAddedToDeckBitmap = AssetLoader.loadBitmap(assetManager,"img/Buttons/AddedToDeck.png");
+        deckIsNotFullBitmap = AssetLoader.loadBitmap(assetManager,"img/Buttons/DeckIsNotFull.png");
+        deckIsFullBitmap = AssetLoader.loadBitmap(assetManager,"img/Buttons/DeckIsFull.png");
+        okBitmap = AssetLoader.loadBitmap(assetManager,"img/Buttons/ok.png");
+        yesBitmap = AssetLoader.loadBitmap(assetManager,"img/Buttons/Yes.png");
+        noBitmap = AssetLoader.loadBitmap(assetManager,"img/Buttons/No.png");
         typeFilterBitmap = AssetLoader.loadBitmap(assetManager,"img/Buttons/FilterBoxType.png");
         monsterFilterBitmap = AssetLoader.loadBitmap(assetManager,"img/Buttons/MonsterFilter.png");
         manaFilterBitmap = AssetLoader.loadBitmap(assetManager,"img/Buttons/ManaFilter.png");
@@ -225,6 +240,13 @@ public class DeckBuilderWorkingFragment extends MenuFragment
         leftArrowRect = new Rect(0,201,96,279);
         rightArrowRect = new Rect(703,201,800,279);
         deckButtonRect = new Rect(688,400,792,472);
+        cardAddedToDeckRect = new Rect(211,160,578,319);
+        deckIsFullRect = new Rect(244,182,556,299);
+        deckIsNotFullRect = new Rect(220,120,579,360);
+        cardAddedToDeckRect = new Rect(244,182,556,299);
+        okRect = new Rect(357,231,443,282);
+        yesRect = new Rect(309,250,388,299);
+        noRect = new Rect(417,250,496,299);
         //Cardslot Rects
         card1Rect = new Rect(125,108,247,276);
         card2Rect = new Rect(269,108,391,276);
@@ -355,6 +377,9 @@ public class DeckBuilderWorkingFragment extends MenuFragment
     //used for displaying Filter Menus
     boolean typeFilterOn=false;
     boolean schoolFilterOn = false;
+    boolean addedToDeck = false;
+    boolean deckIsFull = false;
+    boolean deckIsNotFullWarning = false;
 
     public void doDraw(Canvas canvas)
 
@@ -498,6 +523,22 @@ public class DeckBuilderWorkingFragment extends MenuFragment
             canvas.drawBitmap(artsFilterBitmap,null,artsFilterRect,null);
             canvas.drawBitmap(builtEnviFilterBitmap,null,builtEnviFilterRect,null);
         }
+        if(addedToDeck)
+        {
+            canvas.drawBitmap(cardAddedToDeckBitmap,null,cardAddedToDeckRect,null);
+            canvas.drawBitmap(okBitmap,null,okRect,null);
+        }
+        if(deckIsFull)
+        {
+            canvas.drawBitmap(deckIsFullBitmap,null,deckIsFullRect,null);
+            canvas.drawBitmap(okBitmap,null,okRect,null);
+        }
+        if(deckIsNotFullWarning)
+        {
+            canvas.drawBitmap(deckIsNotFullBitmap,null,deckIsNotFullRect,null);
+            canvas.drawBitmap(yesBitmap,null,yesRect,null);
+            canvas.drawBitmap(noBitmap,null,noRect,null);
+        }
 
         // Touch input for each menu rect
 
@@ -507,13 +548,21 @@ public class DeckBuilderWorkingFragment extends MenuFragment
 
                 if(!schoolFilterOn&&!typeFilterOn)
                 {
-                    //back button returns to the settings menu
-                    if (backRect.contains(x, y)) {
-                        getFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.container, new SettingsFragment(),
-                                        "settings_fragment").commit();
-                    }
+                         if(backRect.contains(x,y))
+                         {
+                             //checks if deck is full
+                             if (playerDeck.isDeckFull())
+                             {
+                                 //back button returns to the settings menu
+                                 //save deck method
+                                 getFragmentManager()
+                                         .beginTransaction()
+                                         .replace(R.id.container, new SettingsFragment(),
+                                                 "settings_fragment").commit();
+                             }
+                             else
+                                 deckIsNotFullWarning = true;
+                         }
                 }
 
                 if(cardSchoolFilterRect.contains(x,y))
@@ -599,6 +648,7 @@ public class DeckBuilderWorkingFragment extends MenuFragment
                         filter = FilterType.support;
                         currentNumberOfPages = 2;
                         typeFilterOn = false;
+
                     }
                     if(backRect.contains(x,y))
                     {
@@ -632,11 +682,37 @@ public class DeckBuilderWorkingFragment extends MenuFragment
                         page++;
                     }
                 }
+                if(deckIsFull)
+                {
+                    if(okRect.contains(x,y))
+                        deckIsFull = false;
+                }
+                if(addedToDeck)
+                {
+                    if (okRect.contains(x, y))
+                        addedToDeck = false;
+                }
+                if(deckIsNotFullWarning)
+                {
+                    if(yesRect.contains(x,y))
+                    {
+                        deckIsNotFullWarning=false;
+                    }
+                    if(noRect.contains(x,y))
+                    {
+                        getFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.container, new SettingsFragment(),
+                                        "settings_fragment").commit();
+                    }
+                }
 
 
                 if(deckButtonRect.contains(x,y))
                 {
                     //move to the Deck View
+                    Bundle args = new Bundle();
+                    args.putIntArray("deck",playerDeck.getPlayerDeck());
                     getFragmentManager()
                             .beginTransaction()
                             .replace(R.id.container, new DeckViewFragment(),
@@ -646,38 +722,93 @@ public class DeckBuilderWorkingFragment extends MenuFragment
                 //If a card is touched it is added to the deck. This pulls information from the page arrays
                 if (card1Rect.contains(x,y))
                 {
-                    playerDeck.addToDeck(card1[page-1]);
+                    if(!playerDeck.isDeckFull())
+                    {
+                        playerDeck.addToDeck(card1[page - 1]);
+                        addedToDeck=true;
+                    }
+                    else
+                        deckIsFull =true;
                 }
                 if (card2Rect.contains(x,y))
                 {
-                    playerDeck.addToDeck(card2[page-1]);
+                    if(!playerDeck.isDeckFull())
+                    {
+                        playerDeck.addToDeck(card2[page - 1]);
+                        addedToDeck = true;
+                    }
+                    else
+                        deckIsFull=true;
                 }
                 if (card3Rect.contains(x,y))
                 {
-                    playerDeck.addToDeck(card3[page-1]);
+                    if(!playerDeck.isDeckFull())
+                    {
+                        playerDeck.addToDeck(card3[page - 1]);
+                        addedToDeck = true;
+                    }
+                    else
+                        deckIsFull = true;
                 }
                 if (card4Rect.contains(x,y))
                 {
-                    playerDeck.addToDeck(card4[page-1]);
+                    if(!playerDeck.isDeckFull())
+                    {
+                        playerDeck.addToDeck(card4[page - 1]);
+                        addedToDeck = true;
+                    }
+                    else
+                        deckIsFull = true;
                 }
                 if (card5Rect.contains(x,y))
                 {
-                    playerDeck.addToDeck(card5[page-1]);
+                    if(!playerDeck.isDeckFull())
+                    {
+                        playerDeck.addToDeck(card5[page - 1]);
+                        addedToDeck = true;
+                    }
+                    else
+                        deckIsFull = true;
                 }
                 if (card6Rect.contains(x,y))
                 {
-                    if(card6[page-1]!=-1)
-                        playerDeck.addToDeck(card6[page-1]);
+                    if(!playerDeck.isDeckFull() && card6[page-1]!=-1)
+                    {
+                        playerDeck.addToDeck(card6[page - 1]);
+                        addedToDeck = true;
+                    }
+                    else
+                        deckIsFull = true;
                 }
                 if (card7Rect.contains(x,y))
                 {
-                    if(card7[page-1]!=-1)
-                        playerDeck.addToDeck(card7[page-1]);
+                    if(!playerDeck.isDeckFull() && card7[page-1]!=-1)
+                    {
+                        playerDeck.addToDeck(card7[page - 1]);
+                        addedToDeck = true;
+                    }
+                    else
+                        deckIsFull = true;
                 }
                 if (card8Rect.contains(x,y))
                 {
-                    if(card8[page-1]!=-1)
-                        playerDeck.addToDeck(card8[page-1]);
+                    if(!playerDeck.isDeckFull()&& card8[page-1]!=-1)
+                    {
+                        playerDeck.addToDeck(card8[page - 1]);
+                        addedToDeck = true;
+                    }
+                    else
+                        deckIsFull = true;
+                }
+                if(addedToDeck)
+                {
+                    if(okRect.contains(x,y))
+                        addedToDeck = false;
+                }
+                if(deckIsFull)
+                {
+                    if(okRect.contains(x,y))
+                        deckIsFull = false;
                 }
             }
         }

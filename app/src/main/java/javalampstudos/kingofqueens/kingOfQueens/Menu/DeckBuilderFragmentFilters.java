@@ -156,6 +156,8 @@ public class DeckBuilderFragmentFilters extends MenuFragment
         canvas.drawBitmap(deckButtonBitmap,null,deckButtonRect,null);
 
         //Draw cards for each page
+
+        //Matt08/05/2017: If we were able to pull images from the library class, this is how I would've liked to do the implementation
         switch(page)
         {
             case 1:
