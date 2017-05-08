@@ -1228,13 +1228,34 @@ public class GameLoop implements Runnable
 
 
         //Load in coins
-        grid[75][24] = 2;
-        grid[75][27] = 2;
+        grid[74][24] = 2;
+        grid[90][6] = 2;
+        grid[61][67] = 2;
+        grid[3][7] = 2;
+        grid[27][48] = 2;
+        grid[46][43] = 2;
+        grid[2][72] = 2;
+        grid[82][82] = 2;
+        grid[46][90] = 2;
+        grid[20][90] = 2;
 
         //Load in NPCs
-        grid[23][36] = 3;
-        grid[78][12] = 3;
-        grid[78][14] = 3;
+        grid[42][1] = 3;
+        grid[11][7] = 3;
+        grid[84][6] = 3;
+        grid[46][21] = 3;
+        grid[23][35] = 3;
+        grid[58][41] = 3;
+        grid[6][50] = 3;
+        grid[11][57] = 3;
+        grid[83][53] = 3;
+        grid[19][62] = 3;
+        grid[5][68] = 3;
+        grid[43][69] = 3;
+        grid[17][74] = 3;
+        grid[59][86] = 3;
+        grid[59][88] = 3;
+        grid[32][89] = 3;
     }
 
     //Nathan/OpenWorld- 40131544

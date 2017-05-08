@@ -383,7 +383,7 @@ public class GameViewFragment extends CanvasFragment {
             canvas.clipRect(spacingX, spacingY * 5, spacingX * 9, spacingY * 9);
             canvas.drawColor(-1);
             mPaint.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "minecraftia.ttf"));
-            mPaint.setTextSize(clipSpacingY - clipSpacingY / 4);
+            mPaint.setTextSize(clipSpacingY - clipSpacingY / 3);
             System.out.println(canvas.getClipBounds().height());
             mPaint.setTextAlign(Paint.Align.LEFT);
             mPaint.setColor(Color.BLACK);
