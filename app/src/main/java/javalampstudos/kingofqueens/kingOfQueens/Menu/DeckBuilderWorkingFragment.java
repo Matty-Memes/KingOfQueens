@@ -19,13 +19,13 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Deck;
 public class DeckBuilderWorkingFragment extends MenuFragment
 {
     // DeckBuilder Bitmaps
-    private Bitmap bgroundBitmap,cardSchoolFilterBitmap,cardTypeFilterBitmap,resetFilterBitmap,backBitmap,leftArrowBitmap,rightArrowBitmap,deckButtonBitmap,returnToBuilderBitmap,cardbackBitmap;
+    private Bitmap bgroundBitmap,cardSchoolFilterBitmap,cardTypeFilterBitmap,resetFilterBitmap,backBitmap,leftArrowBitmap,rightArrowBitmap,deckButtonBitmap,deckIsNotFullBitmap,yesBitmap,NoBitmap,cardbackBitmap;
     // Bitmaps for the CardType Filter
     private Bitmap typeFilterBitmap,monsterFilterBitmap,manaFilterBitmap,supportFilterBitmap;
     //Bitmaps for the CardSchool Filter
     private Bitmap schoolFilterBitmap,engineerFilterBitmap,medicFilterBitmap,EEECSFitlerBitmap,artsFilterBitmap,builtEnviFilterBitmap;
     // DeckBuilder Rects
-    private Rect bgroundRect, cardSchoolFilterRect,cardTypeFilterRect,resetFilterRect,backRect,leftArrowRect,rightArrowRect,deckButtonRect,returnToBuilderRect;
+    private Rect bgroundRect, cardSchoolFilterRect,cardTypeFilterRect,resetFilterRect,backRect,leftArrowRect,rightArrowRect,deckButtonRect,deckIsNotFullRect,yesRect,noRect;
     //rects for storing cards
     private Rect card1Rect,card2Rect,card3Rect,card4Rect,card5Rect,card6Rect,card7Rect,card8Rect;
     //Rects for the CardType Filter
@@ -246,7 +246,7 @@ public class DeckBuilderWorkingFragment extends MenuFragment
         //cardTypeFilter rects
         typeFilterBoxRect = new Rect(211,160,578,319);
         monsterFilterRect = new Rect(240,226,336,282);
-        manaFilterRect = new Rect(249,226,447,282);
+        manaFilterRect = new Rect(349,226,447,282);
         supportFilterRect = new Rect(462,226,558,282);
 
 //        backRect = new Rect((int) (width - 96 * uiScaling - 3 * gameScaling),
@@ -369,7 +369,7 @@ public class DeckBuilderWorkingFragment extends MenuFragment
         canvas.drawBitmap(backBitmap, null, backRect, null);
         canvas.drawBitmap(cardSchoolFilterBitmap,null,cardSchoolFilterRect,null);
         canvas.drawBitmap(cardTypeFilterBitmap,null,cardTypeFilterRect,null);
-        canvas.drawBitmap(resetFilterBitmap,null,cardTypeFilterRect,null);
+        canvas.drawBitmap(resetFilterBitmap,null,resetFilterRect,null);
         canvas.drawBitmap(backBitmap,null,backRect,null);
         canvas.drawBitmap(deckButtonBitmap,null,deckButtonRect,null);
 
@@ -476,7 +476,7 @@ public class DeckBuilderWorkingFragment extends MenuFragment
                 canvas.drawBitmap(curePoisonSprite,null,card4Rect,null);
                 canvas.drawBitmap(cureSleepSprite,null,card5Rect,null);
                 canvas.drawBitmap(cureEnrageSprite,null,card6Rect,null);
-                canvas.drawBitmap(cardbackBitmap,null,card8Rect,null);
+                canvas.drawBitmap(cardbackBitmap,null,card7Rect,null);
                 canvas.drawBitmap(cardbackBitmap,null,card8Rect,null);
                 break;
         }
@@ -505,12 +505,15 @@ public class DeckBuilderWorkingFragment extends MenuFragment
             if (input.isTouchDown(i)) {
                 int x = (int) input.getTouchX(i), y = (int) input.getTouchY(i);
 
-                if(backRect.contains(x,y))
+                if(!schoolFilterOn&&!typeFilterOn)
                 {
-                    getFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.container, new SettingsFragment(),
-                                    "settings_fragment").commit();
+                    //back button returns to the settings menu
+                    if (backRect.contains(x, y)) {
+                        getFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.container, new SettingsFragment(),
+                                        "settings_fragment").commit();
+                    }
                 }
 
                 if(cardSchoolFilterRect.contains(x,y))
@@ -596,6 +599,11 @@ public class DeckBuilderWorkingFragment extends MenuFragment
                         filter = FilterType.support;
                         currentNumberOfPages = 2;
                         typeFilterOn = false;
+                    }
+                    if(backRect.contains(x,y))
+                    {
+                        //return to deck builder without changing filter
+                        typeFilterOn =false;
                     }
                 }
 
