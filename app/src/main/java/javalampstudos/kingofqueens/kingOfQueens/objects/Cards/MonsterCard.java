@@ -263,7 +263,7 @@ public class MonsterCard extends BasicCard
             newHealth=healedCard.getMaxHealth();
         healedCard.setHealth(newHealth);
     }
-    //Matt 40149561
+    //Matt 40149561 08/05/2017 Never got this integrated into the main game, but the logic is here
     //Certain monsters have a special attack. This method allows the monster to use it
     private int statBeforeSpecial = -1; //Placeholder int for storing stat values pre-Special
     private boolean specialEnabled = false; //If a special attack modifies values,this allows the values to be reset

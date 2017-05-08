@@ -14,8 +14,9 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Deck;
 
 /**
  * Created by Matt on 07/05/2017.
- * The working version of Deck Builder that has been hacked together.Had to hardcode Card Bitmaps instead of getting them from the library
+ * The working* version of Deck Builder that has been hacked together.Had to hardcode Card Bitmaps instead of getting them from the library
  * Look at other versions for better code practice
+ * By Working* I mean we can look through the cards, add them to a deck, but we can't retrieve the deck. Just a matter of time
  */
 
 public class DeckBuilderWorkingFragment extends MenuFragment

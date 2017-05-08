@@ -318,7 +318,7 @@ public class JSONcardLibrary
                     break;
                 case "evolutionID":evolutionID = reader.nextInt();
                     break;
-                case "attackManaRequirement":attackManaRequirements = reader.nextInt();
+                case "attackManaRequirement":attackManaRequirements = reader.nextInt(); //attackManaRequirements= readManaRequirements(reader) //We had to swap out hashmaps last minute. The method works though
                     break;
                 default: reader.skipValue();
                     break;

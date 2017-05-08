@@ -9,6 +9,8 @@ import android.graphics.pdf.PdfDocument;
  * 40111707
  * Modifed by Matt on 09/03/2017
  * Modified by Matt on 22/04/2017 and Refactored on 04/05/2017
+ *
+ * 08/05/2017 In the end we couldn't get the support cards integrated into the game, but all the logic is here
  */
 
 public class SupportCard extends BasicCard

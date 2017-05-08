@@ -15,6 +15,7 @@ import javalampstudos.kingofqueens.kingOfQueens.objects.GameBoard.Deck;
 /**
  * Created by Matt on 05/05/2017.
  * //06/05/2017 this is a kinda messy first implementation, gonna try and refactor this tomorrow
+ * This version of DeckBuilder uses other fragments to bring up filters, but I couldn't find a way to pass information throught them
  */
 
 public class DeckBuilderFragment extends MenuFragment
